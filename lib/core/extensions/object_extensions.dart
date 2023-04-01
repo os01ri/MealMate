@@ -1,0 +1,1 @@
+extension ObjectExtension on Object? {}

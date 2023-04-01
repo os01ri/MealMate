@@ -1,0 +1,3 @@
+class HelperValues {
+  HelperValues._();
+}

@@ -6,7 +6,7 @@ enum WindowSize {
   expanded,
 }
 
-enum ScreenSize { small, medium, large, xlarge }
+enum ScreenSize { small, medium, large, xLarge }
 
 enum ScreenType { mobile, tablet, desktop }
 
@@ -19,7 +19,7 @@ extension SizeType on ScreenSize {
         return "MEDIUM";
       case ScreenSize.large:
         return "LARGE";
-      case ScreenSize.xlarge:
+      case ScreenSize.xLarge:
         return "XLARGE";
     }
   }
@@ -76,7 +76,7 @@ class ScreenService {
     } else if (_screenWidth >= 414 && _screenWidth < 550) {
       _screenSize = ScreenSize.large;
     } else {
-      _screenSize = ScreenSize.xlarge;
+      _screenSize = ScreenSize.xLarge;
     }
   }
 

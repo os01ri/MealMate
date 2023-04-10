@@ -6,5 +6,5 @@ class PrefsKeys {
   static const String isShowOnBorder = "isShowOnBorder";
   static const String userInfoTemp = "userInfoTemp";
   static const String registerStatus = "registerStatus";
-  static const String languageApp = "languageApp";
+  static const String language = "language";
 }

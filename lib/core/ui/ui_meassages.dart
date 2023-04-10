@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 import 'theme/colors.dart';
-import 'theme/text_styles.dart';
 import 'widgets/main_button.dart';
 
 class UiMessages {
@@ -95,13 +94,7 @@ class UiMessages {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'warning',
-                      style: AppTextStyles.styleWeight700(
-                        color: Colors.black,
-                        fontSize: size.width * .05,
-                      ),
-                    ),
+                    const Text('warning'),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [

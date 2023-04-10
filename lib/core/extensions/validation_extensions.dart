@@ -1,13 +1,13 @@
 extension Validator on String {
+  bool isNotShortText() {
+    return (isNotEmpty && length >= 4);
+  }
+
   bool isValidEmail() {
     return RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
       caseSensitive: false,
     ).hasMatch(this);
-  }
-
-  bool isNotShortText() {
-    return (isNotEmpty && length >= 4);
   }
 
   bool isValidPhone() {

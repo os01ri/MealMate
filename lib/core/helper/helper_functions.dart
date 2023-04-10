@@ -71,24 +71,4 @@ class HelperFunctions {
   }) {
     return itemCount + (crossAxisCount - (itemCount % crossAxisCount));
   }
-
-  // Future<void> setUserInfo({
-  //   required UserModel user,
-  //   String? accessToken,
-  // }) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   sp.setString(PrefsKeys.userInfo, user.toJson());
-  //   if (accessToken != null) sp.setString(PrefsKeys.accessToken, accessToken);
-  // }
-
-  // Future<UserModel> getUserInfo() async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return UserModel.fromJson(sp.getString(PrefsKeys.userInfo)!);
-  // }
-
-  // Future<void> clearUserInfo() async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   sp.remove(PrefsKeys.userInfo);
-  //   sp.remove(PrefsKeys.accessToken);
-  // }
 }

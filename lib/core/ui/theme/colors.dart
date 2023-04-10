@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const mainColor = Colors.blue;
-  static const scaffoldBackgroundColor = Colors.white10;
-  static const secondaryColor = Colors.white24;
-  static const grey2 = Colors.grey;
-  static const lightRed = Colors.grey;
-  static const grey1 = Colors.grey;
-  static const blue = Colors.grey;
+  static const Color mainColor = Colors.blue;
+  static const Color scaffoldBackgroundColor = Colors.white10;
+  static const Color secondaryColor = Colors.white24;
+  static const Color grey2 = Colors.grey;
+  static const Color lightRed = Colors.grey;
+  static const Color grey1 = Colors.grey;
+  static const Color blue = Colors.grey;
 
   Color darken(Color color, [double amount = .1]) {
     assert(amount >= 0 && amount <= 1);

@@ -6,6 +6,7 @@ class AppColors {
   static const Color mainColor = Colors.blue;
   static const Color scaffoldBackgroundColor = Colors.white10;
   static const Color secondaryColor = Colors.white24;
+  static const buttonColor = Color.fromARGB(255, 4, 38, 40);
   static const Color grey2 = Colors.grey;
   static const Color lightRed = Colors.grey;
   static const Color grey1 = Colors.grey;

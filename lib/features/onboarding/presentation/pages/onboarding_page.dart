@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
@@ -80,11 +81,11 @@ class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff70B9BE),
+      backgroundColor: const Color(0xff70b9be),
       body: SafeArea(
         child: CustomPaint(
           painter: RPSCustomPainter(),
-          size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+          size: context.deviceSize,
           child: ValueListenableBuilder(
             valueListenable: _selectedItem,
             builder: (context, value, child) {

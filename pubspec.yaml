@@ -12,10 +12,10 @@ dependencies:
   bloc: ^8.1.1
   bloc_concurrency: ^0.2.1
   bot_toast: ^4.0.3
-  confetti: ^0.7.0
+  # confetti: ^0.7.0
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
-  device_info_plus: ^8.1.0
+  # device_info_plus: ^8.1.0
   dotted_border: ^2.0.0+3
   easy_localization: ^3.0.1
   equatable: ^2.0.5
@@ -27,7 +27,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_blurhash: ^0.7.0
   flutter_cache_manager: ^3.3.0 
-  flutter_launcher_icons: ^0.12.0 
+  # flutter_launcher_icons: ^0.12.0 
   flutter_screenutil: ^5.7.0
   flutter_svg: ^2.0.4
   get_it: ^7.2.0
@@ -35,11 +35,11 @@ dependencies:
   http: ^0.13.5
   image_cropper: ^3.0.2
   image_picker: ^0.8.7+1
-  intl: any
+  intl: ^0.17.0
   menu_button: ^1.4.2+1
   path_provider: ^2.0.14
   permission_handler: ^10.2.0
-  pin_code_fields: ^7.4.0
+  # pin_code_fields: ^7.4.0
   shared_preferences: ^2.0.20
   shimmer: ^2.0.0
   url_launcher: ^6.1.10
@@ -55,6 +55,7 @@ flutter:
 
   assets:
     - assets/translations/
+    - assets/svg/
     
   # fonts:
   #   - family: Schyler

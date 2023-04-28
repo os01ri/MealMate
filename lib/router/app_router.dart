@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mealmate/features/onboard/presentation/pages/intro_page.dart';
 
-import '../features/home/presentation/pages/home_page.dart';
 import '../features/main/main_page.dart';
 import 'app_routes.dart';
 import 'cubit/navigation_cubit.dart';
@@ -29,8 +29,8 @@ class AppRouter {
         routes: [
           GoRoute(
             path: Routes.homePage,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: MyHomePage(title: 'Flutter Demo Home Page'),
+            pageBuilder: (context, state) => NoTransitionPage(
+              child: IntroPage(),
             ),
             routes: const [
               // GoRoute(

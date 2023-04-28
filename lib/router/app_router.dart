@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mealmate/features/onboard/presentation/pages/intro_page.dart';
+import 'package:mealmate/features/main/main_page.dart';
+import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
 
-import '../features/main/main_page.dart';
 import 'app_routes.dart';
 import 'cubit/navigation_cubit.dart';
 
@@ -30,7 +30,7 @@ class AppRouter {
           GoRoute(
             path: Routes.homePage,
             pageBuilder: (context, state) => NoTransitionPage(
-              child: IntroPage(),
+              child: OnboardingPage(),
             ),
             routes: const [
               // GoRoute(

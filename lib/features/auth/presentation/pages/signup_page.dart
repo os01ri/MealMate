@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/theme/text_styles.dart';
-import '../../../../core/ui/widgets/main_app_bar.dart';
-import '../../../../core/ui/widgets/main_button.dart';
-import '../../../../core/ui/widgets/main_text_field.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/theme/text_styles.dart';
+import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
+import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

@@ -6,14 +6,14 @@ import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../core/ui/widgets/main_text_field.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpPageState extends State<SignUpPage> {
   late Size size;
   @override
   void didChangeDependencies() {
@@ -30,9 +30,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AuthTextField(label: 'User Name', hint: 'username'),
+            const AuthTextField(label: 'User Name', hint: 'username'),
             Row(
-              children: [
+              children: const [
                 Expanded(
                   child: AuthTextField(hint: 'first name', label: 'First Name'),
                 ),
@@ -41,9 +41,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
-            AuthTextField(hint: 'you@example.com', label: 'E-mail'),
-            AuthTextField(label: 'Password', hint: '********'),
-            AuthTextField(label: 'Confirm Password', hint: '********'),
+            const AuthTextField(hint: 'you@example.com', label: 'E-mail'),
+            const AuthTextField(label: 'Password', hint: '********'),
+            const AuthTextField(label: 'Confirm Password', hint: '********'),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: MainButton(
@@ -54,20 +54,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             RichText(
-                text: TextSpan(
-                    text: 'By continuing you agree to the\n',
-                    style: AppTextStyles.styleWeight400(color: Colors.grey),
-                    children: [
+              text: TextSpan(
+                text: 'By continuing you agree to the\n',
+                style: AppTextStyles.styleWeight400(color: Colors.grey),
+                children: [
                   TextSpan(
-                      text: 'Terms of Services',
-                      style: AppTextStyles.styleWeight600(
-                          color: AppColors.buttonColor)),
-                  TextSpan(text: ' & '),
-                  TextSpan(
-                      text: 'Privacy Policy',
-                      style: AppTextStyles.styleWeight600(
-                          color: AppColors.buttonColor))
-                ]))
+                      text: 'Terms of Services', style: AppTextStyles.styleWeight600(color: AppColors.buttonColor)),
+                  const TextSpan(text: ' & '),
+                  TextSpan(text: 'Privacy Policy', style: AppTextStyles.styleWeight600(color: AppColors.buttonColor))
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -88,7 +85,7 @@ class AuthTextField extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             alignment: Alignment.topLeft,
             child: Text(
               label,

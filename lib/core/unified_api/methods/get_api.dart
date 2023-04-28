@@ -27,7 +27,7 @@ class GetApi<T> with HandlingExceptionRequest {
     bool isAuth = await HelperFunctions.isAuth();
     String? deviceId = "";
     if (getFCMToken) {
-      deviceId = await HelperFunctions.getDeviceId();
+      // deviceId = await HelperFunctions.getDeviceId(); TODO: uncomment
     }
     try {
       Map<String, String> headers = {

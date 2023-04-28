@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,19 +44,19 @@ class HelperFunctions {
     return token;
   }
 
-  static Future<String?> getDeviceId() async {
-    final deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      final iosDeviceInfo = await deviceInfo.iosInfo;
-      log(iosDeviceInfo.identifierForVendor!);
-      return iosDeviceInfo.identifierForVendor;
-    } else if (Platform.isAndroid) {
-      final androidDeviceInfo = await deviceInfo.androidInfo;
-      log(androidDeviceInfo.id, name: "androidDeviceId");
-      return androidDeviceInfo.id;
-    }
-    return null;
-  }
+  // static Future<String?> getDeviceId() async {
+  //   final deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) {
+  //     final iosDeviceInfo = await deviceInfo.iosInfo;
+  //     log(iosDeviceInfo.identifierForVendor!);
+  //     return iosDeviceInfo.identifierForVendor;
+  //   } else if (Platform.isAndroid) {
+  //     final androidDeviceInfo = await deviceInfo.androidInfo;
+  //     log(androidDeviceInfo.id, name: "androidDeviceId");
+  //     return androidDeviceInfo.id;
+  //   }
+  //   return null;
+  // }
 
   static Future<bool> launchWeb(String url) => launchUrl(
         Uri.parse(url),

@@ -1,9 +1,18 @@
 class SvgPath {
   SvgPath._();
+  static const _mainPath = 'assets/svg/';
 
   ///SVGs///
-  static const introSvg = 'assets/svg/intro.svg';
-  static const intro1 = 'assets/svg/intro1.png';
-  static const intro2 = 'assets/svg/intro2.png';
-  static const intro3 = 'assets/svg/intro3.png';
+  static const introSvg = '${_mainPath}intro.svg';
+  static const intro1 = '${_mainPath}intro1.png';
+  static const intro2 = '${_mainPath}intro2.png';
+  static const intro3 = '${_mainPath}intro3.png';
+}
+
+class PngPath {
+  PngPath._();
+  static const _mainPath = 'assets/png/';
+
+  ///PNGs///
+  static const food = '${_mainPath}food.png';
 }

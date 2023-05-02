@@ -3,6 +3,7 @@ part of 'typography.dart';
 FontWeight get _light => FontWeight.w300;
 FontWeight get _regular => FontWeight.normal;
 FontWeight get _bold => FontWeight.bold;
+FontWeight get _semiBold => FontWeight.w600;
 FontWeight get _extraBold => FontWeight.w900;
 
 String get _almaraiFamily => 'Almarai';
@@ -10,8 +11,15 @@ String get _almaraiFamily => 'Almarai';
 extension FamilyUtils on TextStyle {
   TextStyle get extraBold => copyWith(fontWeight: _extraBold);
   TextStyle get bold => copyWith(fontWeight: _bold);
+  TextStyle get semiBold => copyWith(fontWeight: _semiBold);
   TextStyle get regular => copyWith(fontWeight: _regular);
   TextStyle get light => copyWith(fontWeight: _light);
+}
+
+extension FontSizeUtils on TextStyle {
+  TextStyle get smallFontSize => copyWith(fontSize: _FontSize.caption);
+  TextStyle get normalFontSize => copyWith(fontSize: _FontSize._body_01FontSize);
+  TextStyle get largeFontSize => copyWith(fontSize: _FontSize._heading_06FontSize);
 }
 
 abstract class _FontSize {

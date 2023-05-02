@@ -11,7 +11,7 @@ class MainAppBar extends AppBar {
     required this.titleText,
     this.leadingWidget,
     this.backColor = Colors.white,
-    this.foreColor = AppColors.blue,
+    this.foreColor = AppColors.purple,
     this.bottomWidget,
     this.fontSize,
     this.onTap,

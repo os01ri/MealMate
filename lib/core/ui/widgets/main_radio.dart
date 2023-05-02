@@ -30,7 +30,7 @@ class MainRadio extends StatelessWidget {
           value: true,
           groupValue: value,
           onChanged: onChanged,
-          activeColor: color ?? AppColors.blue,
+          activeColor: color ?? AppColors.purple,
           overlayColor: MaterialStateProperty.all<Color>(
             AppColors.grey2,
           ),

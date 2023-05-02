@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/splash_screen.dart';
+import 'package:mealmate/features/recipe/presentation/pages/recipe_page.dart';
 
 import 'app_routes.dart';
 
@@ -12,7 +13,7 @@ class AppRouter {
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter _router = GoRouter(
-    initialLocation: Routes.splashPage,
+    initialLocation: Routes.recipePage,
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
@@ -26,6 +27,12 @@ class AppRouter {
         path: Routes.onboardingPage,
         pageBuilder: (context, state) => NoTransitionPage(
           child: OnboardingPage(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.recipePage,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: RecipePage(),
         ),
       ),
       // ShellRoute(

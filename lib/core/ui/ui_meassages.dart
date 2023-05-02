@@ -64,7 +64,7 @@ class UiMessages {
                 ),
                 MainButton(
                   text: 'done',
-                  color: color ?? AppColors.blue,
+                  color: color ?? AppColors.purple,
                   textColor: color ?? Colors.white,
                   height: 20,
                   onPressed: () => Navigator.of(context).pop(),
@@ -108,13 +108,13 @@ class UiMessages {
                       children: [
                         MainButton(
                           text: 'cancel',
-                          color: AppColors.grey1,
+                          color: AppColors.grey,
                           textColor: Colors.grey.shade700,
                           onPressed: () => Navigator.of(_).pop(false),
                         ),
                         MainButton(
                           text: 'agree',
-                          color: AppColors.blue,
+                          color: AppColors.purple,
                           textColor: Colors.white,
                           onPressed: () => Navigator.of(_).pop(true),
                         ),

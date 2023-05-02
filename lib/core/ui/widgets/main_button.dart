@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
 
 import '../theme/text_styles.dart';
 
@@ -30,7 +31,6 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return ElevatedButton(
       style: ButtonStyle(
         shadowColor: shadowColor != null ? MaterialStateProperty.all(shadowColor) : null,
@@ -43,8 +43,8 @@ class MainButton extends StatelessWidget {
         ),
         fixedSize: MaterialStateProperty.all(
           Size(
-            width ?? size.width * .3,
-            height ?? size.width * .11,
+            width ?? context.width * .3,
+            height ?? context.width * .11,
           ),
         ),
       ),
@@ -64,7 +64,7 @@ class MainButton extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.styleWeight500(
                 color: textColor,
-                fontSize: fontSize ?? size.width * .0475,
+                fontSize: fontSize ?? context.width * .0475,
               ),
             ),
             if (icon != null) ...[

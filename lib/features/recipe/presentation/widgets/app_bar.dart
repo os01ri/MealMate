@@ -1,7 +1,7 @@
-part of '../pages/recipe_page.dart';
+import 'package:flutter/material.dart';
 
-class _AppBar extends AppBar {
-  _AppBar()
+class RecipeAppBar extends AppBar {
+  RecipeAppBar({super.key})
       : super(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,

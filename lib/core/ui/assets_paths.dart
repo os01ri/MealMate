@@ -15,4 +15,6 @@ class PngPath {
 
   ///PNGs///
   static const food = '${_mainPath}food.png';
+  static const food2 = '${_mainPath}food2.png';
+  static const user = '${_mainPath}user.png';
 }

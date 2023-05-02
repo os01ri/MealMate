@@ -26,8 +26,8 @@ class _RecipeDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Checken Breasts', style: TextStyle().normalFontSize.semiBold),
-                    Text('250 g'),
+                    Text('Checken Breasts', style: const TextStyle().normalFontSize.semiBold),
+                    const Text('250 g'),
                   ],
                 ).padding(const EdgeInsets.all(8)),
             ],
@@ -131,12 +131,12 @@ class _NumberOfEaters extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Ingredients:', style: TextStyle().normalFontSize.bold),
+        Text('Ingredients:', style: const TextStyle().normalFontSize.bold),
         Row(
           children: [
-            Icon(Icons.remove),
-            Text('Serves 2').padding(EdgeInsets.symmetric(horizontal: 5)),
-            Icon(Icons.add),
+            const Icon(Icons.remove),
+            const Text('Serves 2').padding(EdgeInsets.symmetric(horizontal: 5)),
+            const Icon(Icons.add),
           ],
         ),
       ],

@@ -5,6 +5,8 @@ class AppColors {
 
   static const Color mainColor = Colors.blue;
   static const Color purple = Color(0xff8a47eb);
+  static const Color yellow = Color(0xffffb661);
+  static const Color orange = Color(0xffe23e3e);
   static const Color scaffoldBackgroundColor = Colors.white10;
   static const Color grey = Color(0xfff4f4f4);
   static const Color secondaryColor = Colors.white24;

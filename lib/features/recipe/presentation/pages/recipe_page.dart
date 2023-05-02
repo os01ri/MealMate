@@ -5,10 +5,10 @@ import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 
-part '../widgets/recipe_details.dart';
 part '../widgets/header_image.dart';
-part '../widgets/app_bar.dart';
+part '../widgets/recipe_details.dart';
 
 class RecipePage extends StatelessWidget {
   const RecipePage({super.key});
@@ -17,7 +17,7 @@ class RecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _AppBar(),
+      appBar: RecipeAppBar(),
       body: Stack(
         fit: StackFit.expand,
         clipBehavior: Clip.none,

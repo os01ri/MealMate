@@ -9,7 +9,7 @@ class MainErrorWidget extends StatelessWidget {
     Key? key,
     required this.size,
     required this.onTap,
-    this.color = AppColors.purple,
+    this.color = AppColors.orange,
     this.textColor,
   }) : super(key: key);
 

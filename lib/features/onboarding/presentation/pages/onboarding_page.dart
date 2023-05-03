@@ -81,7 +81,8 @@ class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff70b9be),
+      backgroundColor: AppColors.orange.withOpacity(1),
+      // backgroundColor: const Color(0xff70b9be),
       body: SafeArea(
         child: CustomPaint(
           painter: RPSCustomPainter(),

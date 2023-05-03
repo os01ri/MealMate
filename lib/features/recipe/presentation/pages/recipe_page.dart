@@ -9,6 +9,8 @@ import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 
 part '../widgets/header_image.dart';
 part '../widgets/recipe_details.dart';
+part '../views/recipe_ingredients_view.dart';
+part '../views/recipe_steps_view.dart';
 
 class RecipePage extends StatelessWidget {
   const RecipePage({super.key});
@@ -17,7 +19,7 @@ class RecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: RecipeAppBar(),
+      appBar: RecipeAppBar(context: context),
       body: Stack(
         fit: StackFit.expand,
         clipBehavior: Clip.none,

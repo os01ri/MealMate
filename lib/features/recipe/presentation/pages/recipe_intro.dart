@@ -15,7 +15,7 @@ class RecipeIntro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(),
+      appBar: RecipeAppBar(context: context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -25,9 +25,9 @@ class RecipeIntro extends StatelessWidget {
           ),
           const SizedBox(height: 25),
           Image.asset(
-            PngPath.food2,
+            PngPath.food,
             fit: BoxFit.fitWidth,
-          ),
+          ).hero('picture'),
           const SizedBox(height: 15),
           Row(
             children: [
@@ -88,9 +88,9 @@ class RecipeIntro extends StatelessWidget {
             text: 'Next',
             color: AppColors.buttonColor,
             onPressed: () {
-              context.go(Routes.recipePage);
+              context.push(Routes.recipePage);
             },
-          ),
+          ).hero('button'),
         ],
       ).padding(const EdgeInsets.all(15)),
     );

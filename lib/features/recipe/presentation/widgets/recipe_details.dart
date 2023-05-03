@@ -1,7 +1,20 @@
 part of '../pages/recipe_page.dart';
 
-class _RecipeDetails extends StatelessWidget {
+class _RecipeDetails extends StatefulWidget {
   const _RecipeDetails();
+
+  @override
+  State<_RecipeDetails> createState() => _RecipeDetailsState();
+}
+
+class _RecipeDetailsState extends State<_RecipeDetails> {
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,29 +28,11 @@ class _RecipeDetails extends StatelessWidget {
           topRight: Radius.circular(25),
         ),
       ),
-      child: Column(
+      child: PageView(
+        controller: _pageController,
         children: [
-          const _RecipeHeader().padding(const EdgeInsets.all(8)),
-          const _NutritionalValues(),
-          const _NumberOfEaters().padding(const EdgeInsets.all(10)),
-          Column(
-            children: [
-              for (int i = 0; i < 6; i++)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Checken Breasts', style: const TextStyle().normalFontSize.semiBold),
-                    const Text('250 g'),
-                  ],
-                ).padding(const EdgeInsets.all(8)),
-            ],
-          ).scrollable().expand(),
-          MainButton(
-            color: AppColors.buttonColor,
-            onPressed: () {},
-            width: context.width,
-            text: 'Start Cocking!',
-          ).padding(const EdgeInsets.all(8)),
+          _RecipeIngredientsView(pageController: _pageController),
+          _RecipeStepsView(pageController: _pageController),
         ],
       ),
     );
@@ -135,7 +130,7 @@ class _NumberOfEaters extends StatelessWidget {
         Row(
           children: [
             const Icon(Icons.remove),
-            const Text('Serves 2').padding(EdgeInsets.symmetric(horizontal: 5)),
+            const Text('Serves 2').padding(const EdgeInsets.symmetric(horizontal: 5)),
             const Icon(Icons.add),
           ],
         ),

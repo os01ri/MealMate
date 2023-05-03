@@ -63,7 +63,7 @@ class RPSCustomPainter extends CustomPainter {
     Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-    paint0Stroke.color = const Color(0x005a9498).withOpacity(1.0);
+    paint0Stroke.color = const Color.fromARGB(0, 163, 51, 6).withOpacity(1.0);
     canvas.drawPath(path_0, paint0Stroke);
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;

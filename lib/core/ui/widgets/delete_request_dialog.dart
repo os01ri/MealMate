@@ -55,7 +55,7 @@ class DeleteRequestDialog extends StatelessWidget {
                 ),
                 MainButton(
                   text: 'delete',
-                  color: AppColors.purple,
+                  color: AppColors.orange,
                   onPressed: onDelete,
                 ),
               ],

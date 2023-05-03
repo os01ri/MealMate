@@ -18,5 +18,10 @@ extension WidgetExtension on Widget {
   Widget padding(EdgeInsetsGeometry padding) => Padding(padding: padding, child: this);
 
   Widget scrollable() => SingleChildScrollView(child: this);
+
+  Widget center() => Center(child: this);
+
   Widget expand() => Expanded(child: this);
+
+  Widget hero(String tag) => Hero(tag: tag, child: this);
 }

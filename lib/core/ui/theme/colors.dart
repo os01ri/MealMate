@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color mainColor = Colors.blue;
-  static const Color purple = Color(0xff8a47eb);
-  static const Color yellow = Color(0xffffb661);
   static const Color orange = Color(0xffe23e3e);
-  static const Color scaffoldBackgroundColor = Colors.white10;
+  static const Color yellow = Color(0xffffb661);
   static const Color grey = Color(0xfff4f4f4);
-  static const Color secondaryColor = Colors.white24;
-  static const Color buttonColor = Color.fromARGB(255, 4, 38, 40);
   static const Color grey2 = Colors.grey;
   static const Color lightRed = Colors.red;
+
+  static const Color mainColor = orange;
+  static const Color secondaryColor = Colors.white24;
+  static const Color scaffoldBackgroundColor = Colors.white10;
+  static const Color buttonColor = orange;
 
   Color darken(Color color, [double amount = .1]) {
     assert(amount >= 0 && amount <= 1);

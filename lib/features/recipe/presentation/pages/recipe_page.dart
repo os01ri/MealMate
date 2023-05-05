@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
@@ -31,28 +32,6 @@ class RecipePage extends StatelessWidget {
     );
   }
 }
-
-// class MainButton extends StatelessWidget {
-//   const MainButton({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialButton(
-//       onPressed: () {},
-//       color: AppColors.purple,
-//       minWidth: context.width * .95,
-//       textColor: Colors.white,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(5),
-//       ),
-//       child: const Text('Start Coocking!'),
-//     );
-//   }
-// }
-
-
 
 
 

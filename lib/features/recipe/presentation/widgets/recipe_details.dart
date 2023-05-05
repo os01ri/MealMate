@@ -17,6 +17,12 @@ class _RecipeDetailsState extends State<_RecipeDetails> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: context.width,
@@ -30,6 +36,7 @@ class _RecipeDetailsState extends State<_RecipeDetails> {
       ),
       child: PageView(
         controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           _RecipeIngredientsView(pageController: _pageController),
           _RecipeStepsView(pageController: _pageController),
@@ -130,7 +137,7 @@ class _NumberOfEaters extends StatelessWidget {
         Row(
           children: [
             const Icon(Icons.remove),
-            const Text('Serves 2').padding(const EdgeInsets.symmetric(horizontal: 5)),
+            const Text('Serves 2').paddingAll(5),
             const Icon(Icons.add),
           ],
         ),

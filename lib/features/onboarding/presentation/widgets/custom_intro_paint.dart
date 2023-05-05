@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
 
 class RPSCustomPainter extends CustomPainter {
   @override
@@ -63,7 +64,7 @@ class RPSCustomPainter extends CustomPainter {
     Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-    paint0Stroke.color = const Color.fromARGB(0, 163, 51, 6).withOpacity(1.0);
+    paint0Stroke.color = AppColors.deepOrange.withOpacity(.65);
     canvas.drawPath(path_0, paint0Stroke);
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;

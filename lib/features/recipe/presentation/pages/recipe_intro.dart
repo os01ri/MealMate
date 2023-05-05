@@ -11,7 +11,7 @@ import 'package:mealmate/router/app_routes.dart';
 
 class RecipeIntro extends StatelessWidget {
   const RecipeIntro({super.key});
-
+  // TODO: Omar, make a sliver
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +38,7 @@ class RecipeIntro extends StatelessWidget {
               Text(
                 '4.5',
                 style: const TextStyle().normalFontSize.semiBold,
-              ).padding(const EdgeInsets.symmetric(horizontal: 5)),
+              ).paddingHorizontal(5),
               Text(
                 '(300 Reviews)',
                 style: const TextStyle(color: Colors.black54).normalFontSize.regular,
@@ -55,7 +55,7 @@ class RecipeIntro extends StatelessWidget {
                   Text(
                     'Roberta Anny',
                     style: const TextStyle().normalFontSize.semiBold,
-                  ).padding(const EdgeInsets.symmetric(horizontal: 5)),
+                  ).paddingHorizontal(5),
                   Row(
                     children: [
                       const Icon(
@@ -82,7 +82,7 @@ class RecipeIntro extends StatelessWidget {
           Text(
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit',
             style: const TextStyle().normalFontSize.regular,
-          ).padding(const EdgeInsets.symmetric(vertical: 15)).scrollable().expand(),
+          ).paddingVertical(15).scrollable().expand(),
           const SizedBox(height: 15),
           MainButton(
             text: 'Next',
@@ -92,7 +92,7 @@ class RecipeIntro extends StatelessWidget {
             },
           ).hero('button'),
         ],
-      ).padding(const EdgeInsets.all(15)),
+      ).paddingAll(15),
     );
   }
 }

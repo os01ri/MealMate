@@ -9,9 +9,9 @@ class _RecipeIngredientsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const _RecipeHeader().padding(const EdgeInsets.all(8)),
+        const _RecipeHeader().paddingAll(8),
         const _NutritionalValues(),
-        const _NumberOfEaters().padding(const EdgeInsets.all(10)),
+        const _NumberOfEaters().paddingAll(10),
         Column(
           children: [
             for (int i = 0; i < 6; i++)
@@ -31,7 +31,7 @@ class _RecipeIngredientsView extends StatelessWidget {
                     ),
                   ),
                 ],
-              ).padding(const EdgeInsets.all(8)),
+              ).paddingAll(8),
           ],
         ).scrollable().expand(),
         MainButton(
@@ -39,13 +39,13 @@ class _RecipeIngredientsView extends StatelessWidget {
           onPressed: () {
             pageController.animateToPage(
               1,
-              duration: const Duration(seconds: 1),
+              duration: AppConfig.pageViewAnimationDuration,
               curve: Curves.ease,
             );
           },
           width: context.width,
           text: 'Start Cocking!',
-        ).padding(const EdgeInsets.all(8)).hero('button'),
+        ).paddingAll(8).hero('button'),
       ],
     );
   }

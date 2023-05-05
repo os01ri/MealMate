@@ -4,7 +4,9 @@ class Routes {
   static const onboardingPage = '/onboarding';
   static const homePage = '/home';
   static const recipe = '/recipe';
-  static const recipePage = '/recipePage';
+  static const recipesBrowsePage = '/recipesBrowse';
   static const recipeIntro = '/recipeIntro';
+  static const recipePage = '/recipePage';
+  static const recipeCreatePage = '/recipeCreatePage';
   static const settingsNamedPage = '/settings';
 }

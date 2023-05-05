@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
@@ -101,10 +102,14 @@ class _IntroState extends State<Intro> {
                               onPressed: () {
                                 _controllerPageView.animateToPage(
                                   widget.pages.length,
-                                  duration: const Duration(seconds: 1),
+                                  duration: AppConfig.pageViewAnimationDuration,
                                   curve: Curves.ease,
                                 );
                               },
+                              style: const ButtonStyle(
+                                foregroundColor: MaterialStatePropertyAll(AppColors.deepOrange),
+                                splashFactory: InkRipple.splashFactory,
+                              ),
                               child: const Text('Skip'),
                             )
                           : const SizedBox.shrink(),
@@ -137,8 +142,11 @@ class _IntroState extends State<Intro> {
                       buttonText: value != widget.pages.length - 1 ? 'next' : 'Get Started',
                       description: widget.texts[value]['description'],
                       onPressed: () {
-                        _controllerPageView.animateToPage(_selectedItem.value + 1,
-                            duration: const Duration(seconds: 1), curve: Curves.ease);
+                        _controllerPageView.animateToPage(
+                          _selectedItem.value + 1,
+                          duration: AppConfig.pageViewAnimationDuration,
+                          curve: Curves.ease,
+                        );
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
                           Navigator.push(
                             context,

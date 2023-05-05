@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/splash_screen.dart';
+import 'package:mealmate/features/recipe/presentation/pages/recipe_create_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_intro.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_page.dart';
+import 'package:mealmate/features/recipe/presentation/pages/recipes_browse_page.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
 import 'app_routes.dart';
@@ -32,9 +34,17 @@ class AppRouter {
         ),
       ),
       GoRoute(
-        path: Routes.recipeIntro,
+        path: Routes.recipesBrowsePage,
         pageBuilder: (context, state) => const NoTransitionPage(
-          child: RecipeIntro(),
+          child: RecipesBrowsePage(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.recipeIntro,
+        pageBuilder: (context, state) => slideTransition(
+          context: context,
+          state: state,
+          child: const RecipeIntro(),
         ),
       ),
       GoRoute(
@@ -43,6 +53,14 @@ class AppRouter {
           context: context,
           state: state,
           child: const RecipePage(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.recipeCreatePage,
+        pageBuilder: (context, state) => slideTransition(
+          context: context,
+          state: state,
+          child: const RecipeCreatePage(),
         ),
       ),
       // GoRoute(

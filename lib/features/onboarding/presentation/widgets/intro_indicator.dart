@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 
 class IntroIndicator extends StatelessWidget {
   final int pageNumber;
@@ -21,15 +22,14 @@ class IntroIndicator extends StatelessWidget {
     );
   }
 
-  _dot(bool active) {
-    const kDuration = Duration(milliseconds: 400);
+  _dot(bool active) { 
     const kCurves = Curves.linear;
     return Padding(
       padding: const EdgeInsets.all(1.5),
       child: isCircle
           ? AnimatedContainer(
               curve: kCurves,
-              duration: kDuration,
+              duration: AppConfig.pageViewAnimationDuration,
               height: active ? 15.0 : 10.0,
               width: active ? 15.0 : 10.0,
               decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class IntroIndicator extends StatelessWidget {
             )
           : AnimatedContainer(
               curve: kCurves,
-              duration: kDuration,
+              duration: AppConfig.pageViewAnimationDuration,
               height: 1.0,
               width: active ? 9.7 : 5.5,
               color: Colors.white,

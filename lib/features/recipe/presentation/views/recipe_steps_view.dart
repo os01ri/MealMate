@@ -50,7 +50,7 @@ class _RecipeStepsView extends StatelessWidget {
                       style: TextStyle(),
                     ),
                   ],
-                ).padding(const EdgeInsets.all(8)),
+                ).paddingAll(8),
                 const Divider(),
               ],
             ],
@@ -58,7 +58,7 @@ class _RecipeStepsView extends StatelessWidget {
           Text(
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa ',
             style: const TextStyle().normalFontSize.regular,
-          ).padding(const EdgeInsets.symmetric(vertical: 15)).scrollable().expand(),
+          ).paddingVertical(15).scrollable().expand(),
           Row(
             children: [
               MainButton(
@@ -66,18 +66,18 @@ class _RecipeStepsView extends StatelessWidget {
                 onPressed: () {
                   pageController.animateToPage(
                     pageController.page!.ceil() - 1,
-                    duration: const Duration(seconds: 1),
+                    duration: AppConfig.pageViewAnimationDuration,
                     curve: Curves.ease,
                   );
                 },
                 text: 'Previous',
                 textColor: Colors.black,
-              ).padding(const EdgeInsets.all(8)).expand(),
+              ).paddingAll(8).expand(),
               MainButton(
                 color: AppColors.buttonColor,
                 onPressed: () {},
                 text: 'Finish Cooking',
-              ).padding(const EdgeInsets.all(8)).expand(),
+              ).paddingAll(8).expand(),
             ],
           ),
         ],

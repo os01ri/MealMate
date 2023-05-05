@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 
 CustomTransitionPage slideTransition<T>({
   required BuildContext context,
@@ -9,7 +10,7 @@ CustomTransitionPage slideTransition<T>({
   return CustomTransitionPage<T>(
     key: state.pageKey,
     child: child,
-    transitionDuration: const Duration(milliseconds: 500),
+    transitionDuration: AppConfig.navigationAnimationDuration,
     transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
       position: Tween(
         begin: const Offset(1.0, 0.0),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
 
-import '../theme/colors.dart';
 import '../theme/text_styles.dart';
 
 class MainTextField extends StatefulWidget {
@@ -24,7 +24,7 @@ class MainTextField extends StatefulWidget {
     this.width,
     this.height,
     this.label,
-    this.fillColor = AppColors.grey2,
+    this.fillColor = Colors.white,
     this.hint,
     this.onSubmitted,
     required this.controller,
@@ -107,37 +107,35 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
           label: widget.label == null ? null : Text(widget.label!),
           filled: true,
           fillColor: widget.fillColor,
+          focusColor: AppColors.buttonColor,
           hintText: widget.hint,
           hintStyle: AppTextStyles.styleWeight500(
             fontSize: size.width * .035,
             color: widget.hintColor ?? Colors.grey.shade700,
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(5),
-            borderSide: BorderSide(color: Colors.grey.shade300),
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
+            borderSide: const BorderSide(color: AppColors.lightTextColor),
           ),
           disabledBorder: OutlineInputBorder(
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(5),
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             borderSide: BorderSide(
-              color: widget.error ? Theme.of(context).colorScheme.error : Colors.grey.shade300,
+              color: widget.error ? Theme.of(context).colorScheme.error : AppColors.lightTextColor,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(5),
-            borderSide: BorderSide(color: widget.borderColor ?? Theme.of(context).primaryColor),
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
+            borderSide: BorderSide(color: widget.borderColor ?? AppColors.buttonColor),
           ),
           border: OutlineInputBorder(
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(5),
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.grey.shade300),
           ),
           prefixIcon: widget.prefixIcon,
-          prefixIconConstraints:
-              widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
+          prefixIconConstraints: widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
           suffixIcon: widget.suffixIcon,
-          suffixIconConstraints:
-              widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
-          contentPadding:
-              widget.maxLines != 1 ? null : const EdgeInsets.symmetric(horizontal: 16.0),
+          suffixIconConstraints: widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
+          contentPadding: widget.maxLines != 1 ? null : const EdgeInsets.symmetric(horizontal: 16.0),
         ),
         obscureText: !widget.isPassword,
         enableSuggestions: widget.isPassword,

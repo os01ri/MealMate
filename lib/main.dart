@@ -22,9 +22,10 @@ class MyApp extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: MaterialApp.router(
-        routeInformationProvider: AppRouter.router.routeInformationProvider,
-        routeInformationParser: AppRouter.router.routeInformationParser,
-        routerDelegate: AppRouter.router.routerDelegate,
+        // routeInformationProvider: AppRouter.router.routeInformationProvider,
+        // routeInformationParser: AppRouter.router.routeInformationParser,
+        // routerDelegate: AppRouter.router.routerDelegate,
+        routerConfig: AppRouter.router,
         title: 'Meal Mate',
         debugShowCheckedModeBanner: false,
         builder: (context, child) {

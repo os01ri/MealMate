@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/widgets/main_text_field.dart';
+import 'package:mealmate/features/main/main_page.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/cubit/navigation_cubit.dart';
 
 class RecipesBrowsePage extends StatelessWidget {
   const RecipesBrowsePage({super.key});
@@ -17,6 +22,27 @@ class RecipesBrowsePage extends StatelessWidget {
       appBar: RecipeAppBar(context: context),
       body: Column(
         children: [
+          Row(
+            children: [
+              MainTextField(
+                controller: TextEditingController(),
+                hint: 'Search Recipes',
+                prefixIcon: const Icon(Icons.search_rounded),
+              ).paddingVertical(15).expand(),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.buttonColor,
+                  borderRadius: AppConfig.borderRadius,
+                ),
+                width: context.width * .1,
+                height: context.width * .1,
+                child: const Icon(
+                  Icons.filter_alt,
+                  color: Colors.white,
+                ),
+              ).paddingHorizontal(5),
+            ],
+          ),
           SizedBox(
             height: context.height * .21,
             child: ListView(
@@ -64,7 +90,7 @@ class RecipesBrowsePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      ).padding(AppConfig.pagePadding),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.buttonColor,
         child: const Icon(Icons.create),

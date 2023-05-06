@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
 
 import '../../core/ui/widgets/main_nav_bar_item_widget.dart';
 import '../../router/app_routes.dart';
@@ -22,8 +23,18 @@ class MainPage extends StatelessWidget {
   final _tabs = [
     MainNavigationBarItemWidget(
       initialLocation: Routes.homePage,
-      icon: const Icon(Icons.home),
+      icon: const Icon(Icons.home_rounded),
       label: 'Home',
+    ),
+    MainNavigationBarItemWidget(
+      initialLocation: Routes.settingsNamedPage,
+      icon: const Icon(Icons.star_rounded),
+      label: 'Favorite',
+    ),
+    MainNavigationBarItemWidget(
+      initialLocation: Routes.settingsNamedPage,
+      icon: const Icon(Icons.notifications),
+      label: 'Notification',
     ),
     MainNavigationBarItemWidget(
       initialLocation: Routes.settingsNamedPage,
@@ -49,9 +60,12 @@ class MainPage extends StatelessWidget {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             elevation: 0,
-            backgroundColor: Colors.black,
-            unselectedItemColor: Colors.white,
-            selectedIconTheme: IconThemeData(size: (IconTheme.of(ctx).size)! * 1.3),
+            backgroundColor: Colors.white,
+            unselectedItemColor: AppColors.lightTextColor,
+            selectedIconTheme: IconThemeData(
+              size: (IconTheme.of(ctx).size)! * 1.3,
+              color: AppColors.buttonColor,
+            ),
             items: tabs,
             currentIndex: state.index,
             type: BottomNavigationBarType.fixed,

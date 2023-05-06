@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
@@ -92,7 +93,7 @@ class RecipeIntro extends StatelessWidget {
             },
           ).hero('button'),
         ],
-      ).paddingAll(15),
+      ).padding(AppConfig.pagePadding),
     );
   }
 }

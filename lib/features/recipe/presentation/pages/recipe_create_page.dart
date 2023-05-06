@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
@@ -53,7 +54,7 @@ class RecipeCreatePage extends StatelessWidget {
               style: const TextStyle().normalFontSize.extraBold,
             ).paddingVertical(10),
           ],
-        ).paddingHorizontal(15),
+        ).padding(AppConfig.pagePadding),
       ),
     );
   }

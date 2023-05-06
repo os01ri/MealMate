@@ -44,6 +44,13 @@ class HelperFunctions {
     return token;
   }
 
+  static Future<bool> launchWeb(String url) => launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalNonBrowserApplication,
+      );
+
+  static Future<File?> pickImage() async => await _ImageHelper.getImageAndCrop();
+
   // static Future<String?> getDeviceId() async {
   //   final deviceInfo = DeviceInfoPlugin();
   //   if (Platform.isIOS) {
@@ -58,17 +65,10 @@ class HelperFunctions {
   //   return null;
   // }
 
-  static Future<bool> launchWeb(String url) => launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalNonBrowserApplication,
-      );
-
-  static Future<File?> pickImage() async => await _ImageHelper.getImageAndCrop();
-
-  static int getLengthWithLoading({
-    required int itemCount,
-    required int crossAxisCount,
-  }) {
-    return itemCount + (crossAxisCount - (itemCount % crossAxisCount));
-  }
+  // static int getLengthWithLoading({
+  //   required int itemCount,
+  //   required int crossAxisCount,
+  // }) {
+  //   return itemCount + (crossAxisCount - (itemCount % crossAxisCount));
+  // }
 }

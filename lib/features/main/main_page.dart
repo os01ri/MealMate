@@ -22,22 +22,22 @@ class MainPage extends StatelessWidget {
 
   final _tabs = [
     MainNavigationBarItemWidget(
-      initialLocation: Routes.homePage,
+      initialLocation: Routes.recipesBrowsePage,
       icon: const Icon(Icons.home_rounded),
       label: 'Home',
     ),
     MainNavigationBarItemWidget(
-      initialLocation: Routes.settingsNamedPage,
+      initialLocation: Routes.recipesBrowsePage,
       icon: const Icon(Icons.star_rounded),
       label: 'Favorite',
     ),
     MainNavigationBarItemWidget(
-      initialLocation: Routes.settingsNamedPage,
+      initialLocation: Routes.recipesBrowsePage,
       icon: const Icon(Icons.notifications),
       label: 'Notification',
     ),
     MainNavigationBarItemWidget(
-      initialLocation: Routes.settingsNamedPage,
+      initialLocation: Routes.recipesBrowsePage,
       icon: const Icon(Icons.settings),
       label: 'Setting',
     ),
@@ -59,13 +59,10 @@ class MainPage extends StatelessWidget {
             },
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            elevation: 0,
+            elevation: 5,
             backgroundColor: Colors.white,
             unselectedItemColor: AppColors.lightTextColor,
-            selectedIconTheme: IconThemeData(
-              size: (IconTheme.of(ctx).size)! * 1.3,
-              color: AppColors.buttonColor,
-            ),
+            selectedIconTheme: const IconThemeData(color: AppColors.buttonColor),
             items: tabs,
             currentIndex: state.index,
             type: BottomNavigationBarType.fixed,

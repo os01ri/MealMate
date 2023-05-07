@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/assets_paths.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/custom_intro_paint.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/intro_indicator.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/slide.dart';
+import 'package:mealmate/router/app_routes.dart';
 
 class OnboardingPage extends StatelessWidget {
   final List<Widget> _pages = [
@@ -148,14 +149,7 @@ class _IntroState extends State<Intro> {
                           curve: Curves.ease,
                         );
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const SignUpPage();
-                              },
-                            ),
-                          );
+                          context.push(Routes.signUpNamedPage);
                         }
                       },
                     ),

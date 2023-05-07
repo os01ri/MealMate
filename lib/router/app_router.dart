@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mealmate/features/auth/presentation/pages/forgot_password.dart';
+import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
 import 'package:mealmate/features/main/main_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/splash_screen.dart';
@@ -11,6 +13,7 @@ import 'package:mealmate/features/recipe/presentation/pages/recipes_browse_page.
 import 'package:mealmate/router/cubit/navigation_cubit.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
+import '../features/auth/presentation/pages/login_page.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -38,6 +41,23 @@ class AppRouter {
           child: OnboardingPage(),
         ),
       ),
+      GoRoute(
+        path: Routes.forgotPasswordPage,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(child: ForgotPasswordPage());
+        },
+      ),
+      GoRoute(
+        path: Routes.signUpNamedPage,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => NoTransitionPage(child: SignUpPage()),
+      ),
+      GoRoute(
+        path: Routes.loginNamedPage,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
+      ),     
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {

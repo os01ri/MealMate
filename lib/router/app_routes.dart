@@ -9,4 +9,8 @@ class Routes {
   static const recipePage = '/recipePage';
   static const recipeCreatePage = '/recipeCreatePage';
   static const settingsNamedPage = '/settings';
+  static const loginNamedPage = '/loginPage';
+  static const signUpNamedPage = '/signupPage';
+  static const forgotPasswordPage = '/forgotPassword';
+
 }

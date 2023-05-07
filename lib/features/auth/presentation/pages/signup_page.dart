@@ -57,6 +57,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
             ),
+            SizedBox(
+              height: 40,
+              child: TextButton(
+                  child: Text('or Login'),
+                  onPressed: () {
+                    context.push(Routes.loginNamedPage);
+                  }),
+            ),
             RichText(
               text: TextSpan(
                 text: 'By continuing you agree to the\n',

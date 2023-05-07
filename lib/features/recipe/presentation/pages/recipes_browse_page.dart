@@ -44,47 +44,54 @@ class RecipesBrowsePage extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: context.height * .21,
+            height: context.height * .25,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: List.generate(
                 10,
-                (index) => GestureDetector(
-                  onTap: () {
-                    context.push(Routes.recipeIntro);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.lightGrey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.asset(
-                            PngPath.food,
+                (index) => FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.push(Routes.recipeIntro);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.lightGrey,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Image.asset(
+                              PngPath.food,
+                              height: context.height * .16,
+                              fit: BoxFit.fitHeight,
+                            ).hero(index == 0 ? 'picture' : '$index'),
+                          ),
+                          SizedBox(
                             width: context.width * .3,
-                          ).hero(index == 0 ? 'picture' : '$index'),
-                        ),
-                        SizedBox(
-                          width: context.width * .3,
-                          child: Text(
-                            'Indonesian chicken burger',
-                            softWrap: true,
-                            style: const TextStyle().normalFontSize.bold,
+                            child: Text(
+                              'Indonesian chicken burger',
+                              softWrap: true,
+                              style: const TextStyle().normalFontSize.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: context.width * .3,
-                          child: Text(
-                            'By Adrianna Curl',
-                            style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
+                          SizedBox(
+                            width: context.width * .3,
+                            child: Text(
+                              'By Adrianna Curl',
+                              style: const TextStyle(
+                                      color: AppColors.lightTextColor)
+                                  .smallFontSize
+                                  .semiBold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ).paddingHorizontal(8),
+                        ],
+                      ),
+                    ).paddingHorizontal(8),
+                  ),
                 ),
               ),
             ),

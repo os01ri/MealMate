@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mealmate/features/auth/presentation/pages/create_account_loading.dart';
 import 'package:mealmate/features/auth/presentation/pages/forgot_password.dart';
+import 'package:mealmate/features/auth/presentation/pages/otp_screen.dart';
 import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
 import 'package:mealmate/features/main/main_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
@@ -49,6 +51,11 @@ class AppRouter {
         },
       ),
       GoRoute(
+          path: Routes.otpScreen,
+          parentNavigatorKey: _rootNavigatorKey,
+          pageBuilder: (context, state) =>
+              NoTransitionPage(child: ConfirmPhoneNumberScreen())),
+      GoRoute(
         path: Routes.signUpNamedPage,
         parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) => NoTransitionPage(child: SignUpPage()),
@@ -57,7 +64,15 @@ class AppRouter {
         path: Routes.loginNamedPage,
         parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
-      ),     
+      ),  
+      GoRoute(
+        path: Routes.accountCreationLoading,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) {
+          return slideTransition(
+              context: context, state: state, child: CreateAccountLoading());
+        },
+      ),   
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {

@@ -11,7 +11,6 @@ import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/main/main_page.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/router/app_routes.dart';
-import 'package:mealmate/router/cubit/navigation_cubit.dart';
 
 class RecipesBrowsePage extends StatelessWidget {
   const RecipesBrowsePage({super.key});
@@ -19,7 +18,7 @@ class RecipesBrowsePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(context: context),
+      appBar: RecipeAppBar(context: context, leadingWidget: SizedBox()),
       body: Column(
         children: [
           Row(

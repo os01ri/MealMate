@@ -5,12 +5,14 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 class RecipeAppBar extends AppBar {
   RecipeAppBar({
     super.key,
+    Widget? leadingWidget,
     required BuildContext context,
   }) : super(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,
           elevation: 0,
-          leading: IconButton(
+          leading: leadingWidget ??
+              IconButton(
             onPressed: () {
               context.pop();
             },

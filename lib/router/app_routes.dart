@@ -12,5 +12,6 @@ class Routes {
   static const loginNamedPage = '/loginPage';
   static const signUpNamedPage = '/signupPage';
   static const forgotPasswordPage = '/forgotPassword';
-
+  static const otpScreen = '/otp';
+  static const accountCreationLoading = '/accountCreationLoading';
 }

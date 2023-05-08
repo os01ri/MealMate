@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 color: AppColors.buttonColor,
                 width: context.width,
                 onPressed: () {
-                  context.go(Routes.recipesBrowsePage);
+                  context.push(Routes.accountCreationLoading);
                 },
               ),
             ),

@@ -53,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 color: AppColors.buttonColor,
                 width: context.width,
                 onPressed: () {
-                  context.go(Routes.recipesBrowsePage);
+                  context.push(Routes.otpScreen);
                 },
               ),
             ),

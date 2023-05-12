@@ -13,7 +13,7 @@ class AppColors {
 
   static const Color mainColor = orange;
   static const Color secondaryColor = Colors.white24;
-  static const Color scaffoldBackgroundColor = Colors.white10;
+  static const Color scaffoldBackgroundColor = Colors.white;
   static const Color buttonColor = orange;
   static const Color lightTextColor = Color(0xffA9A9A9);
 

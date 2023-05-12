@@ -113,6 +113,7 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
             fontSize: size.width * .035,
             color: widget.hintColor ?? Colors.grey.shade700,
           ),
+          
           enabledBorder: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             borderSide: const BorderSide(color: AppColors.lightTextColor),

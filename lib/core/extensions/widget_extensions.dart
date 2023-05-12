@@ -35,5 +35,27 @@ extension WidgetExtension on Widget {
 
   Widget expand({int flex = 1}) => Expanded(flex: flex, child: this);
 
-  Widget hero(String tag) => Hero(tag: tag, child: this);
+  Widget hero(String tag) => Hero(
+        tag: tag,
+        child: this,
+        // flightShuttleBuilder: (_, animation, __, ___, ____) {
+        // final customAnimation = Tween<double>(begin: 0, end: 10).animate(animation);
+        // return AnimatedBuilder(
+        //   animation: animation,
+        //   builder: (context, child) {
+        //     return Transform(
+        //       transform: Matrix4.identity()
+        //         ..setEntry(3, 2, .005)
+        //         ..rotateZ(customAnimation.value * pi),
+        //       alignment: AlignmentDirectional.centerStart,
+        //       child: this,
+        //     );
+        //   },
+        // );
+        // return ScaleTransition(
+        //   scale: animation,
+        //   child: this,
+        // );
+        // },
+      );
 }

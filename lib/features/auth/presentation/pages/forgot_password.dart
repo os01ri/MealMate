@@ -3,13 +3,10 @@ import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/core/ui/widgets/main_text_field.dart';
+import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
-
-import '../widgets/auth_text_field.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -37,12 +34,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd')
+            const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd')
                 .paddingHorizontal(20),
-            const AuthTextField(
-                padding: EdgeInsets.all(20),
-                label: 'E-mail Address',
-                hint: 'Enter E-mail Address'),
+            const AuthTextField(padding: EdgeInsets.all(20), label: 'E-mail Address', hint: 'Enter E-mail Address'),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: MainButton(

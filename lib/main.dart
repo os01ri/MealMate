@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/ui/theme/them.dart';
 
 import 'core/ui/widgets/restart_widget.dart';
 import 'router/app_router.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         // routeInformationParser: AppRouter.router.routeInformationParser,
         // routerDelegate: AppRouter.router.routerDelegate,
         routerConfig: AppRouter.router,
+        theme: AppTheme.getColor(),
         title: 'Meal Mate',
         debugShowCheckedModeBanner: false,
         builder: (context, child) {

@@ -9,13 +9,15 @@ class NavigationCubit extends Cubit<NavigationState> {
   NavigationCubit() : super(const NavigationState(bottomNavItems: Routes.homePage, index: 0));
 
   void updateNavBarItem(int index) {
-    switch (index) {
-      case 0:
-        emit(const NavigationState(bottomNavItems: Routes.homePage, index: 0));
-        break;
-      case 1:
-        emit(const NavigationState(bottomNavItems: Routes.settingsNamedPage, index: 2));
-        break;
-    }
+    emit(NavigationState(bottomNavItems: Routes.homePage, index: index));
+    // switch (index) {
+    // emit(NavigationState(bottomNavItems: Routes.homePage, index: index));
+    //   case 0:
+    //   break;
+    // case 1:
+    //   emit(const NavigationState(bottomNavItems: Routes.settingsNamedPage, index: 2));
+    //   break;
+
+    // }
   }
 }

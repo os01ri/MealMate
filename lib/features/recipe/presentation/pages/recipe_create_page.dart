@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
-import 'package:mealmate/core/ui/assets_paths.dart';
+import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
@@ -26,7 +26,7 @@ class RecipeCreatePage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Image.asset(
-                PngPath.food,
+                PngPath.food2,
                 fit: BoxFit.fitWidth,
                 width: context.width,
               ).hero('picture'),

@@ -1,51 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
 
 class TransitionAppBar extends StatelessWidget {
   final Widget avatar;
   final Widget title;
   final double extent;
 
-  const TransitionAppBar(
-      {required this.avatar, required this.title, this.extent = 250, Key? key})
-      : super(key: key);
+  const TransitionAppBar({required this.avatar, required this.title, this.extent = 250, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
       pinned: true,
-      delegate: _TransitionAppBarDelegate(
-          avatar: avatar, title: title, extent: extent > 200 ? extent : 200),
+      delegate: _TransitionAppBarDelegate(avatar: avatar, title: title, extent: extent > 200 ? extent : 200),
     );
   }
 }
 
 class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
   final _avatarMarginTween = EdgeInsetsTween(
-    end: EdgeInsets.only(left: 50, top: 36.0),
+    begin: const EdgeInsets.all(15),
+    end: const EdgeInsets.only(left: 50, top: 36.0),
   );
 
   final _titleMarginTween = EdgeInsetsTween(
-    begin: EdgeInsets.only(bottom: 20),
-    end: EdgeInsets.only(left: 104, top: 36),
+    begin: const EdgeInsets.only(bottom: 20),
+    end: const EdgeInsets.only(left: 104, top: 36),
   );
 
-  final _avatarAlignTween =
-      AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.topLeft);
+  final _avatarAlignTween = AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.topLeft);
 
   final Widget avatar;
   final Widget title;
   final double extent;
 
-  _TransitionAppBarDelegate(
-      {required this.avatar, required this.title, this.extent = 250})
-      : assert(avatar != null),
-        assert(extent == null || extent >= 200),
-        assert(title != null);
+  _TransitionAppBarDelegate({required this.avatar, required this.title, this.extent = 250}) : assert(extent >= 200);
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     double tempVal = 72 * maxExtent / 100;
     final progress = shrinkOffset > tempVal ? 1.0 : shrinkOffset / tempVal;
     final avatarMargin = _avatarMarginTween.lerp(progress);
@@ -59,7 +50,7 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
       clipBehavior: Clip.none,
       children: <Widget>[
         AnimatedContainer(
-          duration: Duration(milliseconds: 100),
+          duration: const Duration(milliseconds: 100),
           height: 80,
           constraints: BoxConstraints(maxHeight: minExtent),
           color: Colors.white,
@@ -74,7 +65,7 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_ios_new,
                   color: Colors.black,
                 ))),
@@ -84,7 +75,7 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
             alignment: avatarAlign,
             child: SizedBox(
               height: avatarSize,
-              width: avatarSize,
+              width: avatarSize * (progress == 0 ? 2 : 1),
               child: avatar,
             ),
           ),

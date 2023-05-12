@@ -1,5 +1,3 @@
-import 'package:flutter_svg/svg.dart';
-
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 
@@ -109,8 +107,7 @@ class KeyboardNumber extends StatelessWidget {
               NumberButton(
                 onTap: () {
                   if (textEditingController.text.isNotEmpty) {
-                    textEditingController.text =
-                        textEditingController.text.substring(
+                    textEditingController.text = textEditingController.text.substring(
                       0,
                       textEditingController.text.length - 1,
                     );
@@ -207,7 +204,7 @@ class NumberButton extends StatelessWidget {
         ),
         child: Center(
           child: isDelete
-              ? Icon(
+              ? const Icon(
                   Icons.delete,
                   color: Colors.black,
                 )

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../assets_paths.dart';
 import '../theme/text_styles.dart';
 
 class EmptyWidget extends StatelessWidget {

@@ -62,7 +62,7 @@ class MainPage extends StatelessWidget {
             elevation: 5,
             backgroundColor: Colors.white,
             unselectedItemColor: AppColors.lightTextColor,
-            selectedIconTheme: const IconThemeData(color: AppColors.buttonColor),
+            selectedIconTheme: const IconThemeData(color: AppColors.mainColor),
             items: tabs,
             currentIndex: state.index,
             type: BottomNavigationBarType.fixed,

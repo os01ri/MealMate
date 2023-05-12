@@ -13,21 +13,26 @@ class CreateAccountLoading extends StatefulWidget {
   State<CreateAccountLoading> createState() => _CreateAccountLoadingState();
 }
 
-class _CreateAccountLoadingState extends State<CreateAccountLoading>
-    with SingleTickerProviderStateMixin {
+class _CreateAccountLoadingState extends State<CreateAccountLoading> with TickerProviderStateMixin {
   late AnimationController animationController;
+
   @override
   void didChangeDependencies() {
     animationController = AnimationController(
-        vsync: this,
-        lowerBound: 0,
-        upperBound: 1,
-        duration: Duration(seconds: 3))
-      ..forward().then((value) {
+      vsync: this,
+      lowerBound: 0,
+      upperBound: 1,
+      duration: const Duration(seconds: 3),
+    )..forward().then((_) {
         context.go(Routes.recipesBrowsePage);
-        animationController.dispose();
       });
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,12 +50,14 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading>
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                    width: context.width,
-                    height: context.height * .2,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                'assets/png/account_creation.png')))),
+                  width: context.width,
+                  height: context.height * .2,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/png/account_creation.png'),
+                    ),
+                  ),
+                ),
                 AnimatedBuilder(
                   animation: animationController,
                   builder: (context, child) {
@@ -67,9 +74,7 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading>
               ],
             ),
           ),
-          SizedBox(
-            height: context.height * .2,
-          )
+          SizedBox(height: context.height * .2)
         ],
       ),
     );

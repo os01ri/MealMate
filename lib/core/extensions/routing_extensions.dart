@@ -17,8 +17,7 @@ extension RoutingExtension on BuildContext {
         queryParams: queryParams,
       );
 
-  Future<T?> push<T extends Object?>(String path, {Object? extra}) =>
-      go_router.GoRouter.of(this).push(
+  Future<T?> push<T extends Object?>(String path, {Object? extra}) => go_router.GoRouter.of(this).push(
         path,
         extra: extra,
       );

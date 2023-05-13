@@ -20,6 +20,7 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Ticker
   void didChangeDependencies() {
     animationController = AnimationController(
       vsync: this,
+      value: 0,
       lowerBound: 0,
       upperBound: 1,
       duration: const Duration(seconds: 3),
@@ -62,10 +63,12 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Ticker
                   animation: animationController,
                   builder: (context, child) {
                     return LinearProgressIndicator(
-                      color: AppColors.buttonColor,
+                      color: AppColors.grey,
+                      valueColor: AlwaysStoppedAnimation(AppColors.buttonColor),
                       value: animationController.value,
+                      backgroundColor: AppColors.grey,
                     );
-                  },
+                  }, 
                 ).paddingHorizontal(context.width * .2),
                 Text(
                   'Personalizing Healthy Recipes For Your Helathy Life',

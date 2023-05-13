@@ -54,7 +54,7 @@ class AppRouter {
           path: Routes.otpScreen,
           parentNavigatorKey: _rootNavigatorKey,
           pageBuilder: (context, state) =>
-              NoTransitionPage(child: ConfirmPhoneNumberScreen())),
+              NoTransitionPage(child: OtpScreen())),
       GoRoute(
         path: Routes.signUpNamedPage,
         parentNavigatorKey: _rootNavigatorKey,

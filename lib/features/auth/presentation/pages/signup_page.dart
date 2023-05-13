@@ -5,8 +5,9 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
+
+import '../widgets/auth_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -84,32 +85,3 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-class AuthTextField extends StatelessWidget {
-  const AuthTextField({super.key, required this.hint, required this.label});
-
-  final String hint;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.topLeft,
-            child: Text(
-              label,
-            ),
-          ),
-          MainTextField(
-            fillColor: AppColors.scaffoldBackgroundColor,
-            controller: TextEditingController(),
-            hint: hint,
-          ),
-        ],
-      ),
-    );
-  }
-}

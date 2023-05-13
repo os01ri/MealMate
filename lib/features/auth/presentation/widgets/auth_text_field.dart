@@ -1,27 +1,27 @@
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../core/ui/theme/text_styles.dart';
 import '../../../../core/ui/widgets/main_text_field.dart';
 
 class AuthTextField extends StatelessWidget {
-  const AuthTextField(
-      {super.key, required this.hint, this.padding, required this.label});
+  const AuthTextField({super.key, required this.hint, required this.label});
 
   final String hint;
   final String label;
-  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.only(bottom: 8),
             alignment: Alignment.topLeft,
             child: Text(
-              label,
+              label, style: AppTextStyles.styleWeight500(fontSize: 16)
             ),
           ),
           MainTextField(

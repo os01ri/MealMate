@@ -33,7 +33,10 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
+            const AuthTextField(
+              label: 'E-mail Address',
+              hint: 'Enter E-mail Address',
+            ),
             const AuthTextField(label: 'Password', hint: '********'),
             Padding(
               padding: const EdgeInsets.all(8.0),

@@ -8,12 +8,13 @@ class KeyboardNumber extends StatelessWidget {
     required this.size,
     required this.maxLength,
     this.onTap,
+    this.value,
   }) : super(key: key);
   final TextEditingController textEditingController;
   final Size size;
   final int maxLength;
   final void Function()? onTap;
-
+final ValueNotifier<String>? value;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -111,6 +112,7 @@ class KeyboardNumber extends StatelessWidget {
                       0,
                       textEditingController.text.length - 1,
                     );
+                    value?.value = textEditingController.text;
                   }
                 },
                 size: size,
@@ -166,6 +168,7 @@ class KeyboardNumber extends StatelessWidget {
   onTapButton(String text) {
     if (textEditingController.text.length < maxLength) {
       textEditingController.text += text;
+      value?.value = textEditingController.text;
     }
   }
 }

@@ -15,7 +15,7 @@ class PngPath {
   static const _iconsPath = 'assets/icons/';
 
   ///PNGs///
-  static const food2 = '${_mainPath}food2.png';
+  static const food = '${_mainPath}food2.png';
   static const user = '${_mainPath}user.png';
   static const tomato = '${_mainPath}pngegg.png';
 

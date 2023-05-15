@@ -7,6 +7,7 @@ class Routes {
   static const recipesBrowsePage = '/recipesBrowse';
   static const recipeIntro = '/recipeIntro';
   static const recipePage = '/recipePage';
+  static const recipeStepsPage = '/recipeStepsPage';
   static const recipeCreatePage = '/recipeCreatePage';
   static const settingsNamedPage = '/settings';
   static const loginNamedPage = '/loginPage';

@@ -21,7 +21,7 @@ class RecipeIntro extends StatelessWidget {
       body: Column(
         children: [
           Image.asset(
-            PngPath.food2,
+            PngPath.food,
             fit: BoxFit.fitWidth,
             width: context.width,
           ).hero('picture'),
@@ -113,7 +113,7 @@ class _NewWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: AppConfig.borderRadius,
               image: const DecorationImage(
-                image: AssetImage(PngPath.food2),
+                image: AssetImage(PngPath.food),
                 fit: BoxFit.fitWidth,
               ),
             ),

@@ -1,16 +1,64 @@
-part of '../pages/recipe_page.dart';
+import 'package:flutter/material.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/widgets/main_button.dart';
 
-class _RecipeStepsView extends StatelessWidget {
-  const _RecipeStepsView({
-    required this.pageController,
-  });
-
-  final PageController pageController;
+class RecipeStepsPage extends StatelessWidget {
+  const RecipeStepsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: RecipeAppBar(
+        //   context: context,
+        //   title: 'Pasta Preparation',
+        //   actions: [
+        //     IconButton(
+        //       onPressed: () {},
+        //       icon: Image.asset(
+        //         PngPath.saveInactive,
+        //         color: Colors.black,
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        body: Stack(
+          fit: StackFit.expand,
+          clipBehavior: Clip.none,
+          children: [
+            Image.asset(
+              PngPath.food,
+              fit: BoxFit.fitWidth,
+              width: context.width,
+            ).positioned(top: 0),
+            const _StepsSection().positioned(bottom: 0),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StepsSection extends StatelessWidget {
+  const _StepsSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: context.width,
+      height: context.height * .65,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+      ),
       child: Column(
         children: [
           Text(
@@ -64,11 +112,11 @@ class _RecipeStepsView extends StatelessWidget {
               MainButton(
                 color: AppColors.grey,
                 onPressed: () {
-                  pageController.animateToPage(
-                    pageController.page!.ceil() - 1,
-                    duration: AppConfig.pageViewAnimationDuration,
-                    curve: Curves.ease,
-                  );
+                  // pageController.animateToPage(
+                  //   pageController.page!.ceil() - 1,
+                  //   duration: AppConfig.pageViewAnimationDuration,
+                  //   curve: Curves.ease,
+                  // );
                 },
                 text: 'Previous',
                 textColor: Colors.black,
@@ -81,7 +129,7 @@ class _RecipeStepsView extends StatelessWidget {
             ],
           ),
         ],
-      ),
+      ).padding(AppConfig.pagePadding),
     );
   }
 }

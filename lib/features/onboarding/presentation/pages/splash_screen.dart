@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
       Future.delayed(AppConfig.splashScreenDuration).then((value) => context.go(Routes.onboardingPage)),
     ]);
     return Scaffold(
-      backgroundColor: AppColors.orange, //const Color(0xff70b9be),
+      backgroundColor: AppColors.orange,
       body: SafeArea(
         child: CustomPaint(
           painter: RPSCustomPainter(),

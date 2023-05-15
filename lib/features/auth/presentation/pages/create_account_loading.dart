@@ -13,7 +13,7 @@ class CreateAccountLoading extends StatefulWidget {
   State<CreateAccountLoading> createState() => _CreateAccountLoadingState();
 }
 
-class _CreateAccountLoadingState extends State<CreateAccountLoading> with TickerProviderStateMixin {
+class _CreateAccountLoadingState extends State<CreateAccountLoading> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
   @override
@@ -24,7 +24,7 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Ticker
       lowerBound: 0,
       upperBound: 1,
       duration: const Duration(seconds: 3),
-    )..forward().then((_) {
+    )..forward().whenComplete(() {
         context.go(Routes.recipesBrowsePage);
       });
     super.didChangeDependencies();
@@ -64,11 +64,11 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Ticker
                   builder: (context, child) {
                     return LinearProgressIndicator(
                       color: AppColors.grey,
-                      valueColor: AlwaysStoppedAnimation(AppColors.buttonColor),
+                      valueColor: const AlwaysStoppedAnimation(AppColors.buttonColor),
                       value: animationController.value,
                       backgroundColor: AppColors.grey,
                     );
-                  }, 
+                  },
                 ).paddingHorizontal(context.width * .2),
                 Text(
                   'Personalizing Healthy Recipes For Your Helathy Life',

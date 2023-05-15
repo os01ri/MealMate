@@ -6,7 +6,7 @@ class _HeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      PngPath.food2,
+      PngPath.food,
       fit: BoxFit.fitWidth,
       width: context.width,
     ).hero('picture');

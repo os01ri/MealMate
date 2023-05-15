@@ -26,7 +26,7 @@ class RecipeCreatePage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Image.asset(
-                PngPath.food2,
+                PngPath.food,
                 fit: BoxFit.fitWidth,
                 width: context.width,
               ).hero('picture'),

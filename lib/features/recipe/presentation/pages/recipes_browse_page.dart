@@ -60,7 +60,7 @@ class RecipesBrowsePage extends StatelessWidget {
                       child: Column(
                         children: [
                           Image.asset(
-                            PngPath.food2,
+                            PngPath.food,
                             fit: BoxFit.fitWidth,
                             width: context.width,
                           ).hero(index == 0 ? 'picture' : '$index'),

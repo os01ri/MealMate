@@ -12,6 +12,7 @@ import 'package:mealmate/features/onboarding/presentation/pages/splash_screen.da
 import 'package:mealmate/features/recipe/presentation/pages/recipe_create_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_intro.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_page.dart';
+import 'package:mealmate/features/recipe/presentation/pages/recipe_steps_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipes_browse_page.dart';
 import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
@@ -105,6 +106,15 @@ class AppRouter {
               context: context,
               state: state,
               child: const RecipePage(),
+            ),
+          ),
+          GoRoute(
+            path: Routes.recipeStepsPage,
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (context, state) => slideTransition(
+              context: context,
+              state: state,
+              child: const RecipeStepsPage(),
             ),
           ),
           GoRoute(

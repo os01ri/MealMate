@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
@@ -7,8 +8,8 @@ import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/router/app_routes.dart';
 
-part '../views/recipe_steps_view.dart';
 part '../widgets/header_image.dart';
 part '../widgets/recipe_budget_card.dart';
 part '../widgets/recipe_tab_bar.dart';
@@ -50,7 +51,9 @@ class _RecipePageState extends State<RecipePage> {
           ).expand(),
           MainButton(
             color: AppColors.buttonColor,
-            onPressed: () {},
+            onPressed: () {
+              context.push(Routes.recipeStepsPage);
+            },
             width: context.width,
             text: 'Start Cooking!',
           ).paddingHorizontal(8).hero('button'),

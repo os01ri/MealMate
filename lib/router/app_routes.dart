@@ -14,4 +14,6 @@ class Routes {
   static const forgotPasswordPage = '/forgotPassword';
   static const otpScreen = '/otp';
   static const accountCreationLoading = '/accountCreationLoading';
+  static const store = '/store';
+  static const ingredientPage = '/ingredientPage';
 }

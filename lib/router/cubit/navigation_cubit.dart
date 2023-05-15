@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,15 +11,14 @@ class NavigationCubit extends Cubit<NavigationState> {
   NavigationCubit() : super(const NavigationState(bottomNavItems: Routes.homePage, index: 0));
 
   void updateNavBarItem(int index) {
-    emit(NavigationState(bottomNavItems: Routes.homePage, index: index));
-    // switch (index) {
-    // emit(NavigationState(bottomNavItems: Routes.homePage, index: index));
-    //   case 0:
-    //   break;
-    // case 1:
-    //   emit(const NavigationState(bottomNavItems: Routes.settingsNamedPage, index: 2));
-    //   break;
-
-    // }
+    log(index.toString(), name: 'nav index');
+    emit(NavigationState(
+      index: index,
+      bottomNavItems: switch (index) {
+        0 => Routes.homePage,
+        1 => Routes.store,
+        _ => Routes.homePage,
+      },
+    ));
   }
 }

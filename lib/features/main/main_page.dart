@@ -27,9 +27,9 @@ class MainPage extends StatelessWidget {
       label: 'Home',
     ),
     MainNavigationBarItemWidget(
-      initialLocation: Routes.recipesBrowsePage,
-      icon: const Icon(Icons.star_rounded),
-      label: 'Favorite',
+      initialLocation: Routes.store,
+      icon: const Icon(Icons.shopping_cart_outlined),
+      label: 'store',
     ),
     MainNavigationBarItemWidget(
       initialLocation: Routes.recipesBrowsePage,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mealmate/features/auth/presentation/pages/create_account_loading.dart';
 import 'package:mealmate/features/auth/presentation/pages/forgot_password.dart';
+import 'package:mealmate/features/auth/presentation/pages/login_page.dart';
 import 'package:mealmate/features/auth/presentation/pages/otp_screen.dart';
 import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
 import 'package:mealmate/features/main/main_page.dart';
@@ -12,10 +13,11 @@ import 'package:mealmate/features/recipe/presentation/pages/recipe_create_page.d
 import 'package:mealmate/features/recipe/presentation/pages/recipe_intro.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipes_browse_page.dart';
+import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
+import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/cubit/navigation_cubit.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
-import '../features/auth/presentation/pages/login_page.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -47,32 +49,30 @@ class AppRouter {
         path: Routes.forgotPasswordPage,
         parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) {
-          return NoTransitionPage(child: ForgotPasswordPage());
+          return const NoTransitionPage(child: ForgotPasswordPage());
         },
       ),
       GoRoute(
           path: Routes.otpScreen,
           parentNavigatorKey: _rootNavigatorKey,
-          pageBuilder: (context, state) =>
-              NoTransitionPage(child: OtpScreen())),
+          pageBuilder: (context, state) => const NoTransitionPage(child: OtpScreen())),
       GoRoute(
         path: Routes.signUpNamedPage,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => NoTransitionPage(child: SignUpPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: SignUpPage()),
       ),
       GoRoute(
         path: Routes.loginNamedPage,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
-      ),  
+        pageBuilder: (context, state) => const NoTransitionPage(child: LoginPage()),
+      ),
       GoRoute(
         path: Routes.accountCreationLoading,
         parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) {
-          return slideTransition(
-              context: context, state: state, child: CreateAccountLoading());
+          return slideTransition(context: context, state: state, child: const CreateAccountLoading());
         },
-      ),   
+      ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
@@ -114,6 +114,24 @@ class AppRouter {
               context: context,
               state: state,
               child: const RecipeCreatePage(),
+            ),
+          ),
+          GoRoute(
+            path: Routes.store,
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (context, state) => slideTransition(
+              context: context,
+              state: state,
+              child: const StorePage(),
+            ),
+          ),
+          GoRoute(
+            path: Routes.ingredientPage,
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (context, state) => slideTransition(
+              context: context,
+              state: state,
+              child: const IngredientPage(),
             ),
           ),
         ],

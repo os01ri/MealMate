@@ -95,9 +95,9 @@ class UiMessages {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('warning'),
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         SizedBox(height: 15),
                         Text('ignore Changes'),
                         SizedBox(height: 15),

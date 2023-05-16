@@ -74,6 +74,24 @@ class AppRouter {
           return slideTransition(context: context, state: state, child: const CreateAccountLoading());
         },
       ),
+      GoRoute(
+        path: Routes.recipeCreatePage,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => slideTransition(
+          context: context,
+          state: state,
+          child: const RecipeCreatePage(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.ingredientPage,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => slideTransition(
+          context: context,
+          state: state,
+          child: const IngredientPage(),
+        ),
+      ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
@@ -117,15 +135,15 @@ class AppRouter {
               child: const RecipeStepsPage(),
             ),
           ),
-          GoRoute(
-            path: Routes.recipeCreatePage,
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) => slideTransition(
-              context: context,
-              state: state,
-              child: const RecipeCreatePage(),
-            ),
-          ),
+          // GoRoute(
+          //   path: Routes.recipeCreatePage,
+          //   parentNavigatorKey: _shellNavigatorKey,
+          //   pageBuilder: (context, state) => slideTransition(
+          //     context: context,
+          //     state: state,
+          //     child: const RecipeCreatePage(),
+          //   ),
+          // ),
           GoRoute(
             path: Routes.store,
             parentNavigatorKey: _shellNavigatorKey,
@@ -135,15 +153,15 @@ class AppRouter {
               child: const StorePage(),
             ),
           ),
-          GoRoute(
-            path: Routes.ingredientPage,
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) => slideTransition(
-              context: context,
-              state: state,
-              child: const IngredientPage(),
-            ),
-          ),
+          // GoRoute(
+          //   path: Routes.ingredientPage,
+          //   parentNavigatorKey: _shellNavigatorKey,
+          //   pageBuilder: (context, state) => slideTransition(
+          //     context: context,
+          //     state: state,
+          //     child: const IngredientPage(),
+          //   ),
+          // ),
         ],
       ),
     ],

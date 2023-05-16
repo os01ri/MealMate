@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppConfig {
   AppConfig._();
 
-  static Duration get splashScreenDuration => const Duration(milliseconds: 800);
+  static Duration get splashScreenDuration => const Duration(milliseconds: 1200);
 
   static Duration get animationDuration => const Duration(milliseconds: 8000);
 

@@ -97,13 +97,13 @@ class RecipesBrowsePage extends StatelessWidget {
           ),
         ],
       ).padding(AppConfig.pagePadding),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.buttonColor,
-        child: const Icon(Icons.create),
-        onPressed: () {
-          context.push(Routes.recipeCreatePage);
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: AppColors.buttonColor,
+      //   child: const Icon(Icons.create),
+      //   onPressed: () {
+      //     context.push(Routes.recipeCreatePage);
+      //   },
+      // ),
     );
   }
 }

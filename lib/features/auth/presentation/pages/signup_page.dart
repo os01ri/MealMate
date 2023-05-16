@@ -34,8 +34,8 @@ class _SignUpPageState extends State<SignUpPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const AuthTextField(label: 'User Name', hint: 'username'),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Expanded(
                   child: AuthTextField(hint: 'first name', label: 'First Name'),
                 ),
@@ -61,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(
               height: 40,
               child: TextButton(
-                  child: Text('or Login'),
+                  child: const Text('or Login'),
                   onPressed: () {
                     context.push(Routes.loginNamedPage);
                   }),

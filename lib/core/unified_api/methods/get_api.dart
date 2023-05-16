@@ -35,7 +35,7 @@ class GetApi<T> with HandlingExceptionRequest {
         'Accept': 'application/json',
         'fcm_token': fcmToken,
         if (isAuth) 'Authorization': 'Bearer $token',
-        if (getFCMToken) "device_id": "$deviceId",
+        if (getFCMToken) "device_id": deviceId,
       };
       var request = http.Request('GET', uri);
       request.body = jsonEncode(body);

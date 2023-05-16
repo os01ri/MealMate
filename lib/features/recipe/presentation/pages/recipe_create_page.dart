@@ -1,10 +1,13 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 
@@ -53,6 +56,29 @@ class RecipeCreatePage extends StatelessWidget {
               '+ Add New Ingredient',
               style: const TextStyle().normalFontSize.extraBold,
             ).paddingVertical(10),
+            MainButton(
+              text: 'Publish!',
+              color: AppColors.buttonColor,
+              onPressed: () {
+                context.pop();
+                BotToast.showNotification(
+                  leading: (_) => const Icon(
+                    Icons.alarm,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: (_) => Text(
+                    'Your Recipe Published Successfully!',
+                    style: const TextStyle(color: Colors.white).bold,
+                  ),
+                  subtitle: (_) => Text(
+                    'Please wait for admin to accept',
+                    style: const TextStyle(color: Colors.white).regular,
+                  ),
+                  backgroundColor: Colors.green,
+                );
+              },
+            ),
           ],
         ).padding(AppConfig.pagePadding),
       ),

@@ -8,7 +8,7 @@ class IntroImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: SizedBox(
         width: 90.0,
         height: 40.0,

@@ -1,11 +1,17 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 
-class MainNavigationBarItemWidget extends BottomNavigationBarItem {
-  final String initialLocation;
+// class MainNavigationBarItemWidget {
+//   final String initialLocation;
+//   final Widget icon;
+//   final String? label;
+//   final int index;
+//   final EdgeInsetsGeometry? padding;
 
-  MainNavigationBarItemWidget({
-    required this.initialLocation,
-    required Widget icon,
-    String? label,
-  }) : super(icon: icon, label: label);
-}
+//   const MainNavigationBarItemWidget({
+//     required this.initialLocation,
+//     required this.icon,
+//     required this.index,
+//     this.padding = EdgeInsets.zero,
+//     this.label,
+//   });
+// }

@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Forgot Passowrd?'),
             ),
             SizedBox(
-              height: context.height * .25,
+              height: context.height * .05,
             ),
             Column(
               children: [

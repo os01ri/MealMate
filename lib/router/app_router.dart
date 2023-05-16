@@ -94,7 +94,7 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.recipeIntro,
-        parentNavigatorKey: _shellNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) => slideTransition(
           context: context,
           state: state,
@@ -103,7 +103,7 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.recipePage,
-        parentNavigatorKey: _shellNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) => slideTransition(
           context: context,
           state: state,
@@ -112,7 +112,7 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.recipeStepsPage,
-        parentNavigatorKey: _shellNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) => slideTransition(
           context: context,
           state: state,

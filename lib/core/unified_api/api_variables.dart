@@ -4,10 +4,10 @@ class ApiVariables {
   /////////////
   ///General///
   /////////////
-  final _scheme = 'https';
-  final _host = '192.168.243.1';
+  static const _scheme = 'https';
+  static const _host = '192.168.243.1';
 
-  Uri _mainUri({
+  static Uri _mainUri({
     required String path,
     Map<String, dynamic>? queryParameters,
   }) {
@@ -21,12 +21,15 @@ class ApiVariables {
     return uri;
   }
 
-  Uri uploadMedia() => _mainUri(path: 'mediaUpload');
+  static Uri uploadMedia() => _mainUri(path: 'mediaUpload');
   // Uri uploadVideo() => _mainUri(path: "videoUpload");
   // Uri uploadGif() => _mainUri(path: "GIFUpload");
 
-  Uri _mobileUri({required String path, Map<String, dynamic>? queryParameters}) => _mainUri(
+  static Uri _mobileUri({required String path, Map<String, dynamic>? queryParameters}) => _mainUri(
         path: 'mobile/$path',
         queryParameters: queryParameters,
       );
+
+  static Uri indexRecipes({Map<String, dynamic>? queryParameters}) =>
+      _mobileUri(path: 'recipe/index', queryParameters: queryParameters);
 }

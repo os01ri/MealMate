@@ -7,8 +7,9 @@ import '../error/exceptions.dart';
 import '../error/failures.dart';
 
 mixin HandlingExceptionManager {
-  Future<Either<Failure, T>> wrapHandling<T>(
-      {required Future<Right<Failure, T>> Function() tryCall}) async {
+  Future<Either<Failure, T>> wrapHandling<T>({
+    required Future<Right<Failure, T>> Function() tryCall,
+  }) async {
     try {
       final right = await tryCall();
       return right;

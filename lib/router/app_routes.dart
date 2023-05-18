@@ -17,4 +17,5 @@ class Routes {
   static const accountCreationLoading = '/accountCreationLoading';
   static const store = '/store';
   static const ingredientPage = '/ingredientPage';
+  static const notificationScreen = "/notification";
 }

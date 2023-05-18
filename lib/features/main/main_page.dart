@@ -74,7 +74,7 @@ class MainPage extends StatelessWidget {
       index: 1,
     ),
     const MainNavigationBarItemWidget(
-      initialLocation: Routes.recipesBrowsePage,
+      initialLocation: Routes.notificationScreen,
       icon: Icon(Icons.notifications),
       label: 'Notification',
       padding: EdgeInsets.only(left: 40),

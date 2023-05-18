@@ -8,15 +8,16 @@ class RecipeAppBar extends AppBar {
     super.key,
     required BuildContext context,
     String? title,
+    bool? centerText,
     Widget? leadingWidget,
     List<Widget>? actions,
   }) : super(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
-          centerTitle: true,
+          centerTitle: centerText ?? true,
           automaticallyImplyLeading: false,
-          leadingWidth: 100,
+          leadingWidth: leadingWidget == null ? 80 : 100,
           toolbarHeight: 80,
           title: title != null
               ? Text(
@@ -31,8 +32,10 @@ class RecipeAppBar extends AppBar {
                   Card(
                     elevation: 5,
                     shape: const CircleBorder(),
-                    child: leadingWidget ??
+                    child: leadingWidget ?? 
                         IconButton(
+                          style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(0)),
                           onPressed: () {
                             context.pop();
                           },

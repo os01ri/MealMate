@@ -19,6 +19,7 @@ import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/cubit/navigation_cubit.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
+import '../features/home/presentation/pages/norification_screen.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -128,6 +129,15 @@ class AppRouter {
           );
         },
         routes: [
+          GoRoute(
+              path: Routes.notificationScreen,
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return slideTransition(
+                    context: context,
+                    state: state,
+                    child: NotificationScreen());
+              }),
           GoRoute(
             path: Routes.recipesBrowsePage,
             parentNavigatorKey: _shellNavigatorKey,

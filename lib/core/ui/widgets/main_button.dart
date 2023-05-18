@@ -15,7 +15,8 @@ class MainButton extends StatelessWidget {
     this.icon,
     required this.color,
     required this.onPressed,
-    this.textColor = Colors.white,
+      this.textColor = Colors.white,
+      this.elevation 
   }) : super(key: key);
 
   final String text;
@@ -28,11 +29,13 @@ class MainButton extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final Color? shadowColor;
   final Widget? icon;
+  final double? elevation;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
+        elevation: MaterialStatePropertyAll(elevation),
         shadowColor: shadowColor != null ? MaterialStateProperty.all(shadowColor) : null,
         backgroundColor: MaterialStateProperty.all(color),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

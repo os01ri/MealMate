@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
-
-import '../../router/app_routes.dart';
-import '../../router/cubit/navigation_cubit.dart';
+import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/cubit/navigation_cubit.dart';
 
 class MainPage extends StatelessWidget {
   final Widget screen;
@@ -29,11 +28,10 @@ class MainPage extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 AppColors.mainColor,
-                Colors.red,
-                Colors.pink,
+                AppColors.lightOrange,
               ],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               tileMode: TileMode.clamp,
             ),
           ),
@@ -105,7 +103,7 @@ class MainPage extends StatelessWidget {
               child: BottomAppBar(
                 shadowColor: Colors.black,
                 elevation: 50,
-                color: Colors.white60,
+                color: Colors.white,
                 notchMargin: 10.0,
                 shape: const CircularNotchedRectangle(),
                 child: Padding(

@@ -14,7 +14,7 @@ class KeyboardNumber extends StatelessWidget {
   final Size size;
   final int maxLength;
   final void Function()? onTap;
-final ValueNotifier<String>? value;
+  final ValueNotifier<String>? value;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -139,7 +139,7 @@ final ValueNotifier<String>? value;
                             Size(size.width * .25, size.width * .125),
                           ),
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            AppColors.buttonColor,
+                            AppColors.mainColor,
                           ),
                           overlayColor: MaterialStateProperty.all<Color>(
                             Colors.grey.withOpacity(0.4),

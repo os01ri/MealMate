@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(8.0),
               child: MainButton(
                 text: 'Login',
-                color: AppColors.buttonColor,
+                color: AppColors.mainColor,
                 width: context.width,
                 onPressed: () {
                   context.push(Routes.accountCreationLoading);
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             TextButton(
-              style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.buttonColor)),
+              style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
               onPressed: () {
                 context.push(Routes.forgotPasswordPage);
               },
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: MainButton(
                     text: 'Login With Google',
-                    color: AppColors.buttonColor,
+                    color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
                       context.go(Routes.recipesBrowsePage);

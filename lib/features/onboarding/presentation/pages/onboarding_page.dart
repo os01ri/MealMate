@@ -84,7 +84,6 @@ class _IntroState extends State<Intro> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.orange.withOpacity(1),
-      // backgroundColor: const Color(0xff70b9be),
       body: SafeArea(
         child: CustomPaint(
           painter: RPSCustomPainter(),
@@ -203,7 +202,7 @@ class IntroBottomContainer extends StatelessWidget {
           MainButton(
             width: MediaQuery.of(context).size.width,
             text: buttonText,
-            color: AppColors.buttonColor,
+            color: AppColors.mainColor,
             onPressed: onPressed,
           ),
         ],

@@ -28,7 +28,7 @@ class StorePage extends StatelessWidget {
               ).paddingVertical(15).expand(),
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.buttonColor,
+                  color: AppColors.mainColor,
                   borderRadius: AppConfig.borderRadius,
                 ),
                 width: context.width * .1,
@@ -56,7 +56,7 @@ class StorePage extends StatelessWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.lightGrey,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(

@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mealmate/core/ui/theme/them.dart';
-
-import 'core/ui/widgets/restart_widget.dart';
-import 'router/app_router.dart';
+import 'package:mealmate/core/ui/widgets/restart_widget.dart';
+import 'package:mealmate/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

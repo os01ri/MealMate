@@ -46,7 +46,7 @@ class _IngredientPageState extends State<IngredientPage> {
             ],
           ).expand(),
           MainButton(
-            color: AppColors.buttonColor,
+            color: AppColors.mainColor,
             onPressed: () {},
             width: context.width,
             text: 'Add To Cart',

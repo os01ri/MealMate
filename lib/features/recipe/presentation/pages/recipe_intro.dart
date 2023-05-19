@@ -59,7 +59,7 @@ class RecipeIntro extends StatelessWidget {
                         children: [
                           const Icon(
                             Icons.location_on_rounded,
-                            color: AppColors.buttonColor,
+                            color: AppColors.mainColor,
                           ),
                           Text(
                             'Bali, Indonesia',
@@ -73,7 +73,7 @@ class RecipeIntro extends StatelessWidget {
                   MainButton(
                     text: 'Follow',
                     width: context.width * .18,
-                    color: AppColors.buttonColor,
+                    color: AppColors.mainColor,
                     onPressed: () {},
                   ),
                 ],
@@ -90,7 +90,7 @@ class RecipeIntro extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: MainButton(
         text: 'Next',
-        color: AppColors.buttonColor,
+        color: AppColors.mainColor,
         onPressed: () {
           context.push(Routes.recipePage);
         },
@@ -162,7 +162,7 @@ class _NewWidget extends StatelessWidget {
                               children: [
                                 const Icon(
                                   Icons.location_on_rounded,
-                                  color: AppColors.buttonColor,
+                                  color: AppColors.mainColor,
                                 ),
                                 Text(
                                   'Bali, Indonesia',
@@ -176,7 +176,7 @@ class _NewWidget extends StatelessWidget {
                         MainButton(
                           text: 'Follow',
                           width: context.width * .18,
-                          color: AppColors.buttonColor,
+                          color: AppColors.mainColor,
                           onPressed: () {},
                         ),
                       ],

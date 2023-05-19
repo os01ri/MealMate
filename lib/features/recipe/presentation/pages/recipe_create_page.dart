@@ -58,7 +58,7 @@ class RecipeCreatePage extends StatelessWidget {
             ).paddingVertical(10),
             MainButton(
               text: 'Publish!',
-              color: AppColors.buttonColor,
+              color: AppColors.mainColor,
               onPressed: () {
                 context.pop();
                 BotToast.showNotification(
@@ -144,7 +144,7 @@ class _DetailCard extends StatelessWidget {
               ),
               child: const Icon(
                 Icons.people_alt,
-                color: AppColors.buttonColor,
+                color: AppColors.mainColor,
               ).paddingAll(5),
             ).paddingAll(12),
             const SizedBox(width: 15),

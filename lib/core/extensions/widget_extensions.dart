@@ -29,7 +29,13 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  Widget scrollable() => SingleChildScrollView(child: this);
+  Widget scrollable({
+    Axis scrollDirection = Axis.vertical,
+  }) =>
+      SingleChildScrollView(
+        scrollDirection: scrollDirection,
+        child: this,
+      );
 
   Widget center() => Center(child: this);
 

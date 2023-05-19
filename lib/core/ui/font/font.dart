@@ -21,6 +21,7 @@ extension FontSizeUtils on TextStyle {
   TextStyle get normalFontSize => copyWith(fontSize: _FontSize._body_01FontSize);
   TextStyle get largeFontSize => copyWith(fontSize: _FontSize._heading_06FontSize);
   TextStyle get xLargeFontSize => copyWith(fontSize: _FontSize._heading_04FontSize);
+  TextStyle get xxLargeFontSize => copyWith(fontSize: _FontSize._heading_02FontSize);
 }
 
 abstract class _FontSize {

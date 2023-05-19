@@ -107,13 +107,12 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
           label: widget.label == null ? null : Text(widget.label!),
           filled: true,
           fillColor: widget.fillColor,
-          focusColor: AppColors.buttonColor,
+          focusColor: AppColors.mainColor,
           hintText: widget.hint,
           hintStyle: AppTextStyles.styleWeight500(
             fontSize: size.width * .035,
             color: widget.hintColor ?? Colors.grey.shade700,
           ),
-          
           enabledBorder: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             borderSide: const BorderSide(color: AppColors.lightTextColor),
@@ -126,7 +125,7 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? AppColors.buttonColor),
+            borderSide: BorderSide(color: widget.borderColor ?? AppColors.mainColor),
           ),
           border: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),

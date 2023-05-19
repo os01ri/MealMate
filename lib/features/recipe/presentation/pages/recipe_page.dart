@@ -50,7 +50,7 @@ class _RecipePageState extends State<RecipePage> {
             ],
           ).expand(),
           MainButton(
-            color: AppColors.buttonColor,
+            color: AppColors.mainColor,
             onPressed: () {
               context.push(Routes.recipeStepsPage);
             },

@@ -36,13 +36,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           children: [
             const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd')
                 .paddingHorizontal(20),
-            const AuthTextField(
-                label: 'E-mail Address', hint: 'Enter E-mail Address'),
+            const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: MainButton(
                 text: 'Send E-mail',
-                color: AppColors.buttonColor,
+                color: AppColors.mainColor,
                 width: context.width,
                 onPressed: () {
                   context.go(Routes.recipesBrowsePage);

@@ -18,7 +18,7 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   late Size size;
   late TextEditingController controller;
-ValueNotifier<String> otpController = ValueNotifier('');
+  ValueNotifier<String> otpController = ValueNotifier('');
   @override
   void initState() {
     super.initState();
@@ -39,29 +39,24 @@ ValueNotifier<String> otpController = ValueNotifier('');
           body: SafeArea(
             child: Stack(
               children: [
-                Positioned(
-                    bottom: size.width * .025, child: const Icon(Icons.login)),
+                Positioned(bottom: size.width * .025, child: const Icon(Icons.login)),
                 Container(
                   height: size.height,
                   width: size.width,
-                  color: Theme.of(context)
-                      .scaffoldBackgroundColor
-                      .withOpacity(0.6),
+                  color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
                   child: Column(
                     children: [
                       SizedBox(height: size.height * .06),
-                      Text('Enter Otp Code',
-                          style: AppTextStyles.styleWeight600(fontSize: 24)),
+                      Text('Enter Otp Code', style: AppTextStyles.styleWeight600(fontSize: 24)),
                       SizedBox(height: size.height * .06),
-                      Text('رجاء ادخال رمز التأكيد',
-                          style: AppTextStyles.styleWeight500(fontSize: 16)),
+                      Text('رجاء ادخال رمز التأكيد', style: AppTextStyles.styleWeight500(fontSize: 16)),
                       SizedBox(height: size.height * .02),
                       const Text(
                         '+963932728290',
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 22,
-                          color: AppColors.buttonColor,
+                          color: AppColors.mainColor,
                         ),
                       ),
                       SizedBox(height: size.height * .04),
@@ -70,30 +65,25 @@ ValueNotifier<String> otpController = ValueNotifier('');
                           builder: (context, value, _) {
                             return Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   MainTextField(
-                                    controller: TextEditingController(
-                                        text: value.isNotEmpty ? value[0] : ''),
+                                    controller: TextEditingController(text: value.isNotEmpty ? value[0] : ''),
                                     enabled: false,
                                     width: context.width * .1,
                                   ),
                                   MainTextField(
-                                    controller: TextEditingController(
-                                        text: value.length > 1 ? value[1] : ''),
+                                    controller: TextEditingController(text: value.length > 1 ? value[1] : ''),
                                     enabled: false,
                                     width: context.width * .1,
                                   ),
                                   MainTextField(
-                                    controller: TextEditingController(
-                                        text: value.length > 2 ? value[2] : ''),
+                                    controller: TextEditingController(text: value.length > 2 ? value[2] : ''),
                                     enabled: false,
                                     width: context.width * .1,
                                   ),
                                   MainTextField(
-                                    controller: TextEditingController(
-                                        text: value.length > 3 ? value[3] : ''),
+                                    controller: TextEditingController(text: value.length > 3 ? value[3] : ''),
                                     enabled: false,
                                     width: context.width * .1,
                                   ),
@@ -101,10 +91,8 @@ ValueNotifier<String> otpController = ValueNotifier('');
                           }),
                       Directionality(
                         textDirection: TextDirection.ltr,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * .145),
-                            child: const Row()),
+                        child:
+                            Padding(padding: EdgeInsets.symmetric(horizontal: size.width * .145), child: const Row()),
                       ),
                       SizedBox(height: size.width * .05),
                       GestureDetector(
@@ -112,7 +100,7 @@ ValueNotifier<String> otpController = ValueNotifier('');
                         child: const Text(
                           'ارسال الرمز مرة ثانية',
                           style: TextStyle(
-                            color: AppColors.buttonColor,
+                            color: AppColors.mainColor,
                             fontSize: 16,
                           ),
                         ),
@@ -123,7 +111,7 @@ ValueNotifier<String> otpController = ValueNotifier('');
                         child: const Text(
                           'تغير رقم التلفون',
                           style: TextStyle(
-                            color: AppColors.buttonColor,
+                            color: AppColors.mainColor,
                             fontSize: 16,
                           ),
                         ),

@@ -13,13 +13,12 @@ import 'package:mealmate/features/recipe/presentation/pages/recipe_create_page.d
 import 'package:mealmate/features/recipe/presentation/pages/recipe_intro.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_steps_page.dart';
-import 'package:mealmate/features/recipe/presentation/pages/recipes_browse_page.dart';
+import 'package:mealmate/features/recipe/presentation/pages/recipes_home_page.dart';
 import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/cubit/navigation_cubit.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
-
-import '../features/home/presentation/pages/norification_screen.dart';
+import 'package:mealmate/features/home/presentation/pages/notification_screen.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -133,16 +132,13 @@ class AppRouter {
               path: Routes.notificationScreen,
               parentNavigatorKey: _shellNavigatorKey,
               pageBuilder: (context, state) {
-                return slideTransition(
-                    context: context,
-                    state: state,
-                    child: NotificationScreen());
+                return slideTransition(context: context, state: state, child: const NotificationScreen());
               }),
           GoRoute(
             path: Routes.recipesBrowsePage,
             parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: RecipesBrowsePage(),
+              child: RecipesHomePage(),
             ),
           ),
           GoRoute(

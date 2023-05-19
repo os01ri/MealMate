@@ -51,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
               padding: const EdgeInsets.all(8.0),
               child: MainButton(
                 text: 'Sign Up',
-                color: AppColors.buttonColor,
+                color: AppColors.mainColor,
                 width: context.width,
                 onPressed: () {
                   context.push(Routes.otpScreen);
@@ -71,10 +71,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 text: 'By continuing you agree to the\n',
                 style: AppTextStyles.styleWeight400(color: Colors.grey),
                 children: [
-                  TextSpan(
-                      text: 'Terms of Services', style: AppTextStyles.styleWeight600(color: AppColors.buttonColor)),
+                  TextSpan(text: 'Terms of Services', style: AppTextStyles.styleWeight600(color: AppColors.mainColor)),
                   const TextSpan(text: ' & '),
-                  TextSpan(text: 'Privacy Policy', style: AppTextStyles.styleWeight600(color: AppColors.buttonColor))
+                  TextSpan(text: 'Privacy Policy', style: AppTextStyles.styleWeight600(color: AppColors.mainColor))
                 ],
               ),
             ),
@@ -84,4 +83,3 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-

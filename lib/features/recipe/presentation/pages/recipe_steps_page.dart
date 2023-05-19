@@ -122,7 +122,7 @@ class _StepsSection extends StatelessWidget {
                 textColor: Colors.black,
               ).paddingAll(8).expand(),
               MainButton(
-                color: AppColors.buttonColor,
+                color: AppColors.mainColor,
                 onPressed: () {},
                 text: 'Finish Cooking',
               ).paddingAll(8).expand(),
@@ -157,7 +157,7 @@ class StepBullet extends StatelessWidget {
       width: context.width * .05,
       height: context.width * .05,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.buttonColor : Colors.white,
+        color: isActive ? AppColors.mainColor : Colors.white,
         border: Border.all(color: Colors.black38),
         borderRadius: BorderRadius.circular(100),
       ),

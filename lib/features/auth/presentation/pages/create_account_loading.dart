@@ -64,7 +64,7 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Single
                   builder: (context, child) {
                     return LinearProgressIndicator(
                       color: AppColors.grey,
-                      valueColor: const AlwaysStoppedAnimation(AppColors.buttonColor),
+                      valueColor: const AlwaysStoppedAnimation(AppColors.mainColor),
                       value: animationController.value,
                       backgroundColor: AppColors.grey,
                     );

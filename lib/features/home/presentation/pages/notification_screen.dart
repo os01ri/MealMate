@@ -14,8 +14,7 @@ class NotificationScreen extends StatefulWidget {
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen>
-    with TickerProviderStateMixin {
+class _NotificationScreenState extends State<NotificationScreen> with TickerProviderStateMixin {
   late TabController tabController;
   late ValueNotifier<int> index;
   @override
@@ -56,7 +55,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                       _ => Colors.black
                     },
                     color: switch (tabController.index) {
-                      0 => AppColors.buttonColor,
+                      0 => AppColors.mainColor,
                       _ => AppColors.scaffoldBackgroundColor
                     },
                     onPressed: () {
@@ -73,7 +72,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                       _ => Colors.black
                     },
                     color: switch (tabController.index) {
-                      1 => AppColors.buttonColor,
+                      1 => AppColors.mainColor,
                       _ => AppColors.scaffoldBackgroundColor
                     },
                     onPressed: () {
@@ -90,7 +89,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                       _ => Colors.black
                     },
                     color: switch (tabController.index) {
-                      2 => AppColors.buttonColor,
+                      2 => AppColors.mainColor,
                       _ => AppColors.scaffoldBackgroundColor
                     },
                     onPressed: () {
@@ -138,8 +137,7 @@ class NotificationList extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(6.0),
         child: ListTile(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           tileColor: AppColors.grey,
           contentPadding: const EdgeInsets.all(8),
           title: Text(
@@ -150,9 +148,7 @@ class NotificationList extends StatelessWidget {
                   'Hmm. We’re having trouble finding that site We can’t connect to the server at www.google.com.')
               .paddingAll(10),
           iconColor: Colors.green,
-          trailing:
-              Icon(Icons.circle, color: Colors.red, size: context.width * .02)
-                  .paddingHorizontal(10),
+          trailing: Icon(Icons.circle, color: Colors.red, size: context.width * .02).paddingHorizontal(10),
           leading: const Icon(
             Icons.notifications_active,
           ).paddingHorizontal(10),

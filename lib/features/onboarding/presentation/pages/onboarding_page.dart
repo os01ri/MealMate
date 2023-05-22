@@ -148,7 +148,7 @@ class _IntroState extends State<Intro> {
                           curve: Curves.ease,
                         );
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
-                          context.push(Routes.signUpNamedPage);
+                          context.go(Routes.signUpNamedPage);
                         }
                       },
                     ),

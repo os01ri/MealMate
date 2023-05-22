@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class CreateAccountLoading extends StatefulWidget {
@@ -13,11 +14,12 @@ class CreateAccountLoading extends StatefulWidget {
   State<CreateAccountLoading> createState() => _CreateAccountLoadingState();
 }
 
-class _CreateAccountLoadingState extends State<CreateAccountLoading> with SingleTickerProviderStateMixin {
-  late AnimationController animationController;
+class _CreateAccountLoadingState extends State<CreateAccountLoading> with TickerProviderStateMixin {
+  late final AnimationController animationController;
 
   @override
-  void didChangeDependencies() {
+  void initState() {
+    super.initState();
     animationController = AnimationController(
       vsync: this,
       value: 0,
@@ -27,7 +29,6 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Single
     )..forward().whenComplete(() {
         context.go(Routes.recipesBrowsePage);
       });
-    super.didChangeDependencies();
   }
 
   @override
@@ -42,44 +43,27 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Single
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(
-            height: context.height * .2,
+          SizedBox(height: context.height * .07),
+          Image.asset('assets/png/account_creation.png'),
+          AnimatedBuilder(
+            animation: animationController,
+            builder: (context, child) {
+              return LinearProgressIndicator(
+                color: AppColors.grey,
+                valueColor: const AlwaysStoppedAnimation(AppColors.mainColor),
+                value: animationController.value,
+                backgroundColor: AppColors.grey,
+              );
+            },
+          ).paddingHorizontal(context.width * .1),
+          Text(
+            'Personalizing Healthy Recipes For Your Healthy Life',
+            textAlign: TextAlign.center,
+            style: const TextStyle().largeFontSize.bold,
           ),
-          SizedBox(
-            height: context.height * .6,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: context.width,
-                  height: context.height * .2,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/png/account_creation.png'),
-                    ),
-                  ),
-                ),
-                AnimatedBuilder(
-                  animation: animationController,
-                  builder: (context, child) {
-                    return LinearProgressIndicator(
-                      color: AppColors.grey,
-                      valueColor: const AlwaysStoppedAnimation(AppColors.mainColor),
-                      value: animationController.value,
-                      backgroundColor: AppColors.grey,
-                    );
-                  },
-                ).paddingHorizontal(context.width * .2),
-                Text(
-                  'Personalizing Healthy Recipes For Your Helathy Life',
-                  style: AppTextStyles.styleWeight600(fontSize: 14),
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: context.height * .2)
+          SizedBox(height: context.height * .07),
         ],
-      ),
+      ).padding(AppConfig.pagePadding).center(),
     );
   }
 }

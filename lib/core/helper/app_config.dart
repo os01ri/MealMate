@@ -5,7 +5,7 @@ class AppConfig {
 
   static Duration get splashScreenDuration => const Duration(milliseconds: 1200);
 
-  static Duration get animationDuration => const Duration(milliseconds: 8000);
+  static Duration get animationDuration => const Duration(milliseconds: 350);
 
   static Duration get pageViewAnimationDuration => const Duration(milliseconds: 400);
 

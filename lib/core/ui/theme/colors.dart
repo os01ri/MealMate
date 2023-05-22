@@ -6,6 +6,7 @@ class AppColors {
   static const Color deepOrange = Color(0xFF692409);
   static const Color orange = Color(0xFFE66541);
   static const Color lightOrange = Color(0xfffcd4a0);
+  static const Color midOrange = Color(0xfff0966b);
 
   static const Color brown = Color(0xff4d4442);
 

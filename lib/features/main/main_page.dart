@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/router/app_routes.dart';
 import 'package:mealmate/router/cubit/navigation_cubit.dart';
@@ -17,41 +18,30 @@ class MainPage extends StatelessWidget {
       bottomNavigationBar: _buildBottomNavigation(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        padding: const EdgeInsets.all(5.0),
         decoration: const BoxDecoration(
-          color: Colors.white,
           shape: BoxShape.circle,
+          gradient: LinearGradient(
+            colors: [
+              AppColors.mainColor,
+              AppColors.lightOrange,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            tileMode: TileMode.clamp,
+          ),
         ),
-        child: Container(
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [
-                AppColors.mainColor,
-                AppColors.lightOrange,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              tileMode: TileMode.clamp,
-            ),
-          ),
-          child: FloatingActionButton(
-            elevation: .0,
-            highlightElevation: .0,
-            foregroundColor: Colors.white,
-            splashColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-            child: const Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () {
-              context.push(Routes.recipeCreatePage);
-            },
-          ),
+        child: FloatingActionButton(
+          elevation: .0,
+          highlightElevation: .0,
+          splashColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ).paddingAll(12.0),
+          onPressed: () {
+            context.push(Routes.recipeCreatePage);
+          },
         ),
       ),
     );
@@ -80,8 +70,8 @@ class MainPage extends StatelessWidget {
     ),
     const MainNavigationBarItemWidget(
       initialLocation: Routes.recipesBrowsePage,
-      icon: Icon(Icons.settings),
-      label: 'Setting',
+      icon: Icon(Icons.person),
+      label: 'Profile',
       index: 3,
     ),
   ];
@@ -90,10 +80,8 @@ class MainPage extends StatelessWidget {
       BlocBuilder<NavigationCubit, NavigationState>(
         buildWhen: (previous, current) => previous.index != current.index,
         builder: (context, state) {
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.fastOutSlowIn,
-            height: 70.0,
+          return Container(
+            height: 60.0,
             color: Colors.transparent,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -101,8 +89,8 @@ class MainPage extends StatelessWidget {
                 topRight: Radius.circular(25.0),
               ),
               child: BottomAppBar(
-                shadowColor: Colors.black,
-                elevation: 50,
+                // shadowColor: Colors.black,
+                // elevation: 50,
                 color: Colors.white,
                 notchMargin: 10.0,
                 shape: const CircularNotchedRectangle(),

@@ -2,55 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
-
-  @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
-}
-
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  late Size size;
-  @override
-  void didChangeDependencies() {
-    size = MediaQuery.of(context).size;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        size: size,
+        size: context.deviceSize,
         titleText: 'Forgot Password',
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd')
-                .paddingHorizontal(20),
-            const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: MainButton(
-                text: 'Send E-mail',
-                color: AppColors.mainColor,
-                width: context.width,
-                onPressed: () {
-                  context.go(Routes.recipesBrowsePage);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd'),
+          const SizedBox(height: 10),
+          const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
+          const SizedBox(height: 10),
+          MainButton(
+            text: 'Send E-mail',
+            color: AppColors.mainColor,
+            width: context.width,
+            onPressed: () {
+              context.go(Routes.recipesBrowsePage);
+            },
+          ),
+        ],
+      ).padding(AppConfig.pagePadding),
     );
   }
 }

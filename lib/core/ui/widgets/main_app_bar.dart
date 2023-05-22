@@ -21,7 +21,7 @@ class MainAppBar extends AppBar {
           foregroundColor: foreColor,
           leading: leadingWidget,
           actions: actionsWidget,
-          centerTitle: false,
+          centerTitle: true,
           elevation: 0,
           toolbarHeight: size.width * .15,
           title: GestureDetector(

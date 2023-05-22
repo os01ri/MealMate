@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
 
+import '../theme/colors.dart';
 import '../theme/text_styles.dart';
 
 class MainTextField extends StatefulWidget {
@@ -29,6 +29,8 @@ class MainTextField extends StatefulWidget {
     this.onSubmitted,
     required this.controller,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    this.contentPadding = const EdgeInsets.symmetric(vertical: 18.0, horizontal: 15),
+    this.textAlign = TextAlign.start,
   }) : super(key: key);
 
   final TextInputAction textInputAction;
@@ -54,6 +56,8 @@ class MainTextField extends StatefulWidget {
   final Function(String)? onChanged;
   final String? label;
   final AutovalidateMode? autovalidateMode;
+  final EdgeInsetsGeometry contentPadding;
+  final TextAlign textAlign;
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -82,6 +86,18 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
         controller: widget.controller,
         validator: widget.validator,
         onFieldSubmitted: widget.onSubmitted,
+        textInputAction: widget.textInputAction,
+        cursorColor: widget.borderColor ?? Theme.of(context).primaryColor,
+        enabled: widget.enabled,
+        keyboardType: widget.keyboardType,
+        maxLines: widget.maxLines,
+        onChanged: widget.onChanged,
+        autofocus: widget.autoFocus,
+        obscureText: !widget.isPassword,
+        enableSuggestions: widget.isPassword,
+        autocorrect: widget.isPassword,
+        autovalidateMode: widget.autovalidateMode,
+        textAlign: widget.textAlign,
         onTap: () {
           final lastSelectionPosition = TextSelection.fromPosition(
             TextPosition(offset: widget.controller.text.length - 1),
@@ -95,15 +111,13 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
             widget.controller.selection = afterLastSelectionPosition;
           }
         },
-        textInputAction: widget.textInputAction,
-        cursorColor: widget.borderColor ?? Theme.of(context).primaryColor,
-        enabled: widget.enabled,
-        keyboardType: widget.keyboardType,
-        maxLines: widget.maxLines,
-        onChanged: widget.onChanged,
-        autofocus: widget.autoFocus,
         decoration: InputDecoration(
-          constraints: BoxConstraints(maxWidth: size.width),
+          contentPadding: widget.contentPadding,
+          // constraints: BoxConstraints(
+          //   maxWidth: size.width,
+          //   maxHeight: size.width * .5,
+          //   minHeight: size.width * .5,
+          // ),
           label: widget.label == null ? null : Text(widget.label!),
           filled: true,
           fillColor: widget.fillColor,
@@ -131,16 +145,13 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.grey.shade300),
           ),
+
           prefixIcon: widget.prefixIcon,
           prefixIconConstraints: widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
           suffixIcon: widget.suffixIcon,
           suffixIconConstraints: widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
-          contentPadding: widget.maxLines != 1 ? null : const EdgeInsets.symmetric(horizontal: 16.0),
+          // contentPadding: widget.maxLines != 1 ? null : const EdgeInsets.symmetric(horizontal: 16.0),
         ),
-        obscureText: !widget.isPassword,
-        enableSuggestions: widget.isPassword,
-        autocorrect: widget.isPassword,
-        autovalidateMode: widget.autovalidateMode,
       ),
     );
   }

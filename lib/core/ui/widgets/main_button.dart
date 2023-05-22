@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
 
+import '../../extensions/context_extensions.dart';
 import '../theme/text_styles.dart';
 
 class MainButton extends StatelessWidget {

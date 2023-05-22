@@ -2,46 +2,227 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/widgets/main_text_field.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/section_header.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class RecipesHomePage extends StatelessWidget {
+part '../widgets/recipe_card.dart';
+
+class RecipesHomePage extends StatefulWidget {
   const RecipesHomePage({super.key});
+
+  @override
+  State<RecipesHomePage> createState() => _RecipesHomePageState();
+}
+
+class _RecipesHomePageState extends State<RecipesHomePage> {
+  late final ValueNotifier<double> _bodyPosition;
+  late final ValueNotifier<double> _searchButtonPosition;
+  late final ValueNotifier<bool> allowScroll;
+
+  static double _bodyUpPosition(BuildContext context) => context.height * .15;
+  static double _bodyDownPosition(BuildContext context) => context.height * .38;
+
+  static double _searchButtonUpPosition(BuildContext context) => context.height * .06;
+  static double _searchButtonDownPosition(BuildContext context) => context.height * .29;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    allowScroll = ValueNotifier(false);
+    _bodyPosition = ValueNotifier(_bodyDownPosition(context));
+    _searchButtonPosition = ValueNotifier(_searchButtonDownPosition(context));
+  }
+
+  _buildOrangeContainer() {
+    return Container(
+      height: context.height * .6,
+      width: context.width,
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: context.height * .08),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            AppColors.orange,
+            AppColors.lightOrange,
+          ],
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Hello Osama!',
+            style: const TextStyle(color: Colors.white).semiBold.largeFontSize,
+          ),
+          Text(
+            'What would you like to cook today?',
+            style: const TextStyle(color: Colors.white).bold.xxLargeFontSize,
+          ),
+          // const SizedBox.shrink(),
+          SizedBox(height: context.height * .22),
+        ],
+      ),
+    ).positioned(top: 0);
+  }
+
+  _buildSearchButton(BuildContext context) {
+    final isDown = _searchButtonPosition.value == _searchButtonDownPosition(context);
+    return AnimatedPositionedDirectional(
+      top: _searchButtonPosition.value,
+      end: 20,
+      duration: AppConfig.animationDuration,
+      child: AnimatedContainer(
+        duration: AppConfig.animationDuration,
+        width: isDown ? (context.width - 40) : 55,
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(isDown ? 25 : 55),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.search_rounded),
+              isDown ? const Text('Search Recipes').paddingHorizontal(10) : const SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _buildBody(BuildContext context) {
+    return AnimatedPositioned(
+      top: _bodyPosition.value,
+      duration: AppConfig.animationDuration,
+      child: _BodyWidget(
+        onDrag: _toggleBodyState,
+        allowScroll: allowScroll,
+      ),
+    );
+  }
+
+  _toggleBodyState(DragUpdateDetails val) {
+    setState(() {
+      if (val.delta.dy > 0) {
+        _bodyPosition.value = _bodyDownPosition(context);
+        _searchButtonPosition.value = _searchButtonDownPosition(context);
+        allowScroll.value = false;
+      } else if (val.delta.dy < 0) {
+        _bodyPosition.value = _bodyUpPosition(context);
+        _searchButtonPosition.value = _searchButtonUpPosition(context);
+        allowScroll.value = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: RecipeAppBar(context: context, leadingWidget: const SizedBox.shrink()),
       body: Stack(
         children: [
-          const _UpperWidget().positioned(top: 0),
-          const _BodyWidget().positioned(bottom: 0),
+          _buildOrangeContainer(),
+          _buildSearchButton(context),
+          _buildBody(context),
         ],
       ),
     );
   }
 }
 
-class _BodyWidget extends StatelessWidget {
-  const _BodyWidget();
+class _BodyWidget extends StatefulWidget {
+  const _BodyWidget({
+    required this.onDrag,
+    required this.allowScroll,
+  });
+
+  final void Function(DragUpdateDetails) onDrag;
+  final ValueNotifier<bool> allowScroll;
+
+  @override
+  State<_BodyWidget> createState() => _BodyWidgetState();
+}
+
+class _BodyWidgetState extends State<_BodyWidget> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.minScrollExtent) {
+        widget.onDrag(
+          DragUpdateDetails(
+            globalPosition: const Offset(0, 0),
+            delta: const Offset(0, 1),
+          ),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: context.height * .5,
-      width: context.width,
-      decoration: const BoxDecoration(
-        color: AppColors.scaffoldBackgroundColor,
-        borderRadius: BorderRadiusDirectional.only(
-          topStart: Radius.circular(50),
-        ),
-      ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: widget.allowScroll,
+      builder: (context, allow, child) {
+        return GestureDetector(
+          onVerticalDragUpdate: allow
+              ? null
+              : (val) {
+                  widget.onDrag(val);
+                  widget.allowScroll.value = true;
+                  _scrollController.animateTo(
+                    _scrollController.position.pixels + 1,
+                    duration: AppConfig.animationDuration,
+                    curve: Curves.bounceIn,
+                  );
+                },
+          child: Container(
+            height: context.height * .85 - 70,
+            width: context.width,
+            decoration: const BoxDecoration(
+              color: AppColors.scaffoldBackgroundColor,
+              borderRadius: BorderRadiusDirectional.only(
+                topStart: Radius.circular(35),
+              ),
+            ),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              physics: allow ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+              child: child,
+            ),
+          ),
+        );
+      },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 25),
+          Center(
+            child: GestureDetector(
+              onVerticalDragUpdate: widget.onDrag,
+              child: Container(
+                width: context.width * .25,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: AppColors.grey2,
+                  borderRadius: BorderRadius.circular(
+                    20,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 15),
           const SectionHeader(title: 'Categories'),
           const SizedBox(height: 15),
           Row(
@@ -59,259 +240,25 @@ class _BodyWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: List.generate(
                 10,
-                (index) => FittedBox(
-                  fit: BoxFit.fitHeight,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.push(Routes.recipeIntro);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            PngPath.food,
-                            fit: BoxFit.fitWidth,
-                            width: context.width,
-                          ).hero(index == 0 ? 'picture' : '$index'),
-                          FittedBox(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 10),
-                                SizedBox(
-                                  width: context.width * .3,
-                                  child: Text(
-                                    'Indonesian chicken burger',
-                                    softWrap: true,
-                                    style: const TextStyle().normalFontSize.bold,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: context.width * .3,
-                                  child: Text(
-                                    'By Adrianna Curl',
-                                    style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ).paddingHorizontal(8),
-                  ),
-                ),
+                (index) => _RecipeCard(index: index),
+              ),
+            ),
+          ),
+          const SizedBox(height: 25),
+          const SectionHeader(title: 'Recommended'),
+          const SizedBox(height: 15),
+          SizedBox(
+            height: context.height * .25,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                10,
+                (index) => _RecipeCard(index: (index + 1) * 10),
               ),
             ),
           ),
         ],
-      ).scrollable().paddingAll(30),
-    );
-  }
-}
-
-class _UpperWidget extends StatelessWidget {
-  const _UpperWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: context.height * .6,
-      width: context.width,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: AlignmentDirectional.topStart,
-          end: AlignmentDirectional.bottomEnd,
-          colors: [
-            AppColors.orange,
-            AppColors.lightOrange,
-          ],
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Text(
-            'Hello Osama!',
-            style: const TextStyle(color: Colors.white).semiBold.largeFontSize,
-          ),
-          Text(
-            'What would you like to cook today?',
-            style: const TextStyle(color: Colors.white).bold.xxLargeFontSize,
-          ),
-          MainTextField(
-            controller: TextEditingController(),
-            hint: 'Search Recipes',
-            prefixIcon: const Icon(Icons.search_rounded),
-            borderRadius: BorderRadius.circular(25),
-            suffixIcon: const Icon(
-              Icons.filter_alt,
-              color: Colors.white,
-            ),
-          ).paddingVertical(15),
-          SizedBox(height: context.height * .05),
-        ],
       ),
     );
   }
 }
-
-class SectionHeader extends StatelessWidget {
-  const SectionHeader({
-    super.key,
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(color: AppColors.brown).largeFontSize.bold,
-        ),
-        Row(
-          children: [
-            Text(
-              'see all ',
-              style: const TextStyle(color: AppColors.mainColor).normalFontSize.bold,
-            ),
-            const Icon(Icons.arrow_forward, color: AppColors.mainColor),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class CategoryChoiceChip extends StatelessWidget {
-  const CategoryChoiceChip({
-    super.key,
-    required this.isActive,
-    required this.title,
-  });
-
-  final String title;
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsetsDirectional.only(end: 15),
-      decoration: BoxDecoration(
-        color: isActive ? AppColors.mainColor : Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.balance_rounded),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: const TextStyle(color: AppColors.brown).normalFontSize,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// class _NewWidget extends StatelessWidget {
-//   const _NewWidget();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Row(
-//           children: [
-//             MainTextField(
-//               controller: TextEditingController(),
-//               hint: 'Search Recipes',
-//               prefixIcon: const Icon(Icons.search_rounded),
-//             ).paddingVertical(15).expand(),
-//             Container(
-//               decoration: BoxDecoration(
-//                 color: AppColors.mainColor,
-//                 borderRadius: AppConfig.borderRadius,
-//               ),
-//               width: context.width * .1,
-//               height: context.width * .1,
-//               child: const Icon(
-//                 Icons.filter_alt,
-//                 color: Colors.white,
-//               ),
-//             ).paddingHorizontal(5),
-//           ],
-//         ),
-//         SizedBox(
-//           height: context.height * .25,
-//           child: ListView(
-//             scrollDirection: Axis.horizontal,
-//             children: List.generate(
-//               10,
-//               (index) => FittedBox(
-//                 fit: BoxFit.fitHeight,
-//                 child: GestureDetector(
-//                   onTap: () {
-//                     context.push(Routes.recipeIntro);
-//                   },
-//                   child: Container(
-//                     decoration: BoxDecoration(
-//                       color: AppColors.lightGrey,
-//                       borderRadius: BorderRadius.circular(8),
-//                     ),
-//                     child: Column(
-//                       children: [
-//                         Image.asset(
-//                           PngPath.food,
-//                           fit: BoxFit.fitWidth,
-//                           width: context.width,
-//                         ).hero(index == 0 ? 'picture' : '$index'),
-//                         FittedBox(
-//                           child: Column(
-//                             children: [
-//                               const SizedBox(height: 10),
-//                               SizedBox(
-//                                 width: context.width * .3,
-//                                 child: Text(
-//                                   'Indonesian chicken burger',
-//                                   softWrap: true,
-//                                   style: const TextStyle().normalFontSize.bold,
-//                                 ),
-//                               ),
-//                               SizedBox(
-//                                 width: context.width * .3,
-//                                 child: Text(
-//                                   'By Adrianna Curl',
-//                                   style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
-//                                 ),
-//                               ),
-//                               const SizedBox(height: 10),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ).paddingHorizontal(8),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

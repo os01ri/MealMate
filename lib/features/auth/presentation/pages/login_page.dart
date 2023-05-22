@@ -1,94 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  late Size size;
-  @override
-  void didChangeDependencies() {
-    size = MediaQuery.of(context).size;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        size: size,
+        size: context.deviceSize,
         titleText: 'Login',
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const AuthTextField(
-              label: 'E-mail Address',
-              hint: 'Enter E-mail Address',
-            ),
-            const AuthTextField(label: 'Password', hint: '********'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MainButton(
-                text: 'Login',
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const AuthTextField(
+            label: 'E-mail Address',
+            hint: 'Enter E-mail Address',
+          ),
+          const AuthTextField(label: 'Password', hint: '********'),
+          const SizedBox(height: 20),
+          MainButton(
+            text: 'Login',
+            color: AppColors.mainColor,
+            width: context.width,
+            onPressed: () => context.push(Routes.accountCreationLoading),
+          ),
+          TextButton(
+            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
+            onPressed: () => context.push(Routes.forgotPasswordPage),
+            child: const Text('Forgot Password?'),
+          ),
+          const SizedBox(height: 20),
+          Column(
+            children: [
+              const Text('or continue with'),
+              const SizedBox(height: 5),
+              MainButton(
+                text: 'Login With Google',
                 color: AppColors.mainColor,
                 width: context.width,
-                onPressed: () {
-                  context.push(Routes.accountCreationLoading);
-                },
+                onPressed: () => context.go(Routes.recipesBrowsePage),
               ),
+              const SizedBox(height: 10),
+              MainButton(
+                text: 'Login With Facebook',
+                color: Colors.blue,
+                width: context.width,
+                onPressed: () => context.go(Routes.recipesBrowsePage),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 40,
+            child: TextButton(
+              child: const Text('Don\'t ave an account? Sign Up'),
+              onPressed: () => context.go(Routes.signUpNamedPage),
             ),
-            TextButton(
-              style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
-              onPressed: () {
-                context.push(Routes.forgotPasswordPage);
-              },
-              child: const Text('Forgot Passowrd?'),
-            ),
-            SizedBox(
-              height: context.height * .05,
-            ),
-            Column(
-              children: [
-                const Text('or continue with'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MainButton(
-                    text: 'Login With Google',
-                    color: AppColors.mainColor,
-                    width: context.width,
-                    onPressed: () {
-                      context.go(Routes.recipesBrowsePage);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MainButton(
-                    text: 'Login With Facebook',
-                    color: Colors.blue,
-                    width: context.width,
-                    onPressed: () {
-                      context.go(Routes.recipesBrowsePage);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        ],
+      ).padding(AppConfig.pagePadding).scrollable(),
     );
   }
 }

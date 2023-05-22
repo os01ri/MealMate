@@ -17,11 +17,12 @@ extension FamilyUtils on TextStyle {
 }
 
 extension FontSizeUtils on TextStyle {
-  TextStyle get smallFontSize => copyWith(fontSize: _FontSize.caption);
-  TextStyle get normalFontSize => copyWith(fontSize: _FontSize._body_01FontSize);
-  TextStyle get largeFontSize => copyWith(fontSize: _FontSize._heading_06FontSize);
-  TextStyle get xLargeFontSize => copyWith(fontSize: _FontSize._heading_04FontSize);
-  TextStyle get xxLargeFontSize => copyWith(fontSize: _FontSize._heading_02FontSize);
+  TextStyle get smallFontSize => copyWith(fontSize: _FontSize.overline);
+  TextStyle get middleFontSize => copyWith(fontSize: _FontSize.caption);
+  TextStyle get normalFontSize => copyWith(fontSize: _FontSize.body_01);
+  TextStyle get largeFontSize => copyWith(fontSize: _FontSize.heading_06);
+  TextStyle get xLargeFontSize => copyWith(fontSize: _FontSize.heading_04);
+  TextStyle get xxLargeFontSize => copyWith(fontSize: _FontSize.heading_02);
 }
 
 abstract class _FontSize {
@@ -49,7 +50,7 @@ abstract class _FontSize {
   static const double _subtitle_02FontSize = 16;
   static const double _buttonFontSize = 18;
   static const double _body_01FontSize = 16;
-  static const double _body_02FontSize = 14;
+  static const double _body_02FontSize = 13;
   static const double _captionFontSize = 12;
   static const double _overlineFontSize = 10;
 }

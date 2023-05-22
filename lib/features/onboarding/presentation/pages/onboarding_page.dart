@@ -3,6 +3,7 @@ import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/helper/helper_functions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
@@ -141,13 +142,16 @@ class _IntroState extends State<Intro> {
                       title: widget.texts[value]['title'],
                       buttonText: value != widget.pages.length - 1 ? 'next' : 'Get Started',
                       description: widget.texts[value]['description'],
-                      onPressed: () {
+                      onPressed: () async {
                         _controllerPageView.animateToPage(
                           _selectedItem.value + 1,
                           duration: AppConfig.pageViewAnimationDuration,
                           curve: Curves.ease,
                         );
-                        if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
+                        if (_controllerPageView.page!.ceil() ==
+                                widget.pages.length - 1 &&
+                            await HelperFunctions.isFirstTime()) {
+
                           context.go(Routes.signUpNamedPage);
                         }
                       },

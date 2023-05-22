@@ -26,14 +26,14 @@ class PostApi<T> with HandlingExceptionRequest {
 
   Future<T> callRequest() async {
     String? token = await HelperFunctions.getToken();
-    String fcmToken = await HelperFunctions.getFCMToken();
+    // String fcmToken = await HelperFunctions.getFCMToken();
     bool isAuth = await HelperFunctions.isAuth();
 
     log('the token in the request header is $token', name: 'request manager ==> post function ');
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'fcm_token': fcmToken,
+        // 'fcm_token': fcmToken,
         'Accept': 'application/json',
         if (isAuth) 'Authorization': 'Bearer $token',
       };

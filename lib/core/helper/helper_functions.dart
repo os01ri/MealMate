@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../features/auth/domain/entities/user.dart';
 import '../ui/theme/colors.dart';
 import 'prefs_keys.dart';
 
@@ -21,9 +22,27 @@ class HelperFunctions {
     return sp.containsKey(PrefsKeys.userInfo);
   }
 
+  static Future<void> setUserData(User user) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    await sp.setString(PrefsKeys.userInfo, userModelToJson(user));
+    log("${sp.getString(PrefsKeys.userInfo)}");
+  }
+
+  static Future<bool> isFirstTime() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
+    if (!sp.containsKey(PrefsKeys.isShowOnBorder)) {
+      sp.setBool(PrefsKeys.isShowOnBorder, true);
+      return true;
+    }
+
+    return false;
+  }
+
   static Future<String?> getToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    String? token = sp.getString(PrefsKeys.accessToken);
+    String? token =
+        userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').token;
     return token;
   }
 

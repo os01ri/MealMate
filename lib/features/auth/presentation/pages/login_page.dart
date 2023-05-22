@@ -22,11 +22,11 @@ class LoginPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const AuthTextField(
+          AuthTextField(
             label: 'E-mail Address',
             hint: 'Enter E-mail Address',
           ),
-          const AuthTextField(label: 'Password', hint: '********'),
+          AuthTextField(label: 'Password', hint: '********'),
           const SizedBox(height: 20),
           MainButton(
             text: 'Login',

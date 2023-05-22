@@ -24,7 +24,7 @@ class ForgotPasswordPage extends StatelessWidget {
         children: [
           const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd'),
           const SizedBox(height: 10),
-          const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
+          AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
           const SizedBox(height: 10),
           MainButton(
             text: 'Send E-mail',

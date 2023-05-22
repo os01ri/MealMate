@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 
@@ -6,10 +8,18 @@ import '../../../../core/ui/theme/text_styles.dart';
 import '../../../../core/ui/widgets/main_text_field.dart';
 
 class AuthTextField extends StatelessWidget {
-  const AuthTextField({super.key, required this.hint, required this.label});
-
+  AuthTextField(
+      {super.key,
+      this.controller,
+      required this.hint,
+      this.validator,
+      required this.label,
+      this.isPassword = false});
+  final TextEditingController? controller;
   final String hint;
   final String label;
+  final bool? isPassword;
+  String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +31,12 @@ class AuthTextField extends StatelessWidget {
           child: Text(label, style: AppTextStyles.styleWeight500(fontSize: 16)),
         ),
         MainTextField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           fillColor: AppColors.scaffoldBackgroundColor,
-          controller: TextEditingController(),
+          isPassword: !isPassword!,
+          controller: controller ?? TextEditingController(),
           hint: hint,
+          validator: validator,
         ),
       ],
     ).paddingVertical(5);

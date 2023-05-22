@@ -1,7 +1,7 @@
 # mealmate
 
 A new Flutter project.
-Flutter version: 3.7.8
+Flutter version: 3.10.0
 
 ## Getting Started
 

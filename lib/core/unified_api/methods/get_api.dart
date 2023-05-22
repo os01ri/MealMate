@@ -22,8 +22,12 @@ class GetApi<T> with HandlingExceptionRequest {
     this.getFCMToken = false,
   });
   Future<T> callRequest() async {
-    String? token = await HelperFunctions.getToken();
-    String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
+    //TODO
+
+    // String? token = await HelperFunctions.getToken();
+    String? token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2ZjljY2NjLWZhYzMtNDk4Zi1hY2JjLWZjMDJhZWY3OWU3ZSIsImlhdCI6MTY4NDc4NzYzNiwiZXhwIjoxNjg0NzkxMjM2fQ.UOTlWAjkwopK11PkWjC1MQR5cPS_q5vQYWyVBqd4Gbk';
+    // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
     bool isAuth = await HelperFunctions.isAuth();
     String? deviceId = "";
     if (getFCMToken) {
@@ -33,15 +37,14 @@ class GetApi<T> with HandlingExceptionRequest {
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'fcm_token': fcmToken,
+        // 'fcm_token': fcmToken,
         if (isAuth) 'Authorization': 'Bearer $token',
         if (getFCMToken) "device_id": deviceId,
       };
       var request = http.Request('GET', uri);
       request.body = jsonEncode(body);
       request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(const Duration(seconds: 20));
+      http.StreamedResponse streamedResponse = await request.send().timeout(const Duration(seconds: 20));
       http.Response response = await http.Response.fromStream(streamedResponse);
       log(response.body);
       if (response.statusCode == 200) {

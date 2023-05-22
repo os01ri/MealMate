@@ -4,8 +4,8 @@ class ApiVariables {
   /////////////
   ///General///
   /////////////
-  static const _scheme = 'https';
-  static const _host = '192.168.243.1';
+  static const _scheme = 'http';
+  static const _host = 'food.programmer23.store';
 
   static Uri _mainUri({
     required String path,
@@ -14,7 +14,7 @@ class ApiVariables {
     final uri = Uri(
       scheme: _scheme,
       host: _host,
-      path: 'api/$path',
+      path: '/$path',
       queryParameters: queryParameters,
     );
     log(uri.toString());
@@ -26,10 +26,13 @@ class ApiVariables {
   // Uri uploadGif() => _mainUri(path: "GIFUpload");
 
   static Uri _mobileUri({required String path, Map<String, dynamic>? queryParameters}) => _mainUri(
-        path: 'mobile/$path',
+        path: path,
         queryParameters: queryParameters,
       );
 
   static Uri indexRecipes({Map<String, dynamic>? queryParameters}) =>
       _mobileUri(path: 'recipe/index', queryParameters: queryParameters);
+
+  static Uri indexIngredients({Map<String, dynamic>? queryParameters}) =>
+      _mobileUri(path: 'ingredient', queryParameters: queryParameters);
 }

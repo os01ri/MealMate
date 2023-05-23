@@ -1,6 +1,6 @@
-# Address
+# Meal Mate
 
-flutter version: 3.10.0
+//
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -19,9 +19,9 @@ flutter version: 3.10.0
 
 ## Installation
 
-1. Make sure you have Flutter installed. If not, follow the [official installation guide](https://flutter.dev/docs/get-started/install).
-2. Clone this repository: `git clone https://github.com/your-username/your-project.git`
-3. Change to the project directory: `cd your-project`
+1. Make sure you have Flutter ##3.10.0 installed. If not, follow the [official installation guide](https://flutter.dev/docs/get-started/install).
+2. Clone this repository: `git clone [https://github.com/your-username/your-project.git](https://github.com/os01ri/mealmate_mobile.git)`
+3. Change to the project directory: `cd mealmate_mobile`
 4. Install dependencies: `flutter pub get`
 
 ## Usage

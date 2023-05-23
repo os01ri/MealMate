@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
@@ -17,10 +18,10 @@ class SplashScreen extends StatelessWidget {
         if (await HelperFunctions.isFirstTime()) {
           context.go(Routes.onboardingPage);
         }
-        else if (await HelperFunctions.isAuth()) {
+        else if (!(await HelperFunctions.isAuth())) {
           context.go(Routes.signUpNamedPage);
         } else {
-          context.go(Routes.signUpNamedPage);
+          context.go(Routes.recipesBrowsePage);
         }
       }),
     ]);

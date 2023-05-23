@@ -5,31 +5,28 @@ import 'package:mealmate/features/auth/domain/repositories/auth_repository.dart'
 
 import '../entities/user.dart';
 
-class RegisterUseCase implements UseCase<User, RegitserUserParams> {
+class LoginUseCase implements UseCase<User, LoginUserParams> {
   final AuthRepository authRepository;
 
-  RegisterUseCase({required this.authRepository});
+  LoginUseCase({required this.authRepository});
 
   @override
-  Future<Either<Failure, User>> call(RegitserUserParams body) async {
-    return authRepository.registerUser(body: body.getBody());
+  Future<Either<Failure, User>> call(LoginUserParams body) async {
+    return authRepository.loginUser(body: body.getBody());
   }
 }
 
-class RegitserUserParams implements UseCaseParams {
+class LoginUserParams implements UseCaseParams {
   final String email;
   final String password;
-  final String userName;
 
-  RegitserUserParams({
+  LoginUserParams({
     required this.email,
-    required this.userName,
     required this.password,
   });
 
   @override
-  Map<String, dynamic> getBody() =>
-      {"name": userName, "password": password, "email": email};
+  Map<String, dynamic> getBody() => {"password": password, "email": email};
 
   @override
   Map<String, dynamic> getParams() {

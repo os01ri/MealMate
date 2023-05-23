@@ -13,7 +13,6 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-import '../../../../core/helper/helper_functions.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../bloc/register_bloc/register_bloc.dart';
 
@@ -39,7 +38,6 @@ class SignUpPage extends StatelessWidget {
               BotToast.showLoading();
             }
             if (state.status == RegisterStatus.success) {
-await HelperFunctions.setUserData(state.user!);
               BotToast.closeAllLoading();
               context.go(Routes.accountCreationLoading);
             }

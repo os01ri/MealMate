@@ -29,6 +29,9 @@ class ApiVariables {
   static Uri register() {
     return _auth(path: 'register');
   }
+  static Uri login() {
+    return _auth(path: 'login ');
+  }
 
   static Uri uploadMedia() => _mainUri(path: 'mediaUpload');
   // Uri uploadVideo() => _mainUri(path: "videoUpload");

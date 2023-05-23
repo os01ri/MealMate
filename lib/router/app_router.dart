@@ -61,7 +61,7 @@ class AppRouter {
       GoRoute(
         path: Routes.loginNamedPage,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: LoginPage()),
+        pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
       ),
       GoRoute(
         path: Routes.accountCreationLoading,

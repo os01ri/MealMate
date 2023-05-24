@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/router/app_routes.dart';
 
 class RecipeStepsPage extends StatelessWidget {
   const RecipeStepsPage({super.key});
@@ -117,13 +119,16 @@ class _StepsSection extends StatelessWidget {
                   //   duration: AppConfig.pageViewAnimationDuration,
                   //   curve: Curves.ease,
                   // );
+                  context.pop();
                 },
                 text: 'Previous',
                 textColor: Colors.black,
               ).paddingAll(8).expand(),
               MainButton(
                 color: AppColors.mainColor,
-                onPressed: () {},
+                onPressed: () {
+                  context.go(Routes.recipesBrowsePage);
+                },
                 text: 'Finish Cooking',
               ).paddingAll(8).expand(),
             ],

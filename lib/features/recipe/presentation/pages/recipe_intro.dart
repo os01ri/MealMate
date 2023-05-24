@@ -91,10 +91,11 @@ class RecipeIntro extends StatelessWidget {
       floatingActionButton: MainButton(
         text: 'Next',
         color: AppColors.mainColor,
+        width: context.width,
         onPressed: () {
           context.push(Routes.recipePage);
         },
-      ).hero('button'),
+      ).paddingHorizontal(8).padding(AppConfig.pagePadding).hero('button'),
     );
   }
 }

@@ -22,7 +22,7 @@ class RecipesHomePage extends StatefulWidget {
 class _RecipesHomePageState extends State<RecipesHomePage> {
   late final ValueNotifier<double> _bodyPosition;
   late final ValueNotifier<double> _searchButtonPosition;
-  late final ValueNotifier<bool> allowScroll;
+  late final ValueNotifier<bool> _allowScroll;
 
   static double _bodyUpPosition(BuildContext context) => context.height * .15;
   static double _bodyDownPosition(BuildContext context) => context.height * .38;
@@ -33,12 +33,12 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    allowScroll = ValueNotifier(false);
+    _allowScroll = ValueNotifier(false);
     _bodyPosition = ValueNotifier(_bodyDownPosition(context));
     _searchButtonPosition = ValueNotifier(_searchButtonDownPosition(context));
   }
 
-  _buildOrangeContainer() {
+  _buildOrangeContainer(BuildContext context) {
     return Container(
       height: context.height * .6,
       width: context.width,
@@ -57,15 +57,12 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Hello Osama!',
-            style: const TextStyle(color: Colors.white).semiBold.largeFontSize,
+          Text('Hello Osama!', style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize),
+          AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 200),
+            style: TextStyle(color: _allowScroll.value ? Colors.transparent : Colors.white).bold.xxLargeFontSize,
+            child: const Text('What would you like to cook today?'),
           ),
-          Text(
-            'What would you like to cook today?',
-            style: const TextStyle(color: Colors.white).bold.xxLargeFontSize,
-          ),
-          // const SizedBox.shrink(),
           SizedBox(height: context.height * .22),
         ],
       ),
@@ -73,7 +70,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   }
 
   _buildSearchButton(BuildContext context) {
-    final isDown = _searchButtonPosition.value == _searchButtonDownPosition(context);
+    final isDown = (_searchButtonPosition.value == _searchButtonDownPosition(context));
     return AnimatedPositionedDirectional(
       top: _searchButtonPosition.value,
       end: 20,
@@ -90,7 +87,13 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
           child: Row(
             children: [
               const Icon(Icons.search_rounded),
-              isDown ? const Text('Search Recipes').paddingHorizontal(10) : const SizedBox.shrink(),
+              Flexible(
+                child: AnimatedDefaultTextStyle(
+                  duration: AppConfig.animationDuration,
+                  style: TextStyle(fontSize: isDown ? 14 : 0, color: Colors.black),
+                  child: const Text('Search Recipes').paddingHorizontal(10),
+                ),
+              ),
             ],
           ),
         ),
@@ -104,7 +107,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
       duration: AppConfig.animationDuration,
       child: _BodyWidget(
         onDrag: _toggleBodyState,
-        allowScroll: allowScroll,
+        allowScroll: _allowScroll,
       ),
     );
   }
@@ -114,11 +117,11 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
       if (val.delta.dy > 0) {
         _bodyPosition.value = _bodyDownPosition(context);
         _searchButtonPosition.value = _searchButtonDownPosition(context);
-        allowScroll.value = false;
+        _allowScroll.value = false;
       } else if (val.delta.dy < 0) {
         _bodyPosition.value = _bodyUpPosition(context);
         _searchButtonPosition.value = _searchButtonUpPosition(context);
-        allowScroll.value = true;
+        _allowScroll.value = true;
       }
     });
   }
@@ -128,7 +131,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          _buildOrangeContainer(),
+          _buildOrangeContainer(context),
           _buildSearchButton(context),
           _buildBody(context),
         ],
@@ -179,7 +182,6 @@ class _BodyWidgetState extends State<_BodyWidget> {
               ? null
               : (val) {
                   widget.onDrag(val);
-                  widget.allowScroll.value = true;
                   _scrollController.animateTo(
                     _scrollController.position.pixels + 1,
                     duration: AppConfig.animationDuration,
@@ -207,22 +209,6 @@ class _BodyWidgetState extends State<_BodyWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 25),
-          Center(
-            child: GestureDetector(
-              onVerticalDragUpdate: widget.onDrag,
-              child: Container(
-                width: context.width * .25,
-                height: 3,
-                decoration: BoxDecoration(
-                  color: AppColors.grey2,
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 15),
           const SectionHeader(title: 'Categories'),
           const SizedBox(height: 15),
           Row(
@@ -231,32 +217,21 @@ class _BodyWidgetState extends State<_BodyWidget> {
               for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'Dinner', isActive: false),
             ],
           ).scrollable(scrollDirection: Axis.horizontal),
-          const SizedBox(height: 25),
-          const SectionHeader(title: 'Recommended'),
-          const SizedBox(height: 15),
-          SizedBox(
-            height: context.height * .25,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                10,
-                (index) => _RecipeCard(index: index),
+          for (int i = 10; i <= 50; i += 10) ...[
+            const SizedBox(height: 25),
+            const SectionHeader(title: 'Recommended'),
+            const SizedBox(height: 15),
+            SizedBox(
+              height: context.height * .25,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  5,
+                  (index) => _RecipeCard(index: ((index + 1) * 10 * (i + 1))),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 25),
-          const SectionHeader(title: 'Recommended'),
-          const SizedBox(height: 15),
-          SizedBox(
-            height: context.height * .25,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                10,
-                (index) => _RecipeCard(index: (index + 1) * 10),
-              ),
-            ),
-          ),
+          ]
         ],
       ),
     );

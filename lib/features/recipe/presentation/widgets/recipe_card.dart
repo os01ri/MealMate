@@ -25,7 +25,7 @@ class _RecipeCard extends StatelessWidget {
                 PngPath.food,
                 // fit: BoxFit.fitWidth,
                 width: context.width * .4,
-              ).hero(index == 0 ? 'picture' : '$index'),
+              ).hero(index == 110 ? 'picture' : '$index'),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

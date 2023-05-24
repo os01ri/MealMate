@@ -18,11 +18,16 @@ class _RecipeBudget extends StatelessWidget {
                 color: Colors.white,
               ).paddingAll(10),
             ),
-            const Icon(Icons.remove),
-            const Text('2').paddingHorizontal(12),
-            const Icon(Icons.add),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.remove),
+                const Text('2').paddingHorizontal(12),
+                const Icon(Icons.add),
+              ],
+            ).expand()
           ],
-        ),
+        ).expand(),
         _DetailCardRow(
           children: [
             Card(
@@ -34,11 +39,12 @@ class _RecipeBudget extends StatelessWidget {
               ).paddingAll(10),
             ),
             Text(
-              '250 \$',
+              '25,000 SYP',
               style: const TextStyle().bold,
-            ).paddingHorizontal(30),
+              textAlign: TextAlign.center,
+            ).expand(),
           ],
-        ),
+        ).expand(),
       ],
     );
   }

@@ -22,7 +22,7 @@ class _RecipeBudget extends StatelessWidget {
             const Text('2 Kg').paddingHorizontal(12),
             const Icon(Icons.add),
           ],
-        ),
+        ).expand(),
         _DetailCardRow(
           children: [
             Card(
@@ -34,11 +34,12 @@ class _RecipeBudget extends StatelessWidget {
               ).paddingAll(10),
             ),
             Text(
-              '25 \$',
+              '5,000 SYP',
               style: const TextStyle().bold,
-            ).paddingHorizontal(30),
+              textAlign: TextAlign.center,
+            ).expand(),
           ],
-        ),
+        ).expand(),
       ],
     );
   }

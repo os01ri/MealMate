@@ -51,7 +51,7 @@ class _StorePageState extends State<StorePage> {
         height: 30,
         width: 30,
         opacity: .9,
-        dragAnimation: const DragToCartAnimationOptions(rotation: true),
+        dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
         jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
         createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
         child: Scaffold(

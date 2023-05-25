@@ -130,7 +130,7 @@ class _StepsSection extends StatelessWidget {
                   context.go(Routes.recipesBrowsePage);
                 },
                 text: 'Finish Cooking',
-              ).paddingAll(8).expand(),
+              ).hero('button').paddingAll(8).expand(),
             ],
           ),
         ],

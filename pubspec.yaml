@@ -9,6 +9,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  add_to_cart_animation: ^2.0.3
   bloc: ^8.1.1
   bloc_concurrency: ^0.2.1
   bot_toast: ^4.0.3

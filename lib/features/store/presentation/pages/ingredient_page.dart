@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
@@ -12,13 +13,23 @@ part '../widgets/header_image.dart';
 part '../widgets/ingredient_budget_card.dart';
 
 class IngredientPage extends StatefulWidget {
-  const IngredientPage({super.key});
+  const IngredientPage({super.key, required this.onAddToCart});
+
+  final void Function(GlobalKey) onAddToCart;
 
   @override
   State<IngredientPage> createState() => _IngredientPageState();
 }
 
 class _IngredientPageState extends State<IngredientPage> {
+  late final GlobalKey widgetKey;
+
+  @override
+  void initState() {
+    super.initState();
+    widgetKey = GlobalKey();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,14 +51,24 @@ class _IngredientPageState extends State<IngredientPage> {
         children: [
           Column(
             children: [
-              const _HeaderImage(),
+              Container(
+                key: widgetKey,
+                child: Image.asset(
+                  PngPath.tomato,
+                  fit: BoxFit.fitWidth,
+                  width: context.width,
+                ).hero('picture'),
+              ),
               const _RecipeBudget().paddingVertical(8),
               const _IngredientList().expand(),
             ],
           ).expand(),
           MainButton(
             color: AppColors.mainColor,
-            onPressed: () {},
+            onPressed: () {
+              context.pop();
+              widget.onAddToCart(widgetKey);
+            },
             width: context.width,
             text: 'Add To Cart',
           ).paddingHorizontal(8).hero('button'),

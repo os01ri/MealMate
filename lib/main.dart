@@ -22,22 +22,19 @@ class MyApp extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: MaterialApp.router(
-        locale: const Locale("en", ""),
+        debugShowCheckedModeBanner: false,
+        title: 'Meal Mate',
+        theme: AppTheme.getColor(),
+        routerConfig: AppRouter.router,
+        builder: botToastBuilder,
+        locale: const Locale('en', ''),
+        supportedLocales: const [Locale('ar', ''), Locale('en', '')],
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           AppLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('ar', ''),
-          Locale('en', ''),
-        ],
-        routerConfig: AppRouter.router,
-        theme: AppTheme.getColor(),
-        title: 'Meal Mate',
-        debugShowCheckedModeBanner: false,
-        builder: botToastBuilder,
       ),
     );
   }

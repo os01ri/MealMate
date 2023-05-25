@@ -87,7 +87,7 @@ class AppRouter {
         pageBuilder: (context, state) => slideTransition(
           context: context,
           state: state,
-          child: const IngredientPage(),
+          child:  IngredientPage(onAddToCart: state.extra as void Function(GlobalKey)),
         ),
       ),
       GoRoute(

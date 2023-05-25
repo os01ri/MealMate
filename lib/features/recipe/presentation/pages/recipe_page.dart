@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
@@ -38,27 +39,28 @@ class _RecipePageState extends State<RecipePage> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              const _HeaderImage(),
+      body: CustomScrollView(
+        dragStartBehavior: DragStartBehavior.down,
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const _HeaderImage().paddingHorizontal(5),
               const _RecipeBudget().paddingVertical(8),
               const _TabBar(),
-              const _IngredientList().expand(),
-            ],
-          ).expand(),
-          MainButton(
-            color: AppColors.mainColor,
-            onPressed: () {
-              context.push(Routes.recipeStepsPage);
-            },
-            width: context.width,
-            text: 'Start Cooking!',
-          ).paddingHorizontal(8).hero('button'),
+            ]),
+          ),
+          const _IngredientList(),
         ],
       ).padding(AppConfig.pagePadding),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: MainButton(
+        color: AppColors.mainColor,
+        onPressed: () {
+          context.push(Routes.recipeStepsPage);
+        },
+        width: context.width,
+        text: 'Start Cooking!',
+      ).hero('button').padding(AppConfig.pagePadding),
     );
   }
 }
@@ -68,11 +70,11 @@ class _IngredientList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for (int i = 0; i < 6; i++)
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: 100,
+        (context, i) {
+          return Row(
             children: [
               Text(
                 'Chicken $i Breasts',
@@ -85,17 +87,18 @@ class _IngredientList extends StatelessWidget {
               ),
               Icon(
                 switch (i) {
-                  <= 2 => Icons.check_circle_outline_rounded,
+                  <= 3 => Icons.check_circle_outline_rounded,
                   _ => Icons.warning_amber_rounded,
                 },
                 color: switch (i) {
-                  <= 2 => Colors.green,
+                  <= 3 => Colors.green,
                   _ => Colors.red,
                 },
               ).paddingHorizontal(5),
             ],
-          ).paddingAll(8),
-      ],
+          ).paddingAll(8);
+        },
+      ),
     );
   }
 }

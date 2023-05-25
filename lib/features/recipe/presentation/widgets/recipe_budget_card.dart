@@ -5,46 +5,89 @@ class _RecipeBudget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        _DetailCardRow(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Card(
-              shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
-              color: AppColors.mainColor,
-              child: const Icon(
-                Icons.people_alt_outlined,
-                color: Colors.white,
-              ).paddingAll(10),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            _DetailCardRow(
               children: [
-                const Icon(Icons.remove),
-                const Text('2').paddingHorizontal(12),
-                const Icon(Icons.add),
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  color: AppColors.mainColor,
+                  child: const Icon(
+                    Icons.timer_outlined,
+                    color: Colors.white,
+                  ).paddingAll(10),
+                ),
+                Text(
+                  '30 min',
+                  style: const TextStyle().bold,
+                  textAlign: TextAlign.center,
+                ).expand(),
               ],
-            ).expand()
-          ],
-        ).expand(),
-        _DetailCardRow(
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
-              color: AppColors.mainColor,
-              child: const Icon(
-                Icons.payments_rounded,
-                color: Colors.white,
-              ).paddingAll(10),
-            ),
-            Text(
-              '25,000 SYP',
-              style: const TextStyle().bold,
-              textAlign: TextAlign.center,
+            ).expand(),
+            _DetailCardRow(
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  color: AppColors.mainColor,
+                  child: const Icon(
+                    Icons.payments_rounded,
+                    color: Colors.white,
+                  ).paddingAll(10),
+                ),
+                Text(
+                  '25,000 SYP',
+                  style: const TextStyle().bold,
+                  textAlign: TextAlign.center,
+                ).expand(),
+              ],
             ).expand(),
           ],
-        ).expand(),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _DetailCardRow(
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  color: AppColors.mainColor,
+                  child: const Icon(
+                    Icons.people_alt_outlined,
+                    color: Colors.white,
+                  ).paddingAll(10),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.remove),
+                    const Text('2').paddingHorizontal(12),
+                    const Icon(Icons.add),
+                  ],
+                ).expand(),
+              ],
+            ).expand(),
+            _DetailCardRow(
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  color: AppColors.mainColor,
+                  child: const Icon(
+                    Icons.account_tree_rounded,
+                    color: Colors.white,
+                  ).paddingAll(10),
+                ),
+                Text(
+                  '4 Steps',
+                  style: const TextStyle().bold,
+                  textAlign: TextAlign.center,
+                ).expand(),
+              ],
+            ).expand(),
+          ],
+        ),
       ],
     );
   }

@@ -9,8 +9,8 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({super.key});
+class ResetPasswordPage extends StatelessWidget {
+  const ResetPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +24,14 @@ class ForgotPasswordPage extends StatelessWidget {
         children: [
           const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd'),
           const SizedBox(height: 10),
-          AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
+          const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
           const SizedBox(height: 10),
           MainButton(
             text: 'Send E-mail',
             color: AppColors.mainColor,
             width: context.width,
             onPressed: () {
-              context.go(Routes.recipesBrowsePage);
+              context.go(AppRoutes.recipesHome);
             },
           ),
         ],

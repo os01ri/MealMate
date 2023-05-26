@@ -127,7 +127,7 @@ class _StepsSection extends StatelessWidget {
               MainButton(
                 color: AppColors.mainColor,
                 onPressed: () {
-                  context.go(Routes.recipesBrowsePage);
+                  context.go(AppRoutes.recipesHome);
                 },
                 text: 'Finish Cooking',
               ).hero('button').paddingAll(8).expand(),

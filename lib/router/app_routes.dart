@@ -1,22 +1,26 @@
-class Routes {
+class AppRoutes {
+  ////main////
   static const root = '/';
-  static const splashPage = '/splash';
-  static const onboardingPage = '/onboarding';
-  static const homePage = '/home';
-  static const recipe = '/recipe';
-  static const recipesBrowsePage = '/recipesBrowse';
-  static const recipeIntro = '/recipeIntro';
-  static const recipePage = '/recipePage';
-  static const recipeStepsPage = '/recipeStepsPage';
-  static const recipeCreatePage = '/recipeCreatePage';
-  static const settingsNamedPage = '/settings';
-  static const loginNamedPage = '/loginPage';
-  static const signUpNamedPage = '/signupPage';
-  static const forgotPasswordPage = '/forgotPassword';
-  static const otpScreen = '/otp';
-  static const accountCreationLoading = '/accountCreationLoading';
-  static const store = '/store';
-  static const wishList = '/wishlist';
-  static const ingredientPage = '/ingredientPage';
-  static const notificationScreen = "/notification";
+  static const splash = '/splash';
+  static const onboarding = '/onboarding';
+  static const home = '/home';
+  static const settings = '/settings';
+  static const notification = "/notification";
+  ////auth////
+  static const login = '/login';
+  static const signup = '/signup';
+  static const forgotPassword = '/forgot_password';
+  static const otp = '/otp';
+  static const accountCreationLoading = '/account_creation_loading';
+  ////recipes////
+  // static const recipe = '/recipe';
+  static const recipesHome = '/recipes_home';
+  static const recipeIntro = '/recipe_intro';
+  static const recipeDetails = '/recipe_details';
+  static const recipeSteps = '/recipe_steps';
+  static const recipeCreate = '/recipe_create';
+  ////store////
+  static const storePage = '/store';
+  static const ingredient = '/ingredient';
+  static const wishListPage = '/wishlist';
 }

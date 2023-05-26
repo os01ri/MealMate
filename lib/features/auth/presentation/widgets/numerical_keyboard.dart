@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 
-class KeyboardNumber extends StatelessWidget {
-  const KeyboardNumber({
+class NumericalKeyboard extends StatelessWidget {
+  const NumericalKeyboard({
     Key? key,
     required this.textEditingController,
     required this.size,

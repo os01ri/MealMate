@@ -5,17 +5,17 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
-import 'package:mealmate/features/auth/presentation/widgets/key_board_widget.dart';
+import 'package:mealmate/features/auth/presentation/widgets/numerical_keyboard.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+class OtpPage extends StatefulWidget {
+  const OtpPage({super.key});
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  State<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpPageState extends State<OtpPage> {
   late final TextEditingController controller;
   late final ValueNotifier<String> otpController;
 
@@ -125,12 +125,12 @@ class _OtpScreenState extends State<OtpScreen> {
                     SizedBox(height: context.height * .035),
                     Directionality(
                       textDirection: TextDirection.ltr,
-                      child: KeyboardNumber(
+                      child: NumericalKeyboard(
                         textEditingController: controller,
                         size: context.deviceSize,
                         value: otpController,
                         maxLength: 4,
-                        onTap: () => context.go(Routes.accountCreationLoading),
+                        onTap: () => context.go(AppRoutes.accountCreationLoading),
                       ),
                     ),
                   ],

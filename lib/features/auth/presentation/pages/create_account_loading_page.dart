@@ -3,37 +3,38 @@ import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class CreateAccountLoading extends StatefulWidget {
-  const CreateAccountLoading({super.key});
+class CreateAccountLoadingPage extends StatefulWidget {
+  const CreateAccountLoadingPage({super.key});
 
   @override
-  State<CreateAccountLoading> createState() => _CreateAccountLoadingState();
+  State<CreateAccountLoadingPage> createState() => _CreateAccountLoadingPageState();
 }
 
-class _CreateAccountLoadingState extends State<CreateAccountLoading> with TickerProviderStateMixin {
-  late final AnimationController animationController;
+class _CreateAccountLoadingPageState extends State<CreateAccountLoadingPage> with TickerProviderStateMixin {
+  late final AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
+    _animationController = AnimationController(
       vsync: this,
       value: 0,
       lowerBound: 0,
       upperBound: 1,
       duration: const Duration(seconds: 3),
     )..forward().whenComplete(() {
-        context.go(Routes.recipesBrowsePage);
+        context.go(AppRoutes.recipesHome);
       });
   }
 
   @override
   void dispose() {
-    animationController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -44,14 +45,14 @@ class _CreateAccountLoadingState extends State<CreateAccountLoading> with Ticker
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(height: context.height * .07),
-          Image.asset('assets/png/account_creation.png'),
+          Image.asset(PngPath.accountCreation),
           AnimatedBuilder(
-            animation: animationController,
+            animation: _animationController,
             builder: (context, child) {
               return LinearProgressIndicator(
                 color: AppColors.grey,
                 valueColor: const AlwaysStoppedAnimation(AppColors.mainColor),
-                value: animationController.value,
+                value: _animationController.value,
                 backgroundColor: AppColors.grey,
               );
             },

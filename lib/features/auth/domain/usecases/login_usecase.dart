@@ -32,10 +32,4 @@ class LoginUserParams implements UseCaseParams {
   Map<String, dynamic> getParams() {
     return {};
   }
-
-  @override
-  List<Object?> get props => throw UnimplementedError();
-
-  @override
-  bool? get stringify => throw UnimplementedError();
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
@@ -13,18 +12,15 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.wait([
-      Future.delayed(AppConfig.splashScreenDuration).then((value) async {
-        if (await HelperFunctions.isFirstTime()) {
-          context.go(Routes.onboardingPage);
-        }
-        else if (!(await HelperFunctions.isAuth())) {
-          context.go(Routes.signUpNamedPage);
-        } else {
-          context.go(Routes.recipesBrowsePage);
-        }
-      }),
-    ]);
+    Future.delayed(AppConfig.splashScreenDuration).whenComplete(() async {
+      if (await HelperFunctions.isFirstTime()) {
+        context.go(AppRoutes.onboarding);
+      } else if (!(await HelperFunctions.isAuth())) {
+        context.go(AppRoutes.signup);
+      } else {
+        context.go(AppRoutes.recipesHome);
+      }
+    });
     return Scaffold(
       backgroundColor: AppColors.orange,
       body: SafeArea(

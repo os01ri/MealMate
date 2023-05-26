@@ -15,14 +15,14 @@ part '../widgets/header_image.dart';
 part '../widgets/recipe_budget_card.dart';
 part '../widgets/recipe_tab_bar.dart';
 
-class RecipePage extends StatefulWidget {
-  const RecipePage({super.key});
+class RecipeDetailsPage extends StatefulWidget {
+  const RecipeDetailsPage({super.key});
 
   @override
-  State<RecipePage> createState() => _RecipePageState();
+  State<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
 }
 
-class _RecipePageState extends State<RecipePage> {
+class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +56,7 @@ class _RecipePageState extends State<RecipePage> {
       floatingActionButton: MainButton(
         color: AppColors.mainColor,
         onPressed: () {
-          context.push(Routes.recipeStepsPage);
+          context.push(AppRoutes.recipeSteps);
         },
         width: context.width,
         text: 'Start Cooking!',

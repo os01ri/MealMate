@@ -11,7 +11,7 @@ import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
-import 'package:mealmate/features/store/domain/usecases/index_ingredients.dart';
+import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/router/app_routes.dart';
 
@@ -79,7 +79,7 @@ class _StorePageState extends State<StorePage> {
               badgeOptions: const BadgeOptions(active: false),
               icon: IconButton(
                 onPressed: () {
-                  context.push(Routes.wishList, extra: cartClick);
+                  context.push(AppRoutes.wishListPage, extra: cartClick);
                 },
                 icon: Image.asset(
                   PngPath.saveInactive,
@@ -137,7 +137,7 @@ class _StorePageState extends State<StorePage> {
                               (index) => GestureDetector(
                                 onTap: () async {
                                   _currentKey.value = await context.push(
-                                    Routes.ingredientPage,
+                                    AppRoutes.ingredient,
                                     extra: (cartClick, wishlistClick),
                                   ).then((isCart) {
                                     return switch (isCart) {

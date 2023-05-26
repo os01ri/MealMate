@@ -3,24 +3,25 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
-
-import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/theme/text_styles.dart';
-import '../../../../core/ui/widgets/main_text_field.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/theme/text_styles.dart';
+import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 
 class AuthTextField extends StatefulWidget {
-  AuthTextField(
-      {super.key,
-      this.controller,
-      required this.hint,
-      this.validator,
-      required this.label,
-      this.isPassword = false});
+  const AuthTextField({
+    super.key,
+    this.controller,
+    required this.hint,
+    this.validator,
+    required this.label,
+    this.isPassword = false,
+  });
+
   final TextEditingController? controller;
   final String hint;
   final String label;
   final bool? isPassword;
-  String? Function(String?)? validator;
+  final String? Function(String?)? validator;
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -28,20 +29,21 @@ class AuthTextField extends StatefulWidget {
 
 class _AuthTextFieldState extends State<AuthTextField> {
   late final ValueNotifier<bool> showPassword;
+
   @override
   void initState() {
-    showPassword = ValueNotifier(widget.isPassword!);
     super.initState();
+    showPassword = ValueNotifier(widget.isPassword!);
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container( 
+        Container(
           padding: const EdgeInsets.only(bottom: 8),
           alignment: Alignment.topLeft,
-          child: Text(widget.label,
-              style: AppTextStyles.styleWeight500(fontSize: 16)),
+          child: Text(widget.label, style: AppTextStyles.styleWeight500(fontSize: 16)),
         ),
         ValueListenableBuilder(
           valueListenable: showPassword,
@@ -68,8 +70,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
                       ),
                     )
                   : null,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          fillColor: AppColors.scaffoldBackgroundColor,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              fillColor: AppColors.scaffoldBackgroundColor,
               isPassword: !show,
               controller: widget.controller ?? TextEditingController(),
               hint: widget.hint,

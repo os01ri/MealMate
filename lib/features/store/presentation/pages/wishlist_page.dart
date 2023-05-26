@@ -7,7 +7,6 @@ import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class WishlistPage extends StatelessWidget {
-
   const WishlistPage({
     super.key,
     required this.onAddToCart,
@@ -37,7 +36,7 @@ class WishlistPage extends StatelessWidget {
             (index) => GestureDetector(
               onTap: () async {
                 context.push(
-                  Routes.ingredientPage,
+                  AppRoutes.ingredient,
                   extra: (onAddToCart, onAddToCart),
                 );
               },

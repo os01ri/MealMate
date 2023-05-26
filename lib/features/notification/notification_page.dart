@@ -7,14 +7,14 @@ import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> with TickerProviderStateMixin {
+class _NotificationPageState extends State<NotificationPage> with TickerProviderStateMixin {
   late TabController tabController;
   late ValueNotifier<int> index;
   @override

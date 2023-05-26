@@ -9,51 +9,40 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/helper_functions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/ui_meassages.dart';
+import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
+import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-import '../bloc/login_bloc/login_bloc.dart';
-
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final LoginBloc _loginBloc = LoginBloc();
-  final formKey = GlobalKey<FormState>();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final AuthCubit _loginCubit = AuthCubit();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(size: context.deviceSize, titleText: 'Login'),
       body: BlocProvider(
-        create: (context) => _loginBloc,
-        child: BlocConsumer<LoginBloc, LoginState>(
-          listener: (context, state) async {
-            if (state.status == LoginStatus.loading) {
-              UiMessages.showLoading();
-            } else if (state.status == LoginStatus.success) {
-              await HelperFunctions.setUserData(state.user!);
-              UiMessages.closeLoading();
-              context.go(Routes.accountCreationLoading);
-              log('loged in successfuly');
-            } else if (state.status == LoginStatus.failed) {
-              UiMessages.closeLoading();
-              UiMessages.showToast('something went wrong');
-            }
-          },
+        create: (context) => _loginCubit,
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: _cubitListener,
           builder: (context, state) {
             return Form(
-              key: formKey,
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
                     label: 'E-mail Address',
                     hint: 'Enter E-mail Address',
-                    controller: emailController,
+                    controller: _emailController,
                     validator: (text) {
                       if (text != null && text.isValidEmail()) {
                         return null;
@@ -66,7 +55,7 @@ class LoginPage extends StatelessWidget {
                     label: 'Password',
                     hint: '********',
                     isPassword: true,
-                    controller: passwordController,
+                    controller: _passwordController,
                     validator: (text) {
                       if (text != null && text.isValidPassword()) {
                         return null;
@@ -81,15 +70,17 @@ class LoginPage extends StatelessWidget {
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        _loginBloc.add(LoginUserEvent(
-                            body: LoginUserParams(email: emailController.text, password: passwordController.text)));
+                      if (_formKey.currentState!.validate()) {
+                        _loginCubit.login(LoginUserParams(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ));
                       }
                     },
                   ),
                   TextButton(
                     style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
-                    onPressed: () => context.push(Routes.forgotPasswordPage),
+                    onPressed: () => context.push(AppRoutes.forgotPassword),
                     child: const Text('Forgot Password?'),
                   ),
                   const SizedBox(height: 20),
@@ -101,14 +92,14 @@ class LoginPage extends StatelessWidget {
                         text: 'Login With Google',
                         color: AppColors.mainColor,
                         width: context.width,
-                        onPressed: () => context.go(Routes.recipesBrowsePage),
+                        onPressed: () => context.go(AppRoutes.recipesHome),
                       ),
                       const SizedBox(height: 10),
                       MainButton(
                         text: 'Login With Facebook',
                         color: Colors.blue,
                         width: context.width,
-                        onPressed: () => context.go(Routes.recipesBrowsePage),
+                        onPressed: () => context.go(AppRoutes.recipesHome),
                       ),
                     ],
                   ),
@@ -116,7 +107,7 @@ class LoginPage extends StatelessWidget {
                     height: 40,
                     child: TextButton(
                       child: const Text('Don\'t ave an account? Sign Up'),
-                      onPressed: () => context.go(Routes.signUpNamedPage),
+                      onPressed: () => context.go(AppRoutes.signup),
                     ),
                   ),
                 ],
@@ -126,5 +117,19 @@ class LoginPage extends StatelessWidget {
         ),
       ).padding(AppConfig.pagePadding).scrollable(),
     );
+  }
+
+  void _cubitListener(context, state) async {
+    if (state.status == AuthStatus.loading) {
+      UiMessages.showLoading();
+    } else if (state.status == AuthStatus.success) {
+      await HelperFunctions.setUserData(state.user!);
+      UiMessages.closeLoading();
+      context.go(AppRoutes.accountCreationLoading);
+      log('loged in successfuly');
+    } else if (state.status == AuthStatus.failed) {
+      UiMessages.closeLoading();
+      UiMessages.showToast('something went wrong');
+    }
   }
 }

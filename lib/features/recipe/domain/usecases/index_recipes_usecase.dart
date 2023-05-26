@@ -37,10 +37,4 @@ class IndexRecipesParams implements UseCaseParams {
 
   @override
   Map<String, dynamic> getBody() => {};
-
-  @override
-  List<Object?> get props => [id, page, perPage];
-
-  @override
-  bool? get stringify => true;
 }

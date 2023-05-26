@@ -1,4 +1,4 @@
-part of '../pages/recipe_page.dart';
+part of '../pages/recipe_details_page.dart';
 
 class _TabBar extends StatelessWidget {
   const _TabBar();

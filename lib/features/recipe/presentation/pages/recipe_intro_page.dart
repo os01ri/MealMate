@@ -11,8 +11,8 @@ import 'package:mealmate/core/ui/widgets/transition_appbar.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/router/app_routes.dart';
 
-class RecipeIntro extends StatelessWidget {
-  const RecipeIntro({super.key});
+class RecipeIntroPage extends StatelessWidget {
+  const RecipeIntroPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class RecipeIntro extends StatelessWidget {
         color: AppColors.mainColor,
         width: context.width,
         onPressed: () {
-          context.push(Routes.recipePage);
+          context.push(AppRoutes.recipeDetails);
         },
       ).paddingHorizontal(8).padding(AppConfig.pagePadding).hero('button'),
     );

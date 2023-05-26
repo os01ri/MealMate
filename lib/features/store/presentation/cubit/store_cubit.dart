@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/features/store/data/models/ingredient_model.dart';
 import 'package:mealmate/features/store/data/repositories/store_repository_impl.dart';
-import 'package:mealmate/features/store/domain/usecases/index_ingredients.dart';
+import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 
 part 'store_state.dart';
 

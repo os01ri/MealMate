@@ -11,7 +11,7 @@ class _RecipeCard extends StatelessWidget {
       fit: BoxFit.fitHeight,
       child: GestureDetector(
         onTap: () {
-          context.push(Routes.recipeIntro);
+          context.push(AppRoutes.recipeIntro);
         },
         child: Container(
           margin: const EdgeInsetsDirectional.only(start: 15),

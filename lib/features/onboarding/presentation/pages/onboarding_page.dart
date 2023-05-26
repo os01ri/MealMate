@@ -149,12 +149,9 @@ class _IntroState extends State<Intro> {
                           curve: Curves.ease,
                         );
                         await HelperFunctions.isFirstTime();
-                        if (_controllerPageView.page!.ceil() ==
-                            widget.pages.length - 1) {
-
-                          context.go(Routes.signUpNamedPage);
+                        if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
+                          context.go(AppRoutes.signup);
                         }
-                       
                       },
                     ),
                   ),

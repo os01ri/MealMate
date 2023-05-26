@@ -9,13 +9,17 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 
-part '../widgets/header_image.dart';
 part '../widgets/ingredient_budget_card.dart';
 
 class IngredientPage extends StatefulWidget {
-  const IngredientPage({super.key, required this.onAddToCart});
+  const IngredientPage({
+    super.key,
+    required this.onAddToCart,
+    required this.onAddToWishlist,
+  });
 
   final void Function(GlobalKey) onAddToCart;
+  final void Function(GlobalKey) onAddToWishlist;
 
   @override
   State<IngredientPage> createState() => _IngredientPageState();
@@ -38,11 +42,11 @@ class _IngredientPageState extends State<IngredientPage> {
         title: 'Tomato',
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              PngPath.saveInactive,
-              color: Colors.black,
-            ),
+            onPressed: () {
+              context.pop(false);
+              widget.onAddToWishlist(widgetKey);
+            },
+            icon: const Icon(Icons.bookmark_add_outlined),
           ),
         ],
       ),
@@ -66,7 +70,7 @@ class _IngredientPageState extends State<IngredientPage> {
           MainButton(
             color: AppColors.mainColor,
             onPressed: () {
-              context.pop();
+              context.pop(true);
               widget.onAddToCart(widgetKey);
             },
             width: context.width,

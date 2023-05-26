@@ -1,4 +1,5 @@
-import 'package:bot_toast/bot_toast.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
@@ -8,6 +9,7 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/helper_functions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/ui_meassages.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
@@ -25,24 +27,21 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(
-        size: context.deviceSize,
-        titleText: 'Login',
-      ),
+      appBar: MainAppBar(size: context.deviceSize, titleText: 'Login'),
       body: BlocProvider(
         create: (context) => _loginBloc,
         child: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) async {
             if (state.status == LoginStatus.loading) {
-              BotToast.showLoading();
+              UiMessages.showLoading();
             } else if (state.status == LoginStatus.success) {
               await HelperFunctions.setUserData(state.user!);
-              BotToast.closeAllLoading();
+              UiMessages.closeLoading();
               context.go(Routes.accountCreationLoading);
-            }
-            if (state.status == LoginStatus.failed) {
-              BotToast.closeAllLoading();
-              BotToast.showText(text: 'something went wrong');
+              log('loged in successfuly');
+            } else if (state.status == LoginStatus.failed) {
+              UiMessages.closeLoading();
+              UiMessages.showToast('something went wrong');
             }
           },
           builder: (context, state) {
@@ -84,16 +83,12 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         _loginBloc.add(LoginUserEvent(
-                            body: LoginUserParams(
-                                email: emailController.text,
-                                password: passwordController.text)));
+                            body: LoginUserParams(email: emailController.text, password: passwordController.text)));
                       }
                     },
                   ),
                   TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(AppColors.mainColor)),
+                    style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
                     onPressed: () => context.push(Routes.forgotPasswordPage),
                     child: const Text('Forgot Password?'),
                   ),

@@ -25,27 +25,25 @@ class RecipeAppBar extends AppBar {
                   style: const TextStyle().xLargeFontSize.bold,
                 )
               : const SizedBox.shrink(),
-          leading: leadingWidget ??
-              Row(
-                children: [
-                  const SizedBox(width: 15),
-                  Card(
-                    elevation: 5,
-                    shape: const CircleBorder(),
-                    child: leadingWidget ?? 
-                        IconButton(
-                          style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0)),
-                          onPressed: () {
-                            context.pop();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                          ).hero('arrow_back_ios_new_rounded'),
-                        ),
-                  ),
-                ],
+          leading: Row(
+            children: [
+              const SizedBox(width: 15),
+              Card(
+                elevation: 5,
+                shape: const CircleBorder(),
+                child: leadingWidget ??
+                    IconButton(
+                      style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
+                      onPressed: () {
+                        context.pop();
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                      ).hero('arrow_back_ios_new_rounded'),
+                    ),
               ),
+            ],
+          ),
           actions: actions
                   ?.map(
                     (e) => Row(

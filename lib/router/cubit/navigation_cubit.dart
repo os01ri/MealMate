@@ -12,11 +12,13 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   void updateNavBarItem(int index) {
     log(index.toString(), name: 'nav index');
+
     emit(NavigationState(
       index: index,
       bottomNavItems: switch (index) {
         0 => Routes.homePage,
         1 => Routes.store,
+        2 => Routes.notificationScreen,
         _ => Routes.homePage,
       },
     ));

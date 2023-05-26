@@ -9,7 +9,36 @@ import 'package:mealmate/router/cubit/navigation_cubit.dart';
 class MainPage extends StatelessWidget {
   final Widget screen;
 
-  MainPage({Key? key, required this.screen}) : super(key: key);
+  const MainPage({Key? key, required this.screen}) : super(key: key);
+
+  static const _tabs = [
+    MainNavigationBarItemWidget(
+      initialLocation: Routes.recipesBrowsePage,
+      icon: Icon(Icons.home_rounded),
+      label: 'Home',
+      index: 0,
+    ),
+    MainNavigationBarItemWidget(
+      initialLocation: Routes.store,
+      icon: Icon(Icons.shopping_cart_outlined),
+      label: 'store',
+      padding: EdgeInsets.only(right: 40),
+      index: 1,
+    ),
+    MainNavigationBarItemWidget(
+      initialLocation: Routes.notificationScreen,
+      icon: Icon(Icons.notifications),
+      label: 'Notification',
+      padding: EdgeInsets.only(left: 40),
+      index: 2,
+    ),
+    MainNavigationBarItemWidget(
+      initialLocation: Routes.recipesBrowsePage,
+      icon: Icon(Icons.person),
+      label: 'Profile',
+      index: 3,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,35 +76,6 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  final _tabs = [
-    const MainNavigationBarItemWidget(
-      initialLocation: Routes.recipesBrowsePage,
-      icon: Icon(Icons.home_rounded),
-      label: 'Home',
-      index: 0,
-    ),
-    const MainNavigationBarItemWidget(
-      initialLocation: Routes.store,
-      icon: Icon(Icons.shopping_cart_outlined),
-      label: 'store',
-      padding: EdgeInsets.only(right: 40),
-      index: 1,
-    ),
-    const MainNavigationBarItemWidget(
-      initialLocation: Routes.notificationScreen,
-      icon: Icon(Icons.notifications),
-      label: 'Notification',
-      padding: EdgeInsets.only(left: 40),
-      index: 2,
-    ),
-    const MainNavigationBarItemWidget(
-      initialLocation: Routes.recipesBrowsePage,
-      icon: Icon(Icons.person),
-      label: 'Profile',
-      index: 3,
-    ),
-  ];
-
   BlocBuilder<NavigationCubit, NavigationState> _buildBottomNavigation(ctx) =>
       BlocBuilder<NavigationCubit, NavigationState>(
         buildWhen: (previous, current) => previous.index != current.index,
@@ -104,7 +104,7 @@ class MainPage extends StatelessWidget {
                             padding: e.padding,
                             child: IconButton(
                               icon: e.icon,
-                              color: AppColors.mainColor,
+                              color: state.index == e.index ? AppColors.mainColor : AppColors.grey2,
                               onPressed: () {
                                 if (state.index != e.index) {
                                   context.read<NavigationCubit>().updateNavBarItem(e.index);

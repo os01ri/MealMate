@@ -16,6 +16,7 @@ class Routes {
   static const otpScreen = '/otp';
   static const accountCreationLoading = '/accountCreationLoading';
   static const store = '/store';
+  static const wishList = '/wishlist';
   static const ingredientPage = '/ingredientPage';
   static const notificationScreen = "/notification";
 }

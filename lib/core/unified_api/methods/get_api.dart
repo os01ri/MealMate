@@ -24,9 +24,9 @@ class GetApi<T> with HandlingExceptionRequest {
   Future<T> callRequest() async {
     //TODO
 
-    // String? token = await HelperFunctions.getToken();
-    String? token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2ZjljY2NjLWZhYzMtNDk4Zi1hY2JjLWZjMDJhZWY3OWU3ZSIsImlhdCI6MTY4NDc4NzYzNiwiZXhwIjoxNjg0NzkxMjM2fQ.UOTlWAjkwopK11PkWjC1MQR5cPS_q5vQYWyVBqd4Gbk';
+    String? token = await HelperFunctions.getToken();
+    // String? token =
+    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2ZjljY2NjLWZhYzMtNDk4Zi1hY2JjLWZjMDJhZWY3OWU3ZSIsImlhdCI6MTY4NDc4NzYzNiwiZXhwIjoxNjg0NzkxMjM2fQ.UOTlWAjkwopK11PkWjC1MQR5cPS_q5vQYWyVBqd4Gbk';
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
     bool isAuth = await HelperFunctions.isAuth();
     String? deviceId = "";

@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
@@ -8,6 +7,7 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
+import 'package:mealmate/core/ui/ui_meassages.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
@@ -21,29 +21,27 @@ class SignUpPage extends StatelessWidget {
   final RegisterBloc _registerBloc = RegisterBloc();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          MainAppBar(size: context.deviceSize, titleText: 'Create an Account'),
+      appBar: MainAppBar(size: context.deviceSize, titleText: 'Create an Account'),
       body: BlocProvider(
         create: (context) => _registerBloc,
         child: BlocConsumer<RegisterBloc, RegisterState>(
           listener: (context, state) async {
             if (state.status == RegisterStatus.loading) {
-              BotToast.showLoading();
+              UiMessages.showLoading();
             }
             if (state.status == RegisterStatus.success) {
-              BotToast.closeAllLoading();
+              UiMessages.closeLoading();
               context.go(Routes.accountCreationLoading);
             }
             if (state.status == RegisterStatus.failed) {
-              BotToast.closeAllLoading();
-              BotToast.showText(text: 'something went wrong');
+              UiMessages.closeLoading();
+              UiMessages.showToast('something went wrong');
             }
           },
           builder: (context, state) {
@@ -57,21 +55,18 @@ class SignUpPage extends StatelessWidget {
                       label: 'User Name',
                       hint: 'username',
                       validator: (text) {
-                        if ((text != null && text.length < 3))
-                          return "please add a valid username";
+                        if ((text != null && text.length < 3)) return "please add a valid username";
                         return null;
                       },
                       controller: userNameController),
                   Row(
                     children: [
                       Expanded(
-                        child: AuthTextField(
-                            hint: 'first name', label: 'First Name'),
+                        child: AuthTextField(hint: 'first name', label: 'First Name'),
                       ),
                       SizedBox(width: context.width * .05),
                       Expanded(
-                        child: AuthTextField(
-                            hint: 'last name', label: 'Last Name'),
+                        child: AuthTextField(hint: 'last name', label: 'Last Name'),
                       ),
                     ],
                   ),
@@ -103,8 +98,9 @@ class SignUpPage extends StatelessWidget {
                       validator: (text) {
                         if (text != null && text == passwordController.text) {
                           return null;
-                        } else
+                        } else {
                           return "password dosen't match";
+                        }
                       },
                       hint: '********'),
                   const SizedBox(height: 20),
@@ -138,14 +134,10 @@ class SignUpPage extends StatelessWidget {
                       style: AppTextStyles.styleWeight400(color: Colors.grey),
                       children: [
                         TextSpan(
-                            text: 'Terms of Services',
-                            style: AppTextStyles.styleWeight600(
-                                color: AppColors.mainColor)),
+                            text: 'Terms of Services', style: AppTextStyles.styleWeight600(color: AppColors.mainColor)),
                         const TextSpan(text: ' & '),
                         TextSpan(
-                            text: 'Privacy Policy',
-                            style: AppTextStyles.styleWeight600(
-                                color: AppColors.mainColor))
+                            text: 'Privacy Policy', style: AppTextStyles.styleWeight600(color: AppColors.mainColor))
                       ],
                     ),
                   ),

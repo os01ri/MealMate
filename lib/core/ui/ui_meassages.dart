@@ -7,26 +7,33 @@ import 'widgets/main_button.dart';
 class UiMessages {
   UiMessages._();
 
-  void showToast(String text) {
+  static void showToast(String text) {
     BotToast.showText(text: text);
   }
 
-  void showLoading(String text) {
+  static void showLoading() {
     BotToast.showLoading();
   }
 
-  void closeLoading(String text) {
+  static void closeLoading() {
     BotToast.closeAllLoading();
   }
 
-  void showNotification({
+  static void showNotification({
+    Widget Function(void Function())? leading,
     Widget Function(void Function())? title,
     Widget Function(void Function())? subtitle,
+    Color? backgroundColor,
   }) {
-    BotToast.showNotification(title: title, subtitle: subtitle);
+    BotToast.showNotification(
+      title: title,
+      subtitle: subtitle,
+      leading: leading,
+      backgroundColor: backgroundColor,
+    );
   }
 
-  void showSuccessDialog({
+  static void showSuccessDialog({
     required BuildContext context,
     required String text,
     required Color? color,
@@ -77,7 +84,7 @@ class UiMessages {
     ).whenComplete(() => image.evict());
   }
 
-  Future<bool> showPopDialog(BuildContext context) async {
+  static Future<bool> showPopDialog(BuildContext context) async {
     return await showDialog(
           context: context,
           builder: (_) {

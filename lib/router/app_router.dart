@@ -17,6 +17,7 @@ import 'package:mealmate/features/recipe/presentation/pages/recipe_steps_page.da
 import 'package:mealmate/features/recipe/presentation/pages/recipes_home_page.dart';
 import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
+import 'package:mealmate/features/store/presentation/pages/wishlist_page.dart';
 import 'package:mealmate/router/cubit/navigation_cubit.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
@@ -84,11 +85,17 @@ class AppRouter {
       GoRoute(
         path: Routes.ingredientPage,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => slideTransition(
-          context: context,
-          state: state,
-          child:  IngredientPage(onAddToCart: state.extra as void Function(GlobalKey)),
-        ),
+        pageBuilder: (context, state) {
+          final record = state.extra as (void Function(GlobalKey), void Function(GlobalKey));
+          return slideTransition(
+            context: context,
+            state: state,
+            child: IngredientPage(
+              onAddToCart: record.$1,
+              onAddToWishlist: record.$2,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: Routes.recipeIntro,
@@ -138,6 +145,17 @@ class AppRouter {
             path: Routes.store,
             parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
+          ),
+          GoRoute(
+            path: Routes.wishList,
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (context, state) {
+              final arg = (state.extra as void Function(GlobalKey));
+              return NoTransitionPage(
+                  child: WishlistPage(
+                onAddToCart: arg,
+              ));
+            },
           ),
         ],
       ),

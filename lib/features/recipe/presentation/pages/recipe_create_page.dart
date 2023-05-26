@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
@@ -7,6 +6,7 @@ import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/ui_meassages.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
@@ -61,7 +61,7 @@ class RecipeCreatePage extends StatelessWidget {
               color: AppColors.mainColor,
               onPressed: () {
                 context.pop();
-                BotToast.showNotification(
+                UiMessages.showNotification(
                   leading: (_) => const Icon(
                     Icons.alarm,
                     color: Colors.white,

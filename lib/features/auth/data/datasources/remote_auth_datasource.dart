@@ -15,8 +15,10 @@ class RemoteAuthDataSource {
 
   Future<User> loginUser({required Map<String, dynamic> body}) async {
     PostApi postApi = PostApi(
-        uri: ApiVariables.login(), body: body, fromJson: userModelFromJson);
-
+      uri: ApiVariables.login(),
+      body: body,
+      fromJson: userModelFromJson,
+    );
     final result = await postApi.callRequest();
     return result;
   }

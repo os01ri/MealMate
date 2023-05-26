@@ -24,42 +24,69 @@ class StorePage extends StatefulWidget {
 
 class _StorePageState extends State<StorePage> {
   late final StoreCubit _storeCubit;
-  late GlobalKey<CartIconKey> _cartKey;
+  late final GlobalKey<CartIconKey> _cartKey;
+  late final GlobalKey<CartIconKey> _wishlistKey;
+  late final ValueNotifier<GlobalKey<CartIconKey>> _currentKey;
+
   late Function(GlobalKey) _runAddToCartAnimation;
   var _cartQuantityItems = 0;
 
   @override
   void initState() {
     super.initState();
-
     _storeCubit = StoreCubit()..getIngredients(IndexIngredientsParams());
     _cartKey = GlobalKey<CartIconKey>();
+    _wishlistKey = GlobalKey<CartIconKey>();
+
+    _currentKey = ValueNotifier(_cartKey);
   }
 
-  void listClick(GlobalKey widgetKey) async {
+  void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
     await _cartKey.currentState!.runCartAnimation((++_cartQuantityItems).toString());
+  }
+
+  void wishlistClick(GlobalKey widgetKey) async {
+    await _runAddToCartAnimation(widgetKey);
+    await _wishlistKey.currentState!.runCartAnimation();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _storeCubit,
-      child: AddToCartAnimation(
-        // To send the library the location of the Cart icon
-        cartKey: _cartKey,
-        height: 30,
-        width: 30,
-        opacity: .9,
-        dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
-        jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
-        createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
+      child: ValueListenableBuilder<GlobalKey<CartIconKey>>(
+        valueListenable: _currentKey,
+        builder: (context, currentKeyValue, child) {
+          return AddToCartAnimation(
+            cartKey: currentKeyValue,
+            height: 30,
+            width: 30,
+            opacity: .9,
+            dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
+            jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
+            createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
+            child: child!,
+          );
+        },
         child: Scaffold(
           appBar: RecipeAppBar(
             context: context,
             centerText: true,
             title: 'Grocery Store',
-            leadingWidget: const SizedBox.shrink(),
+            leadingWidget: AddToCartIcon(
+              key: _wishlistKey,
+              badgeOptions: const BadgeOptions(active: false),
+              icon: IconButton(
+                onPressed: () {
+                  context.push(Routes.wishList, extra: cartClick);
+                },
+                icon: Image.asset(
+                  PngPath.saveInactive,
+                  color: Colors.black,
+                ),
+              ),
+            ),
             actions: [
               AddToCartIcon(
                 key: _cartKey,
@@ -108,8 +135,19 @@ class _StorePageState extends State<StorePage> {
                             children: List.generate(
                               state.ingredients.length,
                               (index) => GestureDetector(
-                                onTap: () => context.push(Routes.ingredientPage, extra: listClick),
-                                child: _Card(
+                                onTap: () async {
+                                  _currentKey.value = await context.push(
+                                    Routes.ingredientPage,
+                                    extra: (cartClick, wishlistClick),
+                                  ).then((isCart) {
+                                    return switch (isCart) {
+                                      true => _cartKey,
+                                      false => _wishlistKey,
+                                      _ => _cartKey,
+                                    };
+                                  });
+                                },
+                                child: IngredientCard(
                                   index: index,
                                   title: state.ingredients[index].name!,
                                 ).paddingHorizontal(0),
@@ -128,8 +166,9 @@ class _StorePageState extends State<StorePage> {
   }
 }
 
-class _Card extends StatelessWidget {
-  const _Card({
+class IngredientCard extends StatelessWidget {
+  const IngredientCard({
+    super.key,
     required this.title,
     required this.index,
   });

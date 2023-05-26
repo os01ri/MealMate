@@ -10,7 +10,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
+<!-- - [License](#license) -->
 
 ## Features
 
@@ -38,6 +38,6 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 4. Push to the branch: `git push origin feature/your-feature`.
 5. Open a pull request.
 
-## License
+<!-- ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE). -->

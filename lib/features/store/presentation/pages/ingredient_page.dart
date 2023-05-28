@@ -1,13 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
+import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 
 part '../widgets/ingredient_budget_card.dart';
 
@@ -16,68 +22,91 @@ class IngredientPage extends StatefulWidget {
     super.key,
     required this.onAddToCart,
     required this.onAddToWishlist,
+    required this.id,
   });
 
   final void Function(GlobalKey) onAddToCart;
   final void Function(GlobalKey) onAddToWishlist;
+  final String id;
 
   @override
   State<IngredientPage> createState() => _IngredientPageState();
 }
 
 class _IngredientPageState extends State<IngredientPage> {
-  late final GlobalKey widgetKey;
+  late final GlobalKey _widgetKey;
+  late final StoreCubit _storeCubit;
 
   @override
   void initState() {
     super.initState();
-    widgetKey = GlobalKey();
+    _widgetKey = GlobalKey();
+    log(widget.id);
+    _storeCubit = StoreCubit()..showIngredient(ShowIngredientParams(id: widget.id));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: RecipeAppBar(
-        context: context,
-        title: 'Tomato',
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.pop(false);
-              widget.onAddToWishlist(widgetKey);
-            },
-            icon: const Icon(Icons.bookmark_add_outlined),
-          ),
-        ],
+    return BlocProvider(
+      create: (context) => _storeCubit,
+      child: Scaffold(
+        body: BlocConsumer<StoreCubit, StoreState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            if (state.showStatus == CubitStatus.loading) {
+              return const CircularProgressIndicator.adaptive().center();
+            } else if (state.showStatus == CubitStatus.failure) {
+              return const Text('Error').center();
+            } else {
+              return Scaffold(
+                appBar: RecipeAppBar(
+                  context: context,
+                  title: state.ingredient!.name!,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        context.pop(false);
+                        widget.onAddToWishlist(_widgetKey);
+                      },
+                      icon: const Icon(Icons.bookmark_add_outlined),
+                    ),
+                  ],
+                ),
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          key: _widgetKey,
+                          child: Image.asset(
+                            PngPath.tomato,
+                            fit: BoxFit.fitWidth,
+                            width: context.width,
+                          ).hero('picture'),
+                        ),
+                        const _RecipeBudget().paddingVertical(8),
+                        const _IngredientList().expand(),
+                      ],
+                    ).expand(),
+                    MainButton(
+                      color: AppColors.mainColor,
+                      onPressed: () {
+                        context.pop(true);
+                        widget.onAddToCart(_widgetKey);
+                      },
+                      width: context.width,
+                      text: 'Add To Cart',
+                    ).paddingHorizontal(8).hero('button'),
+                  ],
+                ).padding(AppConfig.pagePadding),
+              );
+            }
+          },
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              Container(
-                key: widgetKey,
-                child: Image.asset(
-                  PngPath.tomato,
-                  fit: BoxFit.fitWidth,
-                  width: context.width,
-                ).hero('picture'),
-              ),
-              const _RecipeBudget().paddingVertical(8),
-              const _IngredientList().expand(),
-            ],
-          ).expand(),
-          MainButton(
-            color: AppColors.mainColor,
-            onPressed: () {
-              context.pop(true);
-              widget.onAddToCart(widgetKey);
-            },
-            width: context.width,
-            text: 'Add To Cart',
-          ).paddingHorizontal(8).hero('button'),
-        ],
-      ).padding(AppConfig.pagePadding),
     );
   }
 }

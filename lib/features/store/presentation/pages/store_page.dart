@@ -34,7 +34,7 @@ class _StorePageState extends State<StorePage> {
   @override
   void initState() {
     super.initState();
-    _storeCubit = StoreCubit()..getIngredients(IndexIngredientsParams());
+    _storeCubit = StoreCubit()..getIngredients(const IndexIngredientsParams());
     _cartKey = GlobalKey<CartIconKey>();
     _wishlistKey = GlobalKey<CartIconKey>();
 
@@ -120,7 +120,7 @@ class _StorePageState extends State<StorePage> {
               BlocBuilder<StoreCubit, StoreState>(
                 bloc: _storeCubit,
                 builder: (BuildContext context, StoreState state) {
-                  return switch (state.status) {
+                  return switch (state.indexStatus) {
                     CubitStatus.loading => const CircularProgressIndicator.adaptive().center(),
                     CubitStatus.success => (state.ingredients.isEmpty)
                         ? const SizedBox.shrink()
@@ -137,7 +137,8 @@ class _StorePageState extends State<StorePage> {
                               (index) => GestureDetector(
                                 onTap: () async {
                                   _currentKey.value = await context.push(
-                                    AppRoutes.ingredient,
+                                    '${AppRoutes.ingredient}?id=${state.ingredients[index].id}',
+
                                     extra: (cartClick, wishlistClick),
                                   ).then((isCart) {
                                     return switch (isCart) {

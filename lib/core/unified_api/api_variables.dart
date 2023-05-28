@@ -14,7 +14,7 @@ class ApiVariables {
     final uri = Uri(
       scheme: _scheme,
       host: _host,
-      path: '/$path',
+      path: 'user/$path',
       queryParameters: queryParameters,
     );
     log(uri.toString());
@@ -23,7 +23,7 @@ class ApiVariables {
 
   ///Auth
   static Uri _auth({required String path}) {
-    return _mainUri(path: 'user/$path');
+    return _mainUri(path: 'auth/$path');
   }
 
   static Uri register() {
@@ -46,6 +46,10 @@ class ApiVariables {
   static Uri indexRecipes({Map<String, dynamic>? queryParameters}) =>
       _mobileUri(path: 'recipe/index', queryParameters: queryParameters);
 
+  /////ingredient////
   static Uri indexIngredients({Map<String, dynamic>? queryParameters}) =>
       _mobileUri(path: 'ingredient', queryParameters: queryParameters);
+
+  static Uri showIngredients({required String id, Map<String, dynamic>? queryParameters}) =>
+      _mobileUri(path: 'ingredient/$id');
 }

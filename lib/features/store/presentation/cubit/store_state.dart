@@ -2,20 +2,30 @@
 part of 'store_cubit.dart';
 
 class StoreState {
-  final CubitStatus status;
+  final CubitStatus indexStatus;
   final List<IngredientModel> ingredients;
+
+  final CubitStatus showStatus;
+  final IngredientModel? ingredient;
+
   const StoreState({
-    this.status = CubitStatus.initial,
+    this.indexStatus = CubitStatus.initial,
     this.ingredients = const [],
+    this.showStatus = CubitStatus.initial,
+    this.ingredient,
   });
 
   StoreState copyWith({
-    CubitStatus? status,
+    CubitStatus? indexStatus,
     List<IngredientModel>? ingredients,
+    CubitStatus? showStatus,
+    IngredientModel? ingredient,
   }) {
     return StoreState(
-      status: status ?? this.status,
+      indexStatus: indexStatus ?? this.indexStatus,
       ingredients: ingredients ?? this.ingredients,
+      showStatus: showStatus ?? this.showStatus,
+      ingredient: ingredient ?? this.ingredient,
     );
   }
 }

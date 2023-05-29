@@ -144,7 +144,7 @@ class NotificationList extends StatelessWidget {
         padding: const EdgeInsets.all(6.0),
         child: ListTile(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          tileColor: AppColors.grey,
+          tileColor: Colors.white,
           contentPadding: const EdgeInsets.all(8),
           title: Text(
             notifications?[index]['title'] ?? 'NewRecipe',

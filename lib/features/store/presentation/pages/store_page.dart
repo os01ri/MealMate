@@ -13,6 +13,7 @@ import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
+import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class StorePage extends StatefulWidget {
@@ -43,7 +44,8 @@ class _StorePageState extends State<StorePage> {
 
   void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
-    await _cartKey.currentState!.runCartAnimation((++_cartQuantityItems).toString());
+    await _cartKey.currentState!
+        .runCartAnimation((++_cartQuantityItems).toString());
   }
 
   void wishlistClick(GlobalKey widgetKey) async {
@@ -63,9 +65,12 @@ class _StorePageState extends State<StorePage> {
             height: 30,
             width: 30,
             opacity: .9,
-            dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
-            jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
-            createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
+            dragAnimation: const DragToCartAnimationOptions(
+                rotation: true, duration: Duration(milliseconds: 400)),
+            jumpAnimation: const JumpAnimationOptions(
+                active: false, duration: Duration(milliseconds: 150)),
+            createAddToCartAnimation: (runAddToCartAnimation) =>
+                _runAddToCartAnimation = runAddToCartAnimation,
             child: child!,
           );
         },
@@ -95,9 +100,18 @@ class _StorePageState extends State<StorePage> {
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
-                icon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.shopping_bag_outlined),
+                icon: BlocBuilder<StoreCubit, StoreState>(
+                  builder: (context, state) {
+                    return IconButton(
+                      onPressed: () {
+                        if (state.ingredients.isNotEmpty)
+                          context.push(AppRoutes.cartPage,
+                              extra: CartArguments(
+                                  ingredients: state.ingredients));
+                      },
+                      icon: const Icon(Icons.shopping_bag_outlined),
+                    );
+                  },
                 ),
               ),
             ],
@@ -121,11 +135,13 @@ class _StorePageState extends State<StorePage> {
                 bloc: _storeCubit,
                 builder: (BuildContext context, StoreState state) {
                   return switch (state.indexStatus) {
-                    CubitStatus.loading => const CircularProgressIndicator.adaptive().center(),
+                    CubitStatus.loading =>
+                      const CircularProgressIndicator.adaptive().center(),
                     CubitStatus.success => (state.ingredients.isEmpty)
                         ? const SizedBox.shrink()
                         : GridView(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 15,
                               mainAxisSpacing: 15,
@@ -138,7 +154,6 @@ class _StorePageState extends State<StorePage> {
                                 onTap: () async {
                                   _currentKey.value = await context.push(
                                     '${AppRoutes.ingredient}?id=${state.ingredients[index].id}',
-
                                     extra: (cartClick, wishlistClick),
                                   ).then((isCart) {
                                     return switch (isCart) {
@@ -186,10 +201,13 @@ class IngredientCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.asset(
-            // state.ingredients[index].imageUrl!,
-            PngPath.tomato,
-            fit: BoxFit.fitWidth,
+          BlocBuilder<StoreCubit, StoreState>(
+            builder: (context, state) {
+              return Image.network(
+                state.ingredients[index].url ?? PngPath.tomato,
+                fit: BoxFit.fitWidth,
+              );
+            },
           ),
           Column(
             children: [
@@ -207,7 +225,9 @@ class IngredientCard extends StatelessWidget {
                 child: Text(
                   // '1 Kg => ${state.ingredients[index].price}\$',
                   '1 Kg => 5000 SYP',
-                  style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
+                  style: const TextStyle(color: AppColors.lightTextColor)
+                      .smallFontSize
+                      .semiBold,
                 ),
               ),
               const SizedBox(height: 10),

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Meal Mate',
         theme: AppTheme.getColor(),
-        routerConfig: AppRouter.router,
+        routerConfig: AppRouter.router, 
         builder: botToastBuilder,
         locale: const Locale('en', ''),
         supportedLocales: const [Locale('ar', ''), Locale('en', '')],

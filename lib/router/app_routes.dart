@@ -23,4 +23,5 @@ class AppRoutes {
   static const storePage = '/store';
   static const ingredient = '/ingredient';
   static const wishListPage = '/wishlist';
+  static const cartPage = '/cart';
 }

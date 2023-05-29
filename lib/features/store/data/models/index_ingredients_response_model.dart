@@ -46,24 +46,27 @@ class IngredientModel {
   final int? price;
   final int? priceBy;
   final List<NutritionalValue>? nutritionalValues;
-
+final String? url;
   IngredientModel({
     this.id,
     this.name,
     this.price,
     this.priceBy,
-    this.nutritionalValues,
+      this.nutritionalValues,
+      this.url
   });
 
   IngredientModel copyWith({
     String? id,
     String? name,
+    String? url,
     int? price,
     int? priceBy,
     List<NutritionalValue>? nutritionalValues,
   }) =>
       IngredientModel(
         id: id ?? this.id,
+        url: url ?? this.url,
         name: name ?? this.name,
         price: price ?? this.price,
         priceBy: priceBy ?? this.priceBy,
@@ -75,6 +78,7 @@ class IngredientModel {
         name: json["name"],
         price: json["price"],
         priceBy: json["price_by"],
+        url: json["url"],
         nutritionalValues: json["nutritionals"] == null
             ? []
             : List<NutritionalValue>.from(json["nutritionals"]!.map((x) => NutritionalValue.fromJson(x))),
@@ -85,6 +89,7 @@ class IngredientModel {
         "name": name,
         "price": price,
         "price_by": priceBy,
+        "url": url,
         "nutritionals": nutritionalValues == null ? [] : List<dynamic>.from(nutritionalValues!.map((x) => x.toJson())),
       };
 }

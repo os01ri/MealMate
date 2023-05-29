@@ -119,13 +119,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _cubitListener(context, state) async {
+  void _cubitListener(BuildContext context, state) async {
     if (state.status == AuthStatus.loading) {
       UiMessages.showLoading();
     } else if (state.status == AuthStatus.success) {
       await HelperFunctions.setUserData(state.user!);
       UiMessages.closeLoading();
-      context.go(AppRoutes.accountCreationLoading);
+      context.go((AppRoutes.accountCreationLoading));
       log('loged in successfuly');
     } else if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();

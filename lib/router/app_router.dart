@@ -21,6 +21,7 @@ import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/features/store/presentation/pages/wishlist_page.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
+import '../features/store/presentation/pages/cart_page.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -75,6 +76,7 @@ class AppRouter {
           ));
         },
       ),
+    
     ],
   );
 
@@ -131,6 +133,14 @@ class AppRouter {
         state: state,
         child: const RecipeIntroPage(),
       ),
+    ),
+    GoRoute(
+      path: AppRoutes.cartPage,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return NoTransitionPage(
+            child: CartPage(arguments: state.extra as CartArguments));
+      },
     ),
     GoRoute(
       path: AppRoutes.recipeCreate,

@@ -6,10 +6,10 @@ import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
-import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
@@ -81,14 +81,18 @@ class _IngredientPageState extends State<IngredientPage> {
                       children: [
                         Container(
                           key: _widgetKey,
-                          child: Image.asset(
-                            PngPath.tomato,
-                            fit: BoxFit.fitWidth,
+                          child: CachedNetworkImage(
+                            hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
+                            url: state.ingredient!.url!,
                             width: context.width,
-                          ).hero('picture'),
+                            height: context.width,
+                          ),
                         ),
-                        const _RecipeBudget().paddingVertical(8),
-                        const _IngredientList().expand(),
+                        _IngredientBudgetCard(
+                          price: state.ingredient!.price!,
+                          quantity: state.ingredient!.priceBy!,
+                        ).paddingVertical(8),
+                        const _InfoList().expand(),
                       ],
                     ).expand(),
                     MainButton(
@@ -111,8 +115,8 @@ class _IngredientPageState extends State<IngredientPage> {
   }
 }
 
-class _IngredientList extends StatelessWidget {
-  const _IngredientList();
+class _InfoList extends StatelessWidget {
+  const _InfoList();
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,10 @@ import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
@@ -44,8 +46,7 @@ class _StorePageState extends State<StorePage> {
 
   void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
-    await _cartKey.currentState!
-        .runCartAnimation((++_cartQuantityItems).toString());
+    await _cartKey.currentState!.runCartAnimation((++_cartQuantityItems).toString());
   }
 
   void wishlistClick(GlobalKey widgetKey) async {
@@ -65,12 +66,9 @@ class _StorePageState extends State<StorePage> {
             height: 30,
             width: 30,
             opacity: .9,
-            dragAnimation: const DragToCartAnimationOptions(
-                rotation: true, duration: Duration(milliseconds: 400)),
-            jumpAnimation: const JumpAnimationOptions(
-                active: false, duration: Duration(milliseconds: 150)),
-            createAddToCartAnimation: (runAddToCartAnimation) =>
-                _runAddToCartAnimation = runAddToCartAnimation,
+            dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
+            jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
+            createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
             child: child!,
           );
         },
@@ -104,10 +102,9 @@ class _StorePageState extends State<StorePage> {
                   builder: (context, state) {
                     return IconButton(
                       onPressed: () {
-                        if (state.ingredients.isNotEmpty)
-                          context.push(AppRoutes.cartPage,
-                              extra: CartArguments(
-                                  ingredients: state.ingredients));
+                        if (state.ingredients.isNotEmpty) {
+                          context.push(AppRoutes.cartPage, extra: CartArguments(ingredients: state.ingredients));
+                        }
                       },
                       icon: const Icon(Icons.shopping_bag_outlined),
                     );
@@ -135,13 +132,11 @@ class _StorePageState extends State<StorePage> {
                 bloc: _storeCubit,
                 builder: (BuildContext context, StoreState state) {
                   return switch (state.indexStatus) {
-                    CubitStatus.loading =>
-                      const CircularProgressIndicator.adaptive().center(),
+                    CubitStatus.loading => const CircularProgressIndicator.adaptive().center(),
                     CubitStatus.success => (state.ingredients.isEmpty)
                         ? const SizedBox.shrink()
                         : GridView(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 15,
                               mainAxisSpacing: 15,
@@ -164,8 +159,7 @@ class _StorePageState extends State<StorePage> {
                                   });
                                 },
                                 child: IngredientCard(
-                                  index: index,
-                                  title: state.ingredients[index].name!,
+                                  ingredient: state.ingredients[index],
                                 ).paddingHorizontal(0),
                               ),
                             ),
@@ -185,53 +179,50 @@ class _StorePageState extends State<StorePage> {
 class IngredientCard extends StatelessWidget {
   const IngredientCard({
     super.key,
-    required this.title,
-    required this.index,
+    required this.ingredient,
   });
 
-  final String title;
-  final int index;
+  final IngredientModel ingredient;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      // width: context.width * .5,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-          BlocBuilder<StoreCubit, StoreState>(
-            builder: (context, state) {
-              return Image.network(
-                state.ingredients[index].url ?? PngPath.tomato,
-                fit: BoxFit.fitWidth,
-              );
-            },
+          CachedNetworkImage(
+            hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
+            url: ingredient.url!,
+            width: context.width * .5 - 45,
+            height: context.width * .5 - 45,
           ),
-          Column(
-            children: [
-              const SizedBox(height: 10),
-              SizedBox(
-                width: context.width * .3,
-                child: Text(
-                  title,
-                  softWrap: true,
-                  style: const TextStyle().normalFontSize.bold,
+          FittedBox(
+            child: Column(
+              children: [
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: context.width * .3,
+                  child: Text(
+                    ingredient.name!,
+                    softWrap: true,
+                    style: const TextStyle().normalFontSize.bold,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: context.width * .3,
-                child: Text(
-                  // '1 Kg => ${state.ingredients[index].price}\$',
-                  '1 Kg => 5000 SYP',
-                  style: const TextStyle(color: AppColors.lightTextColor)
-                      .smallFontSize
-                      .semiBold,
+                SizedBox(
+                  width: context.width * .3,
+                  child: Text(
+                    // '1 Kg => ${state.ingredients[index].price}\$',
+                    '${ingredient.priceBy} Kg => ${ingredient.price} SYP',
+                    style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-            ],
+                const SizedBox(height: 5),
+              ],
+            ),
           ),
         ],
       ),

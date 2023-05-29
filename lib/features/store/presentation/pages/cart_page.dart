@@ -21,7 +21,7 @@ class CartPageState extends State<CartPage> {
       appBar: RecipeAppBar(
         context: context,
         centerText: true,
-        actions: [],
+        actions: const [],
         title: "Order Preview",
       ),
       body: Padding(
@@ -35,16 +35,14 @@ class CartPageState extends State<CartPage> {
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 25),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                       leading: Image.network(
                         widget.arguments.ingredients[index].url ?? PngPath.food,
                         fit: BoxFit.fill,
                         width: context.width * .2,
                         height: context.width * .2,
                       ),
-                      title: Text(widget.arguments.ingredients[index].name ??
-                          "Ingredients"),
+                      title: Text(widget.arguments.ingredients[index].name ?? "Ingredients"),
                       subtitle: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [Text("1 KG"), Text("1000 SYP")],
@@ -52,23 +50,20 @@ class CartPageState extends State<CartPage> {
                       trailing: FittedBox(
                         fit: BoxFit.fitHeight,
                         child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               const Icon(Icons.add),
                               ValueListenableBuilder(
                                 valueListenable: ValueNotifier(0),
-                                builder: (BuildContext context, dynamic value,
-                                    Widget? child) {
+                                builder: (BuildContext context, dynamic value, Widget? child) {
                                   return Container(
                                       color: AppColors.grey2,
-                                      padding: EdgeInsets.all(4),
+                                      padding: const EdgeInsets.all(4),
                                       child: Text(
                                         "$value",
-                                        style: AppTextStyles.styleWeight500(
-                                            fontSize: 20),
+                                        style: AppTextStyles.styleWeight500(fontSize: 20),
                                       ));
                                 },
                               ),
@@ -91,13 +86,12 @@ class CartPageState extends State<CartPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.circle, size: 10),
+                        const Icon(Icons.circle, size: 10),
                         SizedBox(
                           width: context.width * .7,
-                          child: const Divider(
-                              color: AppColors.brown, thickness: 2, indent: 0),
+                          child: const Divider(color: AppColors.brown, thickness: 2, indent: 0),
                         ),
-                        Icon(Icons.circle, size: 10),
+                        const Icon(Icons.circle, size: 10),
                       ],
                     ),
                   ),
@@ -131,14 +125,10 @@ class CartPageState extends State<CartPage> {
                       fontSize: 20,
                       width: context.width * .55,
                       text: 'Please Add Your Address',
-                      icon: Icon(Icons.location_on_outlined, size: 35),
+                      icon: const Icon(Icons.location_on_outlined, size: 35),
                       color: AppColors.lightTextColor,
                       onPressed: () {}),
-                  MainButton(
-                      width: context.width * .75,
-                      text: "Place Order",
-                      color: AppColors.orange,
-                      onPressed: () {})
+                  MainButton(width: context.width * .75, text: "Place Order", color: AppColors.orange, onPressed: () {})
                 ],
               ),
             )

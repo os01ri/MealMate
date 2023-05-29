@@ -1,7 +1,13 @@
 part of '../pages/ingredient_page.dart';
 
-class _RecipeBudget extends StatelessWidget {
-  const _RecipeBudget();
+class _IngredientBudgetCard extends StatelessWidget {
+  const _IngredientBudgetCard({
+    required this.quantity,
+    required this.price,
+  });
+
+  final int quantity;
+  final int price;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,10 @@ class _RecipeBudget extends StatelessWidget {
               ).paddingAll(10),
             ),
             const Icon(Icons.remove),
-            const Text('2 Kg').paddingHorizontal(12),
+            Text(
+              '$quantity Kg',
+              style: const TextStyle().middleFontSize.bold,
+            ).paddingHorizontal(2),
             const Icon(Icons.add),
           ],
         ).expand(),
@@ -34,7 +43,7 @@ class _RecipeBudget extends StatelessWidget {
               ).paddingAll(10),
             ),
             Text(
-              '5,000 SYP',
+              '$price SYP',
               style: const TextStyle().bold,
               textAlign: TextAlign.center,
             ).expand(),

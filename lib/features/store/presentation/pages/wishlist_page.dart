@@ -3,6 +3,7 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/app_routes.dart';
 
@@ -41,8 +42,7 @@ class WishlistPage extends StatelessWidget {
                 );
               },
               child: IngredientCard(
-                index: index,
-                title: 'بندورة',
+                ingredient: IngredientModel(),
               ).paddingHorizontal(0),
             ),
           ),

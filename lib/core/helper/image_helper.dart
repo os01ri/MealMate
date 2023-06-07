@@ -1,4 +1,4 @@
-part of 'helper_functions.dart';
+part of 'helper.dart';
 
 class _ImageHelper {
   _ImageHelper._();

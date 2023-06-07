@@ -10,9 +10,11 @@ import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/domain/usecases/add_to_wishlist_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/injection_container.dart';
@@ -37,25 +39,21 @@ class IngredientPage extends StatefulWidget {
 
 class _IngredientPageState extends State<IngredientPage> {
   late final GlobalKey _widgetKey;
-  late final StoreCubit _storeCubit;
 
   @override
   void initState() {
     super.initState();
     _widgetKey = GlobalKey();
     log(widget.id);
-    _storeCubit = StoreCubit()..showIngredient(ShowIngredientParams(id: widget.id));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _storeCubit,
+      create: (context) => StoreCubit()..showIngredient(ShowIngredientParams(id: widget.id)),
       child: Scaffold(
         body: BlocConsumer<StoreCubit, StoreState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: _listener,
           builder: (context, state) {
             if (state.showStatus == CubitStatus.loading) {
               return const CircularProgressIndicator.adaptive().center();
@@ -69,8 +67,9 @@ class _IngredientPageState extends State<IngredientPage> {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        context.pop(false);
-                        widget.onAddToWishlist(_widgetKey);
+                        context.read<StoreCubit>().addToWishlist(AddToWishlistParams(
+                              ingredientId: state.ingredient!.id!,
+                            ));
                       },
                       icon: const Icon(Icons.bookmark_add_outlined),
                     ),
@@ -114,6 +113,20 @@ class _IngredientPageState extends State<IngredientPage> {
         ),
       ),
     );
+  }
+
+  void _listener(BuildContext context, StoreState state) {
+    if (state.addToWishlistStatus == CubitStatus.loading) {
+      UiMessages.showLoading();
+    } else if (state.addToWishlistStatus == CubitStatus.failure) {
+      UiMessages.closeLoading();
+      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+    } else if (state.addToWishlistStatus == CubitStatus.success) {
+      UiMessages.closeLoading();
+      UiMessages.showToast('تم');
+      context.pop(false);
+      widget.onAddToWishlist(_widgetKey);
+    }
   }
 }
 

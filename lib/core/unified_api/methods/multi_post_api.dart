@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mealmate/core/helper/type_defs.dart';
 
 import '../handling_exception_request.dart'; 
 
-typedef FromJson<T> = T Function(String body);
 
 class MultiPostApi with HandlingExceptionRequest {
   final Uri uri;

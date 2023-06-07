@@ -1,23 +1,24 @@
+import 'package:mealmate/core/helper/type_defs.dart';
 import 'package:mealmate/core/unified_api/api_variables.dart';
 import 'package:mealmate/core/unified_api/methods/post_api.dart';
-import 'package:mealmate/features/auth/domain/entities/user.dart';
+import 'package:mealmate/features/auth/data/models/login_response_model.dart';
 
 class RemoteAuthDataSource {
-  Future<User> registerUser({required Map<String, dynamic> params}) async {
+  Future<LoginResponseModel> registerUser({required BodyMap body}) async {
     PostApi postApi = PostApi(
       uri: ApiVariables.register(),
-      body: params,
-      fromJson: userModelFromJson,
+      body: body,
+      fromJson: loginResponseModelFromJson,
     );
     final result = await postApi.callRequest();
     return result;
   }
 
-  Future<User> loginUser({required Map<String, dynamic> body}) async {
+  Future<LoginResponseModel> loginUser({required BodyMap body}) async {
     PostApi postApi = PostApi(
       uri: ApiVariables.login(),
       body: body,
-      fromJson: userModelFromJson,
+      fromJson: loginResponseModelFromJson,
     );
     final result = await postApi.callRequest();
     return result;

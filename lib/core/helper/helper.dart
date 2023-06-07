@@ -4,28 +4,42 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/features/auth/data/models/login_response_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../features/auth/domain/entities/user.dart';
-import '../ui/theme/colors.dart';
 import 'prefs_keys.dart';
 
 part 'image_helper.dart';
 
-class HelperFunctions {
-  HelperFunctions._();
+class Helper {
+  Helper._();
+
+  ////////////////////
+  static String? _userToken;
+  static String? get userToken => _userToken;
+  static Future<void> setUserToken(String token) async {
+    _userToken = token;
+  }
+  ////////////////////
 
   static Future<bool> isAuth() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.containsKey(PrefsKeys.userInfo);
   }
 
-  static Future<void> setUserData(User user) async {
+  static Future<void> setUserDataToStorage(UserModel user) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     await sp.setString(PrefsKeys.userInfo, userModelToJson(user));
     log("${sp.getString(PrefsKeys.userInfo)}");
+  }
+
+  static Future<String?> getTokenFromStorage() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').tokenInfo!.token;
+    return token;
   }
 
   static Future<bool> isFirstTime() async {
@@ -37,12 +51,6 @@ class HelperFunctions {
     }
 
     return false;
-  }
-
-  static Future<String?> getToken() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').token;
-    return token;
   }
 
   static Future<String> getFCMToken({bool getFCMToken = false}) async {

@@ -8,11 +8,19 @@ class StoreState {
   final CubitStatus showStatus;
   final IngredientModel? ingredient;
 
+  final CubitStatus indexWishlistStatus;
+  final List<WishlistItem> wishItems;
+
+  final CubitStatus addToWishlistStatus;
+
   const StoreState({
     this.indexStatus = CubitStatus.initial,
     this.ingredients = const [],
     this.showStatus = CubitStatus.initial,
     this.ingredient,
+    this.indexWishlistStatus = CubitStatus.initial,
+    this.wishItems = const [],
+    this.addToWishlistStatus = CubitStatus.initial,
   });
 
   StoreState copyWith({
@@ -20,12 +28,18 @@ class StoreState {
     List<IngredientModel>? ingredients,
     CubitStatus? showStatus,
     IngredientModel? ingredient,
+    CubitStatus? indexWishlistStatus,
+    List<WishlistItem>? wishItems,
+    CubitStatus? addToWishlistStatus,
   }) {
     return StoreState(
       indexStatus: indexStatus ?? this.indexStatus,
       ingredients: ingredients ?? this.ingredients,
       showStatus: showStatus ?? this.showStatus,
       ingredient: ingredient ?? this.ingredient,
+      indexWishlistStatus: indexWishlistStatus ?? this.indexWishlistStatus,
+      wishItems: wishItems ?? this.wishItems,
+      addToWishlistStatus: addToWishlistStatus ?? this.addToWishlistStatus,
     );
   }
 }

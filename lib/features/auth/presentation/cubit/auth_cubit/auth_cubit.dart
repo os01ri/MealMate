@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:mealmate/features/auth/data/models/login_response_model.dart';
 import 'package:mealmate/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:mealmate/features/auth/domain/entities/user.dart';
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 
@@ -19,7 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
-      (r) => emit(state.copyWith(status: AuthStatus.success, user: r)),
+      (r) => emit(state.copyWith(status: AuthStatus.success, user: r.data)),
     );
   }
 
@@ -30,7 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
-      (r) => emit(state.copyWith(status: AuthStatus.success, user: r)),
+      (r) => emit(state.copyWith(status: AuthStatus.success, user: r.data)),
     );
   }
 }

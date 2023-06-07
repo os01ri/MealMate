@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mealmate/core/helper/type_defs.dart';
 
-import '../../helper/helper_functions.dart';
+import '../../helper/helper.dart';
 import '../handling_exception_request.dart';
 
-typedef FromJson<T> = T Function(String body);
 
 class GetApi<T> with HandlingExceptionRequest {
   final Uri uri;
@@ -24,11 +24,10 @@ class GetApi<T> with HandlingExceptionRequest {
   Future<T> callRequest() async {
     //TODO
 
-    String? token = await HelperFunctions.getToken();
-    // String? token =
-    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2ZjljY2NjLWZhYzMtNDk4Zi1hY2JjLWZjMDJhZWY3OWU3ZSIsImlhdCI6MTY4NDc4NzYzNiwiZXhwIjoxNjg0NzkxMjM2fQ.UOTlWAjkwopK11PkWjC1MQR5cPS_q5vQYWyVBqd4Gbk';
+    String? token = Helper.userToken;
+    log(token.toString(), name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
-    bool isAuth = await HelperFunctions.isAuth();
+    // bool isAuth = await Helper.isAuth();
     String? deviceId = "";
     if (getFCMToken) {
       // deviceId = await HelperFunctions.getDeviceId(); TODO: uncomment
@@ -38,7 +37,7 @@ class GetApi<T> with HandlingExceptionRequest {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         // 'fcm_token': fcmToken,
-        if (isAuth) 'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer $token',
         if (getFCMToken) "device_id": deviceId,
       };
       var request = http.Request('GET', uri);

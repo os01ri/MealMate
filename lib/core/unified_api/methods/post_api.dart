@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mealmate/core/helper/type_defs.dart';
 
-import '../../helper/helper_functions.dart';
+import '../../helper/helper.dart';
 import '../handling_exception_request.dart';
 
-typedef FromJson<T> = T Function(String body);
 
 class PostApi<T> with HandlingExceptionRequest {
   final Uri uri;
@@ -25,9 +25,9 @@ class PostApi<T> with HandlingExceptionRequest {
   });
 
   Future<T> callRequest() async {
-    String? token = await HelperFunctions.getToken();
+    String? token = Helper.userToken;
     // String fcmToken = await HelperFunctions.getFCMToken();
-    bool isAuth = await HelperFunctions.isAuth();
+    bool isAuth = await Helper.isAuth();
 
     log('the token in the request header is $token', name: 'request manager ==> post function ');
     try {

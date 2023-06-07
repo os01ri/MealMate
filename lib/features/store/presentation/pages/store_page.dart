@@ -207,8 +207,8 @@ class IngredientCard extends StatelessWidget {
           CachedNetworkImage(
             hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
             url: ingredient.url!,
-            width: context.width * .5 - 45,
-            height: context.width * .5 - 45,
+            width: context.width * .5 - 65,
+            height: context.width * .5 - 65,
           ),
           FittedBox(
             child: Column(
@@ -219,7 +219,7 @@ class IngredientCard extends StatelessWidget {
                   child: Text(
                     ingredient.name!,
                     softWrap: true,
-                    style: const TextStyle().normalFontSize.bold,
+                    style: const TextStyle().normal2FontSize.bold,
                   ),
                 ),
                 SizedBox(
@@ -227,7 +227,7 @@ class IngredientCard extends StatelessWidget {
                   child: Text(
                     // '1 Kg => ${state.ingredients[index].price}\$',
                     '${ingredient.priceBy} كجم => ${ingredient.price} ل.س',
-                    style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
+                    style: const TextStyle(color: AppColors.lightTextColor).middleFontSize.semiBold,
                   ),
                 ),
                 const SizedBox(height: 5),

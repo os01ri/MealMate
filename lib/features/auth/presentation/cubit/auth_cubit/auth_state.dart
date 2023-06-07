@@ -4,7 +4,7 @@ enum AuthStatus { loading, success, failed, init }
 
 class AuthState {
   final AuthStatus status;
-  final User? user;
+  final UserModel? user;
 
   const AuthState({
     this.status = AuthStatus.init,
@@ -13,7 +13,7 @@ class AuthState {
 
   AuthState copyWith({
     AuthStatus? status,
-    User? user,
+    UserModel? user,
   }) =>
       AuthState(
         status: status ?? this.status,

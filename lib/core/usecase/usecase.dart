@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
 
 import '../error/failures.dart';
 
@@ -7,15 +8,15 @@ abstract class UseCase<Type, Params> {
 }
 
 abstract class UseCaseParams {
-  Map<String, dynamic> getBody() => {};
+  BodyMap getBody() => {};
 
-  Map<String, dynamic> getParams() => {};
+  ParamsMap getParams() => {};
 }
 
 class NoParams implements UseCaseParams {
   @override
-  Map<String, dynamic> getBody() => {};
+  BodyMap getBody() => {};
 
   @override
-  Map<String, dynamic> getParams() => {};
+  ParamsMap getParams() => {};
 }

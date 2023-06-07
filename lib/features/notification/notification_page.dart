@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
-import 'package:mealmate/core/helper/helper_functions.dart';
+import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
@@ -38,8 +38,8 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list_alt),
-            onPressed: () async {
-              final token = await HelperFunctions.getToken();
+            onPressed: () {
+              final token = Helper.userToken;
               log(token ?? "omar");
             },
           )

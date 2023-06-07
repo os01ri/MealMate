@@ -7,7 +7,7 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/validation_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
-import 'package:mealmate/core/helper/helper_functions.dart';
+import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
@@ -144,11 +144,12 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _cubitListener(BuildContext context, state) async {
+  void _cubitListener(BuildContext context, AuthState state) async {
     if (state.status == AuthStatus.loading) {
       UiMessages.showLoading();
     } else if (state.status == AuthStatus.success) {
-      if (_saveLogin.value) await HelperFunctions.setUserData(state.user!);
+      if (_saveLogin.value) await Helper.setUserDataToStorage(state.user!);
+      Helper.setUserToken(state.user!.tokenInfo!.token!);
       UiMessages.closeLoading();
       context.go((AppRoutes.accountCreationLoading));
       log('logged in successfully');

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/cubit_status.dart';
+import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
+import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
+import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/app_routes.dart';
 
@@ -17,34 +22,52 @@ class WishlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: RecipeAppBar(
-        context: context,
-        title: 'Wishlist',
-      ),
-      body: Padding(
-        padding: AppConfig.pagePadding.copyWith(top: 20),
-        child: GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15,
-            childAspectRatio: .85,
-          ),
-          scrollDirection: Axis.vertical,
-          children: List.generate(
-            3,
-            (index) => GestureDetector(
-              onTap: () async {
-                context.push(
-                  AppRoutes.ingredient,
-                  extra: (onAddToCart, onAddToCart),
+    return BlocProvider(
+      create: (context) => StoreCubit()..getWishlist(const IndexWishlistParams()),
+      child: Scaffold(
+        appBar: RecipeAppBar(
+          context: context,
+          title: 'Wishlist',
+        ),
+        body: Padding(
+          padding: AppConfig.pagePadding.copyWith(top: 20),
+          child: BlocBuilder<StoreCubit, StoreState>(
+            builder: (context, state) {
+              if (state.indexWishlistStatus == CubitStatus.loading) {
+                return const CircularProgressIndicator.adaptive().center();
+              } else if (state.indexWishlistStatus == CubitStatus.success) {
+                return GridView(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                    childAspectRatio: .85,
+                  ),
+                  scrollDirection: Axis.vertical,
+                  children: List.generate(
+                    state.wishItems.length,
+                    (index) => GestureDetector(
+                      onTap: () async {
+                        context.push(
+                          AppRoutes.ingredient,
+                          extra: (onAddToCart, onAddToCart),
+                        );
+                      },
+                      child: IngredientCard(
+                        ingredient: state.wishItems[index].ingredient!,
+                      ).paddingHorizontal(0),
+                    ),
+                  ),
                 );
-              },
-              child: IngredientCard(
-                ingredient: IngredientModel(),
-              ).paddingHorizontal(0),
-            ),
+              } else {
+                return MainErrorWidget(
+                  onTap: () {
+                    context.read<StoreCubit>().getWishlist(const IndexWishlistParams());
+                  },
+                  size: context.deviceSize,
+                ).center();
+              }
+            },
           ),
         ),
       ),

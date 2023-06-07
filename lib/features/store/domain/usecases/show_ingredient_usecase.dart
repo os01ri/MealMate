@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:mealmate/core/error/failures.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
 import 'package:mealmate/core/usecase/usecase.dart';
 import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
 import 'package:mealmate/features/store/domain/repositories/store_repository.dart';
@@ -21,8 +22,8 @@ class ShowIngredientParams implements UseCaseParams {
   const ShowIngredientParams({required this.id});
 
   @override
-  Map<String, dynamic> getParams() => {};
+  ParamsMap getParams() => {};
 
   @override
-  Map<String, dynamic> getBody() => {};
+  BodyMap getBody() => {};
 }

@@ -3,7 +3,7 @@ import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
-import 'package:mealmate/core/helper/helper_functions.dart';
+import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
@@ -35,7 +35,7 @@ class OnboardingPage extends StatelessWidget {
     )
   ];
 
-  final List<Map<String , String>> _texts = [
+  final List<Map<String, String>> _texts = [
     {
       _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle1,
       _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription1,
@@ -165,7 +165,7 @@ class _IntroState extends State<Intro> {
                           duration: AppConfig.pageViewAnimationDuration,
                           curve: Curves.ease,
                         );
-                        await HelperFunctions.isFirstTime();
+                        await Helper.isFirstTime();
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
                           context.go(AppRoutes.login);
                         }

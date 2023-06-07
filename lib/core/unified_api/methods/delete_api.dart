@@ -2,11 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mealmate/core/helper/type_defs.dart';
 
-import '../../helper/helper_functions.dart';
+import '../../helper/helper.dart';
 import '../handling_exception_request.dart';
 
-typedef FromJson<T> = T Function(String body);
 
 class DeleteApi<T> with HandlingExceptionRequest {
   final Uri uri;
@@ -16,9 +16,9 @@ class DeleteApi<T> with HandlingExceptionRequest {
     required this.fromJson,
   });
   Future<T> callRequest() async {
-    String? token = await HelperFunctions.getToken();
-    String fcmToken = await HelperFunctions.getFCMToken();
-    bool isAuth = await HelperFunctions.isAuth();
+    String? token = Helper.userToken;
+    String fcmToken = await Helper.getFCMToken();
+    bool isAuth = await Helper.isAuth();
     try {
       Map<String, String> headers = {
         'Content-Type': 'application/json',
@@ -28,8 +28,7 @@ class DeleteApi<T> with HandlingExceptionRequest {
       };
       var request = http.Request('DELETE', uri);
       request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(const Duration(seconds: 20));
+      http.StreamedResponse streamedResponse = await request.send().timeout(const Duration(seconds: 20));
       http.Response response = await http.Response.fromStream(streamedResponse);
       log(response.body);
       if (response.statusCode == 200) {

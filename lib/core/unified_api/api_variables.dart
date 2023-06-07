@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:mealmate/core/helper/type_defs.dart';
+
 class ApiVariables {
   /////////////
   ///General///
@@ -9,21 +11,26 @@ class ApiVariables {
 
   static Uri _mainUri({
     required String path,
-    Map<String, dynamic>? queryParameters,
+    ParamsMap queryParameters,
   }) {
     final uri = Uri(
       scheme: _scheme,
       host: _host,
-      path: 'user/$path',
+      path: path,
       queryParameters: queryParameters,
     );
     log(uri.toString());
     return uri;
   }
 
+  static Uri _mobileUri({required String path, ParamsMap queryParameters}) => _mainUri(
+        path: 'user/$path',
+        queryParameters: queryParameters,
+      );
+
   ///Auth
   static Uri _auth({required String path}) {
-    return _mainUri(path: 'auth/$path');
+    return _mobileUri(path: 'auth/$path');
   }
 
   static Uri register() {
@@ -38,18 +45,20 @@ class ApiVariables {
   // Uri uploadVideo() => _mainUri(path: "videoUpload");
   // Uri uploadGif() => _mainUri(path: "GIFUpload");
 
-  static Uri _mobileUri({required String path, Map<String, dynamic>? queryParameters}) => _mainUri(
-        path: path,
-        queryParameters: queryParameters,
-      );
-
-  static Uri indexRecipes({Map<String, dynamic>? queryParameters}) =>
+  static Uri indexRecipes({ParamsMap queryParameters}) =>
       _mobileUri(path: 'recipe/index', queryParameters: queryParameters);
 
   /////ingredient////
-  static Uri indexIngredients({Map<String, dynamic>? queryParameters}) =>
+  static Uri indexIngredients({ParamsMap queryParameters}) =>
       _mobileUri(path: 'ingredient', queryParameters: queryParameters);
 
-  static Uri showIngredients({required String id, Map<String, dynamic>? queryParameters}) =>
-      _mobileUri(path: 'ingredient/$id');
+  static Uri showIngredients({required String id, ParamsMap queryParameters}) => _mobileUri(path: 'ingredient/$id');
+
+  static Uri indexWishlist({ParamsMap queryParameters}) => _mobileUri(
+        path: 'wishlist',
+      );
+
+  static Uri addToWishlist({ParamsMap queryParameters}) => _mobileUri(
+        path: 'wishlist/addtowishlist',
+      );
 }

@@ -14,6 +14,9 @@ import 'package:mealmate/features/onboarding/presentation/widgets/slide.dart';
 import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
+const _titleKey = 'title';
+const _descriptionKey = 'description';
+
 class OnboardingPage extends StatelessWidget {
   final List<Widget> _pages = [
     Slide(
@@ -32,18 +35,18 @@ class OnboardingPage extends StatelessWidget {
     )
   ];
 
-  final List<Map<String, String>> _texts = [
+  final List<Map<String , String>> _texts = [
     {
-      'title': serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle1,
-      'description': serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription1,
+      _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle1,
+      _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription1,
     },
     {
-      'title': serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle2,
-      'description': serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription2,
+      _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle2,
+      _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription2,
     },
     {
-      'title': serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle3,
-      'description': serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription3,
+      _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle3,
+      _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription3,
     }
   ];
 
@@ -99,7 +102,7 @@ class _IntroState extends State<Intro> {
       backgroundColor: AppColors.orange.withOpacity(1),
       body: SafeArea(
         child: CustomPaint(
-          painter: RPSCustomPainter(),
+          painter: const RPSCustomPainter(),
           size: context.deviceSize,
           child: ValueListenableBuilder(
             valueListenable: _selectedItem,
@@ -151,11 +154,11 @@ class _IntroState extends State<Intro> {
                   Expanded(
                     flex: 5,
                     child: IntroBottomContainer(
-                      title: widget.texts[value]['title'],
+                      title: widget.texts[value][_titleKey],
                       buttonText: value != widget.pages.length - 1
                           ? serviceLocator<LocalizationClass>().appLocalizations!.next
                           : serviceLocator<LocalizationClass>().appLocalizations!.getStarted,
-                      description: widget.texts[value]['description'],
+                      description: widget.texts[value][_descriptionKey],
                       onPressed: () async {
                         _controllerPageView.animateToPage(
                           _selectedItem.value + 1,

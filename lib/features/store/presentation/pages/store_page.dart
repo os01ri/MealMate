@@ -7,6 +7,7 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
@@ -17,6 +18,7 @@ import 'package:mealmate/features/store/data/models/index_ingredients_response_m
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class StorePage extends StatefulWidget {
@@ -131,7 +133,7 @@ class _StorePageState extends State<StorePage> {
               ).padding(AppConfig.pagePadding),
               Row(
                 children: [
-                  const CategoryChoiceChip(title: serviceLocator<LocalizationClass>().appLocalizations!.all, isActive: true),
+                  CategoryChoiceChip(title: serviceLocator<LocalizationClass>().appLocalizations!.all, isActive: true),
                   for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'خضار', isActive: false),
                 ],
               ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),

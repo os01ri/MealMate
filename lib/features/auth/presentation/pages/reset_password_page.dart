@@ -25,11 +25,12 @@ class ResetPasswordPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(serviceLocator<LocalizationClass>().appLocalizations!.enterEmailToResetPassword),
+          Text(serviceLocator<LocalizationClass>().appLocalizations!.enterEmailToResetPassword),
           const SizedBox(height: 10),
-          const AuthTextField(label: serviceLocator<LocalizationClass>().appLocalizations!.email,
-           hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,)
-          ,
+          AuthTextField(
+            label: serviceLocator<LocalizationClass>().appLocalizations!.email,
+            hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,
+          ),
           const SizedBox(height: 10),
           MainButton(
             text: serviceLocator<LocalizationClass>().appLocalizations!.sendEmail,

@@ -4,12 +4,14 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/helper_functions.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/custom_intro_paint.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/intro_indicator.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/slide.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -29,10 +31,20 @@ class OnboardingPage extends StatelessWidget {
       image: Image.asset(SvgPath.intro3),
     )
   ];
-  final List<Map<String, String>> texts = [
-    {'title': 'Order Ingredients', 'description': 'Order the ingredients you need quickly with a fast process',},
-    {'title': 'Let\'s Cooking', 'description': 'Cooking based on the food recipes you find and  the food you love',},
-    {'title': 'All recipes you needed', 'description': '5000+ healthy recipes made by people for your healthy life',}
+
+  final List<Map<String, String>> _texts = [
+    {
+      'title': serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle1,
+      'description': serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription1,
+    },
+    {
+      'title': serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle2,
+      'description': serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription2,
+    },
+    {
+      'title': serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle3,
+      'description': serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription3,
+    }
   ];
 
   OnboardingPage({Key? key}) : super(key: key);
@@ -41,7 +53,7 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Intro(
       pages: _pages,
-      texts: texts,
+      texts: _texts,
       isCircle: true,
     );
   }
@@ -97,7 +109,7 @@ class _IntroState extends State<Intro> {
                   Expanded(
                     flex: 1,
                     child: Align(
-                      alignment: Alignment.topRight,
+                      alignment: AlignmentDirectional.topEnd,
                       child: value != widget.pages.length - 1
                           ? TextButton(
                               onPressed: () {
@@ -111,7 +123,7 @@ class _IntroState extends State<Intro> {
                                 foregroundColor: MaterialStatePropertyAll(AppColors.deepOrange),
                                 splashFactory: InkRipple.splashFactory,
                               ),
-                              child: const Text('Skip'),
+                              child: Text(serviceLocator<LocalizationClass>().appLocalizations!.skip),
                             )
                           : const SizedBox.shrink(),
                     ),
@@ -140,7 +152,9 @@ class _IntroState extends State<Intro> {
                     flex: 5,
                     child: IntroBottomContainer(
                       title: widget.texts[value]['title'],
-                      buttonText: value != widget.pages.length - 1 ? 'next' : 'Get Started',
+                      buttonText: value != widget.pages.length - 1
+                          ? serviceLocator<LocalizationClass>().appLocalizations!.next
+                          : serviceLocator<LocalizationClass>().appLocalizations!.getStarted,
                       description: widget.texts[value]['description'],
                       onPressed: () async {
                         _controllerPageView.animateToPage(

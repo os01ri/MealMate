@@ -10,8 +10,10 @@ class _TabBar extends StatelessWidget {
       children: [
         const _Tab(title: 'المكونات', isActive: true).expand(),
         const SizedBox(width: 10),
-        const _Tab(title: serviceLocator<LocalizationClass>().appLocalizations!.nutritionalInfo, isActive: false)
-            .expand(),
+        _Tab(
+          title: serviceLocator<LocalizationClass>().appLocalizations!.nutritionalInfo,
+          isActive: false,
+        ).expand(),
       ],
     );
   }

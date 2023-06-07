@@ -7,6 +7,7 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
@@ -14,6 +15,7 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
+import 'package:mealmate/injection_container.dart';
 
 part '../widgets/ingredient_budget_card.dart';
 
@@ -58,7 +60,7 @@ class _IngredientPageState extends State<IngredientPage> {
             if (state.showStatus == CubitStatus.loading) {
               return const CircularProgressIndicator.adaptive().center();
             } else if (state.showStatus == CubitStatus.failure) {
-              return const Text(serviceLocator<LocalizationClass>().appLocalizations!.error).center();
+              return Text(serviceLocator<LocalizationClass>().appLocalizations!.error).center();
             } else {
               return Scaffold(
                 appBar: RecipeAppBar(

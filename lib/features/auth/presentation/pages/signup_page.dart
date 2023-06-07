@@ -5,6 +5,7 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/validation_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
@@ -13,6 +14,7 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -28,7 +30,10 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(size: context.deviceSize, titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount),
+      appBar: MainAppBar(
+        size: context.deviceSize,
+        titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
+      ),
       body: BlocProvider(
         create: (context) => _registerCubit,
         child: BlocConsumer<AuthCubit, AuthState>(
@@ -44,22 +49,24 @@ class SignUpPage extends StatelessWidget {
                     label: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     hint: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     validator: (text) {
-                      if ((text != null && text.length < 3)) 
+                      if ((text != null && text.length < 3)) {
                         return serviceLocator<LocalizationClass>().appLocalizations!.addValidUsername;
+                      }
                       return null;
                     },
                     controller: _userNameController,
                   ),
                   Row(
                     children: [
-                      const AuthTextField(hint: serviceLocator<LocalizationClass>().appLocalizations!.firstName,
-                       label: 
-                       serviceLocator<LocalizationClass>().appLocalizations!.username,
-                       ).expand(),
+                      AuthTextField(
+                        hint: serviceLocator<LocalizationClass>().appLocalizations!.firstName,
+                        label: serviceLocator<LocalizationClass>().appLocalizations!.username,
+                      ).expand(),
                       SizedBox(width: context.width * .05),
-                      const AuthTextField(hint: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
-                       label: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
-                       ).expand(),
+                      AuthTextField(
+                        hint: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                        label: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                      ).expand(),
                     ],
                   ),
                   AuthTextField(
@@ -70,7 +77,7 @@ class SignUpPage extends StatelessWidget {
                       if (text != null && text.isValidEmail()) {
                         return null;
                       }
-                      return                   serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;;
+                      return serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;
                     },
                   ),
                   AuthTextField(
@@ -130,10 +137,10 @@ class SignUpPage extends StatelessWidget {
                       style: AppTextStyles.styleWeight400(color: Colors.grey),
                       children: [
                         TextSpan(
-                          text: serviceLocator<LocalizationClass>().appLocalizations!.termsOfServices,
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.termsOfService,
                           style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         ),
-                        const TextSpan(text: serviceLocator<LocalizationClass>().appLocalizations!.and),
+                        TextSpan(text: serviceLocator<LocalizationClass>().appLocalizations!.and),
                         TextSpan(
                           text: serviceLocator<LocalizationClass>().appLocalizations!.privacyPolicy,
                           style: AppTextStyles.styleWeight600(color: AppColors.mainColor),

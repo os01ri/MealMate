@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
+import 'package:mealmate/injection_container.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key, required this.arguments});

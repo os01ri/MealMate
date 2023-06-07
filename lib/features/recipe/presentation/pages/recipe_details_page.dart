@@ -5,10 +5,12 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 part '../widgets/header_image.dart';

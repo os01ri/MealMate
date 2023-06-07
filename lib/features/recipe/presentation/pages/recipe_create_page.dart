@@ -4,12 +4,14 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/injection_container.dart';
 
 class RecipeCreatePage extends StatelessWidget {
   const RecipeCreatePage({super.key});
@@ -37,15 +39,15 @@ class RecipeCreatePage extends StatelessWidget {
             MainTextField(
               controller: TextEditingController(),
             ).paddingVertical(5),
-            const _DetailCard(
+            _DetailCard(
               title: serviceLocator<LocalizationClass>().appLocalizations!.serves,
               value: '01',
-              icon: Icon(Icons.arrow_forward_rounded),
+              icon: const Icon(Icons.arrow_forward_rounded),
             ).paddingVertical(5),
-            const _DetailCard(
+            _DetailCard(
               title: serviceLocator<LocalizationClass>().appLocalizations!.time,
-              value: '45 ' + serviceLocator<LocalizationClass>().appLocalizations!.min,
-              icon: Icon(Icons.arrow_forward_rounded),
+              value: '45 ${serviceLocator<LocalizationClass>().appLocalizations!.min}',
+              icon: const Icon(Icons.arrow_forward_rounded),
             ).paddingVertical(5),
             Text(
               serviceLocator<LocalizationClass>().appLocalizations!.ingredients,

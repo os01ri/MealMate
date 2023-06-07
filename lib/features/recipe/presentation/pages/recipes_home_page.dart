@@ -4,10 +4,12 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/section_header.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 part '../widgets/recipe_card.dart';
@@ -57,13 +59,14 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(serviceLocator<LocalizationClass>().appLocalizations!.hello +' Osama!',
-           style: const TextStyle(color: Colors.white).semiBold.xLargeFontSizeو
-           ),
+          Text(
+            '${serviceLocator<LocalizationClass>().appLocalizations!.hello} Osama!',
+            style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
+          ),
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
             style: TextStyle(color: _allowScroll.value ? Colors.transparent : Colors.white).bold.xxLargeFontSize,
-            child: const Text(serviceLocator<LocalizationClass>().appLocalizations!.whatToCook),
+            child: Text(serviceLocator<LocalizationClass>().appLocalizations!.whatToCook),
           ),
           SizedBox(height: context.height * .22),
         ],
@@ -93,7 +96,9 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                 child: AnimatedDefaultTextStyle(
                   duration: AppConfig.animationDuration,
                   style: TextStyle(fontSize: isDown ? 14 : 0, color: Colors.black),
-                  child: const Text(serviceLocator<LocalizationClass>().appLocalizations!.searchRecipes).paddingHorizontal(10),
+                  child: Text(
+                    serviceLocator<LocalizationClass>().appLocalizations!.searchRecipes,
+                  ).paddingHorizontal(10),
                 ),
               ),
             ],
@@ -211,7 +216,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 25),
-          const SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.categories),
+          SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.categories),
           const SizedBox(height: 15),
           Row(
             children: [
@@ -221,7 +226,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
           ).scrollable(scrollDirection: Axis.horizontal),
           for (int i = 10; i <= 50; i += 10) ...[
             const SizedBox(height: 25),
-            const SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.recommended),
+            SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.recommended),
             const SizedBox(height: 15),
             SizedBox(
               height: context.height * .25,

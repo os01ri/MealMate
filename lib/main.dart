@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/them.dart';
 import 'package:mealmate/core/ui/widgets/restart_widget.dart';
 import 'package:mealmate/injection_container.dart' as di;
@@ -19,16 +18,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  setLocale() async {
-    di.serviceLocator<LocalizationClass>().setAppLocalizations(
-          await AppLocalizations.delegate.load(const Locale('ar')),
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
     final botToastBuilder = BotToastInit();
-    setLocale();
     /////////////
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

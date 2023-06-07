@@ -22,14 +22,14 @@ class MainPage extends StatelessWidget {
       initialLocation: AppRoutes.storePage,
       icon: Icon(Icons.shopping_cart_outlined),
       label: 'Store',
-      padding: EdgeInsets.only(right: 40),
+      padding: EdgeInsetsDirectional.only(end: 40),
       index: 1,
     ),
     MainNavigationBarItemWidget(
       initialLocation: AppRoutes.notification,
       icon: Icon(Icons.notifications),
       label: 'Notification',
-      padding: EdgeInsets.only(left: 40),
+      padding: EdgeInsetsDirectional.only(start: 40),
       index: 2,
     ),
     MainNavigationBarItemWidget(

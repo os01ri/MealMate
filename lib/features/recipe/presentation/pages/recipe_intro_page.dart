@@ -4,11 +4,12 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/core/ui/widgets/transition_appbar.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class RecipeIntroPage extends StatelessWidget {
@@ -79,7 +80,8 @@ class RecipeIntroPage extends StatelessWidget {
                 ],
               ),
               Text(
-                'جزء من نظام حساب الجمل الّذي عرفه العرب قديمًا، وهذا الحساب يجعل لكل حرف من الحروف الأبجدية عدد من الواحد إلى الألف على ترتيب خاص، ومعروف أن لكل حضارة نظاماً للترقيم أي التعبير عن الأعداد البسيطة وهي في العربية الأعداد التسعة الأولى إلى جانب الصفر.',     style: const TextStyle().normalFontSize.regular,
+                'جزء من نظام حساب الجمل الّذي عرفه العرب قديمًا، وهذا الحساب يجعل لكل حرف من الحروف الأبجدية عدد من الواحد إلى الألف على ترتيب خاص، ومعروف أن لكل حضارة نظاماً للترقيم أي التعبير عن الأعداد البسيطة وهي في العربية الأعداد التسعة الأولى إلى جانب الصفر.',
+                style: const TextStyle().normalFontSize.regular,
               ).paddingVertical(15),
               const SizedBox(height: 15),
             ],
@@ -88,7 +90,7 @@ class RecipeIntroPage extends StatelessWidget {
       ).padding(AppConfig.pagePadding).scrollable(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: MainButton(
-        text: 'Next',
+        text: serviceLocator<LocalizationClass>().appLocalizations!.next,
         color: AppColors.mainColor,
         width: context.width,
         onPressed: () {

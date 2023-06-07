@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/auth/presentation/widgets/numerical_keyboard.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class OtpPage extends StatefulWidget {
@@ -42,12 +44,15 @@ class _OtpPageState extends State<OtpPage> {
                 child: Column(
                   children: [
                     SizedBox(height: context.height * .06),
-                    Text(serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode, 
-                    style: AppTextStyles.styleWeight600(fontSize: 24),
+                    Text(
+                      serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode,
+                      style: AppTextStyles.styleWeight600(fontSize: 24),
                     ),
                     SizedBox(height: context.height * .06),
-                    Text(serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode,
-                     style: AppTextStyles.styleWeight500(fontSize: 16),),
+                    Text(
+                      serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode,
+                      style: AppTextStyles.styleWeight500(fontSize: 16),
+                    ),
                     SizedBox(height: context.height * .02),
                     const Text(
                       '+963932728290',
@@ -106,9 +111,9 @@ class _OtpPageState extends State<OtpPage> {
                     SizedBox(height: context.width * .05),
                     GestureDetector(
                       onTap: () {},
-                      child: const Text(
+                      child: Text(
                         serviceLocator<LocalizationClass>().appLocalizations!.resendCode,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.mainColor,
                           fontSize: 16,
                         ),
@@ -117,9 +122,9 @@ class _OtpPageState extends State<OtpPage> {
                     SizedBox(height: context.width * .05),
                     GestureDetector(
                       onTap: () {},
-                      child: const Text(
+                      child: Text(
                         serviceLocator<LocalizationClass>().appLocalizations!.changePhoneNumber,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.mainColor,
                           fontSize: 16,
                         ),

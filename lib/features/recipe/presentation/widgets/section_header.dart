@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/injection_container.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({

@@ -33,7 +33,7 @@ class _RecipeCard extends StatelessWidget {
                   SizedBox(
                     width: context.width * .4,
                     child: Text(
-                      'برغر الدجاج المكسيكي' * 3,
+                      'برغر الدجاج المكسيكي',
                       maxLines: 2,
                       softWrap: true,
                       style: const TextStyle().middleFontSize.semiBold,

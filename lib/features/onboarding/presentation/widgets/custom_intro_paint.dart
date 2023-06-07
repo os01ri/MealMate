@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 
 class RPSCustomPainter extends CustomPainter {
+  const RPSCustomPainter();
+
   @override
   void paint(Canvas canvas, Size size) {
     Path path_0 = Path();

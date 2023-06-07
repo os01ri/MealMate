@@ -42,9 +42,12 @@ class _OtpPageState extends State<OtpPage> {
                 child: Column(
                   children: [
                     SizedBox(height: context.height * .06),
-                    Text('Enter OTP Code', style: AppTextStyles.styleWeight600(fontSize: 24)),
+                    Text(serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode, 
+                    style: AppTextStyles.styleWeight600(fontSize: 24),
+                    ),
                     SizedBox(height: context.height * .06),
-                    Text('رجاء ادخال رمز التأكيد', style: AppTextStyles.styleWeight500(fontSize: 16)),
+                    Text(serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode,
+                     style: AppTextStyles.styleWeight500(fontSize: 16),),
                     SizedBox(height: context.height * .02),
                     const Text(
                       '+963932728290',
@@ -104,7 +107,7 @@ class _OtpPageState extends State<OtpPage> {
                     GestureDetector(
                       onTap: () {},
                       child: const Text(
-                        'ارسال الرمز مرة ثانية',
+                        serviceLocator<LocalizationClass>().appLocalizations!.resendCode,
                         style: TextStyle(
                           color: AppColors.mainColor,
                           fontSize: 16,
@@ -115,7 +118,7 @@ class _OtpPageState extends State<OtpPage> {
                     GestureDetector(
                       onTap: () {},
                       child: const Text(
-                        'تغير رقم التلفون',
+                        serviceLocator<LocalizationClass>().appLocalizations!.changePhoneNumber,
                         style: TextStyle(
                           color: AppColors.mainColor,
                           fontSize: 16,

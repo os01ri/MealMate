@@ -45,7 +45,7 @@ class CartPageState extends State<CartPage> {
                       title: Text(widget.arguments.ingredients[index].name ?? "Ingredients"),
                       subtitle: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text("1 KG"), Text("1000 SYP")],
+                        children: [Text("1 KG"), Text("1000 ل.س")],
                       ),
                       trailing: FittedBox(
                         fit: BoxFit.fitHeight,
@@ -99,11 +99,11 @@ class CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "Shipping Fee",
+                        serviceLocator<LocalizationClass>().appLocalizations!.shippingFee,
                         style: AppTextStyles.styleWeight600(fontSize: 18),
                       ),
                       Text(
-                        "0.59 SYP",
+                        "5,000 ل.س",
                         style: AppTextStyles.styleWeight400(fontSize: 18),
                       ),
                     ],
@@ -112,11 +112,11 @@ class CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "Total Payment",
+                        serviceLocator<LocalizationClass>().appLocalizations!.totalPayment,
                         style: AppTextStyles.styleWeight600(fontSize: 18),
                       ),
                       Text(
-                        "2.0 SYP",
+                        "20,000 SYP",
                         style: AppTextStyles.styleWeight400(fontSize: 18),
                       )
                     ],
@@ -124,11 +124,12 @@ class CartPageState extends State<CartPage> {
                   MainButton(
                       fontSize: 20,
                       width: context.width * .55,
-                      text: 'Please Add Your Address',
+                      text: serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress,
                       icon: const Icon(Icons.location_on_outlined, size: 35),
                       color: AppColors.lightTextColor,
                       onPressed: () {}),
-                  MainButton(width: context.width * .75, text: "Place Order", color: AppColors.orange, onPressed: () {})
+                  MainButton(width: context.width * .75, text: serviceLocator<LocalizationClass>().appLocalizations!.placeOrder, 
+                  color: AppColors.orange, onPressed: () {},)
                 ],
               ),
             )

@@ -30,9 +30,9 @@ class OnboardingPage extends StatelessWidget {
     )
   ];
   final List<Map<String, String>> texts = [
-    {'title': 'Order Ingredients', 'description': 'Order the ingredients you need quickly with a fast process'},
-    {'title': 'Let\'s Cooking', 'description': 'Cooking based on the food recipes you find and  the food you love'},
-    {'title': 'All recipes you needed', 'description': '5000+ healthy recipes made by people for your healthy life'}
+    {'title': 'Order Ingredients', 'description': 'Order the ingredients you need quickly with a fast process',},
+    {'title': 'Let\'s Cooking', 'description': 'Cooking based on the food recipes you find and  the food you love',},
+    {'title': 'All recipes you needed', 'description': '5000+ healthy recipes made by people for your healthy life',}
   ];
 
   OnboardingPage({Key? key}) : super(key: key);

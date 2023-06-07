@@ -8,9 +8,10 @@ class _TabBar extends StatelessWidget {
     return _DetailCardRow(
       margin: const EdgeInsets.all(10),
       children: [
-        const _Tab(title: 'Ingredients', isActive: true).expand(),
+        const _Tab(title: 'المكونات', isActive: true).expand(),
         const SizedBox(width: 10),
-        const _Tab(title: 'Nutritional Info', isActive: false).expand(),
+        const _Tab(title: serviceLocator<LocalizationClass>().appLocalizations!.nutritionalInfo, isActive: false)
+            .expand(),
       ],
     );
   }

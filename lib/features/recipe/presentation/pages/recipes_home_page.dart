@@ -57,11 +57,13 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Hello Osama!', style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize),
+          Text(serviceLocator<LocalizationClass>().appLocalizations!.hello +' Osama!',
+           style: const TextStyle(color: Colors.white).semiBold.xLargeFontSizeو
+           ),
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
             style: TextStyle(color: _allowScroll.value ? Colors.transparent : Colors.white).bold.xxLargeFontSize,
-            child: const Text('What would you like to cook today?'),
+            child: const Text(serviceLocator<LocalizationClass>().appLocalizations!.whatToCook),
           ),
           SizedBox(height: context.height * .22),
         ],
@@ -91,7 +93,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                 child: AnimatedDefaultTextStyle(
                   duration: AppConfig.animationDuration,
                   style: TextStyle(fontSize: isDown ? 14 : 0, color: Colors.black),
-                  child: const Text('Search Recipes').paddingHorizontal(10),
+                  child: const Text(serviceLocator<LocalizationClass>().appLocalizations!.searchRecipes).paddingHorizontal(10),
                 ),
               ),
             ],
@@ -209,17 +211,17 @@ class _BodyWidgetState extends State<_BodyWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 25),
-          const SectionHeader(title: 'Categories'),
+          const SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.categories),
           const SizedBox(height: 15),
           Row(
             children: [
-              const CategoryChoiceChip(title: 'Breakfast', isActive: true),
-              for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'Dinner', isActive: false),
+              const CategoryChoiceChip(title: 'الإفطار', isActive: true),
+              for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'العشاء', isActive: false),
             ],
           ).scrollable(scrollDirection: Axis.horizontal),
           for (int i = 10; i <= 50; i += 10) ...[
             const SizedBox(height: 25),
-            const SectionHeader(title: 'Recommended'),
+            const SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.recommended),
             const SizedBox(height: 15),
             SizedBox(
               height: context.height * .25,

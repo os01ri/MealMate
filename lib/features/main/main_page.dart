@@ -21,7 +21,7 @@ class MainPage extends StatelessWidget {
     MainNavigationBarItemWidget(
       initialLocation: AppRoutes.storePage,
       icon: Icon(Icons.shopping_cart_outlined),
-      label: 'store',
+      label: 'Store',
       padding: EdgeInsets.only(right: 40),
       index: 1,
     ),

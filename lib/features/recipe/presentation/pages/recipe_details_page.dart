@@ -59,7 +59,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
           context.push(AppRoutes.recipeSteps);
         },
         width: context.width,
-        text: 'Start Cooking!',
+        text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,
       ).hero('button').padding(AppConfig.pagePadding),
     );
   }
@@ -77,12 +77,12 @@ class _IngredientList extends StatelessWidget {
           return Row(
             children: [
               Text(
-                'Chicken $i Breasts',
+                'صدور $i الدجاج',
                 style: const TextStyle().normalFontSize.semiBold,
               ),
               const Spacer(),
               const Text(
-                '250 g',
+                '250 غ',
                 style: TextStyle(),
               ),
               Icon(

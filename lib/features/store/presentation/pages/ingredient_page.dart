@@ -58,7 +58,7 @@ class _IngredientPageState extends State<IngredientPage> {
             if (state.showStatus == CubitStatus.loading) {
               return const CircularProgressIndicator.adaptive().center();
             } else if (state.showStatus == CubitStatus.failure) {
-              return const Text('Error').center();
+              return const Text(serviceLocator<LocalizationClass>().appLocalizations!.error).center();
             } else {
               return Scaffold(
                 appBar: RecipeAppBar(
@@ -102,7 +102,7 @@ class _IngredientPageState extends State<IngredientPage> {
                         widget.onAddToCart(_widgetKey);
                       },
                       width: context.width,
-                      text: 'Add To Cart',
+                      text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,
                     ).paddingHorizontal(8).hero('button'),
                   ],
                 ).padding(AppConfig.pagePadding),
@@ -127,7 +127,7 @@ class _InfoList extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Calories $i',
+                'كالوري $i',
                 style: const TextStyle().normalFontSize.semiBold,
               ),
               const Spacer(),

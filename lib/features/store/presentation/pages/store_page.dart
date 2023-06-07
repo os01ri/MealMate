@@ -77,7 +77,7 @@ class _StorePageState extends State<StorePage> {
           appBar: RecipeAppBar(
             context: context,
             centerText: true,
-            title: 'Grocery Store',
+            title: serviceLocator<LocalizationClass>().appLocalizations!.groceryStore,
             leadingWidget: AddToCartIcon(
               key: _wishlistKey,
               badgeOptions: const BadgeOptions(active: false),
@@ -120,7 +120,7 @@ class _StorePageState extends State<StorePage> {
                 children: [
                   MainTextField(
                     controller: TextEditingController(),
-                    hint: 'Search Ingredients',
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
                     prefixIcon: const Icon(Icons.search_rounded),
                     // suffixIcon: InkWell(
                     //   onTap: () {},
@@ -131,8 +131,8 @@ class _StorePageState extends State<StorePage> {
               ).padding(AppConfig.pagePadding),
               Row(
                 children: [
-                  const CategoryChoiceChip(title: 'All', isActive: true),
-                  for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'Vegetables', isActive: false),
+                  const CategoryChoiceChip(title: serviceLocator<LocalizationClass>().appLocalizations!.all, isActive: true),
+                  for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'خضار', isActive: false),
                 ],
               ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),
               const SizedBox(height: 5),
@@ -224,7 +224,7 @@ class IngredientCard extends StatelessWidget {
                   width: context.width * .3,
                   child: Text(
                     // '1 Kg => ${state.ingredients[index].price}\$',
-                    '${ingredient.priceBy} Kg => ${ingredient.price} SYP',
+                    '${ingredient.priceBy} كجم => ${ingredient.price} ل.س',
                     style: const TextStyle(color: AppColors.lightTextColor).smallFontSize.semiBold,
                   ),
                 ),

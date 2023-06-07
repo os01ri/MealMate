@@ -17,7 +17,7 @@ class RecipeIntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(context: context, title: 'How to make french toast'),
+      appBar: RecipeAppBar(context: context, title: 'كيف تصنع التوست الفرنسي!'),
       body: Column(
         children: [
           Image.asset(
@@ -39,7 +39,7 @@ class RecipeIntroPage extends StatelessWidget {
                     style: const TextStyle().normalFontSize.semiBold,
                   ).paddingHorizontal(5),
                   Text(
-                    '(300 Reviews)',
+                    '(300 ${serviceLocator<LocalizationClass>().appLocalizations!.reviews})',
                     style: const TextStyle(color: Colors.black54).normalFontSize.regular,
                   ),
                 ],
@@ -52,7 +52,7 @@ class RecipeIntroPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Roberta Anny',
+                        'روبيرتا آني',
                         style: const TextStyle().normalFontSize.semiBold,
                       ).paddingHorizontal(5),
                       Row(
@@ -62,7 +62,7 @@ class RecipeIntroPage extends StatelessWidget {
                             color: AppColors.mainColor,
                           ),
                           Text(
-                            'Bali, Indonesia',
+                            'بالي، إندونيسيا',
                             style: const TextStyle(color: Colors.black54).normalFontSize.regular,
                           ),
                         ],
@@ -71,7 +71,7 @@ class RecipeIntroPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   MainButton(
-                    text: 'Follow',
+                    text: 'متابعة',
                     width: context.width * .18,
                     color: AppColors.mainColor,
                     onPressed: () {},
@@ -79,8 +79,7 @@ class RecipeIntroPage extends StatelessWidget {
                 ],
               ),
               Text(
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga?',
-                style: const TextStyle().normalFontSize.regular,
+                'جزء من نظام حساب الجمل الّذي عرفه العرب قديمًا، وهذا الحساب يجعل لكل حرف من الحروف الأبجدية عدد من الواحد إلى الألف على ترتيب خاص، ومعروف أن لكل حضارة نظاماً للترقيم أي التعبير عن الأعداد البسيطة وهي في العربية الأعداد التسعة الأولى إلى جانب الصفر.',     style: const TextStyle().normalFontSize.regular,
               ).paddingVertical(15),
               const SizedBox(height: 15),
             ],
@@ -100,100 +99,100 @@ class RecipeIntroPage extends StatelessWidget {
   }
 }
 
-@Deprecated('')
-class _NewWidget extends StatelessWidget {
-  const _NewWidget();
+// @Deprecated('')
+// class _NewWidget extends StatelessWidget {
+//   const _NewWidget();
 
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        TransitionAppBar(
-          extent: 320,
-          avatar: Container(
-            decoration: BoxDecoration(
-              borderRadius: AppConfig.borderRadius,
-              image: const DecorationImage(
-                image: AssetImage(PngPath.food),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ).hero('picture'),
-          title: Text(
-            'How to make french toast',
-            style: const TextStyle().largeFontSize.extraBold,
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star_rate_rounded,
-                          color: AppColors.yellow,
-                        ),
-                        Text(
-                          '4.5',
-                          style: const TextStyle().normalFontSize.semiBold,
-                        ).paddingHorizontal(5),
-                        Text(
-                          '(300 Reviews)',
-                          style: const TextStyle(color: Colors.black54).normalFontSize.regular,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      children: [
-                        Image.asset(PngPath.user),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Roberta Anny',
-                              style: const TextStyle().normalFontSize.semiBold,
-                            ).paddingHorizontal(5),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_on_rounded,
-                                  color: AppColors.mainColor,
-                                ),
-                                Text(
-                                  'Bali, Indonesia',
-                                  style: const TextStyle(color: Colors.black54).normalFontSize.regular,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        MainButton(
-                          text: 'Follow',
-                          width: context.width * .18,
-                          color: AppColors.mainColor,
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit',
-                      style: const TextStyle().normalFontSize.regular,
-                    ).paddingVertical(15),
-                    const SizedBox(height: 15),
-                  ],
-                ).paddingAll(15),
-              )
-            ],
-          ),
-        )
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return CustomScrollView(
+//       slivers: [
+//         TransitionAppBar(
+//           extent: 320,
+//           avatar: Container(
+//             decoration: BoxDecoration(
+//               borderRadius: AppConfig.borderRadius,
+//               image: const DecorationImage(
+//                 image: AssetImage(PngPath.food),
+//                 fit: BoxFit.fitWidth,
+//               ),
+//             ),
+//           ).hero('picture'),
+//           title: Text(
+//             'How to make french toast',
+//             style: const TextStyle().largeFontSize.extraBold,
+//           ),
+//         ),
+//         SliverList(
+//           delegate: SliverChildListDelegate(
+//             [
+//               SizedBox(
+//                 height: MediaQuery.of(context).size.height,
+//                 child: Column(
+//                   children: [
+//                     const SizedBox(height: 15),
+//                     Row(
+//                       children: [
+//                         const Icon(
+//                           Icons.star_rate_rounded,
+//                           color: AppColors.yellow,
+//                         ),
+//                         Text(
+//                           '4.5',
+//                           style: const TextStyle().normalFontSize.semiBold,
+//                         ).paddingHorizontal(5),
+//                         Text(
+//                           '(300 Reviews)',
+//                           style: const TextStyle(color: Colors.black54).normalFontSize.regular,
+//                         ),
+//                       ],
+//                     ),
+//                     const SizedBox(height: 15),
+//                     Row(
+//                       children: [
+//                         Image.asset(PngPath.user),
+//                         Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               'Roberta Anny',
+//                               style: const TextStyle().normalFontSize.semiBold,
+//                             ).paddingHorizontal(5),
+//                             Row(
+//                               children: [
+//                                 const Icon(
+//                                   Icons.location_on_rounded,
+//                                   color: AppColors.mainColor,
+//                                 ),
+//                                 Text(
+//                                   'Bali, Indonesia',
+//                                   style: const TextStyle(color: Colors.black54).normalFontSize.regular,
+//                                 ),
+//                               ],
+//                             ),
+//                           ],
+//                         ),
+//                         const Spacer(),
+//                         MainButton(
+//                           text: 'Follow',
+//                           width: context.width * .18,
+//                           color: AppColors.mainColor,
+//                           onPressed: () {},
+//                         ),
+//                       ],
+//                     ),
+//                     Text(
+//                       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit',
+//                       style: const TextStyle().normalFontSize.regular,
+//                     ).paddingVertical(15),
+//                     const SizedBox(height: 15),
+//                   ],
+//                 ).paddingAll(15),
+//               )
+//             ],
+//           ),
+//         )
+//       ],
+//     );
+//   }
+// }

@@ -64,7 +64,7 @@ class _StepsSection extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Step 4',
+            serviceLocator<LocalizationClass>().appLocalizations!.step +' 4',
             style: const TextStyle().bold.largeFontSize,
           ),
           Row(
@@ -92,11 +92,11 @@ class _StepsSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Checken Breasts',
+                      'صدور الدجاج',
                       style: const TextStyle().normalFontSize.semiBold,
                     ),
                     const Text(
-                      '250 g',
+                      '250 غ',
                       style: TextStyle(),
                     ),
                   ],
@@ -106,7 +106,7 @@ class _StepsSection extends StatelessWidget {
             ],
           ),
           Text(
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa ',
+            'جزء من نظام حساب الجمل الّذي عرفه العرب قديمًا، وهذا الحساب يجعل لكل حرف من الحروف الأبجدية عدد من الواحد إلى الألف على ترتيب خاص، ومعروف أن لكل حضارة نظاماً للترقيم أي التعبير عن الأعداد البسيطة وهي في العربية الأعداد التسعة الأولى إلى جانب الصفر.',
             style: const TextStyle().normalFontSize.regular,
           ).paddingVertical(15).scrollable().expand(),
           Row(
@@ -121,7 +121,7 @@ class _StepsSection extends StatelessWidget {
                   // );
                   context.pop();
                 },
-                text: 'Previous',
+                text: serviceLocator<LocalizationClass>().appLocalizations!.previous,
                 textColor: Colors.black,
               ).paddingAll(8).expand(),
               MainButton(
@@ -129,7 +129,7 @@ class _StepsSection extends StatelessWidget {
                 onPressed: () {
                   context.go(AppRoutes.recipesHome);
                 },
-                text: 'Finish Cooking',
+                text: serviceLocator<LocalizationClass>().appLocalizations!.finishCooking,
               ).hero('button').paddingAll(8).expand(),
             ],
           ),

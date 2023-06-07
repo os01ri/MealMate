@@ -23,7 +23,7 @@ class RecipeCreatePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Create recipe',
+              serviceLocator<LocalizationClass>().appLocalizations!.createRecipe,
               style: const TextStyle().xLargeFontSize.bold,
             ).paddingVertical(10),
             ClipRRect(
@@ -38,26 +38,26 @@ class RecipeCreatePage extends StatelessWidget {
               controller: TextEditingController(),
             ).paddingVertical(5),
             const _DetailCard(
-              title: 'Serves',
+              title: serviceLocator<LocalizationClass>().appLocalizations!.serves,
               value: '01',
               icon: Icon(Icons.arrow_forward_rounded),
             ).paddingVertical(5),
             const _DetailCard(
-              title: 'Time',
-              value: '45 min',
+              title: serviceLocator<LocalizationClass>().appLocalizations!.time,
+              value: '45 ' + serviceLocator<LocalizationClass>().appLocalizations!.min,
               icon: Icon(Icons.arrow_forward_rounded),
             ).paddingVertical(5),
             Text(
-              'Ingredients',
+              serviceLocator<LocalizationClass>().appLocalizations!.ingredients,
               style: const TextStyle().largeFontSize.bold,
             ).paddingVertical(10),
             ...List.generate(2, (index) => const _Ingredient().paddingAll(5)),
             Text(
-              '+ Add New Ingredient',
+              serviceLocator<LocalizationClass>().appLocalizations!.addNewIngredient,
               style: const TextStyle().normalFontSize.extraBold,
             ).paddingVertical(10),
             MainButton(
-              text: 'Publish!',
+              text: serviceLocator<LocalizationClass>().appLocalizations!.publish,
               color: AppColors.mainColor,
               onPressed: () {
                 context.pop();

@@ -9,6 +9,9 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/app_routes.dart';
 
+import '../../../../core/localization/localization_class.dart';
+import '../../../../injection_container.dart';
+
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({super.key});
 
@@ -17,17 +20,19 @@ class ResetPasswordPage extends StatelessWidget {
     return Scaffold(
       appBar: MainAppBar(
         size: context.deviceSize,
-        titleText: 'Forgot Password',
+        titleText: serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text('Enter Your E-mail Address And We Will Send You A Link To Reset Your Passowrd'),
+          const Text(serviceLocator<LocalizationClass>().appLocalizations!.enterEmailToResetPassword),
           const SizedBox(height: 10),
-          const AuthTextField(label: 'E-mail Address', hint: 'Enter E-mail Address'),
+          const AuthTextField(label: serviceLocator<LocalizationClass>().appLocalizations!.email,
+           hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,)
+          ,
           const SizedBox(height: 10),
           MainButton(
-            text: 'Send E-mail',
+            text: serviceLocator<LocalizationClass>().appLocalizations!.sendEmail,
             color: AppColors.mainColor,
             width: context.width,
             onPressed: () {

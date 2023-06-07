@@ -28,7 +28,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(size: context.deviceSize, titleText: 'Create an Account'),
+      appBar: MainAppBar(size: context.deviceSize, titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount),
       body: BlocProvider(
         create: (context) => _registerCubit,
         child: BlocConsumer<AuthCubit, AuthState>(
@@ -41,60 +41,66 @@ class SignUpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
-                    label: 'User Name',
-                    hint: 'username',
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.username,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     validator: (text) {
-                      if ((text != null && text.length < 3)) return "please add a valid username";
+                      if ((text != null && text.length < 3)) 
+                        return serviceLocator<LocalizationClass>().appLocalizations!.addValidUsername;
                       return null;
                     },
                     controller: _userNameController,
                   ),
                   Row(
                     children: [
-                      const AuthTextField(hint: 'first name', label: 'First Name').expand(),
+                      const AuthTextField(hint: serviceLocator<LocalizationClass>().appLocalizations!.firstName,
+                       label: 
+                       serviceLocator<LocalizationClass>().appLocalizations!.username,
+                       ).expand(),
                       SizedBox(width: context.width * .05),
-                      const AuthTextField(hint: 'last name', label: 'Last Name').expand(),
+                      const AuthTextField(hint: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                       label: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                       ).expand(),
                     ],
                   ),
                   AuthTextField(
-                    controller: _emailController,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.email,
                     hint: 'you@example.com',
+                    controller: _emailController,
                     validator: (text) {
                       if (text != null && text.isValidEmail()) {
                         return null;
                       }
-                      return "please add a valid email";
+                      return                   serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;;
                     },
-                    label: 'E-mail',
                   ),
                   AuthTextField(
-                    label: 'Password',
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
+                    hint: '********',
+                    isPassword: true,
+                    controller: _passwordController,
                     validator: (text) {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       }
-                      return "please add a valid password";
+                      return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                     },
-                    controller: _passwordController,
-                    isPassword: true,
-                    hint: '********',
                   ),
                   AuthTextField(
-                    label: 'Confirm Password',
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.confirmPassword,
                     controller: _confirmPasswordController,
                     isPassword: true,
                     validator: (text) {
                       if (text != null && text == _passwordController.text) {
                         return null;
                       } else {
-                        return "password doesn't match";
+                        return serviceLocator<LocalizationClass>().appLocalizations!.passwordNotMatch;
                       }
                     },
                     hint: '********',
                   ),
                   const SizedBox(height: 20),
                   MainButton(
-                    text: 'Sign Up',
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.signUp,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
@@ -112,7 +118,7 @@ class SignUpPage extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: TextButton(
-                      child: const Text('or Login'),
+                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.orLogin),
                       onPressed: () {
                         context.go(AppRoutes.login);
                       },
@@ -124,12 +130,12 @@ class SignUpPage extends StatelessWidget {
                       style: AppTextStyles.styleWeight400(color: Colors.grey),
                       children: [
                         TextSpan(
-                          text: 'Terms of Services',
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.termsOfServices,
                           style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         ),
-                        const TextSpan(text: ' & '),
+                        const TextSpan(text: serviceLocator<LocalizationClass>().appLocalizations!.and),
                         TextSpan(
-                          text: 'Privacy Policy',
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.privacyPolicy,
                           style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         )
                       ],
@@ -154,7 +160,7 @@ class SignUpPage extends StatelessWidget {
     }
     if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();
-      UiMessages.showToast('something went wrong');
+      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

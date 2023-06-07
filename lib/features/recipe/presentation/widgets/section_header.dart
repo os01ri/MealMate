@@ -23,7 +23,7 @@ class SectionHeader extends StatelessWidget {
         Row(
           children: [
             Text(
-              'see all ',
+              serviceLocator<LocalizationClass>().appLocalizations!.seeAll,
               style: const TextStyle(color: AppColors.mainColor).normalFontSize.bold,
             ),
             const Icon(Icons.arrow_forward, color: AppColors.mainColor),

@@ -6,13 +6,13 @@ import 'package:mealmate/features/auth/domain/repositories/auth_repository.dart'
 import '../entities/user.dart';
 
 class RegisterUseCase implements UseCase<User, RegisterUserParams> {
-  final AuthRepository authRepository;
+  final AuthRepository repository;
 
-  RegisterUseCase({required this.authRepository});
+  RegisterUseCase({required this.repository});
 
   @override
   Future<Either<Failure, User>> call(RegisterUserParams body) async {
-    return authRepository.registerUser(body: body.getBody());
+    return repository.registerUser(body: body.getBody());
   }
 }
 

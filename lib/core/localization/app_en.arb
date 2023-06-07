@@ -1,1 +1,14 @@
-{}
+{
+    "dontHaveAccount": "Don't Have an account? Sign Up",
+    "email": "E-mail Address",
+    "enterEmail": "Enter E-mail Address",
+    "enterValidEmail": "please add a valid email",
+    "enterValidPassword": "Enter a valid password",
+    "error": "something went wrong",
+    "forgotPassword": "Forgot Password?",
+    "login": "Login",
+    "orContinueWith": "or continue with",
+    "password": "Password",
+    "stayLoggedIn": "Stay logged in",
+    "welcomeLoading": "Personalizing Healthy Recipes For Your Healthy Life"
+}

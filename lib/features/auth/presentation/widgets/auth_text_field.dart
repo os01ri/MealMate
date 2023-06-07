@@ -42,7 +42,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
       children: [
         Container(
           padding: const EdgeInsets.only(bottom: 8),
-          alignment: Alignment.topLeft,
+          alignment: AlignmentDirectional.topStart,
           child: Text(widget.label, style: AppTextStyles.styleWeight500(fontSize: 16)),
         ),
         ValueListenableBuilder(

@@ -150,7 +150,7 @@ class _IntroState extends State<Intro> {
                         );
                         await HelperFunctions.isFirstTime();
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
-                          context.go(AppRoutes.signup);
+                          context.go(AppRoutes.login);
                         }
                       },
                     ),

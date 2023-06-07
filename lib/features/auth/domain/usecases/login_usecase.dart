@@ -1,18 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:mealmate/core/error/failures.dart';
 import 'package:mealmate/core/usecase/usecase.dart';
+import 'package:mealmate/features/auth/domain/entities/user.dart';
 import 'package:mealmate/features/auth/domain/repositories/auth_repository.dart';
 
-import '../entities/user.dart';
-
 class LoginUseCase implements UseCase<User, LoginUserParams> {
-  final AuthRepository authRepository;
+  final AuthRepository repository;
 
-  LoginUseCase({required this.authRepository});
+  LoginUseCase({required this.repository});
 
   @override
   Future<Either<Failure, User>> call(LoginUserParams body) async {
-    return authRepository.loginUser(body: body.getBody());
+    return repository.loginUser(body: body.getBody());
   }
 }
 
@@ -29,7 +28,5 @@ class LoginUserParams implements UseCaseParams {
   Map<String, dynamic> getBody() => {"password": password, "email": email};
 
   @override
-  Map<String, dynamic> getParams() {
-    return {};
-  }
+  Map<String, dynamic> getParams() => {};
 }

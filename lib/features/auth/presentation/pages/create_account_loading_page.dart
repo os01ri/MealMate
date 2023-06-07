@@ -4,8 +4,10 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class CreateAccountLoadingPage extends StatefulWidget {
@@ -58,7 +60,7 @@ class _CreateAccountLoadingPageState extends State<CreateAccountLoadingPage> wit
             },
           ).paddingHorizontal(context.width * .1),
           Text(
-            'Personalizing Healthy Recipes For Your Healthy Life',
+            serviceLocator<LocalizationClass>().appLocalizations!.welcomeLoading,
             textAlign: TextAlign.center,
             style: const TextStyle().largeFontSize.bold,
           ),

@@ -1,1 +1,14 @@
-{}
+{
+    "dontHaveAccount": "ليس لديك حساب؟ إنشاء حساب",
+    "email": "الإيميل",
+    "enterEmail": " أدخل الإيميل",
+    "enterValidEmail": "أدخل عنوان إيميل صحيح",
+    "enterValidPassword": "أدخل كلمة مرور صالحة",
+    "error": "حدث خطأ ما",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "login": "تسجيل الدخول",
+    "orContinueWith": " أو المتابعة بـ",
+    "password": "كلمة المرور",
+    "stayLoggedIn": "البقاء قيد تسجيل الدخول",
+    "welcomeLoading": "Personalizing Healthy Recipes For Your Healthy Life"
+}

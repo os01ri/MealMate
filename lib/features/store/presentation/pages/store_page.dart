@@ -12,6 +12,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
@@ -121,13 +122,20 @@ class _StorePageState extends State<StorePage> {
                     controller: TextEditingController(),
                     hint: 'Search Ingredients',
                     prefixIcon: const Icon(Icons.search_rounded),
-                    suffixIcon: InkWell(
-                      onTap: () {},
-                      child: const Icon(Icons.filter_alt),
-                    ),
-                  ).paddingVertical(15).expand(),
+                    // suffixIcon: InkWell(
+                    //   onTap: () {},
+                    //   child: const Icon(Icons.filter_alt),
+                    // ),
+                  ).paddingVertical(5).expand(),
                 ],
-              ),
+              ).padding(AppConfig.pagePadding),
+              Row(
+                children: [
+                  const CategoryChoiceChip(title: 'All', isActive: true),
+                  for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'Vegetables', isActive: false),
+                ],
+              ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),
+              const SizedBox(height: 5),
               BlocBuilder<StoreCubit, StoreState>(
                 bloc: _storeCubit,
                 builder: (BuildContext context, StoreState state) {
@@ -167,9 +175,9 @@ class _StorePageState extends State<StorePage> {
                     _ => const Text('error').center(),
                   };
                 },
-              ).expand(),
+              ).padding(AppConfig.pagePadding).expand(),
             ],
-          ).padding(AppConfig.pagePadding),
+          ),
         ),
       ),
     );

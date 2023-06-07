@@ -7,8 +7,8 @@ import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final LoginUseCase _login = LoginUseCase(authRepository: AuthRepositoryImpl());
-  final RegisterUseCase _register = RegisterUseCase(authRepository: AuthRepositoryImpl());
+  final _login = LoginUseCase(repository: AuthRepositoryImpl());
+  final _register = RegisterUseCase(repository: AuthRepositoryImpl());
 
   AuthCubit() : super(const AuthState());
 

@@ -24,7 +24,7 @@ class CategoryChoiceChip extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.balance_rounded),
+          const Icon(Icons.balance_rounded, color: AppColors.brown),
           const SizedBox(width: 8),
           Text(
             title,

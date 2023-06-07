@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
       if (await HelperFunctions.isFirstTime()) {
         context.go(AppRoutes.onboarding);
       } else if (!(await HelperFunctions.isAuth())) {
-        context.go(AppRoutes.signup);
+        context.go(AppRoutes.login);
       } else {
         context.go(AppRoutes.recipesHome);
       }

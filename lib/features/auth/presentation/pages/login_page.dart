@@ -8,6 +8,7 @@ import 'package:mealmate/core/extensions/validation_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/helper_functions.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
@@ -15,6 +16,7 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/app_routes.dart';
 
 class LoginPage extends StatelessWidget {
@@ -25,10 +27,15 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final AuthCubit _loginCubit = AuthCubit();
 
+  final ValueNotifier<bool> _saveLogin = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(size: context.deviceSize, titleText: 'Login'),
+      appBar: MainAppBar(
+        size: context.deviceSize,
+        titleText: serviceLocator<LocalizationClass>().appLocalizations!.login,
+      ),
       body: BlocProvider(
         create: (context) => _loginCubit,
         child: BlocConsumer<AuthCubit, AuthState>(
@@ -40,19 +47,19 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
-                    label: 'E-mail Address',
-                    hint: 'Enter E-mail Address',
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.email,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,
                     controller: _emailController,
                     validator: (text) {
                       if (text != null && text.isValidEmail()) {
                         return null;
                       } else {
-                        return "please add a valid email";
+                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;
                       }
                     },
                   ),
                   AuthTextField(
-                    label: 'Password',
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                     hint: '********',
                     isPassword: true,
                     controller: _passwordController,
@@ -60,13 +67,31 @@ class LoginPage extends StatelessWidget {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       } else {
-                        return "password isn't valid";
+                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                       }
                     },
                   ),
                   const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _saveLogin,
+                        builder: (context, save, _) {
+                          return Checkbox(
+                            value: save,
+                            activeColor: AppColors.mainColor,
+                            onChanged: (value) {
+                              _saveLogin.value = value!;
+                            },
+                          );
+                        },
+                      ),
+                      Text(serviceLocator<LocalizationClass>().appLocalizations!.stayLoggedIn),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
                   MainButton(
-                    text: 'Login',
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.login,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
@@ -81,22 +106,22 @@ class LoginPage extends StatelessWidget {
                   TextButton(
                     style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
                     onPressed: () => context.push(AppRoutes.forgotPassword),
-                    child: const Text('Forgot Password?'),
+                    child: Text(serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword),
                   ),
                   const SizedBox(height: 20),
                   Column(
                     children: [
-                      const Text('or continue with'),
+                      Text(serviceLocator<LocalizationClass>().appLocalizations!.orContinueWith),
                       const SizedBox(height: 5),
                       MainButton(
-                        text: 'Login With Google',
-                        color: AppColors.mainColor,
+                        text: 'Google',
+                        color: Colors.red,
                         width: context.width,
                         onPressed: () => context.go(AppRoutes.recipesHome),
                       ),
                       const SizedBox(height: 10),
                       MainButton(
-                        text: 'Login With Facebook',
+                        text: 'Facebook',
                         color: Colors.blue,
                         width: context.width,
                         onPressed: () => context.go(AppRoutes.recipesHome),
@@ -106,7 +131,7 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: TextButton(
-                      child: const Text('Don\'t ave an account? Sign Up'),
+                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.dontHaveAccount),
                       onPressed: () => context.go(AppRoutes.signup),
                     ),
                   ),
@@ -123,13 +148,13 @@ class LoginPage extends StatelessWidget {
     if (state.status == AuthStatus.loading) {
       UiMessages.showLoading();
     } else if (state.status == AuthStatus.success) {
-      await HelperFunctions.setUserData(state.user!);
+      if (_saveLogin.value) await HelperFunctions.setUserData(state.user!);
       UiMessages.closeLoading();
       context.go((AppRoutes.accountCreationLoading));
-      log('loged in successfuly');
+      log('logged in successfully');
     } else if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();
-      UiMessages.showToast('something went wrong');
+      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

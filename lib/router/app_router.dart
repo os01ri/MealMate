@@ -22,6 +22,7 @@ import 'package:mealmate/features/welcoming/presentation/pages/onboarding_page.d
 import 'package:mealmate/features/welcoming/presentation/pages/splash_screen.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
+import '../features/store/data/models/index_ingredients_response_model.dart';
 import 'routes_names.dart';
 
 class AppRouter {

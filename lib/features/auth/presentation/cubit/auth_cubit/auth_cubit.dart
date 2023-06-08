@@ -3,7 +3,6 @@ import 'package:mealmate/features/auth/data/models/login_response_model.dart';
 import 'package:mealmate/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
-import 'package:mealmate/features/auth/domain/usecases/send_password_email_usecase.dart';
 
 part 'auth_state.dart';
 

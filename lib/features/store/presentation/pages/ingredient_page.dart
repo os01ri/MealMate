@@ -19,6 +19,8 @@ import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/injection_container.dart';
 
+import '../../data/models/index_ingredients_response_model.dart';
+
 part '../widgets/ingredient_budget_card.dart';
 
 class IngredientPage extends StatefulWidget {

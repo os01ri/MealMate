@@ -39,7 +39,9 @@ class Helper {
 
   static Future<String?> getTokenFromStorage() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').tokenInfo!.token;
+    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}')
+        .tokenInfo
+        ?.token;
     return token;
   }
 

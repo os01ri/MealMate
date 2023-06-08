@@ -24,4 +24,21 @@ class RemoteAuthDataSource {
     final result = await postApi.callRequest();
     return result;
   }
+
+
+  Future<Unit> resetPassword({required String email}) async {
+    PostApi postApi = PostApi(
+        uri: ApiVariables.resetPassord(),
+        body: {"email": email},
+        fromJson: (string) {});
+    return await postApi.callRequest();
+  }
+
+  Future<Unit> verifyCode({required String code}) async {
+    PostApi postApi = PostApi(
+        uri: ApiVariables.resetPassord(),
+        body: {"code": code},
+        fromJson: (string) {});
+    return await postApi.callRequest();
+  }
 }

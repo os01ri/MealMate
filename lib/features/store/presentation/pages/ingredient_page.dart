@@ -29,7 +29,7 @@ class IngredientPage extends StatefulWidget {
     required this.id,
   });
 
-  final void Function(GlobalKey) onAddToCart;
+  final void Function(GlobalKey, IngredientModel) onAddToCart;
   final void Function(GlobalKey) onAddToWishlist;
   final String id;
 
@@ -50,7 +50,8 @@ class _IngredientPageState extends State<IngredientPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => StoreCubit()..showIngredient(ShowIngredientParams(id: widget.id)),
+      create: (context) =>
+          StoreCubit()..showIngredient(ShowIngredientParams(id: widget.id)),
       child: Scaffold(
         body: BlocConsumer<StoreCubit, StoreState>(
           listener: _listener,
@@ -58,7 +59,10 @@ class _IngredientPageState extends State<IngredientPage> {
             if (state.showStatus == CubitStatus.loading) {
               return const CircularProgressIndicator.adaptive().center();
             } else if (state.showStatus == CubitStatus.failure) {
-              return Text(serviceLocator<LocalizationClass>().appLocalizations!.error).center();
+              return Text(serviceLocator<LocalizationClass>()
+                      .appLocalizations!
+                      .error)
+                  .center();
             } else {
               return Scaffold(
                 appBar: RecipeAppBar(
@@ -67,7 +71,9 @@ class _IngredientPageState extends State<IngredientPage> {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        context.read<StoreCubit>().addToWishlist(AddToWishlistParams(
+                        context
+                            .read<StoreCubit>()
+                            .addToWishlist(AddToWishlistParams(
                               ingredientId: state.ingredient!.id!,
                             ));
                       },
@@ -100,10 +106,12 @@ class _IngredientPageState extends State<IngredientPage> {
                       color: AppColors.mainColor,
                       onPressed: () {
                         context.pop(true);
-                        widget.onAddToCart(_widgetKey);
+                        widget.onAddToCart(_widgetKey, state.ingredient!);
                       },
                       width: context.width,
-                      text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,
+                      text: serviceLocator<LocalizationClass>()
+                          .appLocalizations!
+                          .addToCart,
                     ).paddingHorizontal(8).hero('button'),
                   ],
                 ).padding(AppConfig.pagePadding),
@@ -120,7 +128,8 @@ class _IngredientPageState extends State<IngredientPage> {
       UiMessages.showLoading();
     } else if (state.addToWishlistStatus == CubitStatus.failure) {
       UiMessages.closeLoading();
-      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      UiMessages.showToast(
+          serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.addToWishlistStatus == CubitStatus.success) {
       UiMessages.closeLoading();
       UiMessages.showToast('تم');

@@ -21,6 +21,9 @@ import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
 import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/routes_names.dart';
 
+import '../../../../core/cubit/cart_cubit.dart';
+import '../../../../services/service_injection.dart';
+
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
 
@@ -47,9 +50,14 @@ class _StorePageState extends State<StorePage> {
     _currentKey = ValueNotifier(_cartKey);
   }
 
-  void cartClick(GlobalKey widgetKey) async {
+  void cartClick(GlobalKey widgetKey, IngredientModel model) async {
     await _runAddToCartAnimation(widgetKey);
     await _cartKey.currentState!.runCartAnimation((++_cartQuantityItems).toString());
+    serviceLocator<CartCubit>().addToCart(CartItem(
+        name: model.name!,
+        photoUrl: model.url!,
+        price: model.price!.toDouble(),
+        priceBy: "KG"));
   }
 
   void wishlistClick(GlobalKey widgetKey) async {

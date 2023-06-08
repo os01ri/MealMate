@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
@@ -17,6 +18,7 @@ class CartPage extends StatefulWidget {
 }
 
 class CartPageState extends State<CartPage> {
+  double s = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +39,16 @@ class CartPageState extends State<CartPage> {
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 25),
                       leading: Image.network(
                         widget.arguments.ingredients[index].url ?? PngPath.food,
                         fit: BoxFit.fill,
                         width: context.width * .2,
                         height: context.width * .2,
                       ),
-                      title: Text(widget.arguments.ingredients[index].name ?? "Ingredients"),
+                      title: Text(widget.arguments.ingredients[index].name ??
+                          "Ingredients"),
                       subtitle: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [Text("1 KG"), Text("1000 ل.س")],
@@ -52,20 +56,23 @@ class CartPageState extends State<CartPage> {
                       trailing: FittedBox(
                         fit: BoxFit.fitHeight,
                         child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               const Icon(Icons.add),
                               ValueListenableBuilder(
                                 valueListenable: ValueNotifier(0),
-                                builder: (BuildContext context, dynamic value, Widget? child) {
+                                builder: (BuildContext context, dynamic value,
+                                    Widget? child) {
                                   return Container(
                                       color: AppColors.grey2,
                                       padding: const EdgeInsets.all(4),
                                       child: Text(
                                         "$value",
-                                        style: AppTextStyles.styleWeight500(fontSize: 20),
+                                        style: AppTextStyles.styleWeight500(
+                                            fontSize: 20),
                                       ));
                                 },
                               ),
@@ -91,7 +98,8 @@ class CartPageState extends State<CartPage> {
                         const Icon(Icons.circle, size: 10),
                         SizedBox(
                           width: context.width * .7,
-                          child: const Divider(color: AppColors.brown, thickness: 2, indent: 0),
+                          child: const Divider(
+                              color: AppColors.brown, thickness: 2, indent: 0),
                         ),
                         const Icon(Icons.circle, size: 10),
                       ],
@@ -101,7 +109,9 @@ class CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        serviceLocator<LocalizationClass>().appLocalizations!.shippingFee,
+                        serviceLocator<LocalizationClass>()
+                            .appLocalizations!
+                            .shippingFee,
                         style: AppTextStyles.styleWeight600(fontSize: 18),
                       ),
                       Text(
@@ -114,7 +124,9 @@ class CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        serviceLocator<LocalizationClass>().appLocalizations!.totalPayment,
+                        serviceLocator<LocalizationClass>()
+                            .appLocalizations!
+                            .totalPayment,
                         style: AppTextStyles.styleWeight600(fontSize: 18),
                       ),
                       Text(
@@ -126,12 +138,20 @@ class CartPageState extends State<CartPage> {
                   MainButton(
                       fontSize: 20,
                       width: context.width * .55,
-                      text: serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress,
+                      text: serviceLocator<LocalizationClass>()
+                          .appLocalizations!
+                          .pleaseAddYourAddress,
                       icon: const Icon(Icons.location_on_outlined, size: 35),
                       color: AppColors.lightTextColor,
                       onPressed: () {}),
-                  MainButton(width: context.width * .75, text: serviceLocator<LocalizationClass>().appLocalizations!.placeOrder, 
-                  color: AppColors.orange, onPressed: () {},)
+                  MainButton(
+                    width: context.width * .75,
+                    text: serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .placeOrder,
+                    color: AppColors.orange,
+                    onPressed: () {},
+                  )
                 ],
               ),
             )

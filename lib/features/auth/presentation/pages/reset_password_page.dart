@@ -20,20 +20,27 @@ class ResetPasswordPage extends StatelessWidget {
     return Scaffold(
       appBar: MainAppBar(
         size: context.deviceSize,
-        titleText: serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword,
+        titleText: serviceLocator<LocalizationClass>()
+            .appLocalizations!
+            .forgotPassword,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(serviceLocator<LocalizationClass>().appLocalizations!.enterEmailToResetPassword),
+          Text(serviceLocator<LocalizationClass>()
+              .appLocalizations!
+              .enterEmailToResetPassword),
           const SizedBox(height: 10),
           AuthTextField(
             label: serviceLocator<LocalizationClass>().appLocalizations!.email,
-            hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,
+            hint: serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .enterEmail,
           ),
           const SizedBox(height: 10),
           MainButton(
-            text: serviceLocator<LocalizationClass>().appLocalizations!.sendEmail,
+            text:
+                serviceLocator<LocalizationClass>().appLocalizations!.sendEmail,
             color: AppColors.mainColor,
             width: context.width,
             onPressed: () {

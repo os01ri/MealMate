@@ -14,9 +14,10 @@ class AuthTextField extends StatefulWidget {
     required this.hint,
     this.validator,
     required this.label,
+    this.icon,
     this.isPassword = false,
   });
-
+  final Widget? icon;
   final TextEditingController? controller;
   final String hint;
   final String label;
@@ -43,7 +44,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
         Container(
           padding: const EdgeInsets.only(bottom: 8),
           alignment: AlignmentDirectional.topStart,
-          child: Text(widget.label, style: AppTextStyles.styleWeight500(fontSize: 16)),
+          child: Text(widget.label,
+              style: AppTextStyles.styleWeight500(fontSize: 16)),
         ),
         ValueListenableBuilder(
           valueListenable: showPassword,
@@ -59,17 +61,20 @@ class _AuthTextFieldState extends State<AuthTextField> {
                         child: show
                             ? Icon(
                                 Icons.visibility_off,
+                                color: AppColors.deepOrange,
                                 size: context.width * .05,
                                 key: const Key("show"),
                               )
                             : Icon(
                                 Icons.remove_red_eye,
+                                color: AppColors.deepOrange,
                                 size: context.width * .05,
                                 key: const Key("notShow"),
                               ),
                       ),
                     )
                   : null,
+              prefixIcon: widget.icon,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               fillColor: AppColors.scaffoldBackgroundColor,
               isPassword: !show,

@@ -7,6 +7,7 @@ import 'package:mealmate/core/ui/theme/them.dart';
 import 'package:mealmate/core/ui/widgets/restart_widget.dart';
 import 'package:mealmate/injection_container.dart' as di;
 import 'package:mealmate/router/app_router.dart';
+import 'package:mealmate/services/service_injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

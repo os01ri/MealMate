@@ -24,4 +24,20 @@ class AuthRepositoryImpl with HandlingExceptionManager implements AuthRepository
       return Right(result);
     });
   }
+  
+  @override
+  Future<Either<Failure, Unit>> resetPassword({required String email}) {
+    return wrapHandling(tryCall: () async {
+      final result = await authDatasource.resetPassword(email: email);
+      return Right(result);
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> verifyCode({required String code}) async {
+    return wrapHandling(tryCall: () async {
+      final result = await authDatasource.verifyCode(code: code);
+      return Right(result);
+    });
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 import 'package:mealmate/core/unified_api/api_variables.dart';
 import 'package:mealmate/core/unified_api/methods/post_api.dart';

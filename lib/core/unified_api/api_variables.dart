@@ -41,15 +41,7 @@ class ApiVariables {
   static Uri login() {
     return _auth(path: 'login');
   }
-  static Uri resetPassord() {
-    return _mainUri(path: 'password/sendemail');
-  }
 
-  static Uri verifyCode() {
-    return _mainUri(path: 'password/checkcode');
-  }
-
-///Media
   static Uri uploadMedia() => _mainUri(path: 'mediaUpload');
   // Uri uploadVideo() => _mainUri(path: "videoUpload");
   // Uri uploadGif() => _mainUri(path: "GIFUpload");

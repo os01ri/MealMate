@@ -22,7 +22,6 @@ import 'package:mealmate/features/welcoming/presentation/pages/onboarding_page.d
 import 'package:mealmate/features/welcoming/presentation/pages/splash_screen.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
-import '../features/store/data/models/index_ingredients_response_model.dart';
 import 'routes_names.dart';
 
 class AppRouter {
@@ -54,24 +53,21 @@ class AppRouter {
         path: '/${RoutesNames.recipesHome}',
         name: RoutesNames.recipesHome,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: RecipesHomePage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
         routes: _recipeRoutes,
       ),
       GoRoute(
         path: '/${RoutesNames.storePage}',
         name: RoutesNames.storePage,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: StorePage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
         routes: _storeRoutes,
       ),
       GoRoute(
         path: '/${RoutesNames.notification}',
         name: RoutesNames.notification,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: NotificationPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
       ),
     ],
   );
@@ -84,15 +80,13 @@ class AppRouter {
         path: RoutesNames.splash,
         name: RoutesNames.splash,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: SplashScreen()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
       ),
       GoRoute(
         path: RoutesNames.onboarding,
         name: RoutesNames.onboarding,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            NoTransitionPage(child: OnboardingPage()),
+        pageBuilder: (context, state) => NoTransitionPage(child: OnboardingPage()),
       ),
     ],
   );
@@ -117,15 +111,13 @@ class AppRouter {
         path: RoutesNames.forgotPassword,
         name: RoutesNames.forgotPassword,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: ResetPasswordPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: ResetPasswordPage()),
       ),
       GoRoute(
         path: RoutesNames.otp,
         name: RoutesNames.otp,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: OtpPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: OtpPage()),
       ),
       GoRoute(
         path: RoutesNames.accountCreationLoading,
@@ -189,10 +181,7 @@ class AppRouter {
       name: RoutesNames.ingredient,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        final record = state.extra as (
-          void Function(GlobalKey, IngredientModel),
-          void Function(GlobalKey)
-        );
+        final record = state.extra as (void Function(GlobalKey), void Function(GlobalKey));
         return slideTransition(
           context: context,
           state: state,
@@ -209,8 +198,7 @@ class AppRouter {
       name: RoutesNames.cartPage,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        return NoTransitionPage(
-            child: CartPage(arguments: state.extra as CartArguments));
+        return NoTransitionPage(child: CartPage(arguments: state.extra as CartArguments));
       },
     ),
     GoRoute(

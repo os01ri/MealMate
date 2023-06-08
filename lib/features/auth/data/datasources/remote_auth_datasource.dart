@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 import 'package:mealmate/core/unified_api/api_variables.dart';
 import 'package:mealmate/core/unified_api/methods/post_api.dart';
@@ -23,22 +22,5 @@ class RemoteAuthDataSource {
     );
     final result = await postApi.callRequest();
     return result;
-  }
-
-
-  Future<Unit> resetPassword({required String email}) async {
-    PostApi postApi = PostApi(
-        uri: ApiVariables.resetPassord(),
-        body: {"email": email},
-        fromJson: (string) {});
-    return await postApi.callRequest();
-  }
-
-  Future<Unit> verifyCode({required String code}) async {
-    PostApi postApi = PostApi(
-        uri: ApiVariables.resetPassord(),
-        body: {"code": code},
-        fromJson: (string) {});
-    return await postApi.callRequest();
   }
 }

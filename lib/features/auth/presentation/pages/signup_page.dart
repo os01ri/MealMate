@@ -23,8 +23,7 @@ class SignUpPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final AuthCubit _registerCubit = AuthCubit();
 
@@ -33,8 +32,7 @@ class SignUpPage extends StatelessWidget {
     return Scaffold(
       appBar: MainAppBar(
         size: context.deviceSize,
-        titleText:
-            serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
+        titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
       ),
       body: BlocProvider(
         create: (context) => _registerCubit,
@@ -48,17 +46,11 @@ class SignUpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .username,
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .username,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.username,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     validator: (text) {
                       if ((text != null && text.length < 3)) {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .addValidUsername;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.addValidUsername;
                       }
                       return null;
                     },
@@ -67,43 +59,29 @@ class SignUpPage extends StatelessWidget {
                   Row(
                     children: [
                       AuthTextField(
-                        hint: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .firstName,
-                        label: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .username,
+                        hint: serviceLocator<LocalizationClass>().appLocalizations!.firstName,
+                        label: serviceLocator<LocalizationClass>().appLocalizations!.username,
                       ).expand(),
                       SizedBox(width: context.width * .05),
                       AuthTextField(
-                        hint: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .lastName,
-                        label: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .lastName,
+                        hint: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                        label: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
                       ).expand(),
                     ],
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .email,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.email,
                     hint: 'you@example.com',
                     controller: _emailController,
                     validator: (text) {
                       if (text != null && text.isValidEmail()) {
                         return null;
                       }
-                      return serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .enterValidEmail;
+                      return serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;
                     },
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .password,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                     hint: '********',
                     isPassword: true,
                     controller: _passwordController,
@@ -111,33 +89,25 @@ class SignUpPage extends StatelessWidget {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       }
-                      return serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .enterValidPassword;
+                      return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                     },
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .confirmPassword,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.confirmPassword,
                     controller: _confirmPasswordController,
                     isPassword: true,
                     validator: (text) {
                       if (text != null && text == _passwordController.text) {
                         return null;
                       } else {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .passwordNotMatch;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.passwordNotMatch;
                       }
                     },
                     hint: '********',
                   ),
                   const SizedBox(height: 20),
                   MainButton(
-                    text: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .signUp,
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.signUp,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
@@ -153,11 +123,9 @@ class SignUpPage extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 60,
+                    height: 40,
                     child: TextButton(
-                      child: Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .orLogin),
+                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.orLogin),
                       onPressed: () {
                         context.goNamed(RoutesNames.login);
                       },
@@ -165,27 +133,17 @@ class SignUpPage extends StatelessWidget {
                   ),
                   RichText(
                     text: TextSpan(
-                      text: 'By continuing you agree to our\n',
-                      style: AppTextStyles.styleWeight400(
-                          color: Colors.grey, fontSize: 14),
+                      text: 'By continuing you agree to the\n',
+                      style: AppTextStyles.styleWeight400(color: Colors.grey),
                       children: [
                         TextSpan(
-                          text: serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .termsOfService,
-                          style: AppTextStyles.styleWeight600(
-                              color: AppColors.mainColor),
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.termsOfService,
+                          style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         ),
+                        TextSpan(text: serviceLocator<LocalizationClass>().appLocalizations!.and),
                         TextSpan(
-                            text: serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .and),
-                        TextSpan(
-                          text: serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .privacyPolicy,
-                          style: AppTextStyles.styleWeight600(
-                              color: AppColors.mainColor),
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.privacyPolicy,
+                          style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         )
                       ],
                     ),
@@ -209,8 +167,7 @@ class SignUpPage extends StatelessWidget {
     }
     if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();
-      UiMessages.showToast(
-          serviceLocator<LocalizationClass>().appLocalizations!.error);
+      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

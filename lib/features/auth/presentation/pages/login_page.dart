@@ -47,27 +47,19 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .email,
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .enterEmail,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.email,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,
                     controller: _emailController,
                     validator: (text) {
                       if (text != null && text.isValidEmail()) {
                         return null;
                       } else {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .enterValidEmail;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;
                       }
                     },
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .password,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                     hint: '********',
                     isPassword: true,
                     controller: _passwordController,
@@ -75,9 +67,7 @@ class LoginPage extends StatelessWidget {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       } else {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .enterValidPassword;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                       }
                     },
                   ),
@@ -96,16 +86,12 @@ class LoginPage extends StatelessWidget {
                           );
                         },
                       ),
-                      Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .stayLoggedIn),
+                      Text(serviceLocator<LocalizationClass>().appLocalizations!.stayLoggedIn),
                     ],
                   ),
                   const SizedBox(height: 20),
                   MainButton(
-                    text: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .login,
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.login,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
@@ -118,45 +104,34 @@ class LoginPage extends StatelessWidget {
                     },
                   ),
                   TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(AppColors.mainColor)),
-                    onPressed: () =>
-                        context.pushNamed(RoutesNames.forgotPassword),
-                    child: Text(serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .forgotPassword),
+                    style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
+                    onPressed: () => context.pushNamed(RoutesNames.forgotPassword),
+                    child: Text(serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword),
                   ),
                   const SizedBox(height: 20),
                   Column(
                     children: [
-                      Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .orContinueWith),
+                      Text(serviceLocator<LocalizationClass>().appLocalizations!.orContinueWith),
                       const SizedBox(height: 5),
                       MainButton(
                         text: 'Google',
                         color: Colors.red,
                         width: context.width,
-                        onPressed: () =>
-                            context.goNamed(RoutesNames.recipesHome),
+                        onPressed: () => context.goNamed(RoutesNames.recipesHome),
                       ),
                       const SizedBox(height: 10),
                       MainButton(
                         text: 'Facebook',
                         color: Colors.blue,
                         width: context.width,
-                        onPressed: () =>
-                            context.goNamed(RoutesNames.recipesHome),
+                        onPressed: () => context.goNamed(RoutesNames.recipesHome),
                       ),
                     ],
                   ),
                   SizedBox(
                     height: 40,
                     child: TextButton(
-                      child: Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .dontHaveAccount),
+                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.dontHaveAccount),
                       onPressed: () => context.goNamed(RoutesNames.signup),
                     ),
                   ),
@@ -180,8 +155,7 @@ class LoginPage extends StatelessWidget {
       log('logged in successfully');
     } else if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();
-      UiMessages.showToast(
-          serviceLocator<LocalizationClass>().appLocalizations!.error);
+      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

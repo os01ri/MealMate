@@ -9,8 +9,6 @@ import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
 import 'package:mealmate/features/main/cubit/navigation_cubit.dart';
 import 'package:mealmate/features/main/pages/shell_page.dart';
 import 'package:mealmate/features/notification/notification_page.dart';
-import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
-import 'package:mealmate/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_create_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_details_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_intro_page.dart';
@@ -20,6 +18,8 @@ import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
 import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/features/store/presentation/pages/wishlist_page.dart';
+import 'package:mealmate/features/welcoming/presentation/pages/onboarding_page.dart';
+import 'package:mealmate/features/welcoming/presentation/pages/splash_screen.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
 import 'routes_names.dart';
@@ -32,6 +32,7 @@ class AppRouter {
 
   static final GoRouter _router = GoRouter(
     initialLocation: '/welcome/splash',
+    // redirect: (context, state) => '/${RoutesNames.recipesHome}',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
@@ -49,29 +50,24 @@ class AppRouter {
     ),
     routes: [
       GoRoute(
-        path: '/home',
-        builder: (context, state) => const Scaffold(),
-        routes: [
-          GoRoute(
-              path: RoutesNames.recipesHome,
-              name: RoutesNames.recipesHome,
-              parentNavigatorKey: _shellNavigatorKey,
-              pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
-              routes: _recipeRoutes),
-          GoRoute(
-            path: RoutesNames.storePage,
-            name: RoutesNames.storePage,
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
-            routes: _storeRoutes,
-          ),
-          GoRoute(
-            path: RoutesNames.notification,
-            name: RoutesNames.notification,
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
-          ),
-        ],
+        path: '/${RoutesNames.recipesHome}',
+        name: RoutesNames.recipesHome,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
+        routes: _recipeRoutes,
+      ),
+      GoRoute(
+        path: '/${RoutesNames.storePage}',
+        name: RoutesNames.storePage,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
+        routes: _storeRoutes,
+      ),
+      GoRoute(
+        path: '/${RoutesNames.notification}',
+        name: RoutesNames.notification,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
       ),
     ],
   );

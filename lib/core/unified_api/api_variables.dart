@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 
 class ApiVariables {
@@ -19,7 +20,7 @@ class ApiVariables {
       path: path,
       queryParameters: queryParameters,
     );
-    log(uri.toString());
+    log(uri.toString().logMagenta);
     return uri;
   }
 

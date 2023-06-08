@@ -12,11 +12,14 @@ class ShellPage extends StatelessWidget {
   final Widget screen;
 
   const ShellPage({Key? key, required this.screen}) : super(key: key);
+ 
+ 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screen,
+      drawer: const Drawer(),
       bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const _CreateRecipeFAB(),

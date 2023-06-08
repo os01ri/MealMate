@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
 
 import '../error/exceptions.dart';
 import '../error/failures.dart';
@@ -14,16 +15,16 @@ mixin HandlingExceptionManager {
       final right = await tryCall();
       return right;
     } on UnauthenticatedException catch (e) {
-      log("<<UnauthenticatedException>>");
+      log("<<UnauthenticatedException>>".logRed);
       return Left(UnauthenticatedFailure(e.message));
     } on ValidationException catch (e) {
-      log("<<validateRegister>>");
+      log("<<validateRegister>>".logRed);
       return Left(ValidationFailure(e.message));
     } on ServerException catch (e) {
-      log("<< ServerException >> ");
+      log("<< ServerException >> ".logRed);
       return Left(ServerFailure(e.message));
     } catch (e) {
-      log("<< catch >> error is $e");
+      log("<< catch >> error is $e".logRed);
       return const Left(ServerFailure('something went wrong'));
     }
   }

@@ -8,9 +8,9 @@ import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/features/onboarding/presentation/widgets/custom_intro_paint.dart';
-import 'package:mealmate/features/onboarding/presentation/widgets/intro_indicator.dart';
-import 'package:mealmate/features/onboarding/presentation/widgets/slide.dart';
+import 'package:mealmate/features/welcoming/presentation/widgets/custom_intro_paint.dart';
+import 'package:mealmate/features/welcoming/presentation/widgets/intro_indicator.dart';
+import 'package:mealmate/features/welcoming/presentation/widgets/slide.dart';
 import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/routes_names.dart';
 

@@ -17,16 +17,16 @@ extension FamilyUtils on TextStyle {
 }
 
 extension FontSizeUtils on TextStyle {
-  TextStyle get smallFontSize => copyWith(fontSize: _FontSize.overline);
-  TextStyle get middleFontSize => copyWith(fontSize: _FontSize.body_02);
-  TextStyle get normalFontSize => copyWith(fontSize: _FontSize.body_01);
-  TextStyle get normal2FontSize => copyWith(fontSize: _FontSize.subtitle_01);
-  TextStyle get largeFontSize => copyWith(fontSize: _FontSize.heading_06);
-  TextStyle get xLargeFontSize => copyWith(fontSize: _FontSize.heading_04);
-  TextStyle get xxLargeFontSize => copyWith(fontSize: _FontSize.heading_02);
+  TextStyle get smallFontSize => copyWith(fontSize: FontSize.overline);
+  TextStyle get middleFontSize => copyWith(fontSize: FontSize.body_02);
+  TextStyle get normalFontSize => copyWith(fontSize: FontSize.body_01);
+  TextStyle get normal2FontSize => copyWith(fontSize: FontSize.subtitle_01);
+  TextStyle get largeFontSize => copyWith(fontSize: FontSize.heading_06);
+  TextStyle get xLargeFontSize => copyWith(fontSize: FontSize.heading_04);
+  TextStyle get xxLargeFontSize => copyWith(fontSize: FontSize.heading_02);
 }
 
-abstract class _FontSize {
+abstract class FontSize {
   static double get heading_01 => _heading_01FontSize;
   static double get heading_02 => _heading_02FontSize;
   static double get heading_03 => _heading_03FontSize;

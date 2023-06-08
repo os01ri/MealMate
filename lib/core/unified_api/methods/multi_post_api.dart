@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 
-import '../handling_exception_request.dart'; 
-
+import '../handling_exception_request.dart';
 
 class MultiPostApi with HandlingExceptionRequest {
   final Uri uri;
@@ -28,16 +28,14 @@ class MultiPostApi with HandlingExceptionRequest {
       };
       http.MultipartRequest request = http.MultipartRequest('POST', uri);
       for (var item in body.entries) {
-        request.files
-            .add(await http.MultipartFile.fromPath(item.key, item.value));
+        request.files.add(await http.MultipartFile.fromPath(item.key, item.value));
       }
 
       request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(timeout);
+      http.StreamedResponse streamedResponse = await request.send().timeout(timeout);
       http.Response response = await http.Response.fromStream(streamedResponse);
-      log(response.body);
-      log(response.statusCode.toString());
+      log(response.body.logGreen);
+      log(response.statusCode.toString().logGreen);
       if (response.statusCode == 200) {
         return fromJson(response.body);
       } else {
@@ -46,25 +44,25 @@ class MultiPostApi with HandlingExceptionRequest {
       }
     } on HttpException {
       log(
-        'http exception',
+        'http exception'.logRed,
         name: 'RequestManager post function',
       );
       rethrow;
     } on FormatException {
       log(
-        'something went wrong in parsing the uri',
+        'something went wrong in parsing the uri'.logRed,
         name: 'RequestManager post function',
       );
       rethrow;
     } on SocketException {
       log(
         'socket exception',
-        name: 'RequestManager post function',
+        name: 'RequestManager post function'.logRed,
       );
       rethrow;
     } catch (e) {
       log(
-        e.toString(),
+        e.toString().logRed,
         name: 'RequestManager post function',
       );
       rethrow;

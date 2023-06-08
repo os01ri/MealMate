@@ -7,6 +7,7 @@ import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/features/main/widgets/main_drawer.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/section_header.dart';
 import 'package:mealmate/injection_container.dart';
@@ -25,6 +26,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   late final ValueNotifier<double> _bodyPosition;
   late final ValueNotifier<double> _searchButtonPosition;
   late final ValueNotifier<bool> _allowScroll;
+  late final GlobalKey<ScaffoldState> _scaffoldKey;
 
   static double _bodyUpPosition(BuildContext context) => context.height * .15;
   static double _bodyDownPosition(BuildContext context) => context.height * .38;
@@ -35,6 +37,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _scaffoldKey = GlobalKey<ScaffoldState>();
     _allowScroll = ValueNotifier(false);
     _bodyPosition = ValueNotifier(_bodyDownPosition(context));
     _searchButtonPosition = ValueNotifier(_searchButtonDownPosition(context));
@@ -44,7 +47,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
     return Container(
       height: context.height * .6,
       width: context.width,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: context.height * .08),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: context.height * .07),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: AlignmentDirectional.topStart,
@@ -59,9 +62,22 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${serviceLocator<LocalizationClass>().appLocalizations!.hello} Osama!',
-            style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                icon: Icon(
+                  Icons.menu_open_rounded,
+                  color: Colors.white,
+                  size: FontSize.heading_02,
+                ),
+              ),
+              Text(
+                '${serviceLocator<LocalizationClass>().appLocalizations!.hello} Osama!',
+                style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
+              ),
+            ],
           ),
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
@@ -136,6 +152,8 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const MainDrawer(),
       body: Stack(
         children: [
           _buildOrangeContainer(context),

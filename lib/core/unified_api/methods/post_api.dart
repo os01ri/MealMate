@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 
 import '../../helper/helper.dart';
 import '../handling_exception_request.dart';
-
 
 class PostApi<T> with HandlingExceptionRequest {
   final Uri uri;
@@ -42,10 +42,10 @@ class PostApi<T> with HandlingExceptionRequest {
       request.body = jsonEncode(body);
       request.headers.addAll(headers);
       http.StreamedResponse streamedResponse = await request.send().timeout(timeout);
-      log(request.body, name: "request body");
+      log(request.body.logGreen, name: "request body");
       http.Response response = await http.Response.fromStream(streamedResponse);
-      log(response.body);
-      log(response.statusCode.toString());
+      log(response.body.logGreen);
+      log(response.statusCode.toString().logGreen);
       if (response.statusCode == 200) {
         return fromJson(response.body);
       } else {
@@ -54,25 +54,25 @@ class PostApi<T> with HandlingExceptionRequest {
       }
     } on HttpException {
       log(
-        'http exception',
+        'http exception'.logRed,
         name: 'RequestManager post function',
       );
       rethrow;
     } on FormatException {
       log(
-        'something went wrong in parsing the uri',
+        'something went wrong in parsing the uri'.logRed,
         name: 'RequestManager post function',
       );
       rethrow;
     } on SocketException {
       log(
-        'socket exception',
+        'socket exception'.logRed,
         name: 'RequestManager post function',
       );
       rethrow;
     } catch (e) {
       log(
-        e.toString(),
+        e.toString().logRed,
         name: 'RequestManager post function',
       );
       rethrow;

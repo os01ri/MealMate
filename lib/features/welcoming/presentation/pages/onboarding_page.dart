@@ -165,7 +165,7 @@ class _IntroState extends State<Intro> {
                           duration: AppConfig.pageViewAnimationDuration,
                           curve: Curves.ease,
                         );
-                        await Helper.isFirstTime();
+                        await Helper.isFirstTimeOpeningApp();
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
                           context.goNamed(RoutesNames.login);
                         }

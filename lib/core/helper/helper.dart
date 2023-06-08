@@ -21,12 +21,10 @@ class Helper {
   ////////////////////
   static String? _userToken;
   static String? get userToken => _userToken;
-  static Future<void> setUserToken(String token) async {
-    _userToken = token;
-  }
+  static Future<void> setUserToken(String token) async => _userToken = token;
   ////////////////////
 
-  static Future<bool> isAuth() async {
+  static Future<bool> isAuthSavedToStorage() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.containsKey(PrefsKeys.userInfo);
   }
@@ -43,14 +41,12 @@ class Helper {
     return token;
   }
 
-  static Future<bool> isFirstTime() async {
+  static Future<bool> isFirstTimeOpeningApp() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-
     if (!sp.containsKey(PrefsKeys.isShowOnBorder)) {
       sp.setBool(PrefsKeys.isShowOnBorder, true);
       return true;
     }
-
     return false;
   }
 

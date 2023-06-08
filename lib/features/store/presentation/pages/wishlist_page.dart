@@ -10,7 +10,7 @@ import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class WishlistPage extends StatelessWidget {
   const WishlistPage({
@@ -48,8 +48,8 @@ class WishlistPage extends StatelessWidget {
                     state.wishItems.length,
                     (index) => GestureDetector(
                       onTap: () async {
-                        context.push(
-                          AppRoutes.ingredient,
+                        context.pushNamed(
+                          RoutesNames.ingredient,
                           extra: (onAddToCart, onAddToCart),
                         );
                       },

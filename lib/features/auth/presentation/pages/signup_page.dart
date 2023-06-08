@@ -15,7 +15,7 @@ import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
@@ -118,7 +118,7 @@ class SignUpPage extends StatelessWidget {
                             userName: _userNameController.text,
                             password: _passwordController.text,
                           ),
-                        ); // context.go(Routes.otpScreen);
+                        ); // context.goNamed(Routes.otpScreen);
                       }
                     },
                   ),
@@ -127,7 +127,7 @@ class SignUpPage extends StatelessWidget {
                     child: TextButton(
                       child: Text(serviceLocator<LocalizationClass>().appLocalizations!.orLogin),
                       onPressed: () {
-                        context.go(AppRoutes.login);
+                        context.goNamed(RoutesNames.login);
                       },
                     ),
                   ),
@@ -163,7 +163,7 @@ class SignUpPage extends StatelessWidget {
     }
     if (state.status == AuthStatus.success) {
       UiMessages.closeLoading();
-      context.go(AppRoutes.accountCreationLoading);
+      context.goNamed(RoutesNames.accountCreationLoading);
     }
     if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();

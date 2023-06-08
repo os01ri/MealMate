@@ -9,7 +9,7 @@ import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class RecipeStepsPage extends StatelessWidget {
   const RecipeStepsPage({super.key});
@@ -129,7 +129,7 @@ class _StepsSection extends StatelessWidget {
               MainButton(
                 color: AppColors.mainColor,
                 onPressed: () {
-                  context.go(AppRoutes.recipesHome);
+                  context.goNamed(RoutesNames.recipesHome);
                 },
                 text: serviceLocator<LocalizationClass>().appLocalizations!.finishCooking,
               ).hero('button').paddingAll(8).expand(),

@@ -17,7 +17,7 @@ import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   TextButton(
                     style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
-                    onPressed: () => context.push(AppRoutes.forgotPassword),
+                    onPressed: () => context.pushNamed(RoutesNames.forgotPassword),
                     child: Text(serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword),
                   ),
                   const SizedBox(height: 20),
@@ -117,14 +117,14 @@ class LoginPage extends StatelessWidget {
                         text: 'Google',
                         color: Colors.red,
                         width: context.width,
-                        onPressed: () => context.go(AppRoutes.recipesHome),
+                        onPressed: () => context.goNamed(RoutesNames.recipesHome),
                       ),
                       const SizedBox(height: 10),
                       MainButton(
                         text: 'Facebook',
                         color: Colors.blue,
                         width: context.width,
-                        onPressed: () => context.go(AppRoutes.recipesHome),
+                        onPressed: () => context.goNamed(RoutesNames.recipesHome),
                       ),
                     ],
                   ),
@@ -132,7 +132,7 @@ class LoginPage extends StatelessWidget {
                     height: 40,
                     child: TextButton(
                       child: Text(serviceLocator<LocalizationClass>().appLocalizations!.dontHaveAccount),
-                      onPressed: () => context.go(AppRoutes.signup),
+                      onPressed: () => context.goNamed(RoutesNames.signup),
                     ),
                   ),
                 ],
@@ -151,7 +151,7 @@ class LoginPage extends StatelessWidget {
       if (_saveLogin.value) await Helper.setUserDataToStorage(state.user!);
       Helper.setUserToken(state.user!.tokenInfo!.token!);
       UiMessages.closeLoading();
-      context.go((AppRoutes.accountCreationLoading));
+      context.goNamed((RoutesNames.accountCreationLoading));
       log('logged in successfully');
     } else if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();

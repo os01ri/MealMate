@@ -10,7 +10,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/section_header.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 part '../widgets/recipe_card.dart';
 

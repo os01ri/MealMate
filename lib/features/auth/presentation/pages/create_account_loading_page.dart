@@ -8,7 +8,7 @@ import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class CreateAccountLoadingPage extends StatefulWidget {
   const CreateAccountLoadingPage({super.key});
@@ -30,7 +30,7 @@ class _CreateAccountLoadingPageState extends State<CreateAccountLoadingPage> wit
       upperBound: 1,
       duration: const Duration(seconds: 3),
     )..forward().whenComplete(() {
-        context.go(AppRoutes.recipesHome);
+        context.goNamed(RoutesNames.recipesHome);
       });
   }
 

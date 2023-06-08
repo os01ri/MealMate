@@ -7,7 +7,7 @@ import 'package:mealmate/features/auth/presentation/pages/otp_page.dart';
 import 'package:mealmate/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
 import 'package:mealmate/features/main/cubit/navigation_cubit.dart';
-import 'package:mealmate/features/main/main_page.dart';
+import 'package:mealmate/features/main/pages/shell_page.dart';
 import 'package:mealmate/features/notification/notification_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:mealmate/features/onboarding/presentation/pages/splash_screen.dart';
@@ -16,13 +16,13 @@ import 'package:mealmate/features/recipe/presentation/pages/recipe_details_page.
 import 'package:mealmate/features/recipe/presentation/pages/recipe_intro_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_steps_page.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipes_home_page.dart';
+import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
 import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/features/store/presentation/pages/wishlist_page.dart';
 import 'package:mealmate/router/transitions/slide_transition.dart';
 
-import '../features/store/presentation/pages/cart_page.dart';
-import 'app_routes.dart';
+import 'routes_names.dart';
 
 class AppRouter {
   static GoRouter get router => _router;
@@ -31,102 +31,115 @@ class AppRouter {
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter _router = GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: '/welcome/splash',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
-      _shellRoute,
-      ..._splashRoutes,
-      ..._authRoutes,
-      ..._recipeRoutes,
-      ..._ingredientRoutes,
+      _welcomingRoutes,
+      _authRoutes,
+      _homeShellRoute,
     ],
   );
 
-  static final ShellRoute _shellRoute = ShellRoute(
+  static final ShellRoute _homeShellRoute = ShellRoute(
     navigatorKey: _shellNavigatorKey,
     builder: (context, state, child) => BlocProvider<NavigationCubit>(
       create: (context) => NavigationCubit(),
-      child: MainPage(screen: child),
+      child: ShellPage(screen: child),
     ),
     routes: [
       GoRoute(
-        path: AppRoutes.notification,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
+        path: '/home',
+        builder: (context, state) => const Scaffold(),
+        routes: [
+          GoRoute(
+              path: RoutesNames.recipesHome,
+              name: RoutesNames.recipesHome,
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
+              routes: _recipeRoutes),
+          GoRoute(
+            path: RoutesNames.storePage,
+            name: RoutesNames.storePage,
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
+            routes: _storeRoutes,
+          ),
+          GoRoute(
+            path: RoutesNames.notification,
+            name: RoutesNames.notification,
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
+          ),
+        ],
       ),
-      GoRoute(
-        path: AppRoutes.recipesHome,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
-      ),
-      GoRoute(
-        path: AppRoutes.storePage,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
-      ),
-      GoRoute(
-        path: AppRoutes.wishListPage,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) {
-          final arg = (state.extra as void Function(GlobalKey));
-          return NoTransitionPage(
-              child: WishlistPage(
-            onAddToCart: arg,
-          ));
-        },
-      ),
-    
     ],
   );
 
-  static final _splashRoutes = [
-    GoRoute(
-      path: AppRoutes.splash,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
-    ),
-    GoRoute(
-      path: AppRoutes.onboarding,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => NoTransitionPage(child: OnboardingPage()),
-    ),
-  ];
-
-  static final _authRoutes = [
-    GoRoute(
-      path: AppRoutes.forgotPassword,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => const NoTransitionPage(child: ResetPasswordPage()),
-    ),
-    GoRoute(
-        path: AppRoutes.otp,
+  static final _welcomingRoutes = GoRoute(
+    path: '/welcome',
+    builder: (context, state) => const Scaffold(),
+    routes: [
+      GoRoute(
+        path: RoutesNames.splash,
+        name: RoutesNames.splash,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: OtpPage())),
-    GoRoute(
-      path: AppRoutes.signup,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => NoTransitionPage(child: SignUpPage()),
-    ),
-    GoRoute(
-      path: AppRoutes.login,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
-    ),
-    GoRoute(
-      path: AppRoutes.accountCreationLoading,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => slideTransition(
-        context: context,
-        state: state,
-        child: const CreateAccountLoadingPage(),
+        pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
       ),
-    ),
-  ];
+      GoRoute(
+        path: RoutesNames.onboarding,
+        name: RoutesNames.onboarding,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => NoTransitionPage(child: OnboardingPage()),
+      ),
+    ],
+  );
+
+  static final _authRoutes = GoRoute(
+    path: '/auth',
+    builder: (context, state) => const Scaffold(),
+    routes: [
+      GoRoute(
+        path: RoutesNames.signup,
+        name: RoutesNames.signup,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => NoTransitionPage(child: SignUpPage()),
+      ),
+      GoRoute(
+        path: RoutesNames.login,
+        name: RoutesNames.login,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
+      ),
+      GoRoute(
+        path: RoutesNames.forgotPassword,
+        name: RoutesNames.forgotPassword,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: ResetPasswordPage()),
+      ),
+      GoRoute(
+        path: RoutesNames.otp,
+        name: RoutesNames.otp,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: OtpPage()),
+      ),
+      GoRoute(
+        path: RoutesNames.accountCreationLoading,
+        name: RoutesNames.accountCreationLoading,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => slideTransition(
+          context: context,
+          state: state,
+          child: const CreateAccountLoadingPage(),
+        ),
+      ),
+    ],
+  );
 
   static final _recipeRoutes = [
     GoRoute(
-      path: AppRoutes.recipeIntro,
+      path: RoutesNames.recipeIntro,
+      name: RoutesNames.recipeIntro,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) => slideTransition(
         context: context,
@@ -135,15 +148,28 @@ class AppRouter {
       ),
     ),
     GoRoute(
-      path: AppRoutes.cartPage,
+      path: RoutesNames.recipeDetails,
+      name: RoutesNames.recipeDetails,
       parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) {
-        return NoTransitionPage(
-            child: CartPage(arguments: state.extra as CartArguments));
-      },
+      pageBuilder: (context, state) => slideTransition(
+        context: context,
+        state: state,
+        child: const RecipeDetailsPage(),
+      ),
     ),
     GoRoute(
-      path: AppRoutes.recipeCreate,
+      path: RoutesNames.recipeSteps,
+      name: RoutesNames.recipeSteps,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) => slideTransition(
+        context: context,
+        state: state,
+        child: const RecipeStepsPage(),
+      ),
+    ),
+    GoRoute(
+      path: RoutesNames.recipeCreate,
+      name: RoutesNames.recipeCreate,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) => slideTransition(
         context: context,
@@ -151,47 +177,12 @@ class AppRouter {
         child: const RecipeCreatePage(),
       ),
     ),
-    GoRoute(
-      path: AppRoutes.recipeDetails,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => slideTransition(
-        context: context,
-        state: state,
-        child: const RecipeDetailsPage(),
-      ),
-    ),
-    GoRoute(
-      path: AppRoutes.recipeSteps,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => slideTransition(
-        context: context,
-        state: state,
-        child: const RecipeStepsPage(),
-      ),
-    ),
-    GoRoute(
-      path: AppRoutes.recipeDetails,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => slideTransition(
-        context: context,
-        state: state,
-        child: const RecipeDetailsPage(),
-      ),
-    ),
-    GoRoute(
-      path: AppRoutes.recipeSteps,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => slideTransition(
-        context: context,
-        state: state,
-        child: const RecipeStepsPage(),
-      ),
-    ),
   ];
 
-  static final _ingredientRoutes = [
+  static final _storeRoutes = [
     GoRoute(
-      path: AppRoutes.ingredient,
+      path: '${RoutesNames.ingredient}/:id',
+      name: RoutesNames.ingredient,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
         final record = state.extra as (void Function(GlobalKey), void Function(GlobalKey));
@@ -201,9 +192,26 @@ class AppRouter {
           child: IngredientPage(
             onAddToCart: record.$1,
             onAddToWishlist: record.$2,
-            id: state.queryParams['id']!,
+            id: state.params['id']!,
           ),
         );
+      },
+    ),
+    GoRoute(
+      path: RoutesNames.cartPage,
+      name: RoutesNames.cartPage,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return NoTransitionPage(child: CartPage(arguments: state.extra as CartArguments));
+      },
+    ),
+    GoRoute(
+      path: RoutesNames.wishListPage,
+      name: RoutesNames.wishListPage,
+      parentNavigatorKey: _shellNavigatorKey,
+      pageBuilder: (context, state) {
+        final arg = (state.extra as void Function(GlobalKey));
+        return NoTransitionPage(child: WishlistPage(onAddToCart: arg));
       },
     ),
   ];

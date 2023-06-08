@@ -10,7 +10,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class RecipeIntroPage extends StatelessWidget {
   const RecipeIntroPage({super.key});
@@ -94,7 +94,7 @@ class RecipeIntroPage extends StatelessWidget {
         color: AppColors.mainColor,
         width: context.width,
         onPressed: () {
-          context.push(AppRoutes.recipeDetails);
+          context.pushNamed(RoutesNames.recipeDetails);
         },
       ).paddingHorizontal(8).padding(AppConfig.pagePadding).hero('button'),
     );

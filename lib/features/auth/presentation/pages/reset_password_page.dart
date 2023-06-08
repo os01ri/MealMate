@@ -7,7 +7,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 import '../../../../core/localization/localization_class.dart';
 import '../../../../injection_container.dart';
@@ -37,7 +37,7 @@ class ResetPasswordPage extends StatelessWidget {
             color: AppColors.mainColor,
             width: context.width,
             onPressed: () {
-              context.go(AppRoutes.recipesHome);
+              context.goNamed(RoutesNames.recipesHome);
             },
           ),
         ],

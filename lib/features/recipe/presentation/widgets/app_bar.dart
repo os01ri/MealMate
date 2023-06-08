@@ -38,8 +38,8 @@ class RecipeAppBar extends AppBar {
                         context.pop();
                       },
                       icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                      ).hero('arrow_back_ios_new_rounded'),
+                        Icons.arrow_back_ios_rounded,
+                      ).hero('arrow_back_ios_rounded'),
                     ),
               ),
             ],

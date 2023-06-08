@@ -19,19 +19,23 @@ class IndexIngredientsUseCase implements UseCase<IndexIngredientsResponseModel, 
 class IndexIngredientsParams implements UseCaseParams {
   final int? perPage;
   final int? page;
+  final String? name;
+  final String? categoryId;
 
   const IndexIngredientsParams({
     this.perPage,
     this.page,
+    this.name,
+    this.categoryId,
   });
 
   @override
-  ParamsMap getParams() 
-    => {
-      if (page != null) "page": page.toString(),
-      if (perPage != null) "perPage": perPage.toString(),
-    };
-  
+  ParamsMap getParams() => {
+        if (page != null) "page": page.toString(),
+        if (perPage != null) "perPage": perPage.toString(),
+        if (name != null) "filter[name]": name,
+        if (categoryId != null) "filter[categoryId]": categoryId,
+      };
 
   @override
   BodyMap getBody() => {};

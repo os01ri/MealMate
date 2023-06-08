@@ -12,7 +12,7 @@ import 'package:mealmate/features/onboarding/presentation/widgets/custom_intro_p
 import 'package:mealmate/features/onboarding/presentation/widgets/intro_indicator.dart';
 import 'package:mealmate/features/onboarding/presentation/widgets/slide.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 const _titleKey = 'title';
 const _descriptionKey = 'description';
@@ -167,7 +167,7 @@ class _IntroState extends State<Intro> {
                         );
                         await Helper.isFirstTime();
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
-                          context.go(AppRoutes.login);
+                          context.goNamed(RoutesNames.login);
                         }
                       },
                     ),

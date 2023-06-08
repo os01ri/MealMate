@@ -8,7 +8,7 @@ import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/auth/presentation/widgets/numerical_keyboard.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -138,7 +138,7 @@ class _OtpPageState extends State<OtpPage> {
                         size: context.deviceSize,
                         value: otpController,
                         maxLength: 4,
-                        onTap: () => context.go(AppRoutes.accountCreationLoading),
+                        onTap: () => context.goNamed(RoutesNames.accountCreationLoading),
                       ),
                     ),
                   ],

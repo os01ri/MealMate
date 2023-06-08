@@ -19,7 +19,7 @@ import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecas
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
@@ -85,7 +85,7 @@ class _StorePageState extends State<StorePage> {
               badgeOptions: const BadgeOptions(active: false),
               icon: IconButton(
                 onPressed: () {
-                  context.push(AppRoutes.wishListPage, extra: cartClick);
+                  context.pushNamed(RoutesNames.wishListPage, extra: cartClick);
                 },
                 icon: Image.asset(
                   PngPath.saveInactive,
@@ -106,7 +106,7 @@ class _StorePageState extends State<StorePage> {
                     return IconButton(
                       onPressed: () {
                         if (state.ingredients.isNotEmpty) {
-                          context.push(AppRoutes.cartPage, extra: CartArguments(ingredients: state.ingredients));
+                          context.pushNamed(RoutesNames.cartPage, extra: CartArguments(ingredients: state.ingredients));
                         }
                       },
                       icon: const Icon(Icons.shopping_bag_outlined),
@@ -133,7 +133,10 @@ class _StorePageState extends State<StorePage> {
               ).padding(AppConfig.pagePadding),
               Row(
                 children: [
-                  CategoryChoiceChip(title: serviceLocator<LocalizationClass>().appLocalizations!.all, isActive: true),
+                  CategoryChoiceChip(
+                    title: serviceLocator<LocalizationClass>().appLocalizations!.all,
+                    isActive: true,
+                  ),
                   for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'خضار', isActive: false),
                 ],
               ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),
@@ -157,8 +160,9 @@ class _StorePageState extends State<StorePage> {
                               state.ingredients.length,
                               (index) => GestureDetector(
                                 onTap: () async {
-                                  _currentKey.value = await context.push(
-                                    '${AppRoutes.ingredient}?id=${state.ingredients[index].id}',
+                                  _currentKey.value = await context.pushNamed(
+                                    RoutesNames.ingredient,
+                                    params: {'id': state.ingredients[index].id!},
                                     extra: (cartClick, wishlistClick),
                                   ).then((isCart) {
                                     return switch (isCart) {

@@ -11,7 +11,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/injection_container.dart';
-import 'package:mealmate/router/app_routes.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 part '../widgets/header_image.dart';
 part '../widgets/recipe_budget_card.dart';
@@ -58,7 +58,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
       floatingActionButton: MainButton(
         color: AppColors.mainColor,
         onPressed: () {
-          context.push(AppRoutes.recipeSteps);
+          context.pushNamed(RoutesNames.recipeSteps);
         },
         width: context.width,
         text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,

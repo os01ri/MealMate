@@ -5,6 +5,7 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/validation_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
@@ -111,6 +112,7 @@ class SignUpPage extends StatelessWidget {
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
+                      Helper.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
                         _registerCubit.register(
                           RegisterUserParams(

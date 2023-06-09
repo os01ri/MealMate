@@ -31,7 +31,7 @@ class Helper {
   }
 
   static bool isAuthSavedToStorage() {
-    return SharedPreferencesService.sp.containsKey(PrefsKeys.userInfo);
+    return SharedPreferencesService.sp.containsKey(PrefsKeys.userInfo) && getTokenFromStorage() != null;
   }
 
   static void setUserDataToStorage(UserModel user) {
@@ -42,7 +42,7 @@ class Helper {
   static String? getTokenFromStorage() {
     String? token = userModelFromJson(
       SharedPreferencesService.sp.getString(PrefsKeys.userInfo) ?? '{}',
-    ).tokenInfo!.token;
+    ).tokenInfo?.token;
     return token;
   }
 
@@ -51,11 +51,16 @@ class Helper {
   }
 
   static Future<bool> isFirstTimeOpeningApp() async {
-    if (!SharedPreferencesService.sp.containsKey(PrefsKeys.isShowOnBorder)) {
-      SharedPreferencesService.sp.setBool(PrefsKeys.isShowOnBorder, true);
+    if (!SharedPreferencesService.sp.containsKey(PrefsKeys.showOnBorder)) {
+      SharedPreferencesService.sp.setBool(PrefsKeys.showOnBorder, true);
       return true;
+    } else {
+      return SharedPreferencesService.sp.getBool(PrefsKeys.showOnBorder)!;
     }
-    return false;
+  }
+
+  static void setNotFirstTimeOpeningApp() async {
+    await SharedPreferencesService.sp.setBool(PrefsKeys.showOnBorder, false);
   }
 
   static Future<String> getFCMToken({bool getFCMToken = false}) async {

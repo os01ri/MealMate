@@ -73,12 +73,14 @@ class WishlistPage extends StatelessWidget {
                                     text: 'إضافة إلى السلة',
                                     color: AppColors.mainColor,
                                     onPressed: () {
+                                      onAddToCart(widgetKeys[index]);
                                       serviceLocator<CartCubit>().addOrUpdateProduct(
                                         ingredient: state.wishItems[index].ingredient!,
                                       );
+                                      UiMessages.showToast(
+                                        serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,
+                                      );
                                       context.pop();
-                                      context.pop<bool>(false);
-                                      onAddToCart(widgetKeys[index]);
                                     },
                                   ),
                                   const SizedBox(height: 20),

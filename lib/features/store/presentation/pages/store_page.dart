@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
@@ -166,6 +169,7 @@ class _StorePageState extends State<StorePage> {
                                     params: {'id': state.ingredients[index].id!},
                                     extra: (cartClick, wishlistClick),
                                   ).then((isCart) {
+                                    log(isCart.toString().logMagenta);
                                     return switch (isCart) {
                                       false => _wishlistKey,
                                       _ => _cartKey,

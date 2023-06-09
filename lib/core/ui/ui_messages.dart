@@ -84,55 +84,55 @@ class UiMessages {
     ).whenComplete(() => image.evict());
   }
 
-  static Future<bool> showPopDialog(BuildContext context) async {
-    return await showDialog(
-          context: context,
-          builder: (_) {
-            final Size size = MediaQuery.of(context).size;
-            return Dialog(
-              backgroundColor: Colors.transparent,
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(size.width * .05),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('warning'),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 15),
-                        Text('ignore Changes'),
-                        SizedBox(height: 15),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        MainButton(
-                          text: 'cancel',
-                          color: AppColors.grey,
-                          textColor: Colors.grey.shade700,
-                          onPressed: () => Navigator.of(_).pop(false),
-                        ),
-                        MainButton(
-                          text: 'agree',
-                          color: AppColors.orange,
-                          textColor: Colors.white,
-                          onPressed: () => Navigator.of(_).pop(true),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ) ??
-        false;
-  }
+  // static Future<bool> showPopDialog(BuildContext context) async {
+  //   return await showDialog(
+  //         context: context,
+  //         builder: (_) {
+  //           final Size size = MediaQuery.of(context).size;
+  //           return Dialog(
+  //             backgroundColor: Colors.transparent,
+  //             elevation: 5,
+  //             child: Container(
+  //               padding: EdgeInsets.all(size.width * .05),
+  //               decoration: BoxDecoration(
+  //                 color: Colors.white,
+  //                 borderRadius: BorderRadius.circular(8),
+  //               ),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: [
+  //                   const Text('warning'),
+  //                   const Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       SizedBox(height: 15),
+  //                       Text('ignore Changes'),
+  //                       SizedBox(height: 15),
+  //                     ],
+  //                   ),
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                     children: [
+  //                       MainButton(
+  //                         text: 'cancel',
+  //                         color: AppColors.grey,
+  //                         textColor: Colors.grey.shade700,
+  //                         onPressed: () => Navigator.of(_).pop(false),
+  //                       ),
+  //                       MainButton(
+  //                         text: 'agree',
+  //                         color: AppColors.orange,
+  //                         textColor: Colors.white,
+  //                         onPressed: () => Navigator.of(_).pop(true),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       ) ??
+  //       false;
+  // }
 }

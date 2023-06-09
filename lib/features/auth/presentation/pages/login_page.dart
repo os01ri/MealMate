@@ -95,6 +95,7 @@ class LoginPage extends StatelessWidget {
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
+                      Helper.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
                         _loginCubit.login(LoginUserParams(
                           email: _emailController.text,
@@ -117,14 +118,18 @@ class LoginPage extends StatelessWidget {
                         text: 'Google',
                         color: Colors.red,
                         width: context.width,
-                        onPressed: () => context.goNamed(RoutesNames.recipesHome),
+                        onPressed: () {
+                          Helper.setNotFirstTimeOpeningApp();
+                        },
                       ),
                       const SizedBox(height: 10),
                       MainButton(
                         text: 'Facebook',
                         color: Colors.blue,
                         width: context.width,
-                        onPressed: () => context.goNamed(RoutesNames.recipesHome),
+                        onPressed: () {
+                          Helper.setNotFirstTimeOpeningApp();
+                        },
                       ),
                     ],
                   ),

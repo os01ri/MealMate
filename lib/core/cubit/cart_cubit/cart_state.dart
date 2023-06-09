@@ -2,11 +2,11 @@
 part of 'cart_cubit.dart';
 
 class CartState {
-  final List<IngredientModel> cartItems;
+  final List<CartItem> cartItems;
   CartState({this.cartItems = const []});
 
   CartState copyWith({
-    List<IngredientModel>? cartItems,
+    List<CartItem>? cartItems,
   }) {
     return CartState(
       cartItems: cartItems ?? this.cartItems,

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mealmate/core/cubit/cart_cubit/cart_cubit.dart';
 
 import 'core/localization/localization_class.dart';
 
@@ -15,4 +16,5 @@ Future<void> _appDependencies() async {
   serviceLocator<LocalizationClass>().setAppLocalizations(
     await AppLocalizations.delegate.load(const Locale('ar')),
   );
+  serviceLocator.registerLazySingleton(() => CartCubit());
 }

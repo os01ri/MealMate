@@ -1,6 +1,8 @@
+
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/cubit/cart_cubit/cart_cubit.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
@@ -17,7 +19,6 @@ import 'package:mealmate/features/recipe/presentation/widgets/category_choice_ch
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
-import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
 import 'package:mealmate/injection_container.dart';
 import 'package:mealmate/router/routes_names.dart';
 
@@ -35,7 +36,7 @@ class _StorePageState extends State<StorePage> {
   late final ValueNotifier<GlobalKey<CartIconKey>> _currentKey;
 
   late Function(GlobalKey) _runAddToCartAnimation;
-  var _cartQuantityItems = 0;
+  var _cartQuantityItems = serviceLocator<CartCubit>().state.cartItems.length;
 
   @override
   void initState() {
@@ -50,6 +51,8 @@ class _StorePageState extends State<StorePage> {
   void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
     await _cartKey.currentState!.runCartAnimation((++_cartQuantityItems).toString());
+
+
   }
 
   void wishlistClick(GlobalKey widgetKey) async {
@@ -95,9 +98,9 @@ class _StorePageState extends State<StorePage> {
             ),
             actions: [
               AddToCartIcon(
-                key: _cartKey,
+                key: _cartKey, 
                 badgeOptions: const BadgeOptions(
-                  active: true,
+                  active: true, 
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
@@ -106,7 +109,9 @@ class _StorePageState extends State<StorePage> {
                     return IconButton(
                       onPressed: () {
                         if (state.ingredients.isNotEmpty) {
-                          context.pushNamed(RoutesNames.cartPage, extra: CartArguments(ingredients: state.ingredients));
+                          context.pushNamed(
+                            RoutesNames.cartPage,
+                          );
                         }
                       },
                       icon: const Icon(Icons.shopping_bag_outlined),

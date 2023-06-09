@@ -19,6 +19,8 @@ import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.
 import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
 import 'package:mealmate/injection_container.dart';
 
+import '../../../../core/cubit/cart_cubit/cart_cubit.dart';
+
 part '../widgets/ingredient_budget_card.dart';
 
 class IngredientPage extends StatefulWidget {
@@ -101,6 +103,8 @@ class _IngredientPageState extends State<IngredientPage> {
                       onPressed: () {
                         context.pop(true);
                         widget.onAddToCart(_widgetKey);
+                        serviceLocator<CartCubit>()
+                            .addOrUpdateProduct(ingredient: state.ingredient!);
                       },
                       width: context.width,
                       text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,

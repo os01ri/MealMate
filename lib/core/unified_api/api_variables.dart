@@ -41,6 +41,7 @@ class ApiVariables {
   static Uri login() {
     return _auth(path: 'login');
   }
+
   static Uri sendResetPasswordOTP() {
     return _mobileUri(path: 'password/sendemail');
   }
@@ -73,5 +74,8 @@ class ApiVariables {
 
   static Uri addToWishlist({ParamsMap queryParameters}) => _mobileUri(
         path: 'wishlist/addtowishlist',
+      );
+  static Uri removeFromWishlist({required String id, ParamsMap queryParameters}) => _mobileUri(
+        path: 'wishlist/$id',
       );
 }

@@ -1,6 +1,7 @@
 import 'package:mealmate/core/helper/type_defs.dart';
 import 'package:mealmate/core/models/no_response_model.dart';
 import 'package:mealmate/core/unified_api/api_variables.dart';
+import 'package:mealmate/core/unified_api/methods/delete_api.dart';
 import 'package:mealmate/core/unified_api/methods/get_api.dart';
 import 'package:mealmate/core/unified_api/methods/post_api.dart';
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
@@ -53,12 +54,21 @@ class RemoteStoreDatasource {
   }
 
   Future<NoResponse> addToWishlist({required BodyMap body, ParamsMap params}) async {
-    PostApi getApi = PostApi(
+    PostApi postApi = PostApi(
       uri: ApiVariables.addToWishlist(queryParameters: params),
       fromJson: noResponseFromJson,
       body: body,
     );
-    final result = await getApi.callRequest();
+    final result = await postApi.callRequest();
+    return result;
+  }
+
+  Future<NoResponse> removeFromWishlist({required String id}) async {
+    DeleteApi deleteApi = DeleteApi(
+      uri: ApiVariables.removeFromWishlist(id: id),
+      fromJson: noResponseFromJson,
+    );
+    final result = await deleteApi.callRequest();
     return result;
   }
 }

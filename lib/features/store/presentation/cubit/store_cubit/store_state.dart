@@ -12,6 +12,7 @@ class StoreState {
   final List<WishlistItem> wishItems;
 
   final CubitStatus addToWishlistStatus;
+  final CubitStatus removeFromWishlistStatus;
 
   const StoreState({
     this.indexStatus = CubitStatus.initial,
@@ -21,6 +22,7 @@ class StoreState {
     this.indexWishlistStatus = CubitStatus.initial,
     this.wishItems = const [],
     this.addToWishlistStatus = CubitStatus.initial,
+    this.removeFromWishlistStatus = CubitStatus.initial,
   });
 
   StoreState copyWith({
@@ -31,6 +33,7 @@ class StoreState {
     CubitStatus? indexWishlistStatus,
     List<WishlistItem>? wishItems,
     CubitStatus? addToWishlistStatus,
+    CubitStatus? removeFromWishlistStatus,
   }) {
     return StoreState(
       indexStatus: indexStatus ?? this.indexStatus,
@@ -40,6 +43,7 @@ class StoreState {
       indexWishlistStatus: indexWishlistStatus ?? this.indexWishlistStatus,
       wishItems: wishItems ?? this.wishItems,
       addToWishlistStatus: addToWishlistStatus ?? this.addToWishlistStatus,
+      removeFromWishlistStatus: removeFromWishlistStatus ?? this.removeFromWishlistStatus,
     );
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
+import 'package:mealmate/dependency_injection.dart';
 
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
@@ -7,7 +10,6 @@ import 'main_button.dart';
 class MainErrorWidget extends StatelessWidget {
   const MainErrorWidget({
     Key? key,
-    required this.size,
     required this.onTap,
     this.color = AppColors.orange,
     this.textColor,
@@ -16,12 +18,11 @@ class MainErrorWidget extends StatelessWidget {
   final void Function() onTap;
   final Color color;
   final Color? textColor;
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size.width,
+      width: context.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,21 +31,21 @@ class MainErrorWidget extends StatelessWidget {
           //   SvgPath.networkError,
           //   width: size.width * .25,
           // ),
-          SizedBox(height: size.width * .02),
+          SizedBox(height: context.width * .02),
           Text(
-            'error',
+            serviceLocator<LocalizationClass>().appLocalizations!.error,
             style: AppTextStyles.styleWeight500(
               color: Colors.grey.shade400,
-              fontSize: size.width * .04,
+              fontSize: context.width * .04,
             ),
           ),
-          SizedBox(height: size.width * .02),
+          SizedBox(height: context.width * .02),
           SizedBox(
-            height: size.width * .12,
+            height: context.width * .12,
             child: FittedBox(
               child: MainButton(
-                width: size.width * .3,
-                text: 'retry',
+                width: context.width * .3,
+                text: serviceLocator<LocalizationClass>().appLocalizations!.retry,
                 textColor: textColor ?? Colors.white,
                 color: color,
                 onPressed: onTap,

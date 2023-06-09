@@ -51,6 +51,16 @@ class StoreRepositoryImpl with HandlingExceptionManager implements StoreReposito
       },
     );
   }
+
+  @override
+  Future<Either<Failure, NoResponse>> removeFromWishlist({required String id, ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await _datasource.removeFromWishlist(id: id);
+        return Right(result);
+      },
+    );
+  }
   
   @override
   Future<Either<Failure, NoResponse>> placeOrder({required BodyMap body}) {

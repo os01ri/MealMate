@@ -27,7 +27,7 @@ class GetApi<T> with HandlingExceptionRequest {
     String? token = Helper.userToken;
     log(token.toString().logWhite, name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
-    // bool isAuth = await Helper.isAuth();
+    bool isAuth = await Helper.isAuthSavedToStorage();
     String? deviceId = "";
     if (getFCMToken) {
       // deviceId = await HelperFunctions.getDeviceId(); TODO: uncomment
@@ -37,7 +37,7 @@ class GetApi<T> with HandlingExceptionRequest {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         // 'fcm_token': fcmToken,
-        'Authorization': 'Bearer $token',
+        if (isAuth) 'Authorization': 'Bearer $token',
         if (getFCMToken) "device_id": deviceId,
       };
       var request = http.Request('GET', uri);

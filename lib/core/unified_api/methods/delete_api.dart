@@ -17,13 +17,13 @@ class DeleteApi<T> with HandlingExceptionRequest {
   });
   Future<T> callRequest() async {
     String? token = Helper.userToken;
-    String fcmToken = await Helper.getFCMToken();
-    bool isAuth = await Helper.isAuth();
+    // String fcmToken = await Helper.getFCMToken();
+    bool isAuth = await Helper.isAuthSavedToStorage();
     try {
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'fcm_token': fcmToken,
+        // 'fcm_token': fcmToken,
         if (isAuth) 'Authorization': 'Bearer $token',
       };
       var request = http.Request('DELETE', uri);

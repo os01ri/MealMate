@@ -1,25 +1,20 @@
-
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
-import 'package:mealmate/core/ui/font/typography.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
-import 'package:mealmate/dependency_injection.dart';
+import 'package:mealmate/features/store/presentation/widgets/ingredient_card.dart';
 import 'package:mealmate/router/routes_names.dart';
 
 class StorePage extends StatefulWidget {
@@ -50,9 +45,7 @@ class _StorePageState extends State<StorePage> {
   void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
     await _cartKey.currentState!.runCartAnimation();
-    await _cartKey.currentState!.updateBadge(
-        serviceLocator<CartCubit>().state.cartItems.length.toString());
-
+    await _cartKey.currentState!.updateBadge(serviceLocator<CartCubit>().state.cartItems.length.toString());
   }
 
   void wishlistClick(GlobalKey widgetKey) async {
@@ -123,12 +116,15 @@ class _StorePageState extends State<StorePage> {
           ),
           body: Column(
             children: [
+              const SizedBox(height: 5),
               Row(
                 children: [
                   MainTextField(
                     controller: TextEditingController(),
                     hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
                     prefixIcon: const Icon(Icons.search_rounded),
+                    onSubmitted: (searchTerm) {},
+                    textInputAction: TextInputAction.search,
                     // suffixIcon: InkWell(
                     //   onTap: () {},
                     //   child: const Icon(Icons.filter_alt),
@@ -165,13 +161,12 @@ class _StorePageState extends State<StorePage> {
                               state.ingredients.length,
                               (index) => GestureDetector(
                                 onTap: () async {
-                                  _currentKey.value = await context.pushNamed(
+                                  _currentKey.value = await context.pushNamed<bool>(
                                     RoutesNames.ingredient,
                                     params: {'id': state.ingredients[index].id!},
                                     extra: (cartClick, wishlistClick),
                                   ).then((isCart) {
                                     return switch (isCart) {
-                                      true => _cartKey,
                                       false => _wishlistKey,
                                       _ => _cartKey,
                                     };
@@ -190,60 +185,6 @@ class _StorePageState extends State<StorePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class IngredientCard extends StatelessWidget {
-  const IngredientCard({
-    super.key,
-    required this.ingredient,
-  });
-
-  final IngredientModel ingredient;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // width: context.width * .5,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          CachedNetworkImage(
-            hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
-            url: ingredient.url!,
-            width: context.width * .5 - 65,
-            height: context.width * .5 - 65,
-          ),
-          FittedBox(
-            child: Column(
-              children: [
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: context.width * .3,
-                  child: Text(
-                    ingredient.name!,
-                    softWrap: true,
-                    style: const TextStyle().normal2FontSize.bold,
-                  ),
-                ),
-                SizedBox(
-                  width: context.width * .3,
-                  child: Text(
-                    // '1 Kg => ${state.ingredients[index].price}\$',
-                    '${ingredient.priceBy} كجم => ${ingredient.price} ل.س',
-                    style: const TextStyle(color: AppColors.lightTextColor).middleFontSize.semiBold,
-                  ),
-                ),
-                const SizedBox(height: 5),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

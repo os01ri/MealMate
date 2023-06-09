@@ -26,7 +26,8 @@ class Helper {
   }
   ////////////////////
 
-  static Future<bool> isAuth() async {
+  static Future<bool> isAuthSavedToStorage() async {
+    return true;
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.containsKey(PrefsKeys.userInfo);
   }

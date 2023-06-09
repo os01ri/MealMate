@@ -12,13 +12,14 @@ import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
+import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/add_to_wishlist_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
-import 'package:mealmate/dependency_injection.dart';
 
 part '../widgets/ingredient_budget_card.dart';
 
@@ -59,7 +60,11 @@ class _IngredientPageState extends State<IngredientPage> {
             if (state.showStatus == CubitStatus.loading) {
               return const CircularProgressIndicator.adaptive().center();
             } else if (state.showStatus == CubitStatus.failure) {
-              return Text(serviceLocator<LocalizationClass>().appLocalizations!.error).center();
+              return MainErrorWidget(
+                onTap: () {
+                  context.read<StoreCubit>().showIngredient(ShowIngredientParams(id: widget.id));
+                },
+              ).center();
             } else {
               return Scaffold(
                 appBar: RecipeAppBar(
@@ -125,7 +130,6 @@ class _IngredientPageState extends State<IngredientPage> {
       UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.addToWishlistStatus == CubitStatus.success) {
       UiMessages.closeLoading();
-      UiMessages.showToast('تم');
       context.pop(false);
       widget.onAddToWishlist(_widgetKey);
     }

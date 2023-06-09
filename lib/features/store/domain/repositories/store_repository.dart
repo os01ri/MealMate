@@ -15,5 +15,7 @@ abstract class StoreRepository {
 
   Future<Either<Failure, NoResponse>> addToWishlist({required BodyMap body, ParamsMap params});
 
+  Future<Either<Failure, NoResponse>> removeFromWishlist({required String id, ParamsMap params});
+
   Future<Either<Failure, NoResponse>> placeOrder({required BodyMap body});
 }

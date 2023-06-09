@@ -13,10 +13,10 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
-import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
 
 class LoginPage extends StatelessWidget {

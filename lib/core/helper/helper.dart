@@ -43,9 +43,14 @@ class Helper {
     return token;
   }
 
-  static Future<bool> isFirstTime() async {
+  static Future<void> removeUserInfoFromStorage() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove(PrefsKeys.userInfo);
+  }
 
+  static Future<bool> isFirstTimeOpeningApp() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    removeUserInfoFromStorage();
     if (!sp.containsKey(PrefsKeys.isShowOnBorder)) {
       sp.setBool(PrefsKeys.isShowOnBorder, true);
       return true;

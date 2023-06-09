@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(AppConfig.splashScreenDuration).whenComplete(() async {
-      if (await Helper.isFirstTime()) {
+      if (await Helper.isFirstTimeOpeningApp()) {
         if (context.mounted) context.goNamed(RoutesNames.onboarding);
       } else if (await Helper.isAuth()) {
         Helper.setUserToken((await Helper.getTokenFromStorage())!);

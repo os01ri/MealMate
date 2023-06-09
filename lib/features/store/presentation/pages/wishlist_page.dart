@@ -8,7 +8,7 @@ import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
-import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
+import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/pages/store_page.dart';
 import 'package:mealmate/router/routes_names.dart';
 

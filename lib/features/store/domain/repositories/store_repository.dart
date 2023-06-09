@@ -12,7 +12,8 @@ abstract class StoreRepository {
   Future<Either<Failure, ShowIngredientResponseModel>> showIngredient({required String id});
 
   Future<Either<Failure, IndexWishlistItemsResponseModel>> indexWishlist({ParamsMap params});
-  
+
   Future<Either<Failure, NoResponse>> addToWishlist({required BodyMap body, ParamsMap params});
-Future<Either<Failure, NoResponse>> placeOrder({required BodyMap body});
+
+  Future<Either<Failure, NoResponse>> placeOrder({required BodyMap body});
 }

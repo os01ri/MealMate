@@ -7,7 +7,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/features/auth/presentation/widgets/numerical_keyboard.dart';
-import 'package:mealmate/injection_container.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
 
 class OtpPage extends StatefulWidget {

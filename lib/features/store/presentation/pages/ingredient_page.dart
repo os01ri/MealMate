@@ -16,10 +16,9 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/add_to_wishlist_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
-import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
-import 'package:mealmate/injection_container.dart';
-
-import '../../../../core/cubit/cart_cubit/cart_cubit.dart';
+import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
+import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
+import 'package:mealmate/dependency_injection.dart';
 
 part '../widgets/ingredient_budget_card.dart';
 
@@ -103,8 +102,7 @@ class _IngredientPageState extends State<IngredientPage> {
                       onPressed: () {
                         context.pop(true);
                         widget.onAddToCart(_widgetKey);
-                        serviceLocator<CartCubit>()
-                            .addOrUpdateProduct(ingredient: state.ingredient!);
+                        serviceLocator<CartCubit>().addOrUpdateProduct(ingredient: state.ingredient!);
                       },
                       width: context.width,
                       text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,

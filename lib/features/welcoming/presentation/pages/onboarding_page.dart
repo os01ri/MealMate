@@ -11,7 +11,7 @@ import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/welcoming/presentation/widgets/custom_intro_paint.dart';
 import 'package:mealmate/features/welcoming/presentation/widgets/intro_indicator.dart';
 import 'package:mealmate/features/welcoming/presentation/widgets/slide.dart';
-import 'package:mealmate/injection_container.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
 
 const _titleKey = 'title';

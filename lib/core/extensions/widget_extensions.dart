@@ -28,10 +28,12 @@ extension WidgetExtension on Widget {
         padding: EdgeInsets.symmetric(vertical: value),
         child: this,
       );
+
   Widget onTap(Function()? onPressed) => GestureDetector(
         onTap: onPressed,
         child: this,
       );
+
   Widget scrollable({
     Axis scrollDirection = Axis.vertical,
   }) =>

@@ -2,7 +2,6 @@
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/cubit/cart_cubit/cart_cubit.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
@@ -18,8 +17,9 @@ import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
-import 'package:mealmate/features/store/presentation/cubit/store_cubit.dart';
-import 'package:mealmate/injection_container.dart';
+import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
+import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
 
 class StorePage extends StatefulWidget {

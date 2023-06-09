@@ -51,12 +51,10 @@ class Helper {
   }
 
   static Future<bool> isFirstTimeOpeningApp() async {
-    removeUserInfoFromStorage();
     if (!SharedPreferencesService.sp.containsKey(PrefsKeys.isShowOnBorder)) {
       SharedPreferencesService.sp.setBool(PrefsKeys.isShowOnBorder, true);
       return true;
     }
-
     return false;
   }
 

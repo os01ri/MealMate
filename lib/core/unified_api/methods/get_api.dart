@@ -27,7 +27,7 @@ class GetApi<T> with HandlingExceptionRequest {
     String? token = Helper.userToken;
     log(token.toString().logWhite, name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
-    bool isAuth = await Helper.isAuthSavedToStorage();
+    bool isAuth = await Helper.isAuth();
     String? deviceId = "";
     if (getFCMToken) {
       // deviceId = await HelperFunctions.getDeviceId(); TODO: uncomment

@@ -27,7 +27,7 @@ class PostApi<T> with HandlingExceptionRequest {
   Future<T> callRequest() async {
     String? token = Helper.userToken;
     // String fcmToken = await HelperFunctions.getFCMToken();
-    bool isAuth = await Helper.isAuthSavedToStorage();
+    bool isAuth = await Helper.isAuth();
 
     log('the token in the request header is $token', name: 'request manager ==> post function ');
     try {

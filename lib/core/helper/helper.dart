@@ -7,8 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/features/auth/data/models/login_response_model.dart';
+import 'package:mealmate/services/shared_preferences_service.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'prefs_keys.dart';
@@ -26,34 +26,34 @@ class Helper {
   }
   ////////////////////
 
-  static Future<bool> isAuthSavedToStorage() async {
-    return true; // TODO remove this line when solving the problem
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.containsKey(PrefsKeys.userInfo);
+  static Future<bool> isAuth() async {
+    return _userToken != null || isAuthSavedToStorage();
   }
 
-  static Future<void> setUserDataToStorage(UserModel user) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.setString(PrefsKeys.userInfo, userModelToJson(user));
-    log("${sp.getString(PrefsKeys.userInfo)}".logWhite);
+  static bool isAuthSavedToStorage() {
+    return SharedPreferencesService.sp.containsKey(PrefsKeys.userInfo);
   }
 
-  static Future<String?> getTokenFromStorage() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').tokenInfo!.token;
+  static void setUserDataToStorage(UserModel user) {
+    SharedPreferencesService.sp.setString(PrefsKeys.userInfo, userModelToJson(user));
+    log("${SharedPreferencesService.sp.getString(PrefsKeys.userInfo)}".logWhite);
+  }
+
+  static String? getTokenFromStorage() {
+    String? token = userModelFromJson(
+      SharedPreferencesService.sp.getString(PrefsKeys.userInfo) ?? '{}',
+    ).tokenInfo!.token;
     return token;
   }
 
-  static Future<void> removeUserInfoFromStorage() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove(PrefsKeys.userInfo);
+  static void removeUserInfoFromStorage() {
+    SharedPreferencesService.sp.remove(PrefsKeys.userInfo);
   }
 
   static Future<bool> isFirstTimeOpeningApp() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
     removeUserInfoFromStorage();
-    if (!sp.containsKey(PrefsKeys.isShowOnBorder)) {
-      sp.setBool(PrefsKeys.isShowOnBorder, true);
+    if (!SharedPreferencesService.sp.containsKey(PrefsKeys.isShowOnBorder)) {
+      SharedPreferencesService.sp.setBool(PrefsKeys.isShowOnBorder, true);
       return true;
     }
 
@@ -61,14 +61,13 @@ class Helper {
   }
 
   static Future<String> getFCMToken({bool getFCMToken = false}) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
     late String token;
 
-    if (sp.containsKey(PrefsKeys.fcmToken) && !getFCMToken) {
-      token = sp.getString(PrefsKeys.fcmToken)!;
+    if (SharedPreferencesService.sp.containsKey(PrefsKeys.fcmToken) && !getFCMToken) {
+      token = SharedPreferencesService.sp.getString(PrefsKeys.fcmToken)!;
     } else {
       token = (await FirebaseMessaging.instance.getToken())!;
-      sp.setString(PrefsKeys.fcmToken, token);
+      SharedPreferencesService.sp.setString(PrefsKeys.fcmToken, token);
     }
 
     log(token, name: 'FcmHelper ==> initFCM ==> fcm token');

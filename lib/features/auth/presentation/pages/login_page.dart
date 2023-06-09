@@ -151,7 +151,7 @@ class LoginPage extends StatelessWidget {
       if (_saveLogin.value) await Helper.setUserDataToStorage(state.user!);
       Helper.setUserToken(state.user!.tokenInfo!.token!);
       UiMessages.closeLoading();
-      context.goNamed((RoutesNames.accountCreationLoading));
+      if (context.mounted) context.goNamed((RoutesNames.accountCreationLoading));
       log('logged in successfully');
     } else if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();

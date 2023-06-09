@@ -167,7 +167,7 @@ class _IntroState extends State<Intro> {
                         );
                         await Helper.isFirstTimeOpeningApp();
                         if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
-                          context.goNamed(RoutesNames.login);
+                          if (context.mounted) context.goNamed(RoutesNames.login);
                         }
                       },
                     ),

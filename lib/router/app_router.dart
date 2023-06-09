@@ -198,7 +198,7 @@ class AppRouter {
       name: RoutesNames.cartPage,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        return NoTransitionPage(child: CartPage());
+        return const NoTransitionPage(child: CartPage());
       },
     ),
     GoRoute(

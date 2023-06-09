@@ -4,9 +4,7 @@ class SvgPath {
 
   ///SVGs///
   static const introSvg = '${_mainPath}intro.svg';
-  static const intro1 = '${_mainPath}intro1.png';
-  static const intro2 = '${_mainPath}intro2.png';
-  static const intro3 = '${_mainPath}intro3.png';
+
 }
 
 class PngPath {
@@ -15,10 +13,12 @@ class PngPath {
   static const _iconsPath = 'assets/icons/';
 
   ///PNGs///
+  static const intro1 = '${_mainPath}intro1.png';
+  static const intro2 = '${_mainPath}intro2.png';
+  static const intro3 = '${_mainPath}intro3.png';
+  static const accountCreation = '${_mainPath}account_creation.png';
   static const food = '${_mainPath}food2.png';
   static const user = '${_mainPath}user.png';
-  static const accountCreation = '${_mainPath}account_creation.png';
-
   ///icons///
   static const saveInactive = '${_iconsPath}inactive_save.png';
   static const saveActive = '${_iconsPath}active_save.png';

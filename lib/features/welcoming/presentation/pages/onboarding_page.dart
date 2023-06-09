@@ -22,16 +22,16 @@ class OnboardingPage extends StatelessWidget {
     Slide(
       placeImage: true,
       image: Image.asset(
-        SvgPath.intro1,
+        PngPath.intro1,
       ),
     ),
     Slide(
       placeImage: true,
-      image: Image.asset(SvgPath.intro2),
+      image: Image.asset(PngPath.intro2),
     ),
     Slide(
       placeImage: false,
-      image: Image.asset(SvgPath.intro3),
+      image: Image.asset(PngPath.intro3),
     )
   ];
 

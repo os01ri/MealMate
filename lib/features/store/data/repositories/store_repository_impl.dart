@@ -51,4 +51,12 @@ class StoreRepositoryImpl with HandlingExceptionManager implements StoreReposito
       },
     );
   }
+  
+  @override
+  Future<Either<Failure, NoResponse>> placeOrder({required BodyMap body}) {
+    return wrapHandling(tryCall: () async {
+      final result = await _datasource.placeOrder(body: body);
+      return Right(result);
+    });
+  }
 }

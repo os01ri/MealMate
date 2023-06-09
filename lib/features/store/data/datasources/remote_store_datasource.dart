@@ -26,9 +26,13 @@ class RemoteStoreDatasource {
     return result;
   }
 
-  Future addToCart({ParamsMap params}) async {
-    //TODO:
-    throw UnimplementedError();
+  Future placeOrder({required BodyMap body}) async {
+    PostApi postApi = PostApi(
+        uri: ApiVariables.placeOrder(),
+        body: body,
+        fromJson: noResponseFromJson);
+    final result = await postApi.callRequest();
+    return result;
   }
 
   Future sendOrder({ParamsMap params}) async {

@@ -41,7 +41,19 @@ class ApiVariables {
   static Uri login() {
     return _auth(path: 'login');
   }
+  static Uri sendResetPasswordOTP() {
+    return _mobileUri(path: 'password/sendemail');
+  }
 
+  static Uri checkPasswordCode() {
+    return _mobileUri(path: 'password/chcekCode');
+  }
+
+  static Uri placeOrder() {
+    return _mobileUri(path: "order/store");
+  }
+
+  ///Media
   static Uri uploadMedia() => _mainUri(path: 'mediaUpload');
   // Uri uploadVideo() => _mainUri(path: "videoUpload");
   // Uri uploadGif() => _mainUri(path: "GIFUpload");

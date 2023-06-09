@@ -36,7 +36,6 @@ class _StorePageState extends State<StorePage> {
   late final ValueNotifier<GlobalKey<CartIconKey>> _currentKey;
 
   late Function(GlobalKey) _runAddToCartAnimation;
-  var _cartQuantityItems = serviceLocator<CartCubit>().state.cartItems.length;
 
   @override
   void initState() {
@@ -50,8 +49,9 @@ class _StorePageState extends State<StorePage> {
 
   void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
-    await _cartKey.currentState!.runCartAnimation((++_cartQuantityItems).toString());
-
+    await _cartKey.currentState!.runCartAnimation();
+    await _cartKey.currentState!.updateBadge(
+        serviceLocator<CartCubit>().state.cartItems.length.toString());
 
   }
 
@@ -98,9 +98,9 @@ class _StorePageState extends State<StorePage> {
             ),
             actions: [
               AddToCartIcon(
-                key: _cartKey, 
+                key: _cartKey,
                 badgeOptions: const BadgeOptions(
-                  active: true, 
+                  active: true,
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),

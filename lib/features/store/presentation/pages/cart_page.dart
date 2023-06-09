@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
@@ -8,6 +9,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/domain/usecases/place_order.dart';
 import 'package:mealmate/injection_container.dart';
 
 import '../../../../core/cubit/cart_cubit/cart_cubit.dart';
@@ -20,15 +22,14 @@ class CartPage extends StatefulWidget {
   State<CartPage> createState() => CartPageState();
 }
 
-
-
 class CartPageState extends State<CartPage> {
-late final CartCubit _cartCubit;
+  late final CartCubit _cartCubit;
   @override
   void initState() {
     _cartCubit = serviceLocator<CartCubit>();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,17 +39,21 @@ late final CartCubit _cartCubit;
         actions: const [],
         title: "Order Preview",
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(children: [
-            SizedBox(
-              height: context.height * .4,
-              child: BlocConsumer<CartCubit, CartState>(
-                bloc: _cartCubit,
-                listener: (context, state) {},
-                builder: (context, state) {
-                  return ListView.builder(
+      body: BlocConsumer<CartCubit, CartState>(
+        bloc: _cartCubit,
+        listener: (context, state) {
+          if (state.orderStatus == OrderStatus.placed) {
+            context.pop();
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(children: [
+                SizedBox(
+                  height: context.height * .4,
+                  child: ListView.builder(
                       itemCount: state.cartItems.length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
@@ -63,9 +68,13 @@ late final CartCubit _cartCubit;
                           ),
                           title: Text(state.cartItems[index].model!.name ??
                               "Ingredients"),
-                          subtitle: const Column(
+                          subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Text("1 KG"), Text("1000 ل.س")],
+                            children: [
+                              Text("1 KG"),
+                              Text(
+                                  "${state.cartItems[index].model!.price!} ل.س")
+                            ],
                           ),
                           trailing: FittedBox(
                             fit: BoxFit.fitHeight,
@@ -97,83 +106,97 @@ late final CartCubit _cartCubit;
                             ),
                           ),
                         );
-                      });
-                },
-              ),
-            ),
-            SizedBox(
-              height: context.height * .4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.circle, size: 10),
-                        SizedBox(
-                          width: context.width * .7,
-                          child: const Divider(
-                              color: AppColors.brown, thickness: 2, indent: 0),
+                      }),
+                ),
+                SizedBox(
+                  height: context.height * .4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.circle, size: 10),
+                            SizedBox(
+                              width: context.width * .7,
+                              child: const Divider(
+                                  color: AppColors.brown,
+                                  thickness: 2,
+                                  indent: 0),
+                            ),
+                            const Icon(Icons.circle, size: 10),
+                          ],
                         ),
-                        const Icon(Icons.circle, size: 10),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        serviceLocator<LocalizationClass>()
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            serviceLocator<LocalizationClass>()
+                                .appLocalizations!
+                                .shippingFee,
+                            style: AppTextStyles.styleWeight600(fontSize: 18),
+                          ),
+                          Text(
+                            "5,000 ل.س",
+                            style: AppTextStyles.styleWeight400(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            serviceLocator<LocalizationClass>()
+                                .appLocalizations!
+                                .totalPayment,
+                            style: AppTextStyles.styleWeight600(fontSize: 18),
+                          ),
+                          Text(
+                            "${state.cartItems[0].model!.price} SYP",
+                            style: AppTextStyles.styleWeight400(fontSize: 18),
+                          )
+                        ],
+                      ),
+                      MainButton(
+                          fontSize: 20,
+                          width: context.width * .55,
+                          text: serviceLocator<LocalizationClass>()
+                              .appLocalizations!
+                              .pleaseAddYourAddress,
+                          icon:
+                              const Icon(Icons.location_on_outlined, size: 35),
+                          color: AppColors.lightTextColor,
+                          onPressed: () {}),
+                      MainButton(
+                        width: context.width * .75,
+                        text: serviceLocator<LocalizationClass>()
                             .appLocalizations!
-                            .shippingFee,
-                        style: AppTextStyles.styleWeight600(fontSize: 18),
-                      ),
-                      Text(
-                        "5,000 ل.س",
-                        style: AppTextStyles.styleWeight400(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .totalPayment,
-                        style: AppTextStyles.styleWeight600(fontSize: 18),
-                      ),
-                      Text(
-                        "20,000 SYP",
-                        style: AppTextStyles.styleWeight400(fontSize: 18),
+                            .placeOrder,
+                        color: AppColors.orange,
+                        onPressed: () {
+                          if (_cartCubit.state.cartItems.isNotEmpty) {
+                            _cartCubit.placeOrderToState(
+                                params: PlaceOrderParams(
+                                    ingredients: _cartCubit.state.cartItems
+                                        .map((e) => OrderItemsModel(
+                                            unitId: e.model!.priceBy!,
+                                            ingredientId: e.model!.id!,
+                                            quantity: e.quantity))
+                                        .toList()));
+                          }
+                        },
                       )
                     ],
                   ),
-                  MainButton(
-                      fontSize: 20,
-                      width: context.width * .55,
-                      text: serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .pleaseAddYourAddress,
-                      icon: const Icon(Icons.location_on_outlined, size: 35),
-                      color: AppColors.lightTextColor,
-                      onPressed: () {}),
-                  MainButton(
-                    width: context.width * .75,
-                    text: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .placeOrder,
-                    color: AppColors.orange,
-                    onPressed: () {},
-                  )
-                ],
-              ),
-            )
-          ]),
-        ),
+                )
+              ]),
+            ),
+          );
+        },
       ),
     );
   }

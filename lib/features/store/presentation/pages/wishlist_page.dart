@@ -75,7 +75,9 @@ class WishlistPage extends StatelessWidget {
                                     onPressed: () {
                                       onAddToCart(widgetKeys[index]);
                                       serviceLocator<CartCubit>().addOrUpdateProduct(
-                                        ingredient: state.wishItems[index].ingredient!,
+                                              ingredient: state
+                                                  .wishItems[index].ingredient!,
+                                              quantity: 1
                                       );
                                       UiMessages.showToast(
                                         serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,

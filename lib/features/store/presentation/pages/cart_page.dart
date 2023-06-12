@@ -69,7 +69,10 @@ class CartPageState extends State<CartPage> {
                         title: Text(state.cartItems[index].model!.name ?? "Ingredients"),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [const Text("1 KG"), Text("${state.cartItems[index].model!.price!} ل.س")],
+                          children: [
+                            const Text("1 KG"),
+                            Text("${state.cartItems[index].model!.price!} ل.س"),
+                          ],
                         ),
                         trailing: FittedBox(
                           fit: BoxFit.fitHeight,
@@ -79,7 +82,11 @@ class CartPageState extends State<CartPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 const Icon(Icons.add).onTap(
-                                    () => _cartCubit.addOrUpdateProduct(ingredient: state.cartItems[index].model!)),
+                                    () =>
+                                    _cartCubit.addOrUpdateProduct(
+                                        ingredient:
+                                            state.cartItems[index].model!,
+                                        quantity: 1)),
                                 Container(
                                     color: AppColors.grey2,
                                     padding: const EdgeInsets.all(4),

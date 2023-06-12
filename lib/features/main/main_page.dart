@@ -4,7 +4,8 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/features/main/cubit/navigation_cubit.dart';
-import 'package:mealmate/router/app_routes.dart';
+
+import '../../router/routes_names.dart';
 
 class MainPage extends StatelessWidget {
   final Widget screen;
@@ -13,27 +14,27 @@ class MainPage extends StatelessWidget {
 
   static const _tabs = [
     MainNavigationBarItemWidget(
-      initialLocation: AppRoutes.recipesHome,
+      initialLocation: RoutesNames.recipesHome,
       icon: Icon(Icons.home_rounded),
       label: 'Home',
       index: 0,
     ),
     MainNavigationBarItemWidget(
-      initialLocation: AppRoutes.storePage,
+      initialLocation: RoutesNames.storePage,
       icon: Icon(Icons.shopping_cart_outlined),
       label: 'store',
       padding: EdgeInsets.only(right: 40),
       index: 1,
     ),
     MainNavigationBarItemWidget(
-      initialLocation: AppRoutes.notification,
+      initialLocation: RoutesNames.notification,
       icon: Icon(Icons.notifications),
       label: 'Notification',
       padding: EdgeInsets.only(left: 40),
       index: 2,
     ),
     MainNavigationBarItemWidget(
-      initialLocation: AppRoutes.profilePage,
+      initialLocation: RoutesNames.storePage,
       icon: Icon(Icons.person),
       label: 'Profile',
       index: 3,
@@ -69,7 +70,7 @@ class MainPage extends StatelessWidget {
             color: Colors.white,
           ).paddingAll(12.0),
           onPressed: () {
-            context.push(AppRoutes.recipeCreate);
+            context.push(RoutesNames.recipeCreate);
           },
         ),
       ),

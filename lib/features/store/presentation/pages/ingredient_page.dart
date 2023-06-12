@@ -16,6 +16,7 @@ import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/domain/usecases/add_to_wishlist_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
@@ -30,7 +31,6 @@ class IngredientPage extends StatefulWidget {
     required this.onAddToWishlist,
     required this.id,
   });
-
   final void Function(GlobalKey) onAddToCart;
   final void Function(GlobalKey) onAddToWishlist;
   final String id;
@@ -41,11 +41,13 @@ class IngredientPage extends StatefulWidget {
 
 class _IngredientPageState extends State<IngredientPage> {
   late final GlobalKey _widgetKey;
+  late final ValueNotifier<int> quantity;
 
   @override
   void initState() {
     super.initState();
     _widgetKey = GlobalKey();
+    quantity = ValueNotifier(1);
     log(widget.id);
   }
 
@@ -97,9 +99,11 @@ class _IngredientPageState extends State<IngredientPage> {
                         ),
                         _IngredientBudgetCard(
                           price: state.ingredient!.price!,
-                          quantity: state.ingredient!.priceBy!,
+                          priceByUnit: state.ingredient!.priceBy!,
+                          quantity: quantity,
                         ).paddingVertical(8),
-                        const _InfoList().expand(),
+                        _InfoList(nutritional: state.ingredient!.nutritionals!)
+                            .expand(),
                       ],
                     ).expand(),
                     MainButton(
@@ -107,7 +111,9 @@ class _IngredientPageState extends State<IngredientPage> {
                       onPressed: () {
                         context.pop(true);
                         widget.onAddToCart(_widgetKey);
-                        serviceLocator<CartCubit>().addOrUpdateProduct(ingredient: state.ingredient!);
+                        serviceLocator<CartCubit>().addOrUpdateProduct(
+                            ingredient: state.ingredient!,
+                            quantity: quantity.value);
                       },
                       width: context.width,
                       text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,
@@ -137,38 +143,38 @@ class _IngredientPageState extends State<IngredientPage> {
 }
 
 class _InfoList extends StatelessWidget {
-  const _InfoList();
-
+  const _InfoList({required this.nutritional});
+  final List<Nutritional> nutritional;
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for (int i = 0; i < 6; i++)
-          Row(
+    return ListView.builder(
+      itemCount: nutritional.length,
+      itemBuilder: (context, index) {
+        return Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'كالوري $i',
+              ' ${nutritional[index].name}',
                 style: const TextStyle().normalFontSize.semiBold,
               ),
               const Spacer(),
-              const Text(
-                '250 KCal',
+            Text(
+              '${nutritional[index].ingredientNutritionals!.value}',
                 style: TextStyle(),
               ),
               Icon(
-                switch (i) {
+              switch (index) {
                   <= 2 => Icons.check_circle_outline_rounded,
                   _ => Icons.warning_amber_rounded,
                 },
-                color: switch (i) {
+              color: switch (index) {
                   <= 2 => Colors.green,
                   _ => Colors.red,
                 },
               ).paddingHorizontal(5),
             ],
-          ).paddingAll(8),
-      ],
+        ).paddingAll(8);
+      },
     );
   }
 }

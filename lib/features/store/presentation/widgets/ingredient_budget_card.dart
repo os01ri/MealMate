@@ -2,15 +2,17 @@ part of '../pages/ingredient_page.dart';
 
 class _IngredientBudgetCard extends StatelessWidget {
   const _IngredientBudgetCard({
-    required this.quantity,
+    required this.priceByUnit,
     required this.price,
+    required this.quantity,
   });
 
-  final int quantity;
+  final int priceByUnit;
   final int price;
-
+  final ValueNotifier<int> quantity;
   @override
   Widget build(BuildContext context) {
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -24,12 +26,23 @@ class _IngredientBudgetCard extends StatelessWidget {
                 color: Colors.white,
               ).paddingAll(10),
             ),
-            const Icon(Icons.remove),
-            Text(
-              '$quantity Kg',
+            const Icon(Icons.remove).onTap(() {
+              if (quantity.value > 1) {
+                quantity.value--;
+              }
+            }),
+            ValueListenableBuilder(
+              valueListenable: quantity,
+              builder: (BuildContext context, int value, Widget? child) {
+                return Text(
+                  '$value Kg',
               style: const TextStyle().middleFontSize.bold,
-            ).paddingHorizontal(2),
-            const Icon(Icons.add),
+                ).paddingHorizontal(2);
+              },
+            ),
+            const Icon(Icons.add).onTap(() {
+              quantity.value++;
+            }),
           ],
         ).expand(),
         _DetailCardRow(

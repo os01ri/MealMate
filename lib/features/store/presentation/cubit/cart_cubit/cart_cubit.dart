@@ -13,7 +13,8 @@ class CartCubit extends Cubit<CartState> {
 
   CartCubit() : super(const CartState());
 
-  addOrUpdateProduct({required IngredientModel ingredient}) {
+  addOrUpdateProduct(
+      {required IngredientModel ingredient, required int quantity}) {
     if (state.cartItems.map((e) => e.model!.id).toList().contains(ingredient.id)) {
       final items = state.cartItems;
       for (int i = 0; i < items.length; i++) {
@@ -23,7 +24,9 @@ class CartCubit extends Cubit<CartState> {
       }
       emit(state.copyWith(cartItems: items));
     } else {
-      emit(state.copyWith(cartItems: List.of(state.cartItems)..add(CartItemModel(model: ingredient, quantity: 1))));
+      emit(state.copyWith(
+          cartItems: List.of(state.cartItems)
+            ..add(CartItemModel(model: ingredient, quantity: quantity))));
     }
   }
 

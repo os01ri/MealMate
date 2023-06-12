@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
+import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 
 class ApiVariables {

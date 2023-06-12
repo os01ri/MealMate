@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
+import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
 import 'package:mealmate/core/helper/type_defs.dart';
 
 import '../handling_exception_request.dart';

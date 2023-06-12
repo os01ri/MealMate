@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
+import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/features/auth/data/models/login_response_model.dart';
 import 'package:mealmate/services/shared_preferences_service.dart';

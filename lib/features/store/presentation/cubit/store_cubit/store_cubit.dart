@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
@@ -23,19 +21,13 @@ class StoreCubit extends Cubit<StoreState> {
   StoreCubit() : super(const StoreState());
 
   getIngredients(IndexIngredientsParams params) async {
-    emit(state.copyWith(indexStatus: CubitStatus.loading));
+    emit(state.copyWith(indexStatus: CubitStatus.loading, ingredients: []));
 
     final result = await _index(params);
 
     result.fold(
-      (l) {
-        log('fail');
-        emit(state.copyWith(indexStatus: CubitStatus.failure));
-      },
-      (r) {
-        log('succ');
-        emit(state.copyWith(indexStatus: CubitStatus.success, ingredients: r.data));
-      },
+      (l) => emit(state.copyWith(indexStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(indexStatus: CubitStatus.success, ingredients: r.data)),
     );
   }
 

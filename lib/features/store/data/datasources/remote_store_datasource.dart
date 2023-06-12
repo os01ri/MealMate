@@ -11,7 +11,7 @@ import 'package:mealmate/features/store/data/models/show_ingredient_response_mod
 class RemoteStoreDatasource {
   Future<IndexIngredientsResponseModel> indexIngredients({ParamsMap params}) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexIngredients(),
+      uri: ApiVariables.indexIngredients(queryParameters: params),
       fromJson: indexIngredientsResponseModelFromJson,
     );
     final result = await getApi.callRequest();

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/extensions/colorful_consule_string_extinsion.dart';
+import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';

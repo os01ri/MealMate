@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 
@@ -7,10 +8,12 @@ class CategoryChoiceChip extends StatelessWidget {
     super.key,
     required this.isActive,
     required this.title,
+    required this.onTap,
   });
 
   final String title;
   final bool isActive;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,6 @@ class CategoryChoiceChip extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ).onTap(onTap);
   }
 }

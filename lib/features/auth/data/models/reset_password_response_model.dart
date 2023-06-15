@@ -1,30 +1,24 @@
-// To parse this JSON data, do
-//
-//     final passwordResetResponseModel = passwordResetResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
 PasswordResetResponseModel passwordResetResponseModelFromJson(String str) =>
     PasswordResetResponseModel.fromJson(json.decode(str));
 
-String passwordResetResponseModelToJson(PasswordResetResponseModel data) =>
-    json.encode(data.toJson());
+String passwordResetResponseModelToJson(PasswordResetResponseModel data) => json.encode(data.toJson());
 
 class PasswordResetResponseModel {
   final String? message;
-  final Data? data;
+  final _Data? data;
   final bool? success;
 
-  PasswordResetResponseModel({
+  const PasswordResetResponseModel({
     this.message,
     this.data,
     this.success,
   });
 
-  factory PasswordResetResponseModel.fromJson(Map<String, dynamic> json) =>
-      PasswordResetResponseModel(
+  factory PasswordResetResponseModel.fromJson(Map<String, dynamic> json) => PasswordResetResponseModel(
         message: json["message"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : _Data.fromJson(json["data"]),
         success: json["success"],
       );
 
@@ -35,18 +29,18 @@ class PasswordResetResponseModel {
       };
 }
 
-class Data {
+class _Data {
   final String? refreshToken;
   final String? token;
   final int? expiredAt;
 
-  Data({
+  _Data({
     this.refreshToken,
     this.token,
     this.expiredAt,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory _Data.fromJson(Map<String, dynamic> json) => _Data(
         refreshToken: json["refreshToken"],
         token: json["token"],
         expiredAt: json["expired_at"],

@@ -12,22 +12,36 @@ import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/pages/otp_page.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
-import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
-  final TextEditingController _userNameController = TextEditingController();
-  final AuthCubit _registerCubit = AuthCubit();
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  late final GlobalKey<FormState> _formKey;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+  late final TextEditingController _userNameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    _userNameController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +52,10 @@ class SignUpPage extends StatelessWidget {
         titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
       ),
       body: BlocProvider(
-        create: (context) => _registerCubit,
+        create: (_) => AuthCubit(),
         child: BlocConsumer<AuthCubit, AuthState>(
-          bloc: _registerCubit,
-          listener: (context, state) {
-            if (state.status == AuthStatus.loading) {
-              UiMessages.showLoading();
-            }
-            if (state.status == AuthStatus.success) {
-              UiMessages.closeLoading();
-              Helper.setUserToken(state.token!);
-              context.goNamed(RoutesNames.otp,
-                  extra: OtpPageParams(authCubit: _registerCubit));
-            }
-            if (state.status == AuthStatus.failed) {
-              UiMessages.closeLoading();
-              UiMessages.showToast(
-                  serviceLocator<LocalizationClass>().appLocalizations!.error);
-            }
-          },
-          builder: (context, state) {
+          listener: _listener,
+          builder: (BuildContext context, AuthState state) {
             return Form(
               key: _formKey,
               child: Column(
@@ -132,14 +130,13 @@ class SignUpPage extends StatelessWidget {
                     onPressed: () {
                       Helper.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
-                        _registerCubit.register(
-                          RegisterUserParams(
-                            email: _emailController.text,
-                            userName: _userNameController.text,
-                            password: _passwordController.text,
-                          ),
-                        ); 
-
+                        context.read<AuthCubit>().register(
+                              RegisterUserParams(
+                                email: _emailController.text,
+                                userName: _userNameController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
                       }
                     },
                   ),
@@ -178,18 +175,16 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  void _cubitListener(BuildContext context, state) async {
+  void _listener(BuildContext context, AuthState state) {
     if (state.status == AuthStatus.loading) {
-      UiMessages.showLoading();
-    }
-    if (state.status == AuthStatus.success) {
-      UiMessages.closeLoading();
-      context.goNamed(RoutesNames.otp,
-          extra: OtpPageParams(authCubit: _registerCubit));
-    }
-    if (state.status == AuthStatus.failed) {
-      UiMessages.closeLoading();
-      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.showLoading();
+    } else if (state.status == AuthStatus.success) {
+      Toaster.closeLoading();
+      Helper.setUserToken(state.token!);
+      context.goNamed(RoutesNames.otp, extra: OtpPageParams(authCubit: context.read<AuthCubit>()));
+    } else if (state.status == AuthStatus.failed) {
+      Toaster.closeLoading();
+      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

@@ -75,11 +75,8 @@ class WishlistPage extends StatelessWidget {
                                     onPressed: () {
                                       onAddToCart(widgetKeys[index]);
                                       serviceLocator<CartCubit>().addOrUpdateProduct(
-                                              ingredient: state
-                                                  .wishItems[index].ingredient!,
-                                              quantity: 1
-                                      );
-                                      UiMessages.showToast(
+                                          ingredient: state.wishItems[index].ingredient!, quantity: 1);
+                                      Toaster.showToast(
                                         serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,
                                       );
                                       context.pop();
@@ -135,12 +132,12 @@ class WishlistPage extends StatelessWidget {
 
   void _listener(BuildContext context, StoreState state) {
     if (state.removeFromWishlistStatus == CubitStatus.loading) {
-      UiMessages.showLoading();
+      Toaster.showLoading();
     } else if (state.removeFromWishlistStatus == CubitStatus.failure) {
-      UiMessages.closeLoading();
-      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.closeLoading();
+      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.removeFromWishlistStatus == CubitStatus.success) {
-      UiMessages.closeLoading();
+      Toaster.closeLoading();
       context.pop();
     }
   }

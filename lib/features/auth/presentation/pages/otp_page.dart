@@ -5,10 +5,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
@@ -19,20 +19,22 @@ import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.
 import 'package:mealmate/features/auth/presentation/widgets/numerical_keyboard.dart';
 import 'package:mealmate/router/routes_names.dart';
 
-import '../../../../core/helper/helper.dart';
-
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key, required this.args});
+
   final OtpPageParams args;
+
   @override
   State<OtpPage> createState() => _OtpPageState();
 }
 
 class _OtpPageState extends State<OtpPage> {
-  late final TextEditingController controller;
-  late final ValueNotifier<String> otpController;
-  late Timer timer;
-  late ValueNotifier<int> seconds;
+  late final GlobalKey<FormState> _formKey;
+  late final TextEditingController _controller;
+  late final ValueNotifier<String> _otpController;
+  late final ValueNotifier<int> seconds;
+  late final Timer timer;
+
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     seconds.value = 30;
@@ -50,142 +52,96 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   void initState() {
+    _formKey = GlobalKey<FormState>();
     seconds = ValueNotifier(10);
-    otpController = ValueNotifier('');
-    controller = TextEditingController();
+    _otpController = ValueNotifier('');
+    _controller = TextEditingController();
     startTimer();
     super.initState();
   }
 
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        
-        final willPop = await showConfirmationDialog(context);
+        final willPop = await _showConfirmationDialog(context);
         if (willPop && !widget.args.isResetPassword) {
-          context.goNamed(RoutesNames.splash);
-        } 
+          if (context.mounted) context.goNamed(RoutesNames.splash);
+        }
         return Future.value(willPop);
       },
       child: BlocConsumer<AuthCubit, AuthState>(
         bloc: widget.args.authCubit,
-        listener: (context, state) {
-          if (state.status == AuthStatus.loading) {
-            BotToast.showLoading();
-          }
-          if (state.status == AuthStatus.success) {
-            Helper.setUserToken(state.token!);
-            BotToast.closeAllLoading();
-            context.goNamed(widget.args.isResetPassword
-                ? RoutesNames.changePassword
-                : RoutesNames.accountCreationLoading);
-          }
-          if (state.status == AuthStatus.failed) {
-            BotToast.closeAllLoading();
-          }
-        },
-        builder: (context, state) {
+        listener: _listener,
+        builder: (BuildContext context, AuthState state) {
           return Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
               body: SafeArea(
                 child: Stack(
                   children: [
-                    Positioned(
-                        bottom: context.width * .025,
-                        child: const Icon(Icons.login)),
+                    Positioned(bottom: context.width * .025, child: const Icon(Icons.login)),
                     Container(
                       height: context.height,
                       width: context.width,
-                      color: Theme.of(context)
-                          .scaffoldBackgroundColor
-                          .withOpacity(0.6),
+                      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
                       child: Column(
                         children: [
                           SizedBox(height: context.height * .06),
                           Text(
-                            serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .enterOtpCode,
+                            serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode,
                             style: AppTextStyles.styleWeight600(fontSize: 24),
                           ),
                           SizedBox(height: context.height * .06),
                           Text(
-                            serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .enterOtpCode,
+                            serviceLocator<LocalizationClass>().appLocalizations!.enterOtpCode,
                             style: AppTextStyles.styleWeight500(fontSize: 16),
                           ),
                           SizedBox(height: context.height * .02),
-                          Text(state.email!,
-                              style: AppTextStyles.styleWeight500(
-                                  fontSize: 22,
-                                  color: AppColors.mainColor,
-                                  decoration: TextDecoration.underline)),
+                          Text(
+                            state.email!,
+                            style: AppTextStyles.styleWeight500(
+                              fontSize: 22,
+                              color: AppColors.mainColor,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                           SizedBox(height: context.height * .04),
                           Form(
-                            key: formKey,
+                            key: _formKey,
                             child: ValueListenableBuilder(
-                              valueListenable: otpController,
+                              valueListenable: _otpController,
                               builder: (context, value, _) {
                                 return Directionality(
                                   textDirection: TextDirection.ltr,
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       MainTextField(
-                                        controller: TextEditingController(
-                                            text: value.isNotEmpty
-                                                ? value[0]
-                                                : ''),
+                                        controller: TextEditingController(text: value.isNotEmpty ? value[0] : ''),
                                         enabled: false,
-                                        validator: (text) =>
-                                            text == null || text.isEmpty
-                                                ? ""
-                                                : null,
+                                        validator: (text) => text == null || text.isEmpty ? "" : null,
                                         width: context.width * .13,
                                         textAlign: TextAlign.center,
                                       ),
                                       MainTextField(
-                                        validator: (text) =>
-                                            text == null || text.isEmpty
-                                                ? ""
-                                                : null,
-                                        controller: TextEditingController(
-                                            text: value.length > 1
-                                                ? value[1]
-                                                : ''),
+                                        validator: (text) => text == null || text.isEmpty ? "" : null,
+                                        controller: TextEditingController(text: value.length > 1 ? value[1] : ''),
                                         enabled: false,
                                         width: context.width * .13,
                                         textAlign: TextAlign.center,
                                       ),
                                       MainTextField(
-                                        validator: (text) =>
-                                            text == null || text.isEmpty
-                                                ? ""
-                                                : null,
-                                        controller: TextEditingController(
-                                            text: value.length > 2
-                                                ? value[2]
-                                                : ''),
+                                        validator: (text) => text == null || text.isEmpty ? "" : null,
+                                        controller: TextEditingController(text: value.length > 2 ? value[2] : ''),
                                         enabled: false,
                                         width: context.width * .13,
                                         textAlign: TextAlign.center,
                                       ),
                                       MainTextField(
-                                        validator: (text) =>
-                                            text == null || text.isEmpty
-                                                ? ""
-                                                : null,
-                                        controller: TextEditingController(
-                                            text: value.length > 3
-                                                ? value[3]
-                                                : ''),
+                                        validator: (text) => text == null || text.isEmpty ? "" : null,
+                                        controller: TextEditingController(text: value.length > 3 ? value[3] : ''),
                                         enabled: false,
                                         width: context.width * .13,
                                         textAlign: TextAlign.center,
@@ -196,50 +152,38 @@ class _OtpPageState extends State<OtpPage> {
                               },
                             ),
                           ),
-                          Directionality(
-                            textDirection: TextDirection.ltr,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: context.width * .145),
-                              child: const Row(),
-                            ),
-                          ),
+                          //TODO
+                          // Directionality(
+                          //   textDirection: TextDirection.ltr,
+                          //   child: Padding(
+                          //     padding: EdgeInsets.symmetric(horizontal: context.width * .145),
+                          //     child: const Row(),
+                          //   ),
+                          // ),
                           SizedBox(height: context.width * .05),
                           ValueListenableBuilder(
                             valueListenable: seconds,
                             builder: (context, time, _) {
                               return Text.rich(
                                 TextSpan(
-                                  text: serviceLocator<LocalizationClass>()
-                                      .appLocalizations!
-                                      .codeNotSent,
-                                  style: AppTextStyles.styleWeight500(
-                                      fontSize: 20),
+                                  text: serviceLocator<LocalizationClass>().appLocalizations!.codeNotSent,
+                                  style: AppTextStyles.styleWeight500(fontSize: 20),
                                   children: [
                                     time == 0
                                         ? TextSpan(
-                                            text: serviceLocator<
-                                                    LocalizationClass>()
-                                                .appLocalizations!
-                                                .resendCode,
+                                            text: serviceLocator<LocalizationClass>().appLocalizations!.resendCode,
                                             style: AppTextStyles.styleWeight500(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                fontSize: 16),
+                                                color: Theme.of(context).primaryColor, fontSize: 16),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                widget.args.authCubit
-                                                    .sendOtpCode(state.email!);
+                                                widget.args.authCubit.sendOtpCode(state.email!);
                                                 startTimer();
                                               },
                                           )
                                         : TextSpan(
-                                            text:
-                                                "00:${time.toString().padLeft(2, "0")}",
+                                            text: "00:${time.toString().padLeft(2, "0")}",
                                             style: AppTextStyles.styleWeight500(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                fontSize: 16),
+                                                color: Theme.of(context).primaryColor, fontSize: 16),
                                           )
                                   ],
                                 ),
@@ -249,38 +193,33 @@ class _OtpPageState extends State<OtpPage> {
                           SizedBox(height: context.width * .05),
                           if (widget.args.isResetPassword)
                             GestureDetector(
-                            onTap: () async {
-                              await showConfirmationDialog(context)
-                                  .then((value) {
-                                if (value) {
-                                  context.pop();
-                                }
-                              });
-                            },
-                            child: Text(
-                              serviceLocator<LocalizationClass>()
-                                  .appLocalizations!
-                                  .changeEmail,
-                              style: const TextStyle(
-                                color: AppColors.mainColor,
-                                fontSize: 16,
+                              onTap: () async {
+                                await _showConfirmationDialog(context).then((value) {
+                                  if (value) context.pop();
+                                });
+                              },
+                              child: Text(
+                                serviceLocator<LocalizationClass>().appLocalizations!.changeEmail,
+                                style: const TextStyle(
+                                  color: AppColors.mainColor,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
                           SizedBox(height: context.height * .035),
                           Directionality(
                             textDirection: TextDirection.ltr,
                             child: NumericalKeyboard(
-                              textEditingController: controller,
+                              textEditingController: _controller,
                               size: context.deviceSize,
-                              value: otpController,
+                              value: _otpController,
                               maxLength: 4,
                               onTap: () {
-                                if (formKey.currentState!.validate()) {
-                                  widget.args.authCubit
-                                      .checkOtpCode(
-                                      otpController.value,
-                                      !widget.args.isResetPassword);
+                                if (_formKey.currentState!.validate()) {
+                                  widget.args.authCubit.checkOtpCode(
+                                    _otpController.value,
+                                    !widget.args.isResetPassword,
+                                  );
                                 }
                               },
                             ),
@@ -298,42 +237,51 @@ class _OtpPageState extends State<OtpPage> {
     );
   }
 
-  Future<dynamic> showConfirmationDialog(BuildContext context) {
+  void _listener(BuildContext context, AuthState state) {
+    if (state.status == AuthStatus.loading) {
+      BotToast.showLoading();
+    } else if (state.status == AuthStatus.success) {
+      Helper.setUserToken(state.token!);
+      BotToast.closeAllLoading();
+      context.goNamed(
+        widget.args.isResetPassword ? RoutesNames.changePassword : RoutesNames.accountCreationLoading,
+      );
+    } else if (state.status == AuthStatus.failed) {
+      BotToast.closeAllLoading();
+    }
+  }
+
+  Future<dynamic> _showConfirmationDialog(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            title: Text(serviceLocator<LocalizationClass>()
-                .appLocalizations!
-                .areYouSure),
-            actions: [
-              MainButton(
-                  text:
-                      serviceLocator<LocalizationClass>().appLocalizations!.yes,
-                  color: AppColors.mainColor,
-                  onPressed: () {
-                    context.pop(true);
-                  }),
-              MainButton(
-                  text:
-                      serviceLocator<LocalizationClass>().appLocalizations!.no,
-                  color: AppColors.mainColor,
-                  onPressed: () {
-                    context.pop(false);
-                  })
-            ],
-          );
-        });
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: Text(serviceLocator<LocalizationClass>().appLocalizations!.areYouSure),
+          actions: [
+            MainButton(
+              text: serviceLocator<LocalizationClass>().appLocalizations!.yes,
+              color: AppColors.mainColor,
+              onPressed: () => context.pop(true),
+            ),
+            MainButton(
+              text: serviceLocator<LocalizationClass>().appLocalizations!.no,
+              color: AppColors.mainColor,
+              onPressed: () => context.pop(false),
+            )
+          ],
+        );
+      },
+    );
   }
 }
 
 class OtpPageParams {
-  final bool isResetPassword;
   final AuthCubit authCubit;
-  OtpPageParams({
-    this.isResetPassword = false,
+  final bool isResetPassword;
+
+  const OtpPageParams({
     required this.authCubit,
+    this.isResetPassword = false,
   });
 }

@@ -56,6 +56,36 @@ class _StorePageState extends State<StorePage> {
     await _wishlistKey.currentState!.runCartAnimation();
   }
 
+//////////////////
+  final ValueNotifier<int> _selectedCat = ValueNotifier(0);
+
+  final List<String> _buildList = ['الكل', 'خضروات', 'فواكه', 'لحوم'];
+
+  int filterStart(int index) {
+    switch (index) {
+      case 2:
+        return 2;
+      default:
+        return 0;
+    }
+  }
+
+  int filterLength(int index,int length) {
+    switch (index) {
+      case 0:
+        return length;
+      case 1:
+        return 2;
+      case 2:
+        return 2;
+      case 3:
+        return 0;
+      default:
+        return 0;
+    }
+  }
+
+///////////////////
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -135,15 +165,37 @@ class _StorePageState extends State<StorePage> {
                   ).paddingVertical(5).expand(),
                 ],
               ).padding(AppConfig.pagePadding),
-              Row(
-                children: [
-                  CategoryChoiceChip(
-                    title: serviceLocator<LocalizationClass>().appLocalizations!.all,
-                    isActive: true,
-                  ),
-                  for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'خضار', isActive: false),
-                ],
-              ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),
+              // Row(
+              //   children: [
+              //     // CategoryChoiceChip(
+              //     //   title: serviceLocator<LocalizationClass>().appLocalizations!.all,
+              //     //   isActive: true,
+              //     // ),
+              //     ..._list,
+              //   ],
+              // ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),
+              SizedBox(
+                height: 75,
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _selectedCat,
+                  builder: (context, value, child) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _buildList.length,
+                      itemBuilder: (context, index) {
+                        return CategoryChoiceChip(
+                          title: _buildList[index],
+                          isActive: index == value,
+                          onTap: () {
+                            _selectedCat.value = index;
+                            _storeCubit.getIngredients(const IndexIngredientsParams());
+                          },
+                        );
+                      },
+                    );
+                  },
+                ).paddingVertical(10),
+              ),
               const SizedBox(height: 5),
               BlocBuilder<StoreCubit, StoreState>(
                 bloc: _storeCubit,
@@ -152,35 +204,43 @@ class _StorePageState extends State<StorePage> {
                     CubitStatus.loading => const CircularProgressIndicator.adaptive().center(),
                     CubitStatus.success => (state.ingredients.isEmpty)
                         ? const SizedBox.shrink()
-                        : GridView(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 15,
-                              mainAxisSpacing: 15,
-                              childAspectRatio: .85,
-                            ),
-                            scrollDirection: Axis.vertical,
-                            children: List.generate(
-                              state.ingredients.length,
-                              (index) => GestureDetector(
-                                onTap: () async {
-                                  _currentKey.value = await context.pushNamed<bool>(
-                                    RoutesNames.ingredient,
-                                    params: {'id': state.ingredients[index].id!},
-                                    extra: (cartClick, wishlistClick),
-                                  ).then((isCart) {
-                                    log(isCart.toString().logMagenta);
-                                    return switch (isCart) {
-                                      false => _wishlistKey,
-                                      _ => _cartKey,
-                                    };
-                                  });
-                                },
-                                child: IngredientCard(
-                                  ingredient: state.ingredients[index],
-                                ).paddingHorizontal(0),
-                              ),
-                            ),
+                        : ValueListenableBuilder<int>(
+                            valueListenable: _selectedCat,
+                            builder: (context, value, _) {
+                              if (value == 3) return const Text('لايوجد نتائج').center();
+                              return GridView(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 15,
+                                  childAspectRatio: .75,
+                                ),
+                                scrollDirection: Axis.vertical,
+                                children: List.generate(
+                                  filterLength(value,state.ingredients.length),
+                                  (index) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        _currentKey.value = await context.pushNamed<bool>(
+                                          RoutesNames.ingredient,
+                                          params: {'id': state.ingredients[index].id!},
+                                          extra: (cartClick, wishlistClick),
+                                        ).then((isCart) {
+                                          log(isCart.toString().logMagenta);
+                                          return switch (isCart) {
+                                            false => _wishlistKey,
+                                            _ => _cartKey,
+                                          };
+                                        });
+                                      },
+                                      child: IngredientCard(
+                                        ingredient: state.ingredients[filterStart(value) + index],
+                                      ).paddingHorizontal(0),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                           ),
                     _ => const Text('error').center(),
                   };

@@ -6,15 +6,14 @@ import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/validation_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/routes_names.dart';
-
-import '../../../../core/localization/localization_class.dart';
-import '../../../../dependency_injection.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -24,11 +23,18 @@ class ChangePasswordPage extends StatefulWidget {
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
-  final _authCubit = AuthCubit();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -36,45 +42,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         return Future.value(false);
       },
       child: BlocProvider(
-        create: (context) => _authCubit,
+        create: (context) => AuthCubit(),
         child: BlocConsumer<AuthCubit, AuthState>(
-          bloc: _authCubit,
-          listener: (context, state) {
-            if (state.status == AuthStatus.loading) {
-              BotToast.showLoading();
-            }
-            if (state.status == AuthStatus.failed) {
-              BotToast.closeAllLoading();
-            }
-            if (state.status == AuthStatus.success) {
-              BotToast.closeAllLoading();
-              context.goNamed(
-                RoutesNames.login,
-              );
-            }
-          },
-          builder: (context, state) {
+          listener: _listener,
+          builder: (BuildContext context, AuthState state) {
             return Scaffold(
               appBar: MainAppBar(
                 size: context.deviceSize,
-                leadingWidget: const SizedBox(),
-                titleText: serviceLocator<LocalizationClass>()
-                    .appLocalizations!
-                    .forgotPassword,
+                leadingWidget: const SizedBox.shrink(),
+                titleText: serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword,
               ),
               body: Form(
-                key: formKey,
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .enterNewPassword),
+                    Text(serviceLocator<LocalizationClass>().appLocalizations!.enterNewPassword),
                     const SizedBox(height: 10),
                     AuthTextField(
-                      label: serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .password,
+                      label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                       hint: '********',
                       isPassword: true,
                       controller: _passwordController,
@@ -82,38 +68,30 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         if (text != null && text.isValidPassword()) {
                           return null;
                         }
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .enterValidPassword;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                       },
                     ),
                     AuthTextField(
-                      label: serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .confirmPassword,
+                      label: serviceLocator<LocalizationClass>().appLocalizations!.confirmPassword,
                       controller: _confirmPasswordController,
                       isPassword: true,
                       validator: (text) {
                         if (text != null && text == _passwordController.text) {
                           return null;
                         } else {
-                          return serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .passwordNotMatch;
+                          return serviceLocator<LocalizationClass>().appLocalizations!.passwordNotMatch;
                         }
                       },
                       hint: '********',
                     ),
                     const SizedBox(height: 10),
                     MainButton(
-                      text: serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .next,
+                      text: serviceLocator<LocalizationClass>().appLocalizations!.next,
                       color: AppColors.mainColor,
                       width: context.width,
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          _authCubit.changePassword(_passwordController.text);
+                        if (_formKey.currentState!.validate()) {
+                          context.read<AuthCubit>().changePassword(_passwordController.text);
                         }
                       },
                     ),
@@ -125,5 +103,20 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         ),
       ),
     );
+  }
+
+  void _listener(BuildContext context, AuthState state) {
+    if (state.status == AuthStatus.loading) {
+      BotToast.showLoading();
+    }
+    if (state.status == AuthStatus.failed) {
+      BotToast.closeAllLoading();
+    }
+    if (state.status == AuthStatus.success) {
+      BotToast.closeAllLoading();
+      context.goNamed(
+        RoutesNames.login,
+      );
+    }
   }
 }

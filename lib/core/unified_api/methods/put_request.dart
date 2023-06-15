@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
 
+import '../../extensions/colorful_logging_extension.dart';
 import '../../helper/helper.dart';
+import '../../helper/type_defs.dart';
 import '../handling_exception_request.dart';
 
 class PutApi<T> with HandlingExceptionRequest {
@@ -28,9 +28,8 @@ class PutApi<T> with HandlingExceptionRequest {
     String? token = Helper.userToken;
     // String fcmToken = await HelperFunctions.getFCMToken();
     bool isAuth = await Helper.isAuth();
+    log(token.toString().logWhite, name: 'request manager ==> post function ');
 
-    log('the token in the request header is $token',
-        name: 'request manager ==> post function ');
     try {
       var headers = {
         'Content-Type': 'application/json',
@@ -42,8 +41,7 @@ class PutApi<T> with HandlingExceptionRequest {
       var request = http.Request('Put', uri);
       request.body = jsonEncode(body);
       request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(timeout);
+      http.StreamedResponse streamedResponse = await request.send().timeout(timeout);
       log(request.body.logGreen, name: "request body");
       http.Response response = await http.Response.fromStream(streamedResponse);
       log(response.body.logGreen);

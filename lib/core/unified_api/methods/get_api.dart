@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
 
+import '../../extensions/colorful_logging_extension.dart';
 import '../../helper/helper.dart';
+import '../../helper/type_defs.dart';
 import '../handling_exception_request.dart';
 
 class GetApi<T> with HandlingExceptionRequest {
@@ -22,8 +22,6 @@ class GetApi<T> with HandlingExceptionRequest {
     this.getFCMToken = false,
   });
   Future<T> callRequest() async {
-    //TODO
-
     String? token = Helper.userToken;
     log(token.toString().logWhite, name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);

@@ -19,15 +19,27 @@ import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/router/routes_names.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final AuthCubit _loginCubit = AuthCubit();
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
 
-  final ValueNotifier<bool> _saveLogin = ValueNotifier(false);
+class _LoginPageState extends State<LoginPage> {
+  late final GlobalKey<FormState> _formKey;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final ValueNotifier<bool> _rememberMe;
+
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _rememberMe = ValueNotifier(false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +50,10 @@ class LoginPage extends StatelessWidget {
         titleText: serviceLocator<LocalizationClass>().appLocalizations!.login,
       ),
       body: BlocProvider(
-        create: (context) => _loginCubit,
+        create: (context) => AuthCubit(),
         child: BlocConsumer<AuthCubit, AuthState>(
-          listener: _cubitListener,
-          builder: (context, state) {
+          listener: _listener,
+          builder: (BuildContext context, AuthState state) {
             return Form(
               key: _formKey,
               child: Column(
@@ -76,13 +88,13 @@ class LoginPage extends StatelessWidget {
                   Row(
                     children: [
                       ValueListenableBuilder<bool>(
-                        valueListenable: _saveLogin,
+                        valueListenable: _rememberMe,
                         builder: (context, save, _) {
                           return Checkbox(
                             value: save,
                             activeColor: AppColors.mainColor,
                             onChanged: (value) {
-                              _saveLogin.value = value!;
+                              _rememberMe.value = value!;
                             },
                           );
                         },
@@ -98,10 +110,10 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       Helper.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
-                        _loginCubit.login(LoginUserParams(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        ));
+                        context.read<AuthCubit>().login(LoginUserParams(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            ));
                       }
                     },
                   ),
@@ -128,9 +140,7 @@ class LoginPage extends StatelessWidget {
                         text: 'Facebook',
                         color: Colors.blue,
                         width: context.width,
-                        onPressed: () {
-                          Helper.setNotFirstTimeOpeningApp();
-                        },
+                        onPressed: () => Helper.setNotFirstTimeOpeningApp(),
                       ),
                     ],
                   ),
@@ -150,18 +160,18 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _cubitListener(BuildContext context, AuthState state) {
+  void _listener(BuildContext context, AuthState state) {
     if (state.status == AuthStatus.loading) {
-      UiMessages.showLoading();
+      Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
-      if (_saveLogin.value) Helper.setUserDataToStorage(state.user!);
+      if (_rememberMe.value) Helper.setUserDataToStorage(state.user!);
       Helper.setUserToken(state.user!.tokenInfo!.token!);
-      UiMessages.closeLoading();
+      Toaster.closeLoading();
       context.goNamed((RoutesNames.accountCreationLoading));
       log('logged in successfully');
     } else if (state.status == AuthStatus.failed) {
-      UiMessages.closeLoading();
-      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.closeLoading();
+      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

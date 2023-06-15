@@ -7,10 +7,10 @@ import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/main/widgets/main_drawer.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/section_header.dart';
-import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
 
 part '../widgets/recipe_card.dart';
@@ -238,8 +238,8 @@ class _BodyWidgetState extends State<_BodyWidget> {
           const SizedBox(height: 15),
           Row(
             children: [
-              const CategoryChoiceChip(title: 'الإفطار', isActive: true),
-              for (int i = 0; i < 10; i++) const CategoryChoiceChip(title: 'العشاء', isActive: false),
+              CategoryChoiceChip(title: 'الإفطار', isActive: true, onTap: () {}),
+              for (int i = 0; i < 10; i++) CategoryChoiceChip(title: 'العشاء', isActive: false, onTap: () {}),
             ],
           ).scrollable(scrollDirection: Axis.horizontal),
           for (int i = 10; i <= 50; i += 10) ...[

@@ -102,8 +102,7 @@ class _IngredientPageState extends State<IngredientPage> {
                           priceByUnit: state.ingredient!.priceBy!,
                           quantity: quantity,
                         ).paddingVertical(8),
-                        _InfoList(nutritional: state.ingredient!.nutritionals!)
-                            .expand(),
+                        _InfoList(nutritional: state.ingredient!.nutritionals!).expand(),
                       ],
                     ).expand(),
                     MainButton(
@@ -111,9 +110,8 @@ class _IngredientPageState extends State<IngredientPage> {
                       onPressed: () {
                         context.pop(true);
                         widget.onAddToCart(_widgetKey);
-                        serviceLocator<CartCubit>().addOrUpdateProduct(
-                            ingredient: state.ingredient!,
-                            quantity: quantity.value);
+                        serviceLocator<CartCubit>()
+                            .addOrUpdateProduct(ingredient: state.ingredient!, quantity: quantity.value);
                       },
                       width: context.width,
                       text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,
@@ -130,12 +128,12 @@ class _IngredientPageState extends State<IngredientPage> {
 
   void _listener(BuildContext context, StoreState state) {
     if (state.addToWishlistStatus == CubitStatus.loading) {
-      UiMessages.showLoading();
+      Toaster.showLoading();
     } else if (state.addToWishlistStatus == CubitStatus.failure) {
-      UiMessages.closeLoading();
-      UiMessages.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.closeLoading();
+      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.addToWishlistStatus == CubitStatus.success) {
-      UiMessages.closeLoading();
+      Toaster.closeLoading();
       context.pop(false);
       widget.onAddToWishlist(_widgetKey);
     }
@@ -151,28 +149,28 @@ class _InfoList extends StatelessWidget {
       itemCount: nutritional.length,
       itemBuilder: (context, index) {
         return Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
               ' ${nutritional[index].name}',
-                style: const TextStyle().normalFontSize.semiBold,
-              ),
-              const Spacer(),
+              style: const TextStyle().normalFontSize.semiBold,
+            ),
+            const Spacer(),
             Text(
               '${nutritional[index].ingredientNutritionals!.value}',
-                style: TextStyle(),
-              ),
-              Icon(
+              style: const TextStyle(),
+            ),
+            Icon(
               switch (index) {
-                  <= 2 => Icons.check_circle_outline_rounded,
-                  _ => Icons.warning_amber_rounded,
-                },
+                <= 2 => Icons.check_circle_outline_rounded,
+                _ => Icons.warning_amber_rounded,
+              },
               color: switch (index) {
-                  <= 2 => Colors.green,
-                  _ => Colors.red,
-                },
-              ).paddingHorizontal(5),
-            ],
+                <= 2 => Colors.green,
+                _ => Colors.red,
+              },
+            ).paddingHorizontal(5),
+          ],
         ).paddingAll(8);
       },
     );

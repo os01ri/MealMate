@@ -5,11 +5,10 @@ import 'package:mealmate/core/models/no_response_model.dart';
 import 'package:mealmate/core/usecase/usecase.dart';
 import 'package:mealmate/features/auth/domain/repositories/auth_repository.dart';
 
-class ChangePasswordUseCase
-    implements UseCase<NoResponse, ChangePasswordParams> {
+class ChangePasswordUseCase implements UseCase<NoResponse, ChangePasswordParams> {
   final AuthRepository repository;
 
-  ChangePasswordUseCase({required this.repository});
+  const ChangePasswordUseCase({required this.repository});
 
   @override
   Future<Either<Failure, NoResponse>> call(ChangePasswordParams body) async {
@@ -20,17 +19,11 @@ class ChangePasswordUseCase
 class ChangePasswordParams implements UseCaseParams {
   final String newPassword;
 
-  ChangePasswordParams({
-    required this.newPassword,
-  });
+  const ChangePasswordParams({required this.newPassword});
 
   @override
-  BodyMap getBody() => {
-        "password": newPassword,
-      };
+  BodyMap getBody() => {"password": newPassword};
 
   @override
-  ParamsMap getParams() {
-    return {};
-  }
+  ParamsMap getParams() => {};
 }

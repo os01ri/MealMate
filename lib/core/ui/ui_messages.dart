@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'theme/colors.dart';
 import 'widgets/main_button.dart';
 
-class UiMessages {
-  UiMessages._();
+class Toaster {
+  Toaster._();
 
   static void showToast(String text) {
     BotToast.showText(text: text);

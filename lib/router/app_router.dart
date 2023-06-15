@@ -100,13 +100,13 @@ class AppRouter {
         path: RoutesNames.signup,
         name: RoutesNames.signup,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => NoTransitionPage(child: SignUpPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: SignUpPage()),
       ),
       GoRoute(
         path: RoutesNames.login,
         name: RoutesNames.login,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => NoTransitionPage(child: LoginPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: LoginPage()),
       ),
       GoRoute(
         path: RoutesNames.forgotPassword,
@@ -118,8 +118,7 @@ class AppRouter {
         path: RoutesNames.changePassword,
         name: RoutesNames.changePassword,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: ChangePasswordPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: ChangePasswordPage()),
       ),
       GoRoute(
         path: RoutesNames.otp,
@@ -127,9 +126,8 @@ class AppRouter {
         parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) {
           return NoTransitionPage(
-              child: OtpPage(
-            args: state.extra as OtpPageParams,
-          ));
+            child: OtpPage(args: state.extra as OtpPageParams),
+          );
         },
       ),
       GoRoute(

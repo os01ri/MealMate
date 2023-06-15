@@ -1,4 +1,4 @@
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
+import 'index_ingredients_response_model.dart';
 
 class CartItemModel {
   IngredientModel? model;

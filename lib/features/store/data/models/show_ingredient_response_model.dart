@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
+import 'index_ingredients_response_model.dart';
 
 ShowIngredientResponseModel showIngredientResponseModelFromJson(String str) =>
     ShowIngredientResponseModel.fromJson(json.decode(str));

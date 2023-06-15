@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/unified_api/handling_exception_manager.dart';
-import 'package:mealmate/features/recipe/data/datasources/remote_recipe_datasource.dart';
-import 'package:mealmate/features/recipe/data/models/recipe_model.dart';
-import 'package:mealmate/features/recipe/domain/entities/recipe.dart';
-import 'package:mealmate/features/recipe/domain/repositories/recipe_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/unified_api/handling_exception_manager.dart';
+import '../datasources/remote_recipe_datasource.dart';
+import '../models/recipe_model.dart';
+import '../../domain/entities/recipe.dart';
+import '../../domain/repositories/recipe_repository.dart';
 
 class RecipeRepositoryImpl with HandlingExceptionManager implements RecipeRepository {
   final _datasource = RemoteRecipeDatasource();

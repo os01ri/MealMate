@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mealmate/core/helper/app_config.dart';
+import '../../core/helper/app_config.dart';
 
 CustomTransitionPage slideTransition<T>({
   required BuildContext context,

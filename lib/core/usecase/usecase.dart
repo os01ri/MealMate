@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
+import '../helper/type_defs.dart';
 
 import '../error/failures.dart';
 

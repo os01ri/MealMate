@@ -1,21 +1,22 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
-import 'package:mealmate/core/extensions/routing_extensions.dart';
-import 'package:mealmate/core/extensions/validation_extensions.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/helper/app_config.dart';
-import 'package:mealmate/core/helper/helper.dart';
-import 'package:mealmate/core/localization/localization_class.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
-import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/dependency_injection.dart';
-import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
-import 'package:mealmate/features/auth/presentation/pages/otp_page.dart';
-import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
-import 'package:mealmate/router/routes_names.dart';
+import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/extensions/routing_extensions.dart';
+import '../../../../core/extensions/validation_extensions.dart';
+import '../../../../core/extensions/widget_extensions.dart';
+import '../../../../core/helper/app_config.dart';
+import '../../../../core/helper/helper.dart';
+import '../../../../core/localization/localization_class.dart';
+import '../../../../core/ui/theme/colors.dart';
+import '../../../../core/ui/widgets/main_app_bar.dart';
+import '../../../../core/ui/widgets/main_button.dart';
+import '../../../../dependency_injection.dart';
+import '../cubit/auth_cubit/auth_cubit.dart';
+import 'otp_page.dart';
+import '../widgets/auth_text_field.dart';
+import '../../../../router/routes_names.dart';
+
+import '../../../../core/ui/ui_messages.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -42,10 +43,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (BuildContext context, AuthState state) {
           if (state.status == AuthStatus.loading) {
-            BotToast.showLoading();
+            Toaster.showLoading();
+          } else if (state.status == AuthStatus.failed) {
+            Toaster.closeLoading();
+            Toaster.showToast(
+                serviceLocator<LocalizationClass>().appLocalizations!.error);
           } else if (state.status == AuthStatus.resend) {
             Helper.setUserToken(state.token!);
-            BotToast.closeAllLoading();
+            Toaster.closeLoading();
             context.pushNamed(
               RoutesNames.otp,
               extra: OtpPageParams(

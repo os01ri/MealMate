@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/routing_extensions.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/ui/font/typography.dart';
+import '../../../../core/extensions/routing_extensions.dart';
+import '../../../../core/extensions/widget_extensions.dart';
+import '../../../../core/ui/font/typography.dart';
 
 class RecipeAppBar extends AppBar {
   RecipeAppBar({

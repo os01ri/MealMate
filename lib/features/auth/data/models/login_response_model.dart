@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mealmate/features/auth/data/models/user_model.dart';
+import 'user_model.dart';
 
 LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.fromJson(json.decode(str));
 

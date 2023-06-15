@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/models/no_response_model.dart';
-import 'package:mealmate/core/unified_api/handling_exception_manager.dart';
-import 'package:mealmate/features/store/data/datasources/remote_store_datasource.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_categories_response_model.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
-import 'package:mealmate/features/store/data/models/index_wishlist_items_response_model.dart';
-import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
-import 'package:mealmate/features/store/domain/repositories/store_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/models/no_response_model.dart';
+import '../../../../core/unified_api/handling_exception_manager.dart';
+import '../datasources/remote_store_datasource.dart';
+import '../models/index_ingredients_categories_response_model.dart';
+import '../models/index_ingredients_response_model.dart';
+import '../models/index_wishlist_items_response_model.dart';
+import '../models/show_ingredient_response_model.dart';
+import '../../domain/repositories/store_repository.dart';
 
 class StoreRepositoryImpl with HandlingExceptionManager implements StoreRepository {
   @override

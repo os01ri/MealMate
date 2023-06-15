@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/features/auth/data/models/user_model.dart';
-import 'package:mealmate/services/shared_preferences_service.dart';
+import '../extensions/colorful_logging_extension.dart';
+import '../ui/theme/colors.dart';
+import '../../features/auth/data/models/user_model.dart';
+import '../../services/shared_preferences_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 

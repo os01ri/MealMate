@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/usecase/usecase.dart';
-import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
-import 'package:mealmate/features/store/domain/repositories/store_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../data/models/show_ingredient_response_model.dart';
+import '../repositories/store_repository.dart';
 
 class ShowIngredientUseCase implements UseCase<ShowIngredientResponseModel, ShowIngredientParams> {
   final StoreRepository repository;

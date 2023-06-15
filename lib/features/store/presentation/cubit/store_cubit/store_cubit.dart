@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_categories_response_model.dart';
 import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 import 'package:mealmate/features/store/data/models/index_wishlist_items_response_model.dart';
 import 'package:mealmate/features/store/data/repositories/store_repository_impl.dart';
 import 'package:mealmate/features/store/domain/usecases/add_to_wishlist_usecase.dart';
+import 'package:mealmate/features/store/domain/usecases/index_ingredients_categories_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/remove_from_wishlist_usecase.dart';
@@ -12,6 +14,7 @@ import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.
 part 'store_state.dart';
 
 class StoreCubit extends Cubit<StoreState> {
+  final _indexCategories = IndexIngredientsCategoriesUseCase(repository: StoreRepositoryImpl());
   final _index = IndexIngredientsUseCase(repository: StoreRepositoryImpl());
   final _show = ShowIngredientUseCase(repository: StoreRepositoryImpl());
   final _indexWishlist = IndexWishlistUseCase(repository: StoreRepositoryImpl());
@@ -19,6 +22,26 @@ class StoreCubit extends Cubit<StoreState> {
   final _removeFromWishlist = RemoveFromWishlistUseCase(repository: StoreRepositoryImpl());
 
   StoreCubit() : super(const StoreState());
+
+  getIngredientsCategories(IndexIngredientsCategoriesParams params) async {
+    emit(state.copyWith(indexCategoriesStatus: CubitStatus.loading));
+
+    final result = await _indexCategories(params);
+
+    result.fold(
+      (l) => emit(state.copyWith(indexCategoriesStatus: CubitStatus.failure)),
+      (r) => emit(
+        state.copyWith(
+          indexCategoriesStatus: CubitStatus.success,
+          ingredientsCategories: r.data!
+            ..insert(
+              0,
+              const IngredientCategoryModel(id: '0', name: 'الكل'),
+            ),
+        ),
+      ),
+    );
+  }
 
   getIngredients(IndexIngredientsParams params) async {
     emit(state.copyWith(indexStatus: CubitStatus.loading, ingredients: []));

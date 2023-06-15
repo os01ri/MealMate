@@ -41,6 +41,7 @@ class ApiVariables {
   static Uri login() {
     return _auth(path: 'login');
   }
+
   static Uri verifyAccount() {
     return _auth(path: 'verifyaccount');
   }
@@ -70,6 +71,9 @@ class ApiVariables {
       _mobileUri(path: 'recipe/index', queryParameters: queryParameters);
 
   /////ingredient////
+  static Uri indexIngredientsCategories({ParamsMap queryParameters}) =>
+      _mainUri(path: 'dashboard/categoryingredient', queryParameters: queryParameters);
+
   static Uri indexIngredients({ParamsMap queryParameters}) =>
       _mobileUri(path: 'ingredient', queryParameters: queryParameters);
 

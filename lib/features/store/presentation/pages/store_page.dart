@@ -10,10 +10,12 @@ import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
+import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
+import 'package:mealmate/features/store/domain/usecases/index_ingredients_categories_usecase.dart';
 import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
 import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
@@ -28,20 +30,18 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
-  late final StoreCubit _storeCubit;
   late final GlobalKey<CartIconKey> _cartKey;
   late final GlobalKey<CartIconKey> _wishlistKey;
   late final ValueNotifier<GlobalKey<CartIconKey>> _currentKey;
-
-  late Function(GlobalKey) _runAddToCartAnimation;
+  late final ValueNotifier<int> _selectedCat;
+  late final Function(GlobalKey) _runAddToCartAnimation;
 
   @override
   void initState() {
     super.initState();
-    _storeCubit = StoreCubit()..getIngredients(const IndexIngredientsParams());
     _cartKey = GlobalKey<CartIconKey>();
     _wishlistKey = GlobalKey<CartIconKey>();
-
+    _selectedCat = ValueNotifier(0);
     _currentKey = ValueNotifier(_cartKey);
   }
 
@@ -56,40 +56,12 @@ class _StorePageState extends State<StorePage> {
     await _wishlistKey.currentState!.runCartAnimation();
   }
 
-//////////////////
-  final ValueNotifier<int> _selectedCat = ValueNotifier(0);
-
-  final List<String> _buildList = ['الكل', 'خضروات', 'فواكه', 'لحوم'];
-
-  int filterStart(int index) {
-    switch (index) {
-      case 2:
-        return 2;
-      default:
-        return 0;
-    }
-  }
-
-  int filterLength(int index,int length) {
-    switch (index) {
-      case 0:
-        return length;
-      case 1:
-        return 2;
-      case 2:
-        return 2;
-      case 3:
-        return 0;
-      default:
-        return 0;
-    }
-  }
-
-///////////////////
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _storeCubit,
+      create: (context) => StoreCubit()
+        ..getIngredients(const IndexIngredientsParams())
+        ..getIngredientsCategories(const IndexIngredientsCategoriesParams()),
       child: ValueListenableBuilder<GlobalKey<CartIconKey>>(
         valueListenable: _currentKey,
         builder: (context, currentKeyValue, child) {
@@ -174,71 +146,75 @@ class _StorePageState extends State<StorePage> {
               //     ..._list,
               //   ],
               // ).scrollable(scrollDirection: Axis.horizontal).paddingVertical(10),
-              SizedBox(
-                height: 75,
-                child: ValueListenableBuilder<int>(
-                  valueListenable: _selectedCat,
-                  builder: (context, value, child) {
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _buildList.length,
-                      itemBuilder: (context, index) {
-                        return CategoryChoiceChip(
-                          title: _buildList[index],
-                          isActive: index == value,
-                          onTap: () {
-                            _selectedCat.value = index;
-                            _storeCubit.getIngredients(const IndexIngredientsParams());
-                          },
-                        );
-                      },
+              BlocBuilder<StoreCubit, StoreState>(
+                builder: (context, state) {
+                  if (state.indexCategoriesStatus == CubitStatus.loading) {
+                    return const CircularProgressIndicator.adaptive().center();
+                  } else if (state.indexCategoriesStatus == CubitStatus.success) {
+                    return SizedBox(
+                      height: 75,
+                      child: ValueListenableBuilder<int>(
+                        valueListenable: _selectedCat,
+                        builder: (context, value, child) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.ingredientsCategories.length,
+                            itemBuilder: (context, index) {
+                              return CategoryChoiceChip(
+                                title: state.ingredientsCategories[index].name!,
+                                isActive: index == value,
+                                onTap: () {
+                                  _selectedCat.value = index;
+
+                                  context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                                        categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
+                                      ));
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ).paddingVertical(10),
                     );
-                  },
-                ).paddingVertical(10),
+                  } else {
+                    return MainErrorWidget(onTap: () {});
+                  }
+                },
               ),
               const SizedBox(height: 5),
               BlocBuilder<StoreCubit, StoreState>(
-                bloc: _storeCubit,
                 builder: (BuildContext context, StoreState state) {
                   return switch (state.indexStatus) {
                     CubitStatus.loading => const CircularProgressIndicator.adaptive().center(),
                     CubitStatus.success => (state.ingredients.isEmpty)
-                        ? const SizedBox.shrink()
-                        : ValueListenableBuilder<int>(
-                            valueListenable: _selectedCat,
-                            builder: (context, value, _) {
-                              if (value == 3) return const Text('لايوجد نتائج').center();
-                              return GridView(
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 15,
-                                  mainAxisSpacing: 15,
-                                  childAspectRatio: .75,
-                                ),
-                                scrollDirection: Axis.vertical,
-                                children: List.generate(
-                                  filterLength(value,state.ingredients.length),
-                                  (index) {
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        _currentKey.value = await context.pushNamed<bool>(
-                                          RoutesNames.ingredient,
-                                          params: {'id': state.ingredients[index].id!},
-                                          extra: (cartClick, wishlistClick),
-                                        ).then((isCart) {
-                                          log(isCart.toString().logMagenta);
-                                          return switch (isCart) {
-                                            false => _wishlistKey,
-                                            _ => _cartKey,
-                                          };
-                                        });
-                                      },
-                                      child: IngredientCard(
-                                        ingredient: state.ingredients[filterStart(value) + index],
-                                      ).paddingHorizontal(0),
-                                    );
-                                  },
-                                ),
+                        ? const Text('لايوجد عناصر').center()
+                        : GridView.builder(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: .75,
+                            ),
+                            scrollDirection: Axis.vertical,
+                            itemCount: state.ingredients.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  _currentKey.value = await context.pushNamed<bool>(
+                                    RoutesNames.ingredient,
+                                    params: {'id': state.ingredients[index].id!},
+                                    extra: (cartClick, wishlistClick),
+                                  ).then((isCart) {
+                                    log(isCart.toString().logMagenta);
+                                    return switch (isCart) {
+                                      false => _wishlistKey,
+                                      _ => _cartKey,
+                                    };
+                                  });
+                                },
+                                child: IngredientCard(
+                                  ingredient: state.ingredients[index],
+                                ).paddingHorizontal(0),
                               );
                             },
                           ),

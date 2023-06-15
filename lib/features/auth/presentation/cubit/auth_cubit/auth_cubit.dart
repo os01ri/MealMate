@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:mealmate/features/auth/data/models/login_response_model.dart';
+import 'package:mealmate/features/auth/data/models/user_model.dart';
 import 'package:mealmate/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:mealmate/features/auth/domain/usecases/change_password_usecase.dart';
 import 'package:mealmate/features/auth/domain/usecases/check_otp_code.dart';

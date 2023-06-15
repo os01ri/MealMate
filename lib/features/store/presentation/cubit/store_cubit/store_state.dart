@@ -2,6 +2,9 @@
 part of 'store_cubit.dart';
 
 class StoreState {
+  final CubitStatus indexCategoriesStatus;
+  final List<IngredientCategoryModel> ingredientsCategories;
+
   final CubitStatus indexStatus;
   final List<IngredientModel> ingredients;
 
@@ -15,6 +18,8 @@ class StoreState {
   final CubitStatus removeFromWishlistStatus;
 
   const StoreState({
+    this.indexCategoriesStatus = CubitStatus.initial,
+    this.ingredientsCategories = const [],
     this.indexStatus = CubitStatus.initial,
     this.ingredients = const [],
     this.showStatus = CubitStatus.initial,
@@ -26,6 +31,8 @@ class StoreState {
   });
 
   StoreState copyWith({
+    CubitStatus? indexCategoriesStatus,
+    List<IngredientCategoryModel>? ingredientsCategories,
     CubitStatus? indexStatus,
     List<IngredientModel>? ingredients,
     CubitStatus? showStatus,
@@ -36,6 +43,8 @@ class StoreState {
     CubitStatus? removeFromWishlistStatus,
   }) {
     return StoreState(
+      indexCategoriesStatus: indexCategoriesStatus ?? this.indexCategoriesStatus,
+      ingredientsCategories: ingredientsCategories ?? this.ingredientsCategories,
       indexStatus: indexStatus ?? this.indexStatus,
       ingredients: ingredients ?? this.ingredients,
       showStatus: showStatus ?? this.showStatus,

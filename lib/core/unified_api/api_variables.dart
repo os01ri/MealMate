@@ -41,13 +41,20 @@ class ApiVariables {
   static Uri login() {
     return _auth(path: 'login');
   }
+  static Uri verifyAccount() {
+    return _auth(path: 'verifyaccount');
+  }
 
   static Uri sendResetPasswordOTP() {
     return _mobileUri(path: 'password/sendemail');
   }
 
   static Uri checkPasswordCode() {
-    return _mobileUri(path: 'password/chcekCode');
+    return _mobileUri(path: 'password/checkCode');
+  }
+
+  static Uri changePassword() {
+    return _mobileUri(path: 'password/changePassword');
   }
 
   static Uri placeOrder() {

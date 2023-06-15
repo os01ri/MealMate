@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mealmate/features/auth/presentation/pages/change_password_page.dart';
 import 'package:mealmate/features/auth/presentation/pages/create_account_loading_page.dart';
 import 'package:mealmate/features/auth/presentation/pages/login_page.dart';
 import 'package:mealmate/features/auth/presentation/pages/otp_page.dart';
@@ -114,10 +115,22 @@ class AppRouter {
         pageBuilder: (context, state) => const NoTransitionPage(child: ResetPasswordPage()),
       ),
       GoRoute(
+        path: RoutesNames.changePassword,
+        name: RoutesNames.changePassword,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ChangePasswordPage()),
+      ),
+      GoRoute(
         path: RoutesNames.otp,
         name: RoutesNames.otp,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: OtpPage()),
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+              child: OtpPage(
+            args: state.extra as OtpPageParams,
+          ));
+        },
       ),
       GoRoute(
         path: RoutesNames.accountCreationLoading,

@@ -4,12 +4,19 @@ import 'package:mealmate/features/auth/data/repositories/auth_repository_impl.da
 import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 
+import '../../../domain/usecases/change_password_usecase.dart';
+import '../../../domain/usecases/check_otp_code.dart';
+import '../../../domain/usecases/send_otp_code.dart';
+
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final _login = LoginUseCase(repository: AuthRepositoryImpl());
   final _register = RegisterUseCase(repository: AuthRepositoryImpl());
-
+  final _sendOtpCode = SendOtpCodeUseCase(repository: AuthRepositoryImpl());
+  final _checkOtpCode = CheckOtpCodeUseCase(repository: AuthRepositoryImpl());
+  final _changePassword =
+      ChangePasswordUseCase(repository: AuthRepositoryImpl());
   AuthCubit() : super(const AuthState());
 
   login(LoginUserParams params) async {
@@ -24,13 +31,48 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   register(RegisterUserParams params) async {
-    emit(state.copyWith(status: AuthStatus.loading));
+    emit(state.copyWith(status: AuthStatus.loading, email: params.email));
 
     final result = await _register.call(params);
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
-      (r) => emit(state.copyWith(status: AuthStatus.success, user: r.data)),
+      (r) => emit(state.copyWith(
+          status: AuthStatus.success,
+          user: r.data,
+          token: r.data!.tokenInfo!.token!)),
     );
+  }
+
+  sendOtpCode(String email) async {
+    emit(state.copyWith(status: AuthStatus.loading, email: email));
+    final result = await _sendOtpCode.call(SendOtpParams(email: email));
+    result.fold(
+        (l) => emit(state.copyWith(status: AuthStatus.failed)),
+        (r) => emit(
+            state.copyWith(status: AuthStatus.resend, token: r.data!.token!)));
+  }
+
+  checkOtpCode(String code, bool isRegister) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    final result = await _checkOtpCode
+        .call(CheckOtpParams(code: code, isRegister: isRegister));
+    result.fold(
+        (l) => emit(state.copyWith(status: AuthStatus.failed)),
+        (r) => emit(
+            state.copyWith(
+            status: AuthStatus.success,
+            token: isRegister ? '' : r.data!.token!)));
+  }
+
+  changePassword(String newPassword) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    final result =
+        await _changePassword(ChangePasswordParams(newPassword: newPassword));
+    result.fold(
+        (l) => emit(state.copyWith(status: AuthStatus.failed)),
+        (r) => emit(state.copyWith(
+              status: AuthStatus.success,
+            )));
   }
 }

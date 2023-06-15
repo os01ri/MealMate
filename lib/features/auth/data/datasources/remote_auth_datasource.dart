@@ -1,6 +1,7 @@
 import 'package:mealmate/core/helper/type_defs.dart';
 import 'package:mealmate/core/unified_api/api_variables.dart';
 import 'package:mealmate/core/unified_api/methods/post_api.dart';
+import 'package:mealmate/core/unified_api/methods/put_request.dart';
 import 'package:mealmate/features/auth/data/models/login_response_model.dart';
 import 'package:mealmate/features/auth/data/models/reset_password_response_model.dart';
 
@@ -29,20 +30,38 @@ class RemoteAuthDataSource {
 
 
   Future<PasswordResetResponseModel> sendResetPasswordOTP(
-      {required String email}) async {
+      {required Map<String, dynamic> body}) async {
     PostApi postApi = PostApi(
         uri: ApiVariables.sendResetPasswordOTP(),
-        body: {"email": email},
+        body: body,
         fromJson: passwordResetResponseModelFromJson);
     return await postApi.callRequest();
   }
 
-  Future<NoResponse> checkOTPCodeForResetPassword(
-      {required String code}) async {
+  Future<PasswordResetResponseModel> checkOTPCodeForResetPassword(
+      {required Map<String, dynamic> body}) async {
     PostApi postApi = PostApi(
         uri: ApiVariables.checkPasswordCode(),
-        body: {"code": code},
-        fromJson: noResponseFromJson);
+        body: body,
+        fromJson: passwordResetResponseModelFromJson);
     return await postApi.callRequest();
+  }
+
+  Future<PasswordResetResponseModel> verifyAccount(
+      {required Map<String, dynamic> body}) async {
+    PostApi postApi = PostApi(
+        uri: ApiVariables.verifyAccount(),
+        body: body,
+        fromJson: passwordResetResponseModelFromJson);
+    return await postApi.callRequest();
+  }
+
+  Future<NoResponse> changePassword(
+      {required Map<String, dynamic> body}) async {
+    PutApi putApi = PutApi(
+        uri: ApiVariables.changePassword(),
+        body: body,
+        fromJson: noResponseFromJson);
+    return await putApi.callRequest();
   }
 }

@@ -6,6 +6,7 @@ class RoutesNames {
   static const login = 'login';
   static const signup = 'signup';
   static const forgotPassword = 'forgot_password';
+  static const changePassword = 'change_password';
   static const otp = 'otp';
   static const accountCreationLoading = 'account_creation_loading';
   ////recipes////

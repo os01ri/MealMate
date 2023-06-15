@@ -14,6 +14,7 @@ import 'package:mealmate/core/ui/widgets/main_app_bar.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
+import 'package:mealmate/features/auth/presentation/pages/otp_page.dart';
 import 'package:mealmate/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/router/routes_names.dart';
@@ -33,12 +34,29 @@ class SignUpPage extends StatelessWidget {
     return Scaffold(
       appBar: MainAppBar(
         size: context.deviceSize,
+        leadingWidget: const SizedBox(),
         titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
       ),
       body: BlocProvider(
         create: (context) => _registerCubit,
         child: BlocConsumer<AuthCubit, AuthState>(
-          listener: _cubitListener,
+          bloc: _registerCubit,
+          listener: (context, state) {
+            if (state.status == AuthStatus.loading) {
+              UiMessages.showLoading();
+            }
+            if (state.status == AuthStatus.success) {
+              UiMessages.closeLoading();
+              Helper.setUserToken(state.token!);
+              context.goNamed(RoutesNames.otp,
+                  extra: OtpPageParams(authCubit: _registerCubit));
+            }
+            if (state.status == AuthStatus.failed) {
+              UiMessages.closeLoading();
+              UiMessages.showToast(
+                  serviceLocator<LocalizationClass>().appLocalizations!.error);
+            }
+          },
           builder: (context, state) {
             return Form(
               key: _formKey,
@@ -120,7 +138,8 @@ class SignUpPage extends StatelessWidget {
                             userName: _userNameController.text,
                             password: _passwordController.text,
                           ),
-                        ); // context.goNamed(Routes.otpScreen);
+                        ); 
+
                       }
                     },
                   ),
@@ -159,13 +178,14 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  void _cubitListener(context, state) async {
+  void _cubitListener(BuildContext context, state) async {
     if (state.status == AuthStatus.loading) {
       UiMessages.showLoading();
     }
     if (state.status == AuthStatus.success) {
       UiMessages.closeLoading();
-      context.goNamed(RoutesNames.accountCreationLoading);
+      context.goNamed(RoutesNames.otp,
+          extra: OtpPageParams(authCubit: _registerCubit));
     }
     if (state.status == AuthStatus.failed) {
       UiMessages.closeLoading();

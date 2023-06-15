@@ -34,6 +34,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: MainAppBar(
         size: context.deviceSize,
+        leadingWidget: const SizedBox(),
         titleText: serviceLocator<LocalizationClass>().appLocalizations!.login,
       ),
       body: BlocProvider(

@@ -36,17 +36,25 @@ class PasswordResetResponseModel {
 }
 
 class Data {
+  final String? refreshToken;
   final String? token;
+  final int? expiredAt;
 
   Data({
+    this.refreshToken,
     this.token,
+    this.expiredAt,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
+        refreshToken: json["refreshToken"],
         token: json["token"],
+        expiredAt: json["expired_at"],
       );
 
   Map<String, dynamic> toJson() => {
+        "refreshToken": refreshToken,
         "token": token,
+        "expired_at": expiredAt,
       };
 }

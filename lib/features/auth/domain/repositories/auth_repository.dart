@@ -11,6 +11,8 @@ abstract class AuthRepository {
 
   Future<Either<Failure, LoginResponseModel>> loginUser({required BodyMap body});
   Future<Either<Failure, PasswordResetResponseModel>> sendResetPasswordEmail(
-      {required String email});
-  Future<Either<Failure, NoResponse>> checkOTPCode({required String code}); 
+      {required BodyMap body});
+  Future<Either<Failure, PasswordResetResponseModel>> checkOTPCode(
+      {required BodyMap body, required bool isRegister});
+  Future<Either<Failure, NoResponse>> changePassword({required BodyMap body}); 
 }

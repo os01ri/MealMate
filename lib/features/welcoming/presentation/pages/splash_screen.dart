@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../core/extensions/routing_extensions.dart';
-import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/helper.dart';
-import '../../../../core/ui/theme/colors.dart';
-import '../widgets/custom_intro_paint.dart';
-import '../../../../router/routes_names.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/helper.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/features/welcoming/presentation/widgets/custom_intro_paint.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

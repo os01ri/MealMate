@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/error/failures.dart';
-import '../../../../core/helper/type_defs.dart';
-import '../../../../core/models/no_response_model.dart';
-import '../../data/models/index_ingredients_categories_response_model.dart';
-import '../../data/models/index_ingredients_response_model.dart';
-import '../../data/models/index_wishlist_items_response_model.dart';
-import '../../data/models/show_ingredient_response_model.dart';
+import 'package:mealmate/core/error/failures.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
+import 'package:mealmate/core/models/no_response_model.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_categories_response_model.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
+import 'package:mealmate/features/store/data/models/index_wishlist_items_response_model.dart';
+import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
 
 abstract class StoreRepository {
   Future<Either<Failure, IndexIngredientCategoriesResponseModel>> indexIngredientsCategories({ParamsMap params});

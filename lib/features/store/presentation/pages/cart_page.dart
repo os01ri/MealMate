@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../core/extensions/routing_extensions.dart';
-import '../../../../core/extensions/widget_extensions.dart';
-import '../../../../core/localization/localization_class.dart';
-import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/theme/text_styles.dart';
-import '../../../../core/ui/widgets/cache_network_image.dart';
-import '../../../../core/ui/widgets/main_button.dart';
-import '../../../../dependency_injection.dart';
-import '../../../recipe/presentation/widgets/app_bar.dart';
-import '../../data/models/order_item_model.dart';
-import '../../domain/usecases/place_order_usecase.dart';
-import '../cubit/cart_cubit/cart_cubit.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/theme/text_styles.dart';
+import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
+import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/data/models/order_item_model.dart';
+import 'package:mealmate/features/store/domain/usecases/place_order_usecase.dart';
+import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});

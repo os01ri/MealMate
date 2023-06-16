@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import '../extensions/colorful_logging_extension.dart';
-import '../helper/type_defs.dart';
+import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
 
 class ApiVariables {
   /////////////

@@ -1,10 +1,10 @@
-import '../../../../core/helper/type_defs.dart';
-import '../../../../core/models/no_response_model.dart';
-import '../../../../core/unified_api/api_variables.dart';
-import '../../../../core/unified_api/methods/post_api.dart';
-import '../../../../core/unified_api/methods/put_request.dart';
-import '../models/login_response_model.dart';
-import '../models/reset_password_response_model.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
+import 'package:mealmate/core/models/no_response_model.dart';
+import 'package:mealmate/core/unified_api/api_variables.dart';
+import 'package:mealmate/core/unified_api/methods/post_api.dart';
+import 'package:mealmate/core/unified_api/methods/put_request.dart';
+import 'package:mealmate/features/auth/data/models/login_response_model.dart';
+import 'package:mealmate/features/auth/data/models/reset_password_response_model.dart';
 
 class RemoteAuthDataSource {
   const RemoteAuthDataSource._();

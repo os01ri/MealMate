@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/extensions/routing_extensions.dart';
-import '../../../../core/extensions/widget_extensions.dart';
-import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/cubit_status.dart';
-import '../../../../core/localization/localization_class.dart';
-import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/ui_messages.dart';
-import '../../../../core/ui/widgets/error_widget.dart';
-import '../../../../core/ui/widgets/main_button.dart';
-import '../../../../dependency_injection.dart';
-import '../../../recipe/presentation/widgets/app_bar.dart';
-import '../../domain/usecases/index_wishlist_usecase.dart';
-import '../../domain/usecases/remove_from_wishlist_usecase.dart';
-import '../cubit/cart_cubit/cart_cubit.dart';
-import '../cubit/store_cubit/store_cubit.dart';
-import '../widgets/ingredient_card.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/cubit_status.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/ui_messages.dart';
+import 'package:mealmate/core/ui/widgets/error_widget.dart';
+import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
+import 'package:mealmate/features/store/domain/usecases/remove_from_wishlist_usecase.dart';
+import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit.dart';
+import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
+import 'package:mealmate/features/store/presentation/widgets/ingredient_card.dart';
 
 class WishlistPage extends StatelessWidget {
   const WishlistPage({

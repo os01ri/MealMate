@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/helper/app_config.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 
 class IntroIndicator extends StatelessWidget {
   final int pageNumber;

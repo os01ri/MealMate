@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../core/ui/font/typography.dart';
-import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/widgets/cache_network_image.dart';
-import '../../data/models/index_ingredients_response_model.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
+import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
 
 class IngredientCard extends StatelessWidget {
   const IngredientCard({

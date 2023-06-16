@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../core/extensions/routing_extensions.dart';
-import '../../../../core/extensions/widget_extensions.dart';
-import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/assets_paths.dart';
-import '../../../../core/localization/localization_class.dart';
-import '../../../../core/ui/font/typography.dart';
-import '../../../../core/ui/theme/colors.dart';
-import '../../../../dependency_injection.dart';
-import '../../../main/widgets/main_drawer.dart';
-import '../widgets/category_choice_chip.dart';
-import '../widgets/section_header.dart';
-import '../../../../router/routes_names.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/routing_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
+import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/localization/localization_class.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
+import 'package:mealmate/dependency_injection.dart';
+import 'package:mealmate/features/main/widgets/main_drawer.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/category_choice_chip.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/section_header.dart';
+import 'package:mealmate/router/routes_names.dart';
 
 part '../widgets/recipe_card.dart';
 

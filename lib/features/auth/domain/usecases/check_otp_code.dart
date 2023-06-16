@@ -1,10 +1,9 @@
 import 'package:dartz/dartz.dart';
-
-import '../../../../core/error/failures.dart';
-import '../../../../core/helper/type_defs.dart';
-import '../../../../core/usecase/usecase.dart';
-import '../../data/models/reset_password_response_model.dart';
-import '../repositories/auth_repository.dart';
+import 'package:mealmate/core/error/failures.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
+import 'package:mealmate/core/usecase/usecase.dart';
+import 'package:mealmate/features/auth/data/models/reset_password_response_model.dart';
+import 'package:mealmate/features/auth/domain/repositories/auth_repository.dart';
 
 class CheckOtpCodeUseCase implements UseCase<PasswordResetResponseModel, CheckOtpParams> {
   final AuthRepository repository;

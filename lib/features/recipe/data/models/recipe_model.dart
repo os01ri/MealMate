@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../domain/entities/recipe.dart';
+import 'package:mealmate/features/recipe/domain/entities/recipe.dart';
 
 class RecipeModel extends Recipe {
   RecipeModel({

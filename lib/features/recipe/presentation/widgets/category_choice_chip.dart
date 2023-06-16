@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/extensions/widget_extensions.dart';
-import '../../../../core/ui/font/typography.dart';
-import '../../../../core/ui/theme/colors.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
+import 'package:mealmate/core/ui/theme/colors.dart';
 
 class CategoryChoiceChip extends StatelessWidget {
   const CategoryChoiceChip({

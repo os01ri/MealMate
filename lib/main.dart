@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'core/ui/theme/them.dart';
-import 'core/ui/widgets/restart_widget.dart';
-import 'dependency_injection.dart' as di;
-import 'router/app_router.dart';
-import 'services/shared_preferences_service.dart';
+import 'package:mealmate/core/ui/theme/them.dart';
+import 'package:mealmate/core/ui/widgets/restart_widget.dart';
+import 'package:mealmate/dependency_injection.dart' as di;
+import 'package:mealmate/router/app_router.dart';
+import 'package:mealmate/services/shared_preferences_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

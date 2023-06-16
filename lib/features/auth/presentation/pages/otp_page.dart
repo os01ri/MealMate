@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,8 +18,6 @@ import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import 'package:mealmate/features/auth/presentation/widgets/numerical_keyboard.dart';
 import 'package:mealmate/router/routes_names.dart';
-
-import '../../../../core/ui/ui_messages.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key, required this.args});
@@ -240,18 +239,15 @@ class _OtpPageState extends State<OtpPage> {
 
   void _listener(BuildContext context, AuthState state) {
     if (state.status == AuthStatus.loading) {
-      Toaster.showLoading();
+      BotToast.showLoading();
     } else if (state.status == AuthStatus.success) {
       Helper.setUserToken(state.token!);
-      Toaster.closeLoading();
+      BotToast.closeAllLoading();
       context.goNamed(
         widget.args.isResetPassword ? RoutesNames.changePassword : RoutesNames.accountCreationLoading,
       );
     } else if (state.status == AuthStatus.failed) {
-      Toaster.closeLoading();
-      Toaster.showToast(
-          serviceLocator<LocalizationClass>().appLocalizations!.error);
-         
+      BotToast.closeAllLoading();
     }
   }
 

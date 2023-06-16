@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/error/failures.dart';
-import '../../../../core/helper/type_defs.dart';
-import '../../../../core/usecase/usecase.dart';
-import '../../data/models/recipe_model.dart';
-import '../repositories/recipe_repository.dart';
+import 'package:mealmate/core/error/failures.dart';
+import 'package:mealmate/core/helper/type_defs.dart';
+import 'package:mealmate/core/usecase/usecase.dart';
+import 'package:mealmate/features/recipe/data/models/recipe_model.dart';
+import 'package:mealmate/features/recipe/domain/repositories/recipe_repository.dart';
 
 class IndexRecipesUseCase implements UseCase<List<RecipeModel>, IndexRecipesParams> {
   final RecipeRepository recipeRepository;

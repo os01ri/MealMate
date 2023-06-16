@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import '../extensions/colorful_logging_extension.dart';
+import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
 
 import '../error/exceptions.dart';
 import '../error/failures.dart';

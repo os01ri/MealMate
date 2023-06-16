@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/app_config.dart';
@@ -9,6 +10,7 @@ import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/core/ui/widgets/skelton_loading.dart';
 import 'package:mealmate/dependency_injection.dart';
 import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
@@ -39,90 +41,18 @@ class WishlistPage extends StatelessWidget {
           child: BlocConsumer<StoreCubit, StoreState>(
             listener: _listener,
             builder: (context, state) {
-              if (state.indexWishlistStatus == CubitStatus.loading) {
-                return const CircularProgressIndicator.adaptive().center();
-              } else if (state.indexWishlistStatus == CubitStatus.success) {
-                return GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    childAspectRatio: .85,
-                  ),
-                  scrollDirection: Axis.vertical,
-                  children: List.generate(
-                    state.wishItems.length,
-                    (index) {
-                      late final List<GlobalKey> widgetKeys = List.generate(
-                        state.wishItems.length,
-                        (_) => GlobalKey(),
-                      );
-
-                      return GestureDetector(
-                        onTap: () async {
-                          showDialog(
-                            context: context,
-                            builder: (_) {
-                              return SimpleDialog(
-                                backgroundColor: Colors.white,
-                                contentPadding: const EdgeInsets.all(30),
-                                title: Text(state.wishItems[index].ingredient!.name!).center(),
-                                shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
-                                children: [
-                                  MainButton(
-                                    text: 'إضافة إلى السلة',
-                                    color: AppColors.mainColor,
-                                    onPressed: () {
-                                      onAddToCart(widgetKeys[index]);
-                                      serviceLocator<CartCubit>().addOrUpdateProduct(
-                                          ingredient: state.wishItems[index].ingredient!, quantity: 1);
-                                      Toaster.showToast(
-                                        serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,
-                                      );
-                                      context.pop();
-                                    },
-                                  ),
-                                  const SizedBox(height: 20),
-                                  MainButton(
-                                    text: 'إزالة من المفضلة',
-                                    textColor: AppColors.brown,
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      context.read<StoreCubit>().removeFromWishlist(
-                                            RemoveFromWishlistParams(
-                                              ingredientId: state.wishItems[index].id!,
-                                            ),
-                                          );
-                                    },
-                                  ),
-                                  const SizedBox(height: 20),
-                                  MainButton(
-                                    text: 'إغلاق',
-                                    textColor: AppColors.lightRed,
-                                    color: Colors.white,
-                                    onPressed: () => context.pop(),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                          // (onAddToCart, onAddToCart)
-                        },
-                        child: IngredientCard(
-                          widgetKey: widgetKeys[index],
-                          ingredient: state.wishItems[index].ingredient!,
-                        ).paddingHorizontal(0),
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return MainErrorWidget(
-                  onTap: () {
-                    context.read<StoreCubit>().getWishlist(const IndexWishlistParams());
-                  },
-                ).center();
-              }
+              return AnimatedSwitcher(
+                duration: AppConfig.animationDuration,
+                child: switch (state.indexWishlistStatus) {
+                  CubitStatus.loading => _buildIngredientsSkeltonLoading(context),
+                  CubitStatus.success => _buildItems(context, state),
+                  _ => MainErrorWidget(
+                      onTap: () {
+                        context.read<StoreCubit>().getWishlist(const IndexWishlistParams());
+                      },
+                    ).center(),
+                },
+              );
             },
           ),
         ),
@@ -140,5 +70,105 @@ class WishlistPage extends StatelessWidget {
       Toaster.closeLoading();
       context.pop();
     }
+  }
+
+  Widget _buildIngredientsSkeltonLoading(BuildContext context) {
+    return GridView(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: .75,
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      children: List.generate(
+        6,
+        (_) => SkeltonLoading(
+          height: context.height,
+          width: context.width,
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItems(BuildContext context, StoreState state) {
+    return (state.wishItems.isEmpty)
+        ? const Text('لايوجد عناصر').center()
+        : GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+              childAspectRatio: .75,
+            ),
+            scrollDirection: Axis.vertical,
+            children: List.generate(
+              state.wishItems.length,
+              (index) {
+                late final List<GlobalKey> widgetKeys = List.generate(
+                  state.wishItems.length,
+                  (_) => GlobalKey(),
+                );
+
+                return GestureDetector(
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return SimpleDialog(
+                          backgroundColor: Colors.white,
+                          contentPadding: const EdgeInsets.all(30),
+                          title: Text(state.wishItems[index].ingredient!.name!).center(),
+                          shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                          children: [
+                            MainButton(
+                              text: 'إضافة إلى السلة',
+                              color: AppColors.mainColor,
+                              onPressed: () {
+                                onAddToCart(widgetKeys[index]);
+                                serviceLocator<CartCubit>()
+                                    .addOrUpdateProduct(ingredient: state.wishItems[index].ingredient!, quantity: 1);
+                                Toaster.showToast(
+                                  serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,
+                                );
+                                context.pop();
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            MainButton(
+                              text: 'إزالة من المفضلة',
+                              textColor: AppColors.brown,
+                              color: Colors.white,
+                              onPressed: () {
+                                context.read<StoreCubit>().removeFromWishlist(
+                                      RemoveFromWishlistParams(
+                                        ingredientId: state.wishItems[index].id!,
+                                      ),
+                                    );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            MainButton(
+                              text: 'إغلاق',
+                              textColor: AppColors.lightRed,
+                              color: Colors.white,
+                              onPressed: () => context.pop(),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    // (onAddToCart, onAddToCart)
+                  },
+                  child: IngredientCard(
+                    widgetKey: widgetKeys[index],
+                    ingredient: state.wishItems[index].ingredient!,
+                  ).paddingHorizontal(0),
+                );
+              },
+            ),
+          );
   }
 }

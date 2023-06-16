@@ -121,49 +121,47 @@ class _StorePageState extends State<StorePage> {
           ),
           body: Column(
             children: [
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  MainTextField(
-                    controller: TextEditingController(),
-                    hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
-                    prefixIcon: const Icon(Icons.search_rounded),
-                    onSubmitted: (searchTerm) {},
-                    textInputAction: TextInputAction.search,
-                    // suffixIcon: InkWell(
-                    //   onTap: () {},
-                    //   child: const Icon(Icons.filter_alt),
-                    // ),
-                  ).paddingVertical(5).expand(),
-                ],
-              ).padding(AppConfig.pagePadding),
+              MainTextField(
+                controller: TextEditingController(),
+                hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
+                prefixIcon: const Icon(Icons.search_rounded),
+                onSubmitted: (searchTerm) {},
+                textInputAction: TextInputAction.search,
+                // suffixIcon: InkWell(
+                //   onTap: () {},
+                //   child: const Icon(Icons.filter_alt),
+                // ),
+              ).paddingVertical(5).padding(AppConfig.pagePadding),
               BlocBuilder<StoreCubit, StoreState>(
-                buildWhen: (previous, current) {
-                  return previous.indexCategoriesStatus != current.indexCategoriesStatus;
-                },
+                buildWhen: (previous, current) => previous.indexCategoriesStatus != current.indexCategoriesStatus,
                 builder: (BuildContext context, StoreState state) {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
                     child: switch (state.indexCategoriesStatus) {
                       CubitStatus.loading => _buildCategoriesSkeltonLoading(),
-                      CubitStatus.success => _buildCategoriesListView(state),
+                      CubitStatus.success => _buildCategoriesListView(context, state),
                       _ => const Text('error').center(),
                     },
                   );
                 },
-              ),
-              const SizedBox(height: 5),
+              ).paddingVertical(5),
               BlocBuilder<StoreCubit, StoreState>(
-                buildWhen: (previous, current) {
-                  return previous.indexStatus != current.indexStatus;
-                },
+                buildWhen: (previous, current) => previous.indexStatus != current.indexStatus,
                 builder: (BuildContext context, StoreState state) {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
                     child: switch (state.indexStatus) {
                       CubitStatus.loading => _buildIngredientsSkeltonLoading(),
                       CubitStatus.success => _buildIngredientsGridView(state),
-                      _ => MainErrorWidget(onTap: () {}).center(),
+                      _ => MainErrorWidget(
+                          onTap: () {
+                            context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                                  categoryId: _selectedCat.value != 0
+                                      ? state.ingredientsCategories[_selectedCat.value].id
+                                      : null,
+                                ));
+                          },
+                        ).center(),
                     },
                   );
                 },
@@ -187,36 +185,45 @@ class _StorePageState extends State<StorePage> {
             height: 50,
             width: 100,
             padding: 12,
-            margin: EdgeInsetsDirectional.only(start: 20),
+            margin: EdgeInsetsDirectional.only(start: 15),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildCategoriesListView(StoreState state) {
+  Widget _buildCategoriesListView(BuildContext context, StoreState state) {
     return SizedBox(
       key: UniqueKey(),
       height: 75,
       child: ValueListenableBuilder<int>(
         valueListenable: _selectedCat,
         builder: (context, value, child) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.ingredientsCategories.length,
-            itemBuilder: (context, index) {
-              return CategoryChoiceChip(
-                title: state.ingredientsCategories[index].name!,
-                isActive: index == value,
-                onTap: () {
-                  _selectedCat.value = index;
+          return SizedBox(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                      categoryId: value != 0 ? state.ingredientsCategories[value].id : null,
+                    ));
+              },
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.ingredientsCategories.length,
+                itemBuilder: (context, index) {
+                  return CategoryChoiceChip(
+                    title: state.ingredientsCategories[index].name!,
+                    isActive: index == value,
+                    onTap: () {
+                      _selectedCat.value = index;
 
-                  context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
-                        categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
-                      ));
+                      context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                            categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
+                          ));
+                    },
+                  );
                 },
-              );
-            },
+              ),
+            ),
           );
         },
       ).paddingVertical(10),

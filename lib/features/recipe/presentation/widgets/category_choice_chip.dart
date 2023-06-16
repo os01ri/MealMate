@@ -19,7 +19,7 @@ class CategoryChoiceChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
-      margin: const EdgeInsetsDirectional.only(start: 20),
+      margin: const EdgeInsetsDirectional.only(start: 15),
       decoration: BoxDecoration(
         color: isActive ? AppColors.mainColor : Colors.white,
         borderRadius: BorderRadius.circular(25),

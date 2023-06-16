@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
+
 IndexIngredientsResponseModel indexIngredientsResponseModelFromJson(String str) =>
     IndexIngredientsResponseModel.fromJson(json.decode(str));
 
@@ -49,6 +51,8 @@ class IngredientModel {
   final String? url;
   final int? priceBy;
   final List<Nutritional>? nutritionals;
+  final Unit? unit;
+  final Category1? category1;
 
   IngredientModel({
     this.id,
@@ -57,26 +61,12 @@ class IngredientModel {
     this.url,
     this.priceBy,
     this.nutritionals,
+    this.unit,
+    this.category1,
   });
 
-  IngredientModel copyWith({
-    String? id,
-    String? name,
-    String? url,
-    int? price,
-    int? priceBy,
-    List<Nutritional>? nutritionals,
-  }) =>
+  factory IngredientModel.fromJson(Map<String, dynamic> json) =>
       IngredientModel(
-        id: id ?? this.id,
-        url: url ?? this.url,
-        name: name ?? this.name,
-        price: price ?? this.price,
-        priceBy: priceBy ?? this.priceBy,
-        nutritionals: nutritionals ?? this.nutritionals,
-      );
-
-  factory IngredientModel.fromJson(Map<String, dynamic> json) => IngredientModel(
         id: json["id"],
         name: json["name"],
         price: json["price"],
@@ -84,7 +74,12 @@ class IngredientModel {
         priceBy: json["price_by"],
         nutritionals: json["nutritionals"] == null
             ? []
-            : List<Nutritional>.from(json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
+            : List<Nutritional>.from(
+                json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
+        unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
+        category1: json["category1"] == null
+            ? null
+            : Category1.fromJson(json["category1"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,7 +88,11 @@ class IngredientModel {
         "price": price,
         "url": url,
         "price_by": priceBy,
-        "nutritionals": nutritionals == null ? [] : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
+        "nutritionals": nutritionals == null
+            ? []
+            : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
+        "unit": unit?.toJson(),
+        "category1": category1?.toJson(),
       };
 }
 

@@ -130,8 +130,7 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
   }
 }
 
-//TODO
-// When Api Is Ready use notification Model
+//TODO When Api Is Ready use notification Model
 class NotificationList extends StatelessWidget {
   const NotificationList({super.key, this.count, this.notifications});
   final int? count;
@@ -143,6 +142,9 @@ class NotificationList extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(6.0),
         child: ListTile(
+          onTap: () async {
+            Helper.deleteUserToken();
+          },
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           tileColor: Colors.white,
           contentPadding: const EdgeInsets.all(8),

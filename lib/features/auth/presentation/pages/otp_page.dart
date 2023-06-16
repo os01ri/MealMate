@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
+import 'package:mealmate/core/ui/ui_messages.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/dependency_injection.dart';
@@ -239,15 +239,15 @@ class _OtpPageState extends State<OtpPage> {
 
   void _listener(BuildContext context, AuthState state) {
     if (state.status == AuthStatus.loading) {
-      BotToast.showLoading();
+      Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
       Helper.setUserToken(state.token!);
-      BotToast.closeAllLoading();
+      Toaster.closeLoading();
       context.goNamed(
         widget.args.isResetPassword ? RoutesNames.changePassword : RoutesNames.accountCreationLoading,
       );
     } else if (state.status == AuthStatus.failed) {
-      BotToast.closeAllLoading();
+      Toaster.closeLoading();
     }
   }
 

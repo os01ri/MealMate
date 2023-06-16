@@ -11,6 +11,7 @@ import 'package:mealmate/core/helper/app_config.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
+import 'package:mealmate/core/ui/theme/text_styles.dart';
 import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/core/ui/widgets/skelton_loading.dart';
@@ -23,6 +24,8 @@ import 'package:mealmate/features/store/presentation/cubit/cart_cubit/cart_cubit
 import 'package:mealmate/features/store/presentation/cubit/store_cubit/store_cubit.dart';
 import 'package:mealmate/features/store/presentation/widgets/ingredient_card.dart';
 import 'package:mealmate/router/routes_names.dart';
+
+import '../../../../core/ui/theme/colors.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
@@ -50,7 +53,6 @@ class _StorePageState extends State<StorePage> {
   void cartClick(GlobalKey widgetKey) async {
     await _runAddToCartAnimation(widgetKey);
     await _cartKey.currentState!.runCartAnimation();
-    await _cartKey.currentState!.updateBadge(serviceLocator<CartCubit>().state.cartItems.length.toString());
   }
 
   void wishlistClick(GlobalKey widgetKey) async {
@@ -71,16 +73,21 @@ class _StorePageState extends State<StorePage> {
           height: 30,
           width: 30,
           opacity: .9,
-          dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
-          jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
-          createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
+          dragAnimation: const DragToCartAnimationOptions(
+              rotation: true, duration: Duration(milliseconds: 400)),
+          jumpAnimation: const JumpAnimationOptions(
+              active: false, duration: Duration(milliseconds: 150)),
+          createAddToCartAnimation: (runAddToCartAnimation) =>
+              _runAddToCartAnimation = runAddToCartAnimation,
           child: child!,
         ),
         child: Scaffold(
           appBar: RecipeAppBar(
             context: context,
             centerText: true,
-            title: serviceLocator<LocalizationClass>().appLocalizations!.groceryStore,
+            title: serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .groceryStore,
             leadingWidget: AddToCartIcon(
               key: _wishlistKey,
               badgeOptions: const BadgeOptions(active: false),
@@ -95,27 +102,48 @@ class _StorePageState extends State<StorePage> {
               ),
             ),
             actions: [
-              AddToCartIcon(
-                key: _cartKey,
-                badgeOptions: const BadgeOptions(
-                  active: true,
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                ),
-                icon: BlocBuilder<StoreCubit, StoreState>(
-                  builder: (context, state) {
-                    return IconButton(
-                      onPressed: () {
-                        if (state.ingredients.isNotEmpty) {
-                          context.pushNamed(
-                            RoutesNames.cartPage,
-                          );
-                        }
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                      right: -5,
+                      child: BlocBuilder<CartCubit, CartState>(
+                        bloc: serviceLocator<CartCubit>(),
+                        builder: (context, state) {
+                          return state.cartItems.isNotEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: const BoxDecoration(
+                                      color: AppColors.mainColor,
+                                      shape: BoxShape.circle),
+                                  child: Text("${state.cartItems.length}",
+                                      style: AppTextStyles.styleWeight400(
+                                          color: Colors.white, fontSize: 16)),
+                                )
+                              : const SizedBox.shrink();
+                        },
+                      )),
+                  AddToCartIcon(
+                    key: _cartKey,
+                    badgeOptions: const BadgeOptions(
+                      active: false,
+                    ),
+                    icon: BlocBuilder<StoreCubit, StoreState>(
+                      builder: (context, state) {
+                        return IconButton(
+                          onPressed: () {
+                            if (state.ingredients.isNotEmpty) {
+                              context.pushNamed(
+                                RoutesNames.cartPage,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.shopping_bag_outlined),
+                        );
                       },
-                      icon: const Icon(Icons.shopping_bag_outlined),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -123,7 +151,9 @@ class _StorePageState extends State<StorePage> {
             children: [
               MainTextField(
                 controller: TextEditingController(),
-                hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
+                hint: serviceLocator<LocalizationClass>()
+                    .appLocalizations!
+                    .searchIngredients,
                 prefixIcon: const Icon(Icons.search_rounded),
                 onSubmitted: (searchTerm) {},
                 textInputAction: TextInputAction.search,
@@ -133,20 +163,24 @@ class _StorePageState extends State<StorePage> {
                 // ),
               ).paddingVertical(5).padding(AppConfig.pagePadding),
               BlocBuilder<StoreCubit, StoreState>(
-                buildWhen: (previous, current) => previous.indexCategoriesStatus != current.indexCategoriesStatus,
+                buildWhen: (previous, current) =>
+                    previous.indexCategoriesStatus !=
+                    current.indexCategoriesStatus,
                 builder: (BuildContext context, StoreState state) {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
                     child: switch (state.indexCategoriesStatus) {
                       CubitStatus.loading => _buildCategoriesSkeltonLoading(),
-                      CubitStatus.success => _buildCategoriesListView(context, state),
+                      CubitStatus.success =>
+                        _buildCategoriesListView(context, state),
                       _ => const Text('error').center(),
                     },
                   );
                 },
               ).paddingVertical(5),
               BlocBuilder<StoreCubit, StoreState>(
-                buildWhen: (previous, current) => previous.indexStatus != current.indexStatus,
+                buildWhen: (previous, current) =>
+                    previous.indexStatus != current.indexStatus,
                 builder: (BuildContext context, StoreState state) {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
@@ -155,9 +189,14 @@ class _StorePageState extends State<StorePage> {
                       CubitStatus.success => _buildIngredientsGridView(state),
                       _ => MainErrorWidget(
                           onTap: () {
-                            context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                            context
+                                .read<StoreCubit>()
+                                .getIngredients(IndexIngredientsParams(
                                   categoryId: _selectedCat.value != 0
-                                      ? state.ingredientsCategories[_selectedCat.value].id
+                                      ? state
+                                          .ingredientsCategories[
+                                              _selectedCat.value]
+                                          .id
                                       : null,
                                 ));
                           },
@@ -202,8 +241,12 @@ class _StorePageState extends State<StorePage> {
           return SizedBox(
             child: RefreshIndicator(
               onRefresh: () async {
-                context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
-                      categoryId: value != 0 ? state.ingredientsCategories[value].id : null,
+                context
+                    .read<StoreCubit>()
+                    .getIngredients(IndexIngredientsParams(
+                      categoryId: value != 0
+                          ? state.ingredientsCategories[value].id
+                          : null,
                     ));
               },
               child: ListView.builder(
@@ -216,8 +259,12 @@ class _StorePageState extends State<StorePage> {
                     onTap: () {
                       _selectedCat.value = index;
 
-                      context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
-                            categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
+                      context
+                          .read<StoreCubit>()
+                          .getIngredients(IndexIngredientsParams(
+                            categoryId: index != 0
+                                ? state.ingredientsCategories[index].id
+                                : null,
                           ));
                     },
                   );

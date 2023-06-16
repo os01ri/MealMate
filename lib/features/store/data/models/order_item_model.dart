@@ -13,17 +13,17 @@ class OrderItemModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'unitId': unitId,
+      'unit_id': unitId,
       'quantity': quantity,
-      'ingredientId': ingredientId,
+      'ingredient_id': ingredientId,
     };
   }
 
   factory OrderItemModel.fromMap(Map<String, dynamic> map) {
     return OrderItemModel(
-      unitId: map['unitId'] as int,
+      unitId: map['unit_id'] as int,
       quantity: map['quantity'] as int,
-      ingredientId: map['ingredientId'] as String,
+      ingredientId: map['ingredient_id'] as String,
     );
   }
 

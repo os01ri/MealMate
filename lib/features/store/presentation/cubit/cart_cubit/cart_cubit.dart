@@ -30,17 +30,18 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  deleteProduct({required IngredientModel ingredient}) {
+  deleteProduct({required IngredientModel ingredient, bool remove = false}) {
     if (state.cartItems.map((e) => e.model!.id!).toList().contains(ingredient.id)) {
       final items = state.cartItems;
       for (int i = 0; i < items.length; i++) {
         if (items[i].model!.id == ingredient.id) {
           items[i].quantity--;
-          if (items[i].quantity <= 0) {
+          if (items[i].quantity <= 0 || remove) {
             items.removeAt(i);
           }
         }
       }
+      
       emit(state.copyWith(cartItems: items));
     }
   }

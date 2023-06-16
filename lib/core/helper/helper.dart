@@ -24,6 +24,11 @@ class Helper {
   static Future<void> setUserToken(String token) async {
     _userToken = token;
   }
+
+  static Future<void> deleteUserToken() async {
+    _userToken = null;
+    SharedPreferencesService.sp.clear();
+  }
   ////////////////////
 
   static Future<bool> isAuth() async {

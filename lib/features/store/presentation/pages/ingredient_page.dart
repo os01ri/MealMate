@@ -68,6 +68,7 @@ class _IngredientPageState extends State<IngredientPage> {
                 },
               ).center();
             } else {
+              quantity.value = state.ingredient!.priceBy!;
               return Scaffold(
                 appBar: RecipeAppBar(
                   context: context,
@@ -100,7 +101,8 @@ class _IngredientPageState extends State<IngredientPage> {
                         _IngredientBudgetCard(
                           price: state.ingredient!.price!,
                           priceByUnit: state.ingredient!.priceBy!,
-                          quantity: quantity,
+                                quantity: quantity,
+                                unit: state.ingredient!.unit!.code! 
                         ).paddingVertical(8),
                         _InfoList(nutritional: state.ingredient!.nutritionals!).expand(),
                       ],
@@ -111,7 +113,11 @@ class _IngredientPageState extends State<IngredientPage> {
                         context.pop(true);
                         widget.onAddToCart(_widgetKey);
                         serviceLocator<CartCubit>()
-                            .addOrUpdateProduct(ingredient: state.ingredient!, quantity: quantity.value);
+                            .addOrUpdateProduct(
+                            ingredient: state.ingredient!,
+                            quantity:
+                                (quantity.value / state.ingredient!.priceBy!)
+                                    .ceil());
                       },
                       width: context.width,
                       text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,

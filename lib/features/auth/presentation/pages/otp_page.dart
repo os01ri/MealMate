@@ -99,7 +99,7 @@ class _OtpPageState extends State<OtpPage> {
                           ),
                           SizedBox(height: context.height * .02),
                           Text(
-                            state.email!,
+                            widget.args.email,
                             style: AppTextStyles.styleWeight500(
                               fontSize: 22,
                               color: AppColors.mainColor,
@@ -176,7 +176,9 @@ class _OtpPageState extends State<OtpPage> {
                                                 color: Theme.of(context).primaryColor, fontSize: 16),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                widget.args.authCubit.sendOtpCode(state.email!);
+                                                widget.args.authCubit
+                                                    .sendOtpCode(
+                                                        widget.args.email);
                                                 startTimer();
                                               },
                                           )
@@ -279,9 +281,11 @@ class _OtpPageState extends State<OtpPage> {
 class OtpPageParams {
   final AuthCubit authCubit;
   final bool isResetPassword;
+  final String email;
 
   const OtpPageParams({
     required this.authCubit,
+    required this.email,
     this.isResetPassword = false,
   });
 }

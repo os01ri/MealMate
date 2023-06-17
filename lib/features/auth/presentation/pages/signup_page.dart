@@ -196,7 +196,8 @@ class _SignUpPageState extends State<SignUpPage> {
       Toaster.closeLoading();
       Helper.setUserToken(state.token!);
       context.goNamed(RoutesNames.otp,
-          extra: OtpPageParams(authCubit: AuthCubit()));
+          extra: OtpPageParams(
+              email: _emailController.text, authCubit: AuthCubit()));
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);

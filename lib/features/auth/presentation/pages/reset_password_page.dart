@@ -50,6 +50,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             context.pushNamed(
               RoutesNames.otp,
               extra: OtpPageParams(
+                email: _emailController.text,
                 authCubit: context.read<AuthCubit>(),
                 isResetPassword: true,
               ),

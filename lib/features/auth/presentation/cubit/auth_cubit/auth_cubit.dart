@@ -30,7 +30,9 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   register(RegisterUserParams params) async {
-    emit(state.copyWith(status: AuthStatus.loading, email: params.email));
+    emit(state.copyWith(
+      status: AuthStatus.loading,
+    ));
 
     final result = await _register.call(params);
 
@@ -41,7 +43,9 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   sendOtpCode(String email) async {
-    emit(state.copyWith(status: AuthStatus.loading, email: email));
+    emit(state.copyWith(
+      status: AuthStatus.loading,
+    ));
 
     final result = await _sendOtpCode.call(SendOtpParams(email: email));
 

@@ -28,7 +28,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late final GlobalKey<FormState> _formKey;
-  late final TextEditingController _emailController;
+  late final TextEditingController _userNameController;
   late final TextEditingController _passwordController;
   late final ValueNotifier<bool> _rememberMe;
 
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _emailController = TextEditingController();
+    _userNameController = TextEditingController();
     _passwordController = TextEditingController();
     _rememberMe = ValueNotifier(false);
   }
@@ -60,27 +60,33 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>().appLocalizations!.email,
-                    hint: serviceLocator<LocalizationClass>().appLocalizations!.enterEmail,
-                    controller: _emailController,
+                    label: serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .username,
+                    icon: Icons.person,
+                    hint: serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .pleaseEnterUsername,
+                    controller: _userNameController,
                     validator: (text) {
-                      if (text != null && text.isValidEmail()) {
-                        return null;
-                      } else {
-                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;
-                      }
+                      return null;
                     },
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
+                    label: serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .password,
                     hint: '********',
+                    icon: Icons.lock,
                     isPassword: true,
                     controller: _passwordController,
                     validator: (text) {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       } else {
-                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
+                        return serviceLocator<LocalizationClass>()
+                            .appLocalizations!
+                            .enterValidPassword;
                       }
                     },
                   ),
@@ -99,33 +105,44 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         },
                       ),
-                      Text(serviceLocator<LocalizationClass>().appLocalizations!.stayLoggedIn),
+                      Text(serviceLocator<LocalizationClass>()
+                          .appLocalizations!
+                          .stayLoggedIn),
                     ],
                   ),
                   const SizedBox(height: 20),
                   MainButton(
-                    text: serviceLocator<LocalizationClass>().appLocalizations!.login,
+                    text: serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .login,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
                       Helper.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().login(LoginUserParams(
-                              email: _emailController.text,
+                              email: _userNameController.text,
                               password: _passwordController.text,
                             ));
                       }
                     },
                   ),
                   TextButton(
-                    style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
-                    onPressed: () => context.pushNamed(RoutesNames.forgotPassword),
-                    child: Text(serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword),
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(AppColors.mainColor)),
+                    onPressed: () =>
+                        context.pushNamed(RoutesNames.forgotPassword),
+                    child: Text(serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .forgotPassword),
                   ),
                   const SizedBox(height: 20),
                   Column(
                     children: [
-                      Text(serviceLocator<LocalizationClass>().appLocalizations!.orContinueWith),
+                      Text(serviceLocator<LocalizationClass>()
+                          .appLocalizations!
+                          .orContinueWith),
                       const SizedBox(height: 5),
                       MainButton(
                         text: 'Google',
@@ -147,7 +164,9 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 40,
                     child: TextButton(
-                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.dontHaveAccount),
+                      child: Text(serviceLocator<LocalizationClass>()
+                          .appLocalizations!
+                          .dontHaveAccount),
                       onPressed: () => context.goNamed(RoutesNames.signup),
                     ),
                   ),
@@ -171,7 +190,8 @@ class _LoginPageState extends State<LoginPage> {
       log('logged in successfully');
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
-      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.showToast(
+          serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

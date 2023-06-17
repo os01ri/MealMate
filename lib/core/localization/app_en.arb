@@ -46,6 +46,7 @@
   "passwordNotMatch": "password doesn't match",
   "placeOrder": "Place Order",
   "pleaseAddYourAddress": "Please Add Your Address",
+  "pleaseEnterUsername": "Please Enter UserName",
   "previous": "Previous",
   "privacyPolicy": "Privacy Policy",
   "publish": "Publish!",

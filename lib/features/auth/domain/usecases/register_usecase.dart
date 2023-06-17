@@ -19,17 +19,20 @@ class RegisterUseCase implements UseCase<LoginResponseModel, RegisterUserParams>
 class RegisterUserParams implements UseCaseParams {
   final String email;
   final String password;
+  final String name;
   final String userName;
 
   RegisterUserParams({
     required this.email,
     required this.userName,
+    required this.name,
     required this.password,
   });
 
   @override
   BodyMap getBody() => {
-        "name": userName,
+        "username": userName,
+        "name": name,
         "password": password,
         "email": email,
       };

@@ -32,6 +32,8 @@ class _SignUpPageState extends State<SignUpPage> {
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
   late final TextEditingController _userNameController;
+  late final TextEditingController _firstNameController;
+  late final TextEditingController _lastNameController;
 
   @override
   void initState() {
@@ -41,6 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
     _userNameController = TextEditingController();
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
   }
 
   @override
@@ -63,6 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   AuthTextField(
+                    icon: Icons.person,
                     label: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     hint: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     validator: (text) {
@@ -76,19 +81,24 @@ class _SignUpPageState extends State<SignUpPage> {
                   Row(
                     children: [
                       AuthTextField(
+                        icon: Icons.offline_bolt_rounded,
                         hint: serviceLocator<LocalizationClass>().appLocalizations!.firstName,
                         label: serviceLocator<LocalizationClass>().appLocalizations!.username,
+                        controller: _firstNameController,
                       ).expand(),
                       SizedBox(width: context.width * .05),
                       AuthTextField(
+                        icon: Icons.offline_bolt_rounded,
                         hint: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
                         label: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                        controller: _lastNameController,
                       ).expand(),
                     ],
                   ),
                   AuthTextField(
                     label: serviceLocator<LocalizationClass>().appLocalizations!.email,
                     hint: 'you@example.com',
+                    icon: Icons.email,
                     controller: _emailController,
                     validator: (text) {
                       if (text != null && text.isValidEmail()) {
@@ -101,6 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                     hint: '********',
                     isPassword: true,
+                    icon: Icons.lock,
                     controller: _passwordController,
                     validator: (text) {
                       if (text != null && text.isValidPassword()) {
@@ -110,6 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     },
                   ),
                   AuthTextField(
+                    icon: Icons.lock,
                     label: serviceLocator<LocalizationClass>().appLocalizations!.confirmPassword,
                     controller: _confirmPasswordController,
                     isPassword: true,
@@ -132,6 +144,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().register(
                               RegisterUserParams(
+                                name:
+                                    "${_firstNameController.text} ${_lastNameController.text}",
                                 email: _emailController.text,
                                 userName: _userNameController.text,
                                 password: _passwordController.text,
@@ -181,7 +195,8 @@ class _SignUpPageState extends State<SignUpPage> {
     } else if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
       Helper.setUserToken(state.token!);
-      context.goNamed(RoutesNames.otp, extra: OtpPageParams(authCubit: context.read<AuthCubit>()));
+      context.goNamed(RoutesNames.otp,
+          extra: OtpPageParams(authCubit: AuthCubit()));
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);

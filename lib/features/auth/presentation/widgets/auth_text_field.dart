@@ -14,7 +14,8 @@ class AuthTextField extends StatefulWidget {
     required this.hint,
     this.validator,
     required this.label,
-    this.isPassword = false,
+      this.isPassword = false,
+      this.icon
   });
 
   final TextEditingController? controller;
@@ -22,6 +23,7 @@ class AuthTextField extends StatefulWidget {
   final String label;
   final bool? isPassword;
   final String? Function(String?)? validator;
+  final IconData? icon;
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -49,6 +51,12 @@ class _AuthTextFieldState extends State<AuthTextField> {
           valueListenable: showPassword,
           builder: (BuildContext context, bool show, Widget? child) {
             return MainTextField(
+              prefixIcon: widget.icon != null
+                  ? Icon(
+                      widget.icon,
+                      color: AppColors.orange,
+                    )
+                  : null,
               suffixIcon: widget.isPassword!
                   ? GestureDetector(
                       onTap: () {

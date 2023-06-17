@@ -26,7 +26,7 @@ class LoginUserParams implements UseCaseParams {
   });
 
   @override
-  BodyMap getBody() => {"password": password, "email": email};
+  BodyMap getBody() => {"password": password, "username": email};
 
   @override
   ParamsMap getParams() => {};

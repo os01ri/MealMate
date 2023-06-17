@@ -75,9 +75,10 @@ class ApiVariables {
       _mainUri(path: 'dashboard/categoryingredient', queryParameters: queryParameters);
 
   static Uri indexIngredients({ParamsMap queryParameters}) =>
-      _mobileUri(path: 'ingredient', queryParameters: queryParameters);
+      _mobileUri(path: 'ingredient/index', queryParameters: queryParameters);
 
-  static Uri showIngredients({required String id, ParamsMap queryParameters}) => _mobileUri(path: 'ingredient/$id');
+  static Uri showIngredients({required String id, ParamsMap queryParameters}) =>
+      _mobileUri(path: 'ingredient/$id/show');
 
   static Uri indexWishlist({ParamsMap queryParameters}) => _mobileUri(
         path: 'wishlist',

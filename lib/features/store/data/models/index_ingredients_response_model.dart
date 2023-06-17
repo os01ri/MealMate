@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
+import 'index_ingredients_categories_response_model.dart';
 
 IndexIngredientsResponseModel indexIngredientsResponseModelFromJson(String str) =>
     IndexIngredientsResponseModel.fromJson(json.decode(str));
@@ -8,78 +8,100 @@ IndexIngredientsResponseModel indexIngredientsResponseModelFromJson(String str) 
 String indexIngredientsResponseModelToJson(IndexIngredientsResponseModel data) => json.encode(data.toJson());
 
 class IndexIngredientsResponseModel {
-  final bool? success;
   final String? message;
   final List<IngredientModel>? data;
+  final bool? success;
 
   IndexIngredientsResponseModel({
-    this.success,
     this.message,
     this.data,
+    this.success,
   });
 
   IndexIngredientsResponseModel copyWith({
-    bool? success,
     String? message,
     List<IngredientModel>? data,
+    bool? success,
   }) =>
       IndexIngredientsResponseModel(
-        success: success ?? this.success,
         message: message ?? this.message,
         data: data ?? this.data,
+        success: success ?? this.success,
       );
 
   factory IndexIngredientsResponseModel.fromJson(Map<String, dynamic> json) => IndexIngredientsResponseModel(
-        success: json["success"],
         message: json["message"],
         data: json["data"] == null
             ? []
             : List<IngredientModel>.from(json["data"]!.map((x) => IngredientModel.fromJson(x))),
+        success: json["success"],
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
         "message": message,
         "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "success": success,
       };
 }
 
 class IngredientModel {
-  final String? id;
+  final int? id;
   final String? name;
   final int? price;
   final String? url;
+  final String? hash;
   final int? priceBy;
   final List<Nutritional>? nutritionals;
-  final Unit? unit;
-  final Category1? category1;
+  final UnitModel? unit;
+  final IngredientCategoryModel? category;
 
-  IngredientModel({
+  const IngredientModel({
     this.id,
     this.name,
     this.price,
     this.url,
+    this.hash,
     this.priceBy,
     this.nutritionals,
     this.unit,
-    this.category1,
+    this.category,
   });
 
-  factory IngredientModel.fromJson(Map<String, dynamic> json) =>
+  IngredientModel copyWith({
+    int? id,
+    String? name,
+    int? price,
+    String? url,
+    String? hash,
+    int? priceBy,
+    List<Nutritional>? nutritionals,
+    UnitModel? unit,
+    IngredientCategoryModel? category,
+  }) =>
       IngredientModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        price: price ?? this.price,
+        url: url ?? this.url,
+        hash: hash ?? this.hash,
+        priceBy: priceBy ?? this.priceBy,
+        nutritionals: nutritionals ?? this.nutritionals,
+        unit: unit ?? this.unit,
+        category: category ?? this.category,
+      );
+
+  factory IngredientModel.fromJson(Map<String, dynamic> json) => IngredientModel(
         id: json["id"],
         name: json["name"],
         price: json["price"],
         url: json["url"],
+        hash: json["hash"],
         priceBy: json["price_by"],
         nutritionals: json["nutritionals"] == null
             ? []
-            : List<Nutritional>.from(
-                json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
-        unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
-        category1: json["category1"] == null
-            ? null
-            : Category1.fromJson(json["category1"]),
+            : List<Nutritional>.from(json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
+        unit: json["unit"] == null ? null : UnitModel.fromJson(json["unit"]),
+        category: json["category1"] == null ? null : IngredientCategoryModel.fromJson(json["category1"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,17 +109,16 @@ class IngredientModel {
         "name": name,
         "price": price,
         "url": url,
+        "hash": hash,
         "price_by": priceBy,
-        "nutritionals": nutritionals == null
-            ? []
-            : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
+        "nutritionals": nutritionals == null ? [] : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
         "unit": unit?.toJson(),
-        "category1": category1?.toJson(),
+        "category1": category?.toJson(),
       };
 }
 
 class Nutritional {
-  final String? id;
+  final int? id;
   final String? name;
   final IngredientNutritionals? ingredientNutritionals;
 
@@ -108,7 +129,7 @@ class Nutritional {
   });
 
   Nutritional copyWith({
-    String? id,
+    int? id,
     String? name,
     IngredientNutritionals? ingredientNutritionals,
   }) =>
@@ -135,13 +156,16 @@ class Nutritional {
 
 class IngredientNutritionals {
   final int? value;
+  final double? percent;
 
   IngredientNutritionals({
+    this.percent,
     this.value,
   });
 
   IngredientNutritionals copyWith({
     int? value,
+    double? percent,
   }) =>
       IngredientNutritionals(
         value: value ?? this.value,
@@ -149,9 +173,46 @@ class IngredientNutritionals {
 
   factory IngredientNutritionals.fromJson(Map<String, dynamic> json) => IngredientNutritionals(
         value: json["value"],
+        percent: json["precent"],
       );
 
   Map<String, dynamic> toJson() => {
         "value": value,
+        "precent": percent,
+      };
+}
+
+class UnitModel {
+  final int? id;
+  final String? name;
+  final String? code;
+
+  UnitModel({
+    this.id,
+    this.name,
+    this.code,
+  });
+
+  UnitModel copyWith({
+    int? id,
+    String? name,
+    String? code,
+  }) =>
+      UnitModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        code: code ?? this.code,
+      );
+
+  factory UnitModel.fromJson(Map<String, dynamic> json) => UnitModel(
+        id: json["id"],
+        name: json["name"],
+        code: json["code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "code": code,
       };
 }

@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/models/no_response_model.dart';
-import 'package:mealmate/core/usecase/usecase.dart';
-import 'package:mealmate/features/store/domain/repositories/store_repository.dart';
+
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/models/no_response_model.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repositories/store_repository.dart';
 
 class RemoveFromWishlistUseCase implements UseCase<NoResponse, RemoveFromWishlistParams> {
   final StoreRepository repository;
@@ -17,7 +18,8 @@ class RemoveFromWishlistUseCase implements UseCase<NoResponse, RemoveFromWishlis
 }
 
 class RemoveFromWishlistParams implements UseCaseParams {
-  final String ingredientId;
+  final int ingredientId;
+
   const RemoveFromWishlistParams({required this.ingredientId});
 
   @override

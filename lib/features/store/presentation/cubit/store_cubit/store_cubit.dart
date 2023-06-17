@@ -29,14 +29,17 @@ class StoreCubit extends Cubit<StoreState> {
     final result = await _indexCategories(params);
 
     result.fold(
-      (l) => emit(state.copyWith(indexCategoriesStatus: CubitStatus.failure)),
+      (l) {
+        emit(state.copyWith(indexCategoriesStatus: CubitStatus.failure));
+        getIngredientsCategories(params);
+      },
       (r) => emit(
         state.copyWith(
           indexCategoriesStatus: CubitStatus.success,
           ingredientsCategories: r.data!
             ..insert(
               0,
-              const IngredientCategoryModel(id: '0', name: 'الكل'),
+              IngredientCategoryModel(id: 0, name: 'الكل'),
             ),
         ),
       ),

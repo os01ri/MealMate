@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/number_extension.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
@@ -52,8 +53,7 @@ class CartPageState extends State<CartPage> {
         builder: (context, state) {
           return Container(
             color: AppColors.mainColor.withOpacity(.1),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Container(
                 padding: const EdgeInsets.all(8),
                 height: context.height * .47,
@@ -66,9 +66,7 @@ class CartPageState extends State<CartPage> {
                       child: CartItemWidget(
                         item: state.cartItems[index],
                         onAdd: () {
-                          _cartCubit.addOrUpdateProduct(
-                              ingredient: state.cartItems[index].model!,
-                              quantity: 1);
+                          _cartCubit.addOrUpdateProduct(ingredient: state.cartItems[index].model!, quantity: 1);
                         },
                         onRemove: () {
                           _cartCubit.deleteProduct(
@@ -76,9 +74,7 @@ class CartPageState extends State<CartPage> {
                           );
                         },
                         onDelete: () {
-                          _cartCubit.deleteProduct(
-                              ingredient: state.cartItems[index].model!,
-                              remove: true);
+                          _cartCubit.deleteProduct(ingredient: state.cartItems[index].model!, remove: true);
                         },
                       ),
                     );
@@ -89,8 +85,7 @@ class CartPageState extends State<CartPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Card(
                   color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   child: SizedBox(
                     height: context.height * .4,
                     child: Column(
@@ -105,10 +100,7 @@ class CartPageState extends State<CartPage> {
                               const Icon(Icons.circle, size: 10),
                               SizedBox(
                                 width: context.width * .8,
-                                child: const Divider(
-                                    color: AppColors.brown,
-                                    thickness: 2,
-                                    indent: 0),
+                                child: const Divider(color: AppColors.brown, thickness: 2, indent: 0),
                               ),
                               const Icon(Icons.circle, size: 10),
                             ],
@@ -118,9 +110,7 @@ class CartPageState extends State<CartPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              serviceLocator<LocalizationClass>()
-                                  .appLocalizations!
-                                  .shippingFee,
+                              serviceLocator<LocalizationClass>().appLocalizations!.shippingFee,
                               style: AppTextStyles.styleWeight600(fontSize: 18),
                             ),
                             Text(
@@ -133,9 +123,7 @@ class CartPageState extends State<CartPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              serviceLocator<LocalizationClass>()
-                                  .appLocalizations!
-                                  .totalPayment,
+                              serviceLocator<LocalizationClass>().appLocalizations!.totalPayment,
                               style: AppTextStyles.styleWeight600(fontSize: 18),
                             ),
                             Text(
@@ -147,19 +135,14 @@ class CartPageState extends State<CartPage> {
                         MainButton(
                           fontSize: 20,
                           width: context.width * .55,
-                          text: serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .pleaseAddYourAddress,
-                          icon:
-                              const Icon(Icons.location_on_outlined, size: 35),
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress,
+                          icon: const Icon(Icons.location_on_outlined, size: 35),
                           color: AppColors.lightTextColor,
                           onPressed: () {},
                         ),
                         MainButton(
                           width: context.width * .75,
-                          text: serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .placeOrder,
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.placeOrder,
                           color: AppColors.orange,
                           onPressed: () {
                             if (_cartCubit.state.cartItems.isNotEmpty) {
@@ -179,7 +162,7 @@ class CartPageState extends State<CartPage> {
                             }
                           },
                         ),
-                        SizedBox()
+                        const SizedBox()
                       ],
                     ),
                   ),
@@ -194,14 +177,17 @@ class CartPageState extends State<CartPage> {
 }
 
 class CartItemWidget extends StatefulWidget {
-  const CartItemWidget(
-      {super.key,
-      required this.item,
-      required this.onAdd,
-      required this.onRemove,
-      required this.onDelete});
+  const CartItemWidget({
+    super.key,
+    required this.item,
+    required this.onAdd,
+    required this.onRemove,
+    required this.onDelete,
+  });
+
   final CartItemModel item;
-  final Function() onAdd, onDelete, onRemove;
+  final VoidCallback onAdd, onDelete, onRemove;
+
   @override
   State<CartItemWidget> createState() => _CartItemWidgetState();
 }
@@ -210,13 +196,12 @@ class _CartItemWidgetState extends State<CartItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
       child: Row(
         children: [
           CachedNetworkImage(
-            hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
+            hash: widget.item.model!.hash!,
             url: widget.item.model!.url!,
             fit: BoxFit.fitHeight,
             width: context.width * .2,
@@ -227,10 +212,8 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(widget.item.model!.name ?? "Ingredients"),
-              Text(
-                  "${widget.item.model!.price} per ${widget.item.model!.priceBy} KG"),
-              Text(
-                  "total ${widget.item.model!.priceBy! * widget.item.quantity} KG"),
+              Text('${(widget.item.quantity * widget.item.model!.price!).numberFormat()} ل.س'),
+              Text("total ${widget.item.model!.priceBy! * widget.item.quantity} ${widget.item.model!.unit!.code}"),
             ],
           ),
           const Spacer(),
@@ -266,8 +249,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           fit: BoxFit.contain,
                           child: Text(
                             "${widget.item.quantity}",
-                            style: AppTextStyles.styleWeight600(
-                                fontSize: 22, color: Colors.white),
+                            style: AppTextStyles.styleWeight600(fontSize: 22, color: Colors.white),
                           ),
                         ),
                       ),

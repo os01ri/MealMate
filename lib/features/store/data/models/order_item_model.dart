@@ -3,7 +3,7 @@ import 'dart:convert';
 class OrderItemModel {
   final int unitId;
   final int quantity;
-  final String ingredientId;
+  final int ingredientId;
 
   const OrderItemModel({
     required this.unitId,
@@ -23,7 +23,7 @@ class OrderItemModel {
     return OrderItemModel(
       unitId: map['unit_id'] as int,
       quantity: map['quantity'] as int,
-      ingredientId: map['ingredient_id'] as String,
+      ingredientId: map['ingredient_id'] as int,
     );
   }
 

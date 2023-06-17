@@ -33,7 +33,7 @@ class IngredientPage extends StatefulWidget {
   });
   final void Function(GlobalKey) onAddToCart;
   final void Function(GlobalKey) onAddToWishlist;
-  final String id;
+  final int id;
 
   @override
   State<IngredientPage> createState() => _IngredientPageState();
@@ -48,7 +48,7 @@ class _IngredientPageState extends State<IngredientPage> {
     super.initState();
     _widgetKey = GlobalKey();
     quantity = ValueNotifier(1);
-    log(widget.id);
+    log(widget.id.toString(), name: 'ingredient id');
   }
 
   @override
@@ -92,18 +92,18 @@ class _IngredientPageState extends State<IngredientPage> {
                         Container(
                           key: _widgetKey,
                           child: CachedNetworkImage(
-                            hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
+                            hash: state.ingredient?.hash ?? 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
                             url: state.ingredient!.url!,
                             width: context.width,
                             height: context.width,
                           ),
                         ),
                         _IngredientBudgetCard(
-                          price: state.ingredient!.price!,
-                          priceByUnit: state.ingredient!.priceBy!,
+                                price: state.ingredient!.price!,
+                                priceByUnit: state.ingredient!.priceBy!,
                                 quantity: quantity,
-                                unit: state.ingredient!.unit!.code! 
-                        ).paddingVertical(8),
+                                unit: state.ingredient!.unit!.code!)
+                            .paddingVertical(8),
                         _InfoList(nutritional: state.ingredient!.nutritionals!).expand(),
                       ],
                     ).expand(),
@@ -112,12 +112,9 @@ class _IngredientPageState extends State<IngredientPage> {
                       onPressed: () {
                         context.pop(true);
                         widget.onAddToCart(_widgetKey);
-                        serviceLocator<CartCubit>()
-                            .addOrUpdateProduct(
+                        serviceLocator<CartCubit>().addOrUpdateProduct(
                             ingredient: state.ingredient!,
-                            quantity:
-                                (quantity.value / state.ingredient!.priceBy!)
-                                    .ceil());
+                            quantity: (quantity.value / state.ingredient!.priceBy!).ceil());
                       },
                       width: context.width,
                       text: serviceLocator<LocalizationClass>().appLocalizations!.addToCart,
@@ -163,7 +160,8 @@ class _InfoList extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              '${nutritional[index].ingredientNutritionals!.value}',
+              '${nutritional[index].ingredientNutritionals!.percent}%',
+              textDirection: TextDirection.ltr,
               style: const TextStyle(),
             ),
             Icon(

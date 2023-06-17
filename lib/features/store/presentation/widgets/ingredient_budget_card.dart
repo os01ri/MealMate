@@ -36,7 +36,7 @@ final String unit;
               valueListenable: quantity,
               builder: (BuildContext context, int value, Widget? child) {
                 return Text(
-                  '$value ${unit}',
+                  '$value $unit',
               style: const TextStyle().middleFontSize.bold,
                 ).paddingHorizontal(2);
               },

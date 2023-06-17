@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'cart_cubit.dart';
 
 enum OrderStatus { init, cart, placed, failed }
@@ -23,11 +22,11 @@ class CartState {
   }
 
   String getTotalPrice() {
-    return intl.NumberFormat(',###' * 10).format(
-      cartItems.fold<int>(
-        0,
-        (v, e) => v + (e.model!.price! * e.quantity),
-      ),
-    );
+    return cartItems
+        .fold<int>(
+          0,
+          (v, e) => v + (e.model!.price! * e.quantity),
+        )
+        .numberFormat();
   }
 }

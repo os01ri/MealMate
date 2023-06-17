@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/usecase/usecase.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
-import 'package:mealmate/features/store/domain/repositories/store_repository.dart';
+
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../data/models/index_ingredients_response_model.dart';
+import '../repositories/store_repository.dart';
 
 class IndexIngredientsUseCase implements UseCase<IndexIngredientsResponseModel, IndexIngredientsParams> {
   final StoreRepository repository;
@@ -20,7 +21,7 @@ class IndexIngredientsParams implements UseCaseParams {
   final int? perPage;
   final int? page;
   final String? name;
-  final String? categoryId;
+  final int? categoryId;
 
   const IndexIngredientsParams({
     this.perPage,
@@ -33,8 +34,8 @@ class IndexIngredientsParams implements UseCaseParams {
   ParamsMap getParams() => {
         if (page != null) "page": page.toString(),
         if (perPage != null) "perPage": perPage.toString(),
-        if (name != null) "filter[name]": name,
-        if (categoryId != null) "filter[categoryId]": categoryId,
+        if (categoryId != null) "category": categoryId.toString(),
+        if (name != null) "name": name,
       };
 
   @override

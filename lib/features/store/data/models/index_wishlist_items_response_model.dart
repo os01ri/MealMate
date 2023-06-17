@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
+import 'index_ingredients_response_model.dart';
 
 IndexWishlistItemsResponseModel indexWishlistItemsResponseModelFromJson(String str) =>
     IndexWishlistItemsResponseModel.fromJson(json.decode(str));
@@ -43,7 +43,7 @@ class IndexWishlistItemsResponseModel {
 }
 
 class WishlistItem {
-  final String? id;
+  final int? id;
   final IngredientModel? ingredient;
 
   WishlistItem({
@@ -52,7 +52,7 @@ class WishlistItem {
   });
 
   WishlistItem copyWith({
-    String? id,
+    int? id,
     IngredientModel? ingredient,
   }) =>
       WishlistItem(

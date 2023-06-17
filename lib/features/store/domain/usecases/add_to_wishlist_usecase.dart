@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/models/no_response_model.dart';
-import 'package:mealmate/core/usecase/usecase.dart';
-import 'package:mealmate/features/store/domain/repositories/store_repository.dart';
+
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/models/no_response_model.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repositories/store_repository.dart';
 
 class AddToWishlistUseCase implements UseCase<NoResponse, AddToWishlistParams> {
   final StoreRepository repository;
@@ -20,7 +21,7 @@ class AddToWishlistUseCase implements UseCase<NoResponse, AddToWishlistParams> {
 }
 
 class AddToWishlistParams implements UseCaseParams {
-  final String ingredientId;
+  final int ingredientId;
   const AddToWishlistParams({required this.ingredientId});
 
   @override

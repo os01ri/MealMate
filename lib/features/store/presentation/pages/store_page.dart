@@ -73,21 +73,16 @@ class _StorePageState extends State<StorePage> {
           height: 30,
           width: 30,
           opacity: .9,
-          dragAnimation: const DragToCartAnimationOptions(
-              rotation: true, duration: Duration(milliseconds: 400)),
-          jumpAnimation: const JumpAnimationOptions(
-              active: false, duration: Duration(milliseconds: 150)),
-          createAddToCartAnimation: (runAddToCartAnimation) =>
-              _runAddToCartAnimation = runAddToCartAnimation,
+          dragAnimation: const DragToCartAnimationOptions(rotation: true, duration: Duration(milliseconds: 400)),
+          jumpAnimation: const JumpAnimationOptions(active: false, duration: Duration(milliseconds: 150)),
+          createAddToCartAnimation: (runAddToCartAnimation) => _runAddToCartAnimation = runAddToCartAnimation,
           child: child!,
         ),
         child: Scaffold(
           appBar: RecipeAppBar(
             context: context,
             centerText: true,
-            title: serviceLocator<LocalizationClass>()
-                .appLocalizations!
-                .groceryStore,
+            title: serviceLocator<LocalizationClass>().appLocalizations!.groceryStore,
             leadingWidget: AddToCartIcon(
               key: _wishlistKey,
               badgeOptions: const BadgeOptions(active: false),
@@ -113,12 +108,9 @@ class _StorePageState extends State<StorePage> {
                           return state.cartItems.isNotEmpty
                               ? Container(
                                   padding: const EdgeInsets.all(5),
-                                  decoration: const BoxDecoration(
-                                      color: AppColors.mainColor,
-                                      shape: BoxShape.circle),
+                                  decoration: const BoxDecoration(color: AppColors.mainColor, shape: BoxShape.circle),
                                   child: Text("${state.cartItems.length}",
-                                      style: AppTextStyles.styleWeight400(
-                                          color: Colors.white, fontSize: 16)),
+                                      style: AppTextStyles.styleWeight400(color: Colors.white, fontSize: 16)),
                                 )
                               : const SizedBox.shrink();
                         },
@@ -149,38 +141,33 @@ class _StorePageState extends State<StorePage> {
           ),
           body: Column(
             children: [
-              MainTextField(
-                controller: TextEditingController(),
-                hint: serviceLocator<LocalizationClass>()
-                    .appLocalizations!
-                    .searchIngredients,
-                prefixIcon: const Icon(Icons.search_rounded),
-                onSubmitted: (searchTerm) {},
-                textInputAction: TextInputAction.search,
-                // suffixIcon: InkWell(
-                //   onTap: () {},
-                //   child: const Icon(Icons.filter_alt),
-                // ),
-              ).paddingVertical(5).padding(AppConfig.pagePadding),
+              Builder(builder: (context) {
+                return MainTextField(
+                  controller: TextEditingController(),
+                  hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
+                  prefixIcon: const Icon(Icons.search_rounded),
+                  onSubmitted: (searchTerm) {
+                    context.read<StoreCubit>().getIngredients(IndexIngredientsParams(name: searchTerm));
+                    _selectedCat.value = 0;
+                  },
+                  textInputAction: TextInputAction.search,
+                ).paddingVertical(5).padding(AppConfig.pagePadding);
+              }),
               BlocBuilder<StoreCubit, StoreState>(
-                buildWhen: (previous, current) =>
-                    previous.indexCategoriesStatus !=
-                    current.indexCategoriesStatus,
+                buildWhen: (previous, current) => previous.indexCategoriesStatus != current.indexCategoriesStatus,
                 builder: (BuildContext context, StoreState state) {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
                     child: switch (state.indexCategoriesStatus) {
-                      CubitStatus.loading => _buildCategoriesSkeltonLoading(),
-                      CubitStatus.success =>
-                        _buildCategoriesListView(context, state),
-                      _ => const Text('error').center(),
+                      CubitStatus.success => _buildCategoriesListView(context, state),
+                      _ => _buildCategoriesSkeltonLoading(),
+                      // _ => const Text('error').center(),
                     },
                   );
                 },
               ).paddingVertical(5),
               BlocBuilder<StoreCubit, StoreState>(
-                buildWhen: (previous, current) =>
-                    previous.indexStatus != current.indexStatus,
+                buildWhen: (previous, current) => previous.indexStatus != current.indexStatus,
                 builder: (BuildContext context, StoreState state) {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
@@ -189,14 +176,9 @@ class _StorePageState extends State<StorePage> {
                       CubitStatus.success => _buildIngredientsGridView(state),
                       _ => MainErrorWidget(
                           onTap: () {
-                            context
-                                .read<StoreCubit>()
-                                .getIngredients(IndexIngredientsParams(
+                            context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
                                   categoryId: _selectedCat.value != 0
-                                      ? state
-                                          .ingredientsCategories[
-                                              _selectedCat.value]
-                                          .id
+                                      ? state.ingredientsCategories[_selectedCat.value].id
                                       : null,
                                 ));
                           },
@@ -218,6 +200,8 @@ class _StorePageState extends State<StorePage> {
       height: 75,
       child: ListView(
         scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsetsDirectional.only(end: 15),
         children: List.generate(
           6,
           (_) => const SkeltonLoading(
@@ -241,16 +225,13 @@ class _StorePageState extends State<StorePage> {
           return SizedBox(
             child: RefreshIndicator(
               onRefresh: () async {
-                context
-                    .read<StoreCubit>()
-                    .getIngredients(IndexIngredientsParams(
-                      categoryId: value != 0
-                          ? state.ingredientsCategories[value].id
-                          : null,
+                context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                      categoryId: value != 0 ? state.ingredientsCategories[value].id : null,
                     ));
               },
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
+                padding: const EdgeInsetsDirectional.only(end: 15),
                 itemCount: state.ingredientsCategories.length,
                 itemBuilder: (context, index) {
                   return CategoryChoiceChip(
@@ -259,12 +240,8 @@ class _StorePageState extends State<StorePage> {
                     onTap: () {
                       _selectedCat.value = index;
 
-                      context
-                          .read<StoreCubit>()
-                          .getIngredients(IndexIngredientsParams(
-                            categoryId: index != 0
-                                ? state.ingredientsCategories[index].id
-                                : null,
+                      context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+                            categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
                           ));
                     },
                   );
@@ -314,7 +291,7 @@ class _StorePageState extends State<StorePage> {
                 onTap: () async {
                   _currentKey.value = await context.pushNamed<bool>(
                     RoutesNames.ingredient,
-                    params: {'id': state.ingredients[index].id!},
+                    params: {'id': state.ingredients[index].id!.toString()},
                     extra: (cartClick, wishlistClick),
                   ).then((isCart) {
                     log(isCart.toString().logMagenta);

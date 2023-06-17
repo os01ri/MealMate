@@ -199,7 +199,7 @@ class AppRouter {
           child: IngredientPage(
             onAddToCart: record.$1,
             onAddToWishlist: record.$2,
-            id: state.params['id']!,
+            id: int.tryParse(state.params['id']!) ?? 0,
           ),
         );
       },

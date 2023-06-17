@@ -45,42 +45,42 @@ class IndexIngredientCategoriesResponseModel {
 }
 
 class IngredientCategoryModel {
-  final String? id;
+  final int? id;
   final String? name;
   final String? url;
-  final List<dynamic>? ingredients;
+  final String? hash;
 
-  const IngredientCategoryModel({
+  IngredientCategoryModel({
     this.id,
     this.name,
     this.url,
-    this.ingredients,
+    this.hash,
   });
 
   IngredientCategoryModel copyWith({
-    String? id,
+    int? id,
     String? name,
     String? url,
-    List<dynamic>? ingredients,
+    String? hash,
   }) =>
       IngredientCategoryModel(
         id: id ?? this.id,
         name: name ?? this.name,
         url: url ?? this.url,
-        ingredients: ingredients ?? this.ingredients,
+        hash: hash ?? this.hash,
       );
 
   factory IngredientCategoryModel.fromJson(Map<String, dynamic> json) => IngredientCategoryModel(
         id: json["id"],
         name: json["name"],
         url: json["url"],
-        ingredients: json["ingredients"] == null ? [] : List<dynamic>.from(json["ingredients"]!.map((x) => x)),
+        hash: json["hash"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "url": url,
-        "ingredients": ingredients == null ? [] : List<dynamic>.from(ingredients!.map((x) => x)),
+        "hash": hash,
       };
 }

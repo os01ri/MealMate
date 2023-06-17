@@ -28,7 +28,7 @@ class IngredientCard extends StatelessWidget {
           Container(
             key: widgetKey ?? GlobalKey(),
             child: CachedNetworkImage(
-              hash: 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
+              hash: ingredient.hash ?? 'L5H2EC=PM+yV0g-mq.wG9c010J}I',
               url: ingredient.url!,
               width: context.width * .5 - 65,
               height: context.width * .5 - 65,

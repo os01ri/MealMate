@@ -1,13 +1,13 @@
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/models/no_response_model.dart';
-import 'package:mealmate/core/unified_api/api_variables.dart';
-import 'package:mealmate/core/unified_api/methods/delete_api.dart';
-import 'package:mealmate/core/unified_api/methods/get_api.dart';
-import 'package:mealmate/core/unified_api/methods/post_api.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_categories_response_model.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
-import 'package:mealmate/features/store/data/models/index_wishlist_items_response_model.dart';
-import 'package:mealmate/features/store/data/models/show_ingredient_response_model.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/models/no_response_model.dart';
+import '../../../../core/unified_api/api_variables.dart';
+import '../../../../core/unified_api/methods/delete_api.dart';
+import '../../../../core/unified_api/methods/get_api.dart';
+import '../../../../core/unified_api/methods/post_api.dart';
+import '../models/index_ingredients_categories_response_model.dart';
+import '../models/index_ingredients_response_model.dart';
+import '../models/index_wishlist_items_response_model.dart';
+import '../models/show_ingredient_response_model.dart';
 
 class RemoteStoreDatasource {
   const RemoteStoreDatasource._();
@@ -37,7 +37,7 @@ class RemoteStoreDatasource {
     return result;
   }
 
-  static Future<ShowIngredientResponseModel> showIngredient({required String id, ParamsMap params}) async {
+  static Future<ShowIngredientResponseModel> showIngredient({required int id, ParamsMap params}) async {
     GetApi getApi = GetApi(
       uri: ApiVariables.showIngredients(id: id),
       fromJson: showIngredientResponseModelFromJson,
@@ -75,7 +75,7 @@ class RemoteStoreDatasource {
     return result;
   }
 
-  static Future<NoResponse> removeFromWishlist({required String id}) async {
+  static Future<NoResponse> removeFromWishlist({required int id}) async {
     DeleteApi deleteApi = DeleteApi(
       uri: ApiVariables.removeFromWishlist(id: id),
       fromJson: noResponseFromJson,

@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:mealmate/core/helper/cubit_status.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_categories_response_model.dart';
-import 'package:mealmate/features/store/data/models/index_ingredients_response_model.dart';
-import 'package:mealmate/features/store/data/models/index_wishlist_items_response_model.dart';
-import 'package:mealmate/features/store/data/repositories/store_repository_impl.dart';
-import 'package:mealmate/features/store/domain/usecases/add_to_wishlist_usecase.dart';
-import 'package:mealmate/features/store/domain/usecases/index_ingredients_categories_usecase.dart';
-import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
-import 'package:mealmate/features/store/domain/usecases/index_wishlist_usecase.dart';
-import 'package:mealmate/features/store/domain/usecases/remove_from_wishlist_usecase.dart';
-import 'package:mealmate/features/store/domain/usecases/show_ingredient_usecase.dart';
+import '../../../../../core/helper/cubit_status.dart';
+import '../../../data/models/index_ingredients_categories_response_model.dart';
+import '../../../data/models/index_ingredients_response_model.dart';
+import '../../../data/models/index_wishlist_items_response_model.dart';
+import '../../../data/repositories/store_repository_impl.dart';
+import '../../../domain/usecases/add_to_wishlist_usecase.dart';
+import '../../../domain/usecases/index_ingredients_categories_usecase.dart';
+import '../../../domain/usecases/index_ingredients_usecase.dart';
+import '../../../domain/usecases/index_wishlist_usecase.dart';
+import '../../../domain/usecases/remove_from_wishlist_usecase.dart';
+import '../../../domain/usecases/show_ingredient_usecase.dart';
 
 part 'store_state.dart';
 

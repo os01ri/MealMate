@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
+
+import '../../../core/extensions/context_extensions.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});

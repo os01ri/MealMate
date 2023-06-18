@@ -4,6 +4,7 @@ class SvgPath {
 
   ///SVGs///
   static const introSvg = '${_mainPath}intro.svg';
+  static const orderSvg = '${_mainPath}shop_active.svg';
 
 }
 

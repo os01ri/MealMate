@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mealmate/features/auth/presentation/pages/change_password_page.dart';
-import 'package:mealmate/features/auth/presentation/pages/create_account_loading_page.dart';
-import 'package:mealmate/features/auth/presentation/pages/login_page.dart';
-import 'package:mealmate/features/auth/presentation/pages/otp_page.dart';
-import 'package:mealmate/features/auth/presentation/pages/reset_password_page.dart';
-import 'package:mealmate/features/auth/presentation/pages/signup_page.dart';
-import 'package:mealmate/features/main/cubit/navigation_cubit.dart';
-import 'package:mealmate/features/main/pages/shell_page.dart';
-import 'package:mealmate/features/notification/notification_page.dart';
-import 'package:mealmate/features/recipe/presentation/pages/recipe_create_page.dart';
-import 'package:mealmate/features/recipe/presentation/pages/recipe_details_page.dart';
-import 'package:mealmate/features/recipe/presentation/pages/recipe_intro_page.dart';
-import 'package:mealmate/features/recipe/presentation/pages/recipe_steps_page.dart';
-import 'package:mealmate/features/recipe/presentation/pages/recipes_home_page.dart';
-import 'package:mealmate/features/store/presentation/pages/cart_page.dart';
-import 'package:mealmate/features/store/presentation/pages/ingredient_page.dart';
-import 'package:mealmate/features/store/presentation/pages/store_page.dart';
-import 'package:mealmate/features/store/presentation/pages/wishlist_page.dart';
-import 'package:mealmate/features/welcoming/presentation/pages/onboarding_page.dart';
-import 'package:mealmate/features/welcoming/presentation/pages/splash_screen.dart';
-import 'package:mealmate/router/transitions/slide_transition.dart';
+import '../features/auth/presentation/pages/change_password_page.dart';
+import '../features/auth/presentation/pages/create_account_loading_page.dart';
+import '../features/auth/presentation/pages/login_page.dart';
+import '../features/auth/presentation/pages/otp_page.dart';
+import '../features/auth/presentation/pages/reset_password_page.dart';
+import '../features/auth/presentation/pages/signup_page.dart';
+import '../features/grocery/presentation/pages/grocery_screen.dart';
+import '../features/main/cubit/navigation_cubit.dart';
+import '../features/main/pages/shell_page.dart';
+import '../features/notification/notification_page.dart';
+import '../features/recipe/presentation/pages/recipe_create_page.dart';
+import '../features/recipe/presentation/pages/recipe_details_page.dart';
+import '../features/recipe/presentation/pages/recipe_intro_page.dart';
+import '../features/recipe/presentation/pages/recipe_steps_page.dart';
+import '../features/recipe/presentation/pages/recipes_home_page.dart';
+import '../features/store/presentation/pages/cart_page.dart';
+import '../features/store/presentation/pages/ingredient_page.dart';
+import '../features/store/presentation/pages/order_placed_screen.dart';
+import '../features/store/presentation/pages/store_page.dart';
+import '../features/store/presentation/pages/wishlist_page.dart';
+import '../features/welcoming/presentation/pages/onboarding_page.dart';
+import '../features/welcoming/presentation/pages/splash_screen.dart';
+import 'transitions/slide_transition.dart';
 
 import 'routes_names.dart';
 
@@ -39,7 +41,9 @@ class AppRouter {
     routes: [
       _welcomingRoutes,
       _authRoutes,
+      _groceryRoutes,
       _homeShellRoute,
+
     ],
   );
 
@@ -185,7 +189,20 @@ class AppRouter {
       ),
     ),
   ];
-
+static final _groceryRoutes = GoRoute(
+      path: '/grocery',
+      builder: (context, state) => Scaffold(),
+      routes: [
+        GoRoute(
+            path: RoutesNames.grocery,
+            name: RoutesNames.grocery,
+            parentNavigatorKey: _rootNavigatorKey,
+            pageBuilder: (context, state) {
+              return slideTransition(
+                  context: context, state: state, child: GroceryPage());
+              
+            }),
+      ]);
   static final _storeRoutes = [
     GoRoute(
       path: '${RoutesNames.ingredient}/:id',
@@ -210,6 +227,14 @@ class AppRouter {
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
         return const NoTransitionPage(child: CartPage());
+      },
+    ),
+    GoRoute(
+      path: RoutesNames.orderPlacedPage,
+      name: RoutesNames.orderPlacedPage,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return const NoTransitionPage(child: OrderPlacedScreen());
       },
     ),
     GoRoute(

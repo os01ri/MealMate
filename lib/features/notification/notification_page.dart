@@ -1,14 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/helper/app_config.dart';
-import 'package:mealmate/core/helper/helper.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/core/ui/theme/text_styles.dart';
-import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
+
+import '../../core/extensions/context_extensions.dart';
+import '../../core/extensions/widget_extensions.dart';
+import '../../core/helper/app_config.dart';
+import '../../core/helper/helper.dart';
+import '../../core/ui/theme/colors.dart';
+import '../../core/ui/theme/text_styles.dart';
+import '../../core/ui/widgets/main_button.dart';
+import '../recipe/presentation/widgets/app_bar.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -142,8 +143,8 @@ class NotificationList extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(6.0),
         child: ListTile(
-          onTap: () async {
-            Helper.deleteUserToken();
+          onTap: () {
+
           },
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           tileColor: Colors.white,

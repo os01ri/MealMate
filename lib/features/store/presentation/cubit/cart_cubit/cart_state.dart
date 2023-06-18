@@ -1,6 +1,6 @@
 part of 'cart_cubit.dart';
 
-enum OrderStatus { init, cart, placed, failed }
+enum OrderStatus { init, cart, placed, loading, failed }
 
 class CartState {
   final List<CartItemModel> cartItems;

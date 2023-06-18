@@ -45,6 +45,8 @@ class CartCubit extends Cubit<CartState> {
   }
 
   placeOrderToState({required PlaceOrderParams params}) async {
+    emit(state.copyWith(orderStatus: OrderStatus.loading));
+    
     final result = await placeOrder.call(params);
     result.fold((l) => emit(state.copyWith(orderStatus: OrderStatus.failed)), (r) {
       emit(state.copyWith(cartItems: [], orderStatus: OrderStatus.placed));

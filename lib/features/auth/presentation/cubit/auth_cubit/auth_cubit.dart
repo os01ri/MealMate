@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:mealmate/features/auth/data/models/user_model.dart';
-import 'package:mealmate/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:mealmate/features/auth/domain/usecases/change_password_usecase.dart';
-import 'package:mealmate/features/auth/domain/usecases/check_otp_code.dart';
-import 'package:mealmate/features/auth/domain/usecases/login_usecase.dart';
-import 'package:mealmate/features/auth/domain/usecases/register_usecase.dart';
-import 'package:mealmate/features/auth/domain/usecases/send_otp_code.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/repositories/auth_repository_impl.dart';
+import '../../../domain/usecases/change_password_usecase.dart';
+import '../../../domain/usecases/check_otp_code.dart';
+import '../../../domain/usecases/login_usecase.dart';
+import '../../../domain/usecases/register_usecase.dart';
+import '../../../domain/usecases/send_otp_code.dart';
 
 part 'auth_state.dart';
 

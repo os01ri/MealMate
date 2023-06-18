@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:mealmate/core/error/failures.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
-import 'package:mealmate/core/usecase/usecase.dart';
-import 'package:mealmate/features/auth/data/models/login_response_model.dart';
-import 'package:mealmate/features/auth/domain/repositories/auth_repository.dart';
+
+import '../../../../core/error/failures.dart';
+import '../../../../core/helper/type_defs.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../data/models/login_response_model.dart';
+import '../repositories/auth_repository.dart';
 
 class RegisterUseCase implements UseCase<LoginResponseModel, RegisterUserParams> {
   final AuthRepository repository;

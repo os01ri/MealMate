@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/extensions/routing_extensions.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
-import 'package:mealmate/features/main/cubit/navigation_cubit.dart';
+import '../../core/extensions/routing_extensions.dart';
+import '../../core/extensions/widget_extensions.dart';
+import '../../core/ui/theme/colors.dart';
+import 'cubit/navigation_cubit.dart';
 
 import '../../router/routes_names.dart';
 

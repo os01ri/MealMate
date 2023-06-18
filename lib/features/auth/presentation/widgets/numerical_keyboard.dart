@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/ui/theme/colors.dart';
+import '../../../../core/ui/theme/colors.dart';
 
 class NumericalKeyboard extends StatelessWidget {
   const NumericalKeyboard({

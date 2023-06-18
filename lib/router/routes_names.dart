@@ -20,6 +20,11 @@ class RoutesNames {
   static const ingredient = 'ingredient';
   static const wishListPage = 'wishlist';
   static const cartPage = 'cart';
+  static const orderPlacedPage = 'order_placed';
   ////notification////
   static const notification = "notification";
+
+////grocery////
+  static const grocery = "grocery";
 }
+

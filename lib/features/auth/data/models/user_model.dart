@@ -39,7 +39,7 @@ class UserModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id.toString(),
+        "id": id,
         "name": name,
         "username": username,
         "email": email,

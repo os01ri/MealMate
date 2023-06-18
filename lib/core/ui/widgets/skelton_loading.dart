@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../extensions/widget_extensions.dart';
 
 class SkeltonLoading extends StatelessWidget {
   const SkeltonLoading({

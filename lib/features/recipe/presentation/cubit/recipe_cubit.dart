@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mealmate/core/helper/cubit_status.dart';
-import 'package:mealmate/features/recipe/data/models/recipe_model.dart';
-import 'package:mealmate/features/recipe/data/repositories/recipe_repository_impl.dart';
-import 'package:mealmate/features/recipe/domain/usecases/index_recipes_usecase.dart';
+import '../../../../core/helper/cubit_status.dart';
+import '../../data/models/recipe_model.dart';
+import '../../data/repositories/recipe_repository_impl.dart';
+import '../../domain/usecases/index_recipes_usecase.dart';
 
 part 'recipe_state.dart';
 

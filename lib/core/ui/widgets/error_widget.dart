@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
-import 'package:mealmate/core/localization/localization_class.dart';
-import 'package:mealmate/dependency_injection.dart';
+import '../../extensions/context_extensions.dart';
+import '../../localization/localization_class.dart';
+import '../../../dependency_injection.dart';
 
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';

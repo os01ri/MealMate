@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:mealmate/core/extensions/colorful_logging_extension.dart';
-import 'package:mealmate/core/helper/type_defs.dart';
+import '../extensions/colorful_logging_extension.dart';
+import '../helper/type_defs.dart';
 
 class ApiVariables {
   /////////////
@@ -76,8 +76,8 @@ class ApiVariables {
     return _mobileUri(path: 'grocery/update', queryParameters: queryParameters);
   }
 
-  static Uri groceryDelete() {
-    return _mobileUri(path: 'grocery/destroy');
+  static Uri groceryDelete(int id) {
+    return _mobileUri(path: 'grocery/$id/destroy');
   }
 
   ///Media

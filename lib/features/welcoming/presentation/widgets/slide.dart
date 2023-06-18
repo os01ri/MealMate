@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
+
+import '../../../../core/extensions/widget_extensions.dart';
 
 class Slide extends StatelessWidget {
   final Widget image;

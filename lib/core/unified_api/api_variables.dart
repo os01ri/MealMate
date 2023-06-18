@@ -24,7 +24,8 @@ class ApiVariables {
     return uri;
   }
 
-  static Uri _mobileUri({required String path, ParamsMap queryParameters}) => _mainUri(
+  static Uri _mobileUri({required String path, ParamsMap queryParameters}) =>
+      _mainUri(
         path: 'user/$path',
         queryParameters: queryParameters,
       );
@@ -62,6 +63,23 @@ class ApiVariables {
     return _mobileUri(path: "order/store");
   }
 
+  ///grocery
+  static Uri groceryIndex() {
+    return _mobileUri(path: 'grocery/index');
+  }
+
+  static Uri groceryStore() {
+    return _mobileUri(path: 'grocery/store');
+  }
+
+  static Uri groceryUpdate(ParamsMap queryParameters) {
+    return _mobileUri(path: 'grocery/update', queryParameters: queryParameters);
+  }
+
+  static Uri groceryDelete() {
+    return _mobileUri(path: 'grocery/destroy');
+  }
+
   ///Media
   static Uri uploadMedia() => _mainUri(path: 'addimage');
   // Uri uploadVideo() => _mainUri(path: "videoUpload");
@@ -72,12 +90,15 @@ class ApiVariables {
 
   /////ingredient////
   static Uri indexIngredientsCategories({ParamsMap queryParameters}) =>
-      _mainUri(path: 'dashboard/categoryingredient/index', queryParameters: queryParameters);
+      _mainUri(
+          path: 'dashboard/categoryingredient/index',
+          queryParameters: queryParameters);
 
   static Uri indexIngredients({ParamsMap queryParameters}) =>
       _mobileUri(path: 'ingredient/index', queryParameters: queryParameters);
 
-  static Uri showIngredients({required int id, ParamsMap queryParameters}) => _mobileUri(path: 'ingredient/$id/show');
+  static Uri showIngredients({required int id, ParamsMap queryParameters}) =>
+      _mobileUri(path: 'ingredient/$id/show');
 
   static Uri indexWishlist({ParamsMap queryParameters}) => _mobileUri(
         path: 'wishlist/index',
@@ -86,7 +107,8 @@ class ApiVariables {
   static Uri addToWishlist({ParamsMap queryParameters}) => _mobileUri(
         path: 'wishlist/store',
       );
-  static Uri removeFromWishlist({required int id, ParamsMap queryParameters}) => _mobileUri(
+  static Uri removeFromWishlist({required int id, ParamsMap queryParameters}) =>
+      _mobileUri(
         path: 'wishlist/$id/destroy',
       );
 }

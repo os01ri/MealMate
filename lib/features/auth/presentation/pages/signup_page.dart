@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
@@ -194,7 +196,8 @@ class _SignUpPageState extends State<SignUpPage> {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
-      Helper.setUserToken(state.token!);
+      log("${state.user!.tokenInfo!.token!}");
+      Helper.setUserToken(state.user!.tokenInfo!.token!);
       context.goNamed(RoutesNames.otp,
           extra: OtpPageParams(
               email: _emailController.text, authCubit: AuthCubit()));

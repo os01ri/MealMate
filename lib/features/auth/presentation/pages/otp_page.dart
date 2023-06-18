@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/routing_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/helper/helper.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
@@ -243,7 +242,6 @@ class _OtpPageState extends State<OtpPage> {
     if (state.status == AuthStatus.loading) {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
-      Helper.setUserToken(state.token!);
       Toaster.closeLoading();
       context.goNamed(
         widget.args.isResetPassword ? RoutesNames.changePassword : RoutesNames.accountCreationLoading,

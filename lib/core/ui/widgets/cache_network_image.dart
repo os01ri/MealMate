@@ -11,7 +11,7 @@ import 'package:shimmer/shimmer.dart';
 class CachedNetworkImage extends StatefulWidget {
   const CachedNetworkImage({
     Key? key,
-    required this.hash,
+    this.hash,
     required this.url,
     required this.width,
     required this.height,
@@ -29,7 +29,7 @@ class CachedNetworkImage extends StatefulWidget {
     this.bottomLeftCornerText,
   }) : super(key: key);
 
-  final String hash;
+  final String? hash;
   final Color color;
   final String url;
   final BoxFit fit;
@@ -78,7 +78,7 @@ class _CachedNetworkImageState extends State<CachedNetworkImage> with TickerProv
                       : BorderRadius.circular(15 - 2),
               child: widget.hash != 'o'
                   ? BlurHash(
-                      hash: widget.hash,
+                      hash: widget.hash ?? '',
                     )
                   : Shimmer.fromColors(
                       baseColor: AppColors.mainColor,
@@ -107,7 +107,7 @@ class _CachedNetworkImageState extends State<CachedNetworkImage> with TickerProv
                     borderRadius: widget.borderRadius != null
                         ? widget.borderRadius!.resolve(Directionality.of(context)) - BorderRadius.circular(2)
                         : BorderRadius.circular(15),
-                    child: BlurHash(hash: widget.hash),
+                    child: BlurHash(hash: widget.hash ?? ''),
                   ),
                   const Center(
                     child: Icon(

@@ -1,9 +1,9 @@
 part of '../pages/recipes_home_page.dart';
 
 class _RecipeCard extends StatelessWidget {
-  const _RecipeCard({required this.index});
+  const _RecipeCard({required this.recipe});
 
-  final int index;
+  final RecipeModel recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +21,12 @@ class _RecipeCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Image.asset(
-                PngPath.food,
-                // fit: BoxFit.fitWidth,
+              CachedNetworkImage(
+             
+                url: recipe.url!,
                 width: context.width * .4,
-              ).hero(index == 110 ? 'picture' : '$index'),
+                height: context.height * .25,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -33,7 +34,7 @@ class _RecipeCard extends StatelessWidget {
                   SizedBox(
                     width: context.width * .4,
                     child: Text(
-                      'برغر الدجاج المكسيكي',
+                      recipe.name!,
                       maxLines: 2,
                       softWrap: true,
                       style: const TextStyle().middleFontSize.semiBold,

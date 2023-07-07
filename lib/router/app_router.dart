@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import '../features/auth/presentation/pages/change_password_page.dart';
 import '../features/auth/presentation/pages/create_account_loading_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
@@ -23,9 +24,8 @@ import '../features/store/presentation/pages/store_page.dart';
 import '../features/store/presentation/pages/wishlist_page.dart';
 import '../features/welcoming/presentation/pages/onboarding_page.dart';
 import '../features/welcoming/presentation/pages/splash_screen.dart';
-import 'transitions/slide_transition.dart';
-
 import 'routes_names.dart';
+import 'transitions/slide_transition.dart';
 
 class AppRouter {
   static GoRouter get router => _router;
@@ -43,7 +43,6 @@ class AppRouter {
       _authRoutes,
       _groceryRoutes,
       _homeShellRoute,
-
     ],
   );
 
@@ -189,20 +188,22 @@ class AppRouter {
       ),
     ),
   ];
-static final _groceryRoutes = GoRoute(
-      path: '/grocery',
-      builder: (context, state) => Scaffold(),
-      routes: [
-        GoRoute(
-            path: RoutesNames.grocery,
-            name: RoutesNames.grocery,
-            parentNavigatorKey: _rootNavigatorKey,
-            pageBuilder: (context, state) {
-              return slideTransition(
-                  context: context, state: state, child: GroceryPage());
-              
-            }),
-      ]);
+
+  static final _groceryRoutes = GoRoute(
+    path: '/grocery',
+    builder: (context, state) => const Scaffold(),
+    routes: [
+      GoRoute(
+        path: RoutesNames.grocery,
+        name: RoutesNames.grocery,
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) {
+          return slideTransition(context: context, state: state, child: const GroceryPage());
+        },
+      ),
+    ],
+  );
+
   static final _storeRoutes = [
     GoRoute(
       path: '${RoutesNames.ingredient}/:id',

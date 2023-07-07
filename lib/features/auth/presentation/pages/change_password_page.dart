@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/validation_extensions.dart';
@@ -11,9 +12,9 @@ import '../../../../core/ui/ui_messages.dart';
 import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
+import '../../../../router/routes_names.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
 import '../widgets/auth_text_field.dart';
-import '../../../../router/routes_names.dart';
 
 
 class ChangePasswordPage extends StatefulWidget {

@@ -1,15 +1,17 @@
 import '../../../../core/helper/type_defs.dart';
 import '../../../../core/unified_api/api_variables.dart';
 import '../../../../core/unified_api/methods/get_api.dart';
-import '../models/recipe_model.dart';
+import '../models/index_recipes_response_model.dart';
 
 class RemoteRecipeDatasource {
-  Future<List<RecipeModel>> indexRecipes({ParamsMap params}) async {
-    GetApi getApi = GetApi(
+  RemoteRecipeDatasource._();
+
+  static Future<IndexRecipesResponseModel> indexRecipes({ParamsMap params}) async {
+    GetApi api = GetApi(
       uri: ApiVariables.indexRecipes(),
-      fromJson: RecipeModel.fromRawJson,
+      fromJson: indexRecipesResponseModelFromJson,
     );
-    final result = await getApi.callRequest();
+    final result = await api.callRequest();
     return result;
   }
 }

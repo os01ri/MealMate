@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/ui/widgets/error_widget.dart';
+import 'package:mealmate/features/recipe/domain/usecases/index_recipes_usecase.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/assets_paths.dart';
+import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../dependency_injection.dart';
+import '../../../../router/routes_names.dart';
 import '../../../main/widgets/main_drawer.dart';
+import '../../data/models/recipe_model.dart';
+import '../cubit/recipe_cubit.dart';
 import '../widgets/category_choice_chip.dart';
 import '../widgets/section_header.dart';
-import '../../../../router/routes_names.dart';
 
 part '../widgets/recipe_card.dart';
 
@@ -151,15 +158,18 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: const MainDrawer(),
-      body: Stack(
-        children: [
-          _buildOrangeContainer(context),
-          _buildSearchButton(context),
-          _buildBody(context),
-        ],
+    return BlocProvider(
+      create: (context) => RecipeCubit()..indexRecipes(const IndexRecipesParams()),
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: const MainDrawer(),
+        body: Stack(
+          children: [
+            _buildOrangeContainer(context),
+            _buildSearchButton(context),
+            _buildBody(context),
+          ],
+        ),
       ),
     );
   }
@@ -248,15 +258,24 @@ class _BodyWidgetState extends State<_BodyWidget> {
             const SizedBox(height: 15),
             SizedBox(
               height: context.height * .25,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: List.generate(
-                  5,
-                  (index) => _RecipeCard(index: ((index + 1) * 10 * (i + 1))),
-                ),
+              child: BlocBuilder<RecipeCubit, RecipeState>(
+                builder: (context, state) {
+                  if (state.status == CubitStatus.loading) {
+                    return const CircularProgressIndicator.adaptive();
+                  } else if (state.status == CubitStatus.success) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => _RecipeCard(recipe: state.recipes[index]),
+                    );
+                  } else {
+                    return MainErrorWidget(onTap: () {
+                      context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams());
+                    });
+                  }
+                },
               ),
             ),
-          ]
+          ],
         ],
       ),
     );

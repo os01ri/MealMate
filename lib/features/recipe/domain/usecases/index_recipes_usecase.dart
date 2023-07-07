@@ -1,28 +1,27 @@
 import 'package:dartz/dartz.dart';
+
 import '../../../../core/error/failures.dart';
 import '../../../../core/helper/type_defs.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../data/models/recipe_model.dart';
+import '../../data/models/index_recipes_response_model.dart';
 import '../repositories/recipe_repository.dart';
 
-class IndexRecipesUseCase implements UseCase<List<RecipeModel>, IndexRecipesParams> {
-  final RecipeRepository recipeRepository;
+class IndexRecipesUseCase implements UseCase<IndexRecipesResponseModel, IndexRecipesParams> {
+  final RecipeRepository repository;
 
-  IndexRecipesUseCase({required this.recipeRepository});
+  const IndexRecipesUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, List<RecipeModel>>> call(IndexRecipesParams params) async {
-    return recipeRepository.indexRecipes(params: params.getParams());
+  Future<Either<Failure, IndexRecipesResponseModel>> call(IndexRecipesParams params) async {
+    return repository.indexRecipes(params: params.getParams());
   }
 }
 
 class IndexRecipesParams implements UseCaseParams {
-  final int id;
   final int? perPage;
   final int? page;
 
-  IndexRecipesParams({
-    required this.id,
+  const IndexRecipesParams({
     this.perPage,
     this.page,
   });

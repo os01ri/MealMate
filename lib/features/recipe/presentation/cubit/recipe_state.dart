@@ -9,7 +9,7 @@ class RecipeState extends Equatable {
     this.recipes = const [],
   });
 
-  copyWith({
+  RecipeState copyWith({
     final CubitStatus? status,
     final List<RecipeModel>? recipes,
   }) {

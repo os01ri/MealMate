@@ -1,8 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of '../pages/recipe_details_page.dart';
 
 class _RecipeBudget extends StatelessWidget {
-  const _RecipeBudget();
-
+  final int price, stepsCount, persons;
+  final String duration;
+  const _RecipeBudget({
+    Key? key,
+    required this.persons,
+    required this.duration,
+    required this.price,
+    required this.stepsCount,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +29,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '30 min',
+                  '${duration} min',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),
@@ -38,7 +46,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '25,000 SYP',
+                  '${price} SYP',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),
@@ -63,7 +71,7 @@ class _RecipeBudget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.remove),
-                    const Text('2').paddingHorizontal(12),
+                    Text('$persons').paddingHorizontal(12),
                     const Icon(Icons.add),
                   ],
                 ).expand(),
@@ -80,7 +88,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '4 Steps',
+                  '$stepsCount Steps',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),

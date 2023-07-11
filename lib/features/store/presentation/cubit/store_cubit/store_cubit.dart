@@ -31,7 +31,7 @@ class StoreCubit extends Cubit<StoreState> {
     result.fold(
       (l) {
         emit(state.copyWith(indexCategoriesStatus: CubitStatus.failure));
-        getIngredientsCategories(params);
+
       },
       (r) => emit(
         state.copyWith(

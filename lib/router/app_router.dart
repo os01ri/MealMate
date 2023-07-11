@@ -12,6 +12,7 @@ import '../features/grocery/presentation/pages/grocery_screen.dart';
 import '../features/main/cubit/navigation_cubit.dart';
 import '../features/main/pages/shell_page.dart';
 import '../features/notification/notification_page.dart';
+import '../features/recipe/data/models/recipe_model.dart';
 import '../features/recipe/presentation/pages/recipe_create_page.dart';
 import '../features/recipe/presentation/pages/recipe_details_page.dart';
 import '../features/recipe/presentation/pages/recipe_intro_page.dart';
@@ -154,7 +155,7 @@ class AppRouter {
       pageBuilder: (context, state) => slideTransition(
         context: context,
         state: state,
-        child: const RecipeIntroPage(),
+        child: RecipeIntroPage(recipe: state.extra as RecipeModel),
       ),
     ),
     GoRoute(
@@ -164,7 +165,7 @@ class AppRouter {
       pageBuilder: (context, state) => slideTransition(
         context: context,
         state: state,
-        child: const RecipeDetailsPage(),
+        child: RecipeDetailsPage(id: state.extra as int),
       ),
     ),
     GoRoute(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/features/recipe/domain/usecases/index_recipes_usecase.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -261,9 +262,23 @@ class _BodyWidgetState extends State<_BodyWidget> {
               child: BlocBuilder<RecipeCubit, RecipeState>(
                 builder: (context, state) {
                   if (state.status == CubitStatus.loading) {
-                    return const CircularProgressIndicator.adaptive();
+                    return ListView.builder(
+                      itemCount: 4,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade200,
+                          child: Container(
+                            margin: const EdgeInsetsDirectional.only(start: 15),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                            width: context.width * .4,
+                            height: context.height * .25,
+                            child: const Icon(Icons.abc),
+                          )),
+                    );
                   } else if (state.status == CubitStatus.success) {
                     return ListView.builder(
+                      itemCount: state.recipes.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => _RecipeCard(recipe: state.recipes[index]),
                     );

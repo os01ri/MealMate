@@ -7,6 +7,7 @@ import '../../domain/entities/recipe.dart';
 import '../../domain/repositories/recipe_repository.dart';
 import '../datasources/remote_recipe_datasource.dart';
 import '../models/index_recipes_response_model.dart';
+import '../models/show_recipe_response_model.dart';
 
 class RecipeRepositoryImpl with HandlingExceptionManager implements RecipeRepository {
   @override
@@ -20,9 +21,11 @@ class RecipeRepositoryImpl with HandlingExceptionManager implements RecipeReposi
   }
 
   @override
-  Future<Either<Failure, Recipe>> showRecipe({required int id}) {
-    // TODO: implement showRecipe
-    throw UnimplementedError();
+  Future<Either<Failure, ShowRecipeResponseModel>> showRecipe({required int id}) {
+    return wrapHandling(tryCall: () async {
+      final result = await RemoteRecipeDatasource.showRecipe(id);
+      return Right(result);
+    });
   }
 
   @override

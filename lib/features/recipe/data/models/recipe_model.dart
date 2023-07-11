@@ -1,52 +1,33 @@
+import '../../../store/data/models/index_ingredients_response_model.dart';
+
 class RecipeModel {
-  final String? id;
+  final int? id;
   final String? name;
   final String? description;
   final String? time;
   final String? url;
+  final String? hash;
   final bool? status;
-  final String? typeId;
-  final String? categoryId;
+  final dynamic userId;
   final CategoryModel? type;
   final CategoryModel? category;
+  final List<IngredientModel>? ingredients;
+  final List<Step>? steps;
 
-  const RecipeModel({
+  RecipeModel({
     this.id,
     this.name,
     this.description,
     this.time,
     this.url,
+    this.hash,
     this.status,
-    this.typeId,
-    this.categoryId,
+    this.userId,
     this.type,
     this.category,
+    this.ingredients,
+    this.steps,
   });
-
-  RecipeModel copyWith({
-    String? id,
-    String? name,
-    String? description,
-    String? time,
-    String? url,
-    bool? status,
-    String? typeId,
-    String? categoryId,
-    CategoryModel? type,
-    CategoryModel? category,
-  }) =>
-      RecipeModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        description: description ?? this.description,
-        time: time ?? this.time,
-        url: url ?? this.url,
-        status: status ?? this.status,
-        typeId: typeId ?? this.typeId,
-        categoryId: categoryId ?? this.categoryId,
-        type: type ?? this.type,
-        category: category ?? this.category,
-      );
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
         id: json["id"],
@@ -54,11 +35,15 @@ class RecipeModel {
         description: json["description"],
         time: json["time"],
         url: json["url"],
+        hash: json["hash"],
         status: json["status"],
-        typeId: json["type_id"],
-        categoryId: json["category_id"],
+        userId: json["user_id"],
         type: json["type"] == null ? null : CategoryModel.fromJson(json["type"]),
         category: json["category"] == null ? null : CategoryModel.fromJson(json["category"]),
+        ingredients: json["ingredients"] == null
+            ? []
+            : List<IngredientModel>.from(json["ingredients"]!.map((x) => IngredientModel.fromJson(x))),
+        steps: json["steps"] == null ? [] : List<Step>.from(json["steps"]!.map((x) => Step.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,16 +52,19 @@ class RecipeModel {
         "description": description,
         "time": time,
         "url": url,
+        "hash": hash,
         "status": status,
-        "type_id": typeId,
-        "category_id": categoryId,
+        "user_id": userId,
         "type": type?.toJson(),
         "category": category?.toJson(),
+        "ingredients": ingredients == null ? [] : List<dynamic>.from(ingredients!.map((x) => x.toJson())),
+        "steps": steps == null ? [] : List<dynamic>.from(steps!.map((x) => x.toJson())),
       };
 }
 
+
 class CategoryModel {
-  final String? id;
+  final int? id;
   final String? name;
   final String? url;
 
@@ -87,7 +75,7 @@ class CategoryModel {
   });
 
   CategoryModel copyWith({
-    String? id,
+    int? id,
     String? name,
     String? url,
   }) =>
@@ -107,5 +95,33 @@ class CategoryModel {
         "id": id,
         "name": name,
         "url": url,
+      };
+}
+
+class Step {
+  final int? id;
+  final String? name;
+  final int? rank;
+  final String? description;
+
+  Step({
+    this.id,
+    this.name,
+    this.rank,
+    this.description,
+  });
+
+  factory Step.fromJson(Map<String, dynamic> json) => Step(
+        id: json["id"],
+        name: json["name"],
+        rank: json["rank"],
+        description: json["description"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "rank": rank,
+        "description": description,
       };
 }

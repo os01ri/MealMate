@@ -147,12 +147,12 @@ class _StorePageState extends State<StorePage> {
               ),
               AddToCartIcon(
                   key: GlobalKey(),
-                  badgeOptions: BadgeOptions(active: false),
+                  badgeOptions: const BadgeOptions(active: false),
                   icon: IconButton(
                       onPressed: () {
                         context.pushNamed(RoutesNames.grocery);
                       },
-                      icon: Icon(Icons.storefront_outlined)))
+                      icon: const Icon(Icons.storefront_outlined)))
             ],
           ),
           body: Column(
@@ -180,10 +180,15 @@ class _StorePageState extends State<StorePage> {
                   return AnimatedSwitcher(
                     duration: AppConfig.animationDuration,
                     child: switch (state.indexCategoriesStatus) {
-                      CubitStatus.success =>
-                        _buildCategoriesListView(context, state),
-                      _ => _buildCategoriesSkeltonLoading(),
-                      // _ => const Text('error').center(),
+                      CubitStatus.loading => _buildCategoriesSkeltonLoading(),
+                      CubitStatus.success => _buildCategoriesListView(context, state),
+                      _ => MainErrorWidget(
+                          onTap: () {
+                            context
+                                .read<StoreCubit>()
+                                .getIngredientsCategories(const IndexIngredientsCategoriesParams());
+                          },
+                        ).center(),
                     },
                   );
                 },

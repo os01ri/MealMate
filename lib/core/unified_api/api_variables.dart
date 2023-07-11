@@ -87,6 +87,9 @@ class ApiVariables {
 
   static Uri indexRecipes({ParamsMap queryParameters}) =>
       _mobileUri(path: 'recipe/index', queryParameters: queryParameters);
+static Uri showRecipe(int id) => _mobileUri(
+        path: 'recipe/$id/show',
+      );
 
   /////ingredient////
   static Uri indexIngredientsCategories({ParamsMap queryParameters}) =>

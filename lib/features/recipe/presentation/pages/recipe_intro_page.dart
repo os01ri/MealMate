@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
@@ -8,22 +9,25 @@ import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/main_button.dart';
+import '../../data/models/recipe_model.dart';
 import '../widgets/app_bar.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 
 class RecipeIntroPage extends StatelessWidget {
-  const RecipeIntroPage({super.key});
-
+  const RecipeIntroPage({super.key, required this.recipe});
+  final RecipeModel recipe;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(context: context, title: 'كيف تصنع التوست الفرنسي!'),
+      appBar: RecipeAppBar(context: context, actions: [], title: 'كيف تصنع ${recipe.name} !'),
       body: Column(
         children: [
-          Image.asset(
-            PngPath.food,
+          CachedNetworkImage(
+            url: recipe.url!,
+            height: context.height * .25,
             fit: BoxFit.fitWidth,
+            borderRadius: BorderRadius.circular(10),
             width: context.width,
           ).hero('picture'),
           Column(
@@ -72,7 +76,7 @@ class RecipeIntroPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   MainButton(
-                    text: 'متابعة',
+                    text: 'Follow',
                     width: context.width * .18,
                     color: AppColors.mainColor,
                     onPressed: () {},
@@ -80,7 +84,7 @@ class RecipeIntroPage extends StatelessWidget {
                 ],
               ),
               Text(
-                'جزء من نظام حساب الجمل الّذي عرفه العرب قديمًا، وهذا الحساب يجعل لكل حرف من الحروف الأبجدية عدد من الواحد إلى الألف على ترتيب خاص، ومعروف أن لكل حضارة نظاماً للترقيم أي التعبير عن الأعداد البسيطة وهي في العربية الأعداد التسعة الأولى إلى جانب الصفر.',
+                recipe.description!,
                 style: const TextStyle().normalFontSize.regular,
               ).paddingVertical(15),
               const SizedBox(height: 15),
@@ -94,7 +98,7 @@ class RecipeIntroPage extends StatelessWidget {
         color: AppColors.mainColor,
         width: context.width,
         onPressed: () {
-          context.pushNamed(RoutesNames.recipeDetails);
+          context.pushNamed(RoutesNames.recipeDetails, extra: recipe.id);
         },
       ).paddingHorizontal(8).padding(AppConfig.pagePadding).hero('button'),
     );

@@ -20,14 +20,14 @@ import '../../../store/presentation/widgets/ingredient_card.dart';
 
 import '../../../../core/ui/theme/colors.dart';
 
-class StorePage extends StatefulWidget {
-  const StorePage({super.key});
+class GroceryPage extends StatefulWidget {
+  const GroceryPage({super.key});
 
   @override
-  State<StorePage> createState() => _StorePageState();
+  State<GroceryPage> createState() => _GroceryPageState();
 }
 
-class _StorePageState extends State<StorePage> {
+class _GroceryPageState extends State<GroceryPage> {
   late final ValueNotifier<int> _selectedCat;
 
   @override

@@ -1,6 +1,6 @@
 part of 'recipe_cubit.dart';
 
-class RecipeState extends Equatable {
+class RecipeState {
   final CubitStatus status;
   final CubitStatus showRecipeStatus;
   final List<RecipeModel> recipes;
@@ -14,21 +14,18 @@ class RecipeState extends Equatable {
   });
 
   RecipeState copyWith({
-    final CubitStatus? status,
-    final CubitStatus? showRecipeStatus,
-    final List<RecipeModel>? recipes,
-    final RecipeModel? recipe,
+    CubitStatus? status,
+    CubitStatus? showRecipeStatus,
+    List<RecipeModel>? recipes,
+    RecipeModel? recipe,
   }) {
     return RecipeState(
-      recipe: recipe ?? this.recipe,
       status: status ?? this.status,
       showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
       recipes: recipes ?? this.recipes,
+      recipe: recipe ?? this.recipe,
     );
   }
-
-  @override
-  List<Object> get props => [status, recipes];
 
   @override
   String toString() => 'RecipeState(status: $status, recipes: $recipes)';

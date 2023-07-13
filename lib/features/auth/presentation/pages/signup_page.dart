@@ -196,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
-      log("${state.user!.tokenInfo!.token!}");
+      log(state.user!.tokenInfo!.token!);
       Helper.setUserToken(state.user!.tokenInfo!.token!);
       context.goNamed(RoutesNames.otp,
           extra: OtpPageParams(

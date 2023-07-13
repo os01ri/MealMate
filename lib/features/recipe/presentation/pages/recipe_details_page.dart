@@ -3,56 +3,46 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/helper/cubit_status.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
 import '../../../../core/helper/assets_paths.dart';
+import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/main_button.dart';
-import '../cubit/recipe_cubit.dart';
-import '../widgets/app_bar.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../cubit/recipe_cubit.dart';
+import '../widgets/app_bar.dart';
 
 part '../widgets/header_image.dart';
 part '../widgets/recipe_budget_card.dart';
 part '../widgets/recipe_tab_bar.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
-  const RecipeDetailsPage({
-    super.key,
-    required this.id,
-  });
+  const RecipeDetailsPage({super.key, required this.id});
+
   final int id;
+
   @override
   State<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
 }
 
 class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
-  late final RecipeCubit recipeCubit;
-  @override
-  void didChangeDependencies() {
-    log('${widget.id}');
-    recipeCubit = RecipeCubit()..showRecipe(widget.id);
-    super.didChangeDependencies();
-  }
-
-//TODO check why the cubit isn't listened for
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => recipeCubit,
+      create: (_) => RecipeCubit()..showRecipe(widget.id),
       child: BlocConsumer<RecipeCubit, RecipeState>(
-        bloc: recipeCubit,
         listener: (context, state) {
           log(state.showRecipeStatus.toString());
         },
-        builder: (_, state) {
+        builder: (context, state) {
           return Scaffold(
             appBar: RecipeAppBar(
               context: context,
@@ -86,7 +76,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                       const _IngredientList(),
                     ],
                   ).padding(AppConfig.pagePadding)
-                : Center(child: CircularProgressIndicator.adaptive()),
+                : const Center(child: CircularProgressIndicator.adaptive()),
             floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
             floatingActionButton: MainButton(
               color: AppColors.mainColor,

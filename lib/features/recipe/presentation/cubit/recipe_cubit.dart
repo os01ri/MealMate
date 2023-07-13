@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../../../core/helper/cubit_status.dart';
 import '../../data/models/recipe_model.dart';
@@ -29,10 +26,13 @@ class RecipeCubit extends Cubit<RecipeState> {
   }
 
   showRecipe(int id) async {
-    log('$id');
     emit(state.copyWith(showRecipeStatus: CubitStatus.loading));
+
     final result = await _showRecipeUseCase(id);
-    result.fold((l) => emit(state.copyWith(showRecipeStatus: CubitStatus.failure)),
-        (r) => emit(state.copyWith(recipe: r.data!, showRecipeStatus: CubitStatus.success)));
+
+    result.fold(
+      (l) => emit(state.copyWith(showRecipeStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(recipe: r.data!, showRecipeStatus: CubitStatus.success)),
+    );
   }
 }

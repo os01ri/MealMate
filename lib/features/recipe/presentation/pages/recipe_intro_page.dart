@@ -20,7 +20,7 @@ class RecipeIntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(context: context, actions: [], title: 'كيف تصنع ${recipe.name} !'),
+      appBar: RecipeAppBar(context: context, actions: const [], title: 'كيف تصنع ${recipe.name} !'),
       body: Column(
         children: [
           CachedNetworkImage(

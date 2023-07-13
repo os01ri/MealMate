@@ -91,8 +91,8 @@ class GroceryPageState extends State<GroceryPage> {
                         ]),
                   )
                 : state.status == GroceryStatus.failed
-                    ? SizedBox.shrink()
-                    : LoadingWidget();
+                    ? const SizedBox.shrink()
+                    : const LoadingWidget();
           },
         ),
       ),

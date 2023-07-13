@@ -29,7 +29,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '${duration} min',
+                  '$duration min',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),
@@ -46,7 +46,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '${price} SYP',
+                  '$price SYP',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),

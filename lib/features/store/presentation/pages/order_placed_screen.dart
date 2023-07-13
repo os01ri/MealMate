@@ -27,7 +27,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(50),
+                padding: const EdgeInsets.all(50),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.mainColor.withOpacity(.2),
@@ -35,7 +35,7 @@ class _OrderPlacedScreenState extends State<OrderPlacedScreen> {
                 child: SvgPicture.asset(
                   SvgPath.orderSvg,
                   colorFilter:
-                      ColorFilter.mode(AppColors.mainColor, BlendMode.srcIn),
+                      const ColorFilter.mode(AppColors.mainColor, BlendMode.srcIn),
                   width: context.width * .5,
                 ),
               ),

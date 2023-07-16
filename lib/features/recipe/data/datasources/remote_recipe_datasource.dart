@@ -21,7 +21,7 @@ class RemoteRecipeDatasource {
   static Future<ShowRecipeResponseModel> showRecipe(int id) async {
     GetApi api = GetApi(
       uri: ApiVariables.showRecipe(id),
-      fromJson: showRecipeModelFromJson,
+      fromJson: showRecipeResponseModelFromJson,
     );
     final result = await api.callRequest();
     return result;

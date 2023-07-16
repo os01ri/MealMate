@@ -8,6 +8,7 @@ class _HeaderImage extends StatelessWidget {
     return CachedNetworkImage(
       url: url,
       fit: BoxFit.fitWidth,
+      hash: url,
       height: context.height * .25,
       borderRadius: BorderRadius.circular(10),
       width: context.width,

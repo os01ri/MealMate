@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
+import 'package:mealmate/features/recipe/data/models/recipe_step_model.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
@@ -12,8 +14,8 @@ import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 
 class RecipeStepsPage extends StatelessWidget {
-  const RecipeStepsPage({super.key});
-
+  const RecipeStepsPage({super.key, required this.steps});
+  final List<RecipeStepModel> steps;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,12 +37,16 @@ class RecipeStepsPage extends StatelessWidget {
           fit: StackFit.expand,
           clipBehavior: Clip.none,
           children: [
-            Image.asset(
-              PngPath.food,
-              fit: BoxFit.fitWidth,
+            CachedNetworkImage(
               width: context.width,
+              height: context.height * .4,
+              hash: '',
+              url: 'http://food.programmer23.store/public/recipe/65902501689541771637.jpeg',
+              fit: BoxFit.fitWidth,
             ).positioned(top: 0),
-            const _StepsSection().positioned(bottom: 0),
+            _StepsSection(
+              steps: steps,
+            ).positioned(bottom: 0),
           ],
         ),
       ),
@@ -49,8 +55,9 @@ class RecipeStepsPage extends StatelessWidget {
 }
 
 class _StepsSection extends StatelessWidget {
-  const _StepsSection();
-
+  _StepsSection({required this.steps});
+  final List<RecipeStepModel> steps;
+  final ValueNotifier<int> currentStep = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,79 +70,95 @@ class _StepsSection extends StatelessWidget {
           topRight: Radius.circular(25),
         ),
       ),
-      child: Column(
-        children: [
-          Text(
-            '${serviceLocator<LocalizationClass>().appLocalizations!.step} 4',
-            style: const TextStyle().bold.largeFontSize,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
+      child: ValueListenableBuilder(
+        valueListenable: currentStep,
+        builder: (_, currentStepValue, child) {
+          return Column(
             children: [
-              for (int i = 1; i < 4; i++)
-                StepBullet(
-                  isActive: false,
-                  stepNumber: i,
-                ),
-              const StepBullet(
-                isActive: true,
-                child: Icon(
-                  Icons.flag_outlined,
-                  color: Colors.white,
-                ),
+              Text(
+                currentStepValue == steps.length
+                    ? serviceLocator<LocalizationClass>().appLocalizations!.recipeFinished
+                    : '${serviceLocator<LocalizationClass>().appLocalizations!.step} ${currentStepValue + 1}',
+                style: const TextStyle().bold.largeFontSize,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < steps.length; i++)
+                    StepBullet(
+                      isActive: i == currentStepValue,
+                      stepNumber: i + 1,
+                    ),
+                  StepBullet(
+                      isActive: currentStepValue == steps.length,
+                      child: Icon(
+                        Icons.flag_outlined,
+                        color: currentStepValue == steps.length ? Colors.white : Colors.black,
+                      )),
+                ],
+              ),
+              Column(
+                children: [
+                  //TODO!
+                  for (int i = 0; i < 0; i++) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'صدور الدجاج',
+                          style: const TextStyle().normalFontSize.semiBold,
+                        ),
+                        const Text(
+                          '250 غ',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ).paddingAll(8),
+                    const Divider(),
+                  ],
+                ],
+              ),
+              Text(
+                currentStepValue < steps.length
+                    ? steps[currentStepValue].description!
+                    : serviceLocator<LocalizationClass>().appLocalizations!.congratsOnFinishingThRecipe,
+                style: const TextStyle().normalFontSize.regular,
+              ).paddingVertical(15).scrollable().expand(),
+              Row(
+                children: [
+                  MainButton(
+                    color: AppColors.grey,
+                    onPressed: () {
+                      if (currentStepValue == 0) {
+                        context.pop();
+                      } else {
+                        currentStep.value--;
+                      }
+                    },
+                    text: currentStepValue == 0
+                        ? serviceLocator<LocalizationClass>().appLocalizations!.cancel
+                        : serviceLocator<LocalizationClass>().appLocalizations!.previous,
+                    textColor: Colors.black,
+                  ).paddingAll(8).expand(),
+                  MainButton(
+                    color: AppColors.mainColor,
+                    onPressed: () {
+                      if (currentStepValue == steps.length) {
+                        context.goNamed(RoutesNames.recipesHome);
+                      } else {
+                        currentStep.value++;
+                      }
+                    },
+                    text: currentStepValue == steps.length
+                        ? serviceLocator<LocalizationClass>().appLocalizations!.finishCooking
+                        : serviceLocator<LocalizationClass>().appLocalizations!.next,
+                  ).hero('button').paddingAll(8).expand(),
+                ],
               ),
             ],
-          ),
-          Column(
-            children: [
-              for (int i = 0; i < 2; i++) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'صدور الدجاج',
-                      style: const TextStyle().normalFontSize.semiBold,
-                    ),
-                    const Text(
-                      '250 غ',
-                      style: TextStyle(),
-                    ),
-                  ],
-                ).paddingAll(8),
-                const Divider(),
-              ],
-            ],
-          ),
-          Text(
-            'جزء من نظام حساب الجمل الّذي عرفه العرب قديمًا، وهذا الحساب يجعل لكل حرف من الحروف الأبجدية عدد من الواحد إلى الألف على ترتيب خاص، ومعروف أن لكل حضارة نظاماً للترقيم أي التعبير عن الأعداد البسيطة وهي في العربية الأعداد التسعة الأولى إلى جانب الصفر.',
-            style: const TextStyle().normalFontSize.regular,
-          ).paddingVertical(15).scrollable().expand(),
-          Row(
-            children: [
-              MainButton(
-                color: AppColors.grey,
-                onPressed: () {
-                  // pageController.animateToPage(
-                  //   pageController.page!.ceil() - 1,
-                  //   duration: AppConfig.pageViewAnimationDuration,
-                  //   curve: Curves.ease,
-                  // );
-                  context.pop();
-                },
-                text: serviceLocator<LocalizationClass>().appLocalizations!.previous,
-                textColor: Colors.black,
-              ).paddingAll(8).expand(),
-              MainButton(
-                color: AppColors.mainColor,
-                onPressed: () {
-                  context.goNamed(RoutesNames.recipesHome);
-                },
-                text: serviceLocator<LocalizationClass>().appLocalizations!.finishCooking,
-              ).hero('button').paddingAll(8).expand(),
-            ],
-          ),
-        ],
+          );
+        },
       ).padding(AppConfig.pagePadding),
     );
   }

@@ -36,7 +36,7 @@ class StoreCubit extends Cubit<StoreState> {
       (r) => emit(
         state.copyWith(
           indexCategoriesStatus: CubitStatus.success,
-          ingredientsCategories: r.data!
+          ingredientsCategories: r.data!.categories!
             ..insert(
               0,
               IngredientCategoryModel(id: 0, name: 'الكل'),

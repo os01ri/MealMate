@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../../recipe/data/models/show_recipe_response_model.dart';
 import 'index_ingredients_categories_response_model.dart';
 
 IndexIngredientsResponseModel indexIngredientsResponseModelFromJson(String str) =>
@@ -51,11 +52,14 @@ class IngredientModel {
   final String? url;
   final String? hash;
   final int? priceBy;
+  final RecipeIngredient? recipeIngredient;
+
   final List<Nutritional>? nutritionals;
   final UnitModel? unit;
   final IngredientCategoryModel? category;
 
   const IngredientModel({
+    this.recipeIngredient,
     this.id,
     this.name,
     this.price,
@@ -96,6 +100,9 @@ class IngredientModel {
         price: json["price"],
         url: json["url"],
         hash: json["hash"],
+        recipeIngredient:
+            json["recipe_ingredient"] == null ? null : RecipeIngredient.fromJson(json["recipe_ingredient"]),
+
         priceBy: json["price_by"],
         nutritionals: json["nutritionals"] == null
             ? []

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mealmate/features/recipe/data/models/recipe_step_model.dart';
 
 import '../features/auth/presentation/pages/change_password_page.dart';
 import '../features/auth/presentation/pages/create_account_loading_page.dart';
@@ -175,7 +176,7 @@ class AppRouter {
       pageBuilder: (context, state) => slideTransition(
         context: context,
         state: state,
-        child: const RecipeStepsPage(),
+        child: RecipeStepsPage(steps: state.extra as List<RecipeStepModel>),
       ),
     ),
     GoRoute(

@@ -8,6 +8,7 @@ class RecipeModel {
   final String? description;
   final String? time;
   final String? url;
+  final int? feeds;
   final String? hash;
   final bool? status;
   final dynamic userId;
@@ -22,6 +23,7 @@ class RecipeModel {
     this.description,
     this.time,
     this.url,
+    this.feeds,
     this.hash,
     this.status,
     this.userId,
@@ -40,6 +42,7 @@ class RecipeModel {
         hash: json["hash"],
         status: json["status"],
         userId: json["user_id"],
+        feeds: json['feeds'],
         type: json["type"] == null ? null : RecipeCategoryModel.fromJson(json["type"]),
         category: json["category"] == null ? null : RecipeCategoryModel.fromJson(json["category"]),
         ingredients: json["ingredients"] == null

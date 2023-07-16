@@ -25,6 +25,7 @@ class RecipeIntroPage extends StatelessWidget {
         children: [
           CachedNetworkImage(
             url: recipe.url!,
+            hash: '',
             height: context.height * .25,
             fit: BoxFit.fitWidth,
             borderRadius: BorderRadius.circular(10),

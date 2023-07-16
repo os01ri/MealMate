@@ -6,9 +6,13 @@ class RecipeState {
   final CubitStatus showRecipeStatus;
   final CubitStatus addRecipeStatus;
   final List<RecipeModel> recipes;
+  final List<IngredientModel> ingredients;
+  final List<IngredientModel> recipeIngredients;
   final RecipeModel? recipe;
 
   const RecipeState({
+    this.recipeIngredients = const [],
+    this.ingredients = const [], 
     this.indexRecipeStatus = CubitStatus.initial,
     this.showRecipeStatus = CubitStatus.initial,
     this.addRecipeStatus = CubitStatus.initial,
@@ -21,6 +25,8 @@ class RecipeState {
     CubitStatus? showRecipeStatus,
     CubitStatus? addRecipeStatus,
     List<RecipeModel>? recipes,
+    List<IngredientModel>? ingredients,
+    List<IngredientModel>? recipeIngredients,
     RecipeModel? recipe,
   }) {
     return RecipeState(
@@ -28,6 +34,8 @@ class RecipeState {
       showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
       addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,
       recipes: recipes ?? this.recipes,
+      ingredients: ingredients ?? this.ingredients,
+      recipeIngredients: recipeIngredients ?? this.recipeIngredients,
       recipe: recipe ?? this.recipe,
     );
   }

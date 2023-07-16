@@ -20,8 +20,9 @@ class _RecipeCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
-            children: [
+            children: [ 
               CachedNetworkImage(
+                hash: recipe.hash!,
                 borderRadius: BorderRadius.circular(15),
                 url: recipe.url!,
                 width: context.width * .4,

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
@@ -17,6 +18,7 @@ import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../store/data/models/index_ingredients_response_model.dart';
 import '../cubit/recipe_cubit.dart';
 import '../widgets/app_bar.dart';
 
@@ -66,14 +68,17 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                           _HeaderImage(state.recipe!.url!).paddingHorizontal(5),
                           _RecipeBudget(
                             duration: state.recipe!.time!,
-                            persons: 4,
-                            price: 20000,
+                            persons: state.recipe!.feeds!,
+                            price: state.recipe!.ingredients!
+                                .map((e) => e.price)
+                                .toList()
+                                .fold(0, (previousValue, element) => previousValue + element!),
                             stepsCount: state.recipe!.steps!.length,
                           ).paddingVertical(8),
                           const _TabBar(),
                         ]),
                       ),
-                      const _IngredientList(),
+                      _IngredientList(ingredients: state.recipe!.ingredients!),
                     ],
                   ).padding(AppConfig.pagePadding)
                 : const Center(child: CircularProgressIndicator.adaptive()),
@@ -81,7 +86,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
             floatingActionButton: MainButton(
               color: AppColors.mainColor,
               onPressed: () {
-                context.pushNamed(RoutesNames.recipeSteps);
+                context.pushNamed(RoutesNames.recipeSteps, extra: state.recipe!.steps);
               },
               width: context.width,
               text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,
@@ -94,23 +99,27 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
 }
 
 class _IngredientList extends StatelessWidget {
-  const _IngredientList();
+  
+  final List<IngredientModel> ingredients;
 
+  const _IngredientList({super.key, required this.ingredients});
   @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        childCount: 100,
+        childCount: ingredients.length,
         (context, i) {
-          return Row(
-            children: [
-              Text(
-                'صدور $i الدجاج',
+
+          for (var e in ingredients)
+            return Row(
+              children: [
+                Text(
+                  e.name!,
                 style: const TextStyle().normalFontSize.semiBold,
               ),
               const Spacer(),
-              const Text(
-                '250 غ',
+                Text(
+                  ' ${e.recipeIngredient!.quantity!} ${e.unit!.name}',
                 style: TextStyle(),
               ),
               Icon(

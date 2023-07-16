@@ -1,4 +1,10 @@
+// To parse this JSON data, do
+//
+//     final indexIngredientCategoriesResponseModel = indexIngredientCategoriesResponseModelFromJson(jsonString);
+
 import 'dart:convert';
+
+import 'index_ingredients_response_model.dart';
 
 IndexIngredientCategoriesResponseModel indexIngredientCategoriesResponseModelFromJson(String str) =>
     IndexIngredientCategoriesResponseModel.fromJson(json.decode(str));
@@ -7,40 +13,49 @@ String indexIngredientCategoriesResponseModelToJson(IndexIngredientCategoriesRes
     json.encode(data.toJson());
 
 class IndexIngredientCategoriesResponseModel {
-  final bool? success;
   final String? message;
-  final List<IngredientCategoryModel>? data;
+  final Data? data;
+  final bool? success;
 
   IndexIngredientCategoriesResponseModel({
-    this.success,
     this.message,
     this.data,
+    this.success,
   });
-
-  IndexIngredientCategoriesResponseModel copyWith({
-    bool? success,
-    String? message,
-    List<IngredientCategoryModel>? data,
-  }) =>
-      IndexIngredientCategoriesResponseModel(
-        success: success ?? this.success,
-        message: message ?? this.message,
-        data: data ?? this.data,
-      );
 
   factory IndexIngredientCategoriesResponseModel.fromJson(Map<String, dynamic> json) =>
       IndexIngredientCategoriesResponseModel(
-        success: json["success"],
         message: json["message"],
-        data: json["data"] == null
-            ? []
-            : List<IngredientCategoryModel>.from(json["data"]!.map((x) => IngredientCategoryModel.fromJson(x))),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        success: json["success"],
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
         "message": message,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data?.toJson(),
+        "success": success,
+      };
+}
+
+class Data {
+  final List<IngredientCategoryModel>? categories;
+  final int? count;
+
+  Data({
+    this.categories,
+    this.count,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        categories: json["categories"] == null
+            ? []
+            : List<IngredientCategoryModel>.from(json["categories"]!.map((x) => IngredientCategoryModel.fromJson(x))),
+        count: json["count"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "categories": categories == null ? [] : List<dynamic>.from(categories!.map((x) => x.toJson())),
+        "count": count,
       };
 }
 
@@ -49,32 +64,24 @@ class IngredientCategoryModel {
   final String? name;
   final String? url;
   final String? hash;
+  final List<IngredientModel>? ingredients;
 
   IngredientCategoryModel({
     this.id,
     this.name,
     this.url,
     this.hash,
+    this.ingredients,
   });
-
-  IngredientCategoryModel copyWith({
-    int? id,
-    String? name,
-    String? url,
-    String? hash,
-  }) =>
-      IngredientCategoryModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        url: url ?? this.url,
-        hash: hash ?? this.hash,
-      );
 
   factory IngredientCategoryModel.fromJson(Map<String, dynamic> json) => IngredientCategoryModel(
         id: json["id"],
         name: json["name"],
         url: json["url"],
         hash: json["hash"],
+        ingredients: json["ingredients"] == null
+            ? []
+            : List<IngredientModel>.from(json["ingredients"]!.map((x) => IngredientModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,5 +89,6 @@ class IngredientCategoryModel {
         "name": name,
         "url": url,
         "hash": hash,
+        "ingredients": ingredients == null ? [] : List<dynamic>.from(ingredients!.map((x) => x.toJson())),
       };
 }

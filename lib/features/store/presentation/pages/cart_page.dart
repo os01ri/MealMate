@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/number_extension.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -11,13 +12,12 @@ import '../../../../core/ui/ui_messages.dart';
 import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
+import '../../../../router/routes_names.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
+import '../../data/models/cart_item_model.dart';
 import '../../data/models/order_item_model.dart';
 import '../../domain/usecases/place_order_usecase.dart';
 import '../cubit/cart_cubit/cart_cubit.dart';
-import '../../../../router/routes_names.dart';
-
-import '../../data/models/cart_item_model.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -38,7 +38,6 @@ class CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       appBar: RecipeAppBar(
         context: context,
         centerText: true,
@@ -50,8 +49,7 @@ class CartPageState extends State<CartPage> {
         listener: (context, state) {
           if (state.orderStatus == OrderStatus.loading) {
             Toaster.showLoading();
-          }
-          if (state.orderStatus == OrderStatus.placed) {
+          } else if (state.orderStatus == OrderStatus.placed) {
             Toaster.closeLoading();
             context.pushNamed(RoutesNames.orderPlacedPage);
           }
@@ -59,122 +57,124 @@ class CartPageState extends State<CartPage> {
         builder: (context, state) {
           return Container(
             color: AppColors.mainColor.withOpacity(.1),
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                height: context.height * .47,
-                child: ListView.builder(
-                  itemCount: state.cartItems.length,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CartItemWidget(
-                        item: state.cartItems[index],
-                        onAdd: () {
-                          _cartCubit.addOrUpdateProduct(ingredient: state.cartItems[index].model!, quantity: 1);
-                        },
-                        onRemove: () {
-                          _cartCubit.deleteProduct(
-                            ingredient: state.cartItems[index].model!,
-                          );
-                        },
-                        onDelete: () {
-                          _cartCubit.deleteProduct(ingredient: state.cartItems[index].model!, remove: true);
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  child: SizedBox(
-                    height: context.height * .4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.circle, size: 10),
-                              SizedBox(
-                                width: context.width * .8,
-                                child: const Divider(color: AppColors.brown, thickness: 2, indent: 0),
-                              ),
-                              const Icon(Icons.circle, size: 10),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              serviceLocator<LocalizationClass>().appLocalizations!.shippingFee,
-                              style: AppTextStyles.styleWeight600(fontSize: 18),
-                            ),
-                            Text(
-                              "5,000 ل.س",
-                              style: AppTextStyles.styleWeight400(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              serviceLocator<LocalizationClass>().appLocalizations!.totalPayment,
-                              style: AppTextStyles.styleWeight600(fontSize: 18),
-                            ),
-                            Text(
-                              '${state.getTotalPrice()} ل.س',
-                              style: AppTextStyles.styleWeight400(fontSize: 18),
-                            )
-                          ],
-                        ),
-                        MainButton(
-                          fontSize: 20,
-                          width: context.width * .55,
-                          text: serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress,
-                          icon: const Icon(Icons.location_on_outlined, size: 35),
-                          color: AppColors.lightTextColor,
-                          onPressed: () {},
-                        ),
-                        MainButton(
-                          width: context.width * .75,
-                          text: serviceLocator<LocalizationClass>().appLocalizations!.placeOrder,
-                          color: AppColors.orange,
-                          onPressed: () {
-                            if (_cartCubit.state.cartItems.isNotEmpty) {
-                              _cartCubit.placeOrderToState(
-                                params: PlaceOrderParams(
-                                  ingredients: _cartCubit.state.cartItems
-                                      .map(
-                                        (e) => OrderItemModel(
-                                          unitId: e.model!.unit!.id!,
-                                          ingredientId: e.model!.id!,
-                                          quantity: e.quantity,
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              );
-                            }
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: context.height * .5,
+                  child: ListView.builder(
+                    itemCount: state.cartItems.length,
+                    padding: const EdgeInsets.all(8),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: CartItemWidget(
+                          item: state.cartItems[index],
+                          onAdd: () {
+                            _cartCubit.addOrUpdateProduct(ingredient: state.cartItems[index].model!, quantity: 1);
+                          },
+                          onRemove: () {
+                            _cartCubit.deleteProduct(
+                              ingredient: state.cartItems[index].model!,
+                            );
+                          },
+                          onDelete: () {
+                            _cartCubit.deleteProduct(ingredient: state.cartItems[index].model!, remove: true);
                           },
                         ),
-                        const SizedBox()
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
-              )
-            ]),
+                SizedBox(
+                  height: context.height * .5 - 119,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.circle, size: 10),
+                                SizedBox(
+                                  width: context.width * .8,
+                                  child: const Divider(color: AppColors.brown, thickness: 2, indent: 0),
+                                ),
+                                const Icon(Icons.circle, size: 10),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                serviceLocator<LocalizationClass>().appLocalizations!.shippingFee,
+                                style: AppTextStyles.styleWeight600(fontSize: 18),
+                              ),
+                              Text(
+                                "5,000 ل.س",
+                                style: AppTextStyles.styleWeight400(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                serviceLocator<LocalizationClass>().appLocalizations!.totalPayment,
+                                style: AppTextStyles.styleWeight600(fontSize: 18),
+                              ),
+                              Text(
+                                '${state.getTotalPrice()} ل.س',
+                                style: AppTextStyles.styleWeight400(fontSize: 18),
+                              )
+                            ],
+                          ),
+                          MainButton(
+                            fontSize: 20,
+                            width: context.width * .55,
+                            text: serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress,
+                            icon: const Icon(Icons.location_on_outlined, size: 35),
+                            color: AppColors.lightTextColor,
+                            onPressed: () {},
+                          ),
+                          MainButton(
+                            width: context.width * .75,
+                            text: serviceLocator<LocalizationClass>().appLocalizations!.placeOrder,
+                            color: AppColors.orange,
+                            onPressed: () {
+                              if (_cartCubit.state.cartItems.isNotEmpty) {
+                                _cartCubit.placeOrderToState(
+                                  params: PlaceOrderParams(
+                                    ingredients: _cartCubit.state.cartItems
+                                        .map(
+                                          (e) => OrderItemModel(
+                                            unitId: e.model!.unit!.id!,
+                                            ingredientId: e.model!.id!,
+                                            quantity: e.quantity,
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                          const SizedBox()
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           );
         },
       ),

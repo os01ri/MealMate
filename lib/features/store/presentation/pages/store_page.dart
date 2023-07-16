@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/colorful_logging_extension.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -11,11 +12,13 @@ import '../../../../core/helper/app_config.dart';
 import '../../../../core/helper/assets_paths.dart';
 import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
+import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
 import '../../../../core/ui/widgets/error_widget.dart';
 import '../../../../core/ui/widgets/main_text_field.dart';
 import '../../../../core/ui/widgets/skelton_loading.dart';
 import '../../../../dependency_injection.dart';
+import '../../../../router/routes_names.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
 import '../../../recipe/presentation/widgets/category_choice_chip.dart';
 import '../../domain/usecases/index_ingredients_categories_usecase.dart';
@@ -23,9 +26,6 @@ import '../../domain/usecases/index_ingredients_usecase.dart';
 import '../cubit/cart_cubit/cart_cubit.dart';
 import '../cubit/store_cubit/store_cubit.dart';
 import '../widgets/ingredient_card.dart';
-import '../../../../router/routes_names.dart';
-
-import '../../../../core/ui/theme/colors.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({super.key});

@@ -68,7 +68,7 @@ class ApiVariables {
 
   /////ingredient////
   static Uri indexIngredientsCategories({ParamsMap params}) =>
-      _mainUri(path: 'categoryingredient/index', params: params);
+      _mobileUri(path: 'categoryingredient/index', params: params);
 
   static Uri indexIngredients({ParamsMap params}) => _mobileUri(path: 'ingredient/index', params: params);
 

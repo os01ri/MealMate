@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/ui/theme/colors.dart';
@@ -9,7 +10,6 @@ import '../../../../core/ui/ui_messages.dart';
 import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/loading_widget.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
-
 import '../../data/models/index_grocery_response_model.dart';
 import '../cubit/grocery_cubit.dart';
 
@@ -21,11 +21,8 @@ class GroceryPage extends StatefulWidget {
 }
 
 class GroceryPageState extends State<GroceryPage> {
-  late final GroceryCubit _groceryCubit;
   @override
   void initState() {
-    _groceryCubit = GroceryCubit();
-    _groceryCubit.getGroceryItems();
     super.initState();
   }
 
@@ -40,55 +37,40 @@ class GroceryPageState extends State<GroceryPage> {
         title: "Your Grocery",
       ),
       body: BlocProvider(
-        create: (context) => _groceryCubit,
+        create: (context) => GroceryCubit()..getGroceryItems(),
         child: BlocConsumer<GroceryCubit, GroceryState>(
           listener: (context, state) {
-            if (state.deleteGroceryItemStatus ==
-                DeleteGroceryItemStatus.loading) {
+            if (state.deleteGroceryItemStatus == DeleteGroceryItemStatus.loading) {
               Toaster.showLoading();
-            }
-            if (state.deleteGroceryItemStatus == DeleteGroceryItemStatus.init ||
-                state.deleteGroceryItemStatus ==
-                    DeleteGroceryItemStatus.success) {
+            } else if (state.deleteGroceryItemStatus == DeleteGroceryItemStatus.init ||
+                state.deleteGroceryItemStatus == DeleteGroceryItemStatus.success) {
               Toaster.closeLoading();
-            }
-            if (state.deleteGroceryItemStatus ==
-                DeleteGroceryItemStatus.failed) {
+            } else if (state.deleteGroceryItemStatus == DeleteGroceryItemStatus.failed) {
               Toaster.closeLoading();
               Toaster.showToast('try again');
             }
           },
-          bloc: _groceryCubit,
           builder: (context, state) {
             return state.status == GroceryStatus.success
                 ? Container(
                     color: AppColors.mainColor.withOpacity(.1),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            height: context.height * .47,
-                            child: ListView.builder(
-                              itemCount: state.cartItems.length,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GroceryItemWidget(
-                                    item: state.cartItems[index],
-                                    onAdd: () {},
-                                    onRemove: () {},
-                                    onDelete: () {
-                                      _groceryCubit.deleteGroceryItem(
-                                          state.cartItems[index].id!);
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
+                    child: ListView.builder(
+                      itemCount: state.cartItems.length,
+                      padding: const EdgeInsets.all(8),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: GroceryItemWidget(
+                            item: state.cartItems[index],
+                            onAdd: () {},
+                            onRemove: () {},
+                            onDelete: () {
+                              context.read<GroceryCubit>().deleteGroceryItem(state.cartItems[index].id!);
+                            },
                           ),
-                        ]),
+                        );
+                      },
+                    ),
                   )
                 : state.status == GroceryStatus.failed
                     ? const SizedBox.shrink()
@@ -126,8 +108,7 @@ class _GroceryItemWidgetState extends State<GroceryItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
       child: Row(
         children: [
@@ -143,8 +124,7 @@ class _GroceryItemWidgetState extends State<GroceryItemWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(widget.item.ingredient!.name ?? "Ingredients"),
-              Text(
-                  '${(widget.item.quantity! * widget.item.ingredient!.priceBy!)} ${widget.item.unit!.code}'),
+              Text('${(widget.item.quantity! * widget.item.ingredient!.priceBy!)} ${widget.item.unit!.code}'),
               // Text(
               // "total ${widget.item.ingredient!.priceBy! * widget.item.ingredient!.quantity} ${widget.item.ingredient!.unit!.code}"),
             ],

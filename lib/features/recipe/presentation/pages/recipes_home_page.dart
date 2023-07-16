@@ -261,7 +261,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
               height: context.height * .25,
               child: BlocBuilder<RecipeCubit, RecipeState>(
                 builder: (context, state) {
-                  if (state.status == CubitStatus.loading) {
+                  if (state.indexRecipeStatus == CubitStatus.loading) {
                     return ListView.builder(
                       itemCount: 4,
                       scrollDirection: Axis.horizontal,
@@ -276,7 +276,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
                             child: const Icon(Icons.abc),
                           )),
                     );
-                  } else if (state.status == CubitStatus.success) {
+                  } else if (state.indexRecipeStatus == CubitStatus.success) {
                     return ListView.builder(
                       itemCount: state.recipes.length,
                       scrollDirection: Axis.horizontal,

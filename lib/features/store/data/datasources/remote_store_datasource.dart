@@ -17,7 +17,7 @@ class RemoteStoreDatasource {
   /////////////////////////
   static Future<IndexIngredientCategoriesResponseModel> indexIngredientsCategories({ParamsMap params}) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexIngredientsCategories(queryParameters: params),
+      uri: ApiVariables.indexIngredientsCategories(params: params),
       fromJson: indexIngredientCategoriesResponseModelFromJson,
     );
     final result = await getApi.callRequest();
@@ -30,7 +30,7 @@ class RemoteStoreDatasource {
 
   static Future<IndexIngredientsResponseModel> indexIngredients({ParamsMap params}) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexIngredients(queryParameters: params),
+      uri: ApiVariables.indexIngredients(params: params),
       fromJson: indexIngredientsResponseModelFromJson,
     );
     final result = await getApi.callRequest();
@@ -58,7 +58,7 @@ class RemoteStoreDatasource {
 
   static Future<IndexWishlistItemsResponseModel> indexWishlist({ParamsMap params}) async {
     GetApi getApi = GetApi(
-      uri: ApiVariables.indexWishlist(queryParameters: params),
+      uri: ApiVariables.indexWishlist(params: params),
       fromJson: indexWishlistItemsResponseModelFromJson,
     );
     final result = await getApi.callRequest();
@@ -67,7 +67,7 @@ class RemoteStoreDatasource {
 
   static Future<NoResponse> addToWishlist({required BodyMap body, ParamsMap params}) async {
     PostApi postApi = PostApi(
-      uri: ApiVariables.addToWishlist(queryParameters: params),
+      uri: ApiVariables.addToWishlist(params: params),
       fromJson: noResponseFromJson,
       body: body,
     );

@@ -7,7 +7,6 @@ import 'package:photo_view/photo_view.dart';
 import '../../../../core/helper/helper.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
-import '../../../../dependency_injection.dart';
 
 class ImageViewScreen extends StatefulWidget {
   static const String routeName = "image_view_screen";

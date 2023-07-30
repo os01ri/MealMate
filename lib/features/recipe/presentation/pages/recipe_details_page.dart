@@ -99,41 +99,41 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
 }
 
 class _IngredientList extends StatelessWidget {
-  
   final List<IngredientModel> ingredients;
 
-  const _IngredientList({super.key, required this.ingredients});
+  const _IngredientList({required this.ingredients});
   @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         childCount: ingredients.length,
         (context, i) {
-
-          for (var e in ingredients)
+          for (var e in ingredients) {
             return Row(
               children: [
                 Text(
                   e.name!,
-                style: const TextStyle().normalFontSize.semiBold,
-              ),
-              const Spacer(),
+                  style: const TextStyle().normalFontSize.semiBold,
+                ),
+                const Spacer(),
                 Text(
                   ' ${e.recipeIngredient!.quantity!} ${e.unit!.name}',
-                style: TextStyle(),
-              ),
-              Icon(
-                switch (i) {
-                  <= 3 => Icons.check_circle_outline_rounded,
-                  _ => Icons.warning_amber_rounded,
-                },
-                color: switch (i) {
-                  <= 3 => Colors.green,
-                  _ => Colors.red,
-                },
-              ).paddingHorizontal(5),
-            ],
-          ).paddingAll(8);
+                  style: const TextStyle(),
+                ),
+                Icon(
+                  switch (i) {
+                    <= 3 => Icons.check_circle_outline_rounded,
+                    _ => Icons.warning_amber_rounded,
+                  },
+                  color: switch (i) {
+                    <= 3 => Colors.green,
+                    _ => Colors.red,
+                  },
+                ).paddingHorizontal(5),
+              ],
+            ).paddingAll(8);
+          }
+          return null;
         },
       ),
     );

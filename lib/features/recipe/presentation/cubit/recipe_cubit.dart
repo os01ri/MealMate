@@ -4,7 +4,6 @@ import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecas
 import '../../../../core/helper/cubit_status.dart';
 import '../../../store/data/models/index_ingredients_response_model.dart';
 import '../../../store/data/repositories/store_repository_impl.dart';
-import '../../../store/domain/repositories/store_repository.dart';
 import '../../data/models/recipe_model.dart';
 import '../../data/repositories/recipe_repository_impl.dart';
 import '../../domain/usecases/add_recipe_usecase.dart';
@@ -21,7 +20,7 @@ class RecipeCubit extends Cubit<RecipeState> {
 
   RecipeCubit() : super(const RecipeState());
   indexIngredients() async {
-    final result = await _indexingredients.call(IndexIngredientsParams(page: 1, perPage: 100));
+    final result = await _indexingredients.call(const IndexIngredientsParams(page: 1, perPage: 100));
     result.fold((l) => indexIngredients(), (r) => emit(state.copyWith(ingredients: r.data!)));
   }
 

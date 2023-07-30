@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
-import 'package:mealmate/features/recipe/data/models/recipe_step_model.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/assets_paths.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../data/models/recipe_step_model.dart';
 
 class RecipeStepsPage extends StatelessWidget {
   const RecipeStepsPage({super.key, required this.steps});

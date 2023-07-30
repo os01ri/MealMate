@@ -569,7 +569,7 @@ class _UserSettingMediaState extends State<_UserSettingMedia> with TickerProvide
                                         : const SizedBox(),
                           ),
                           (state.status == ImageUploadStatus.loading)
-                              ? Center(child: CircularProgressIndicator.adaptive())
+                              ? const Center(child: CircularProgressIndicator.adaptive())
                               : (state.status == ImageUploadStatus.failed)
                                   ? Center(
                                       child: GestureDetector(

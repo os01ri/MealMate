@@ -8,11 +8,11 @@ import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
-import '../../../../core/ui/ui_messages.dart';
-import '../../../../core/ui/widgets/cache_network_image.dart';
+import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
 import '../../data/models/cart_item_model.dart';
 import '../../data/models/order_item_model.dart';
@@ -51,7 +51,7 @@ class CartPageState extends State<CartPage> {
             Toaster.showLoading();
           } else if (state.orderStatus == OrderStatus.placed) {
             Toaster.closeLoading();
-            context.pushNamed(RoutesNames.orderPlacedPage);
+            context.myPushNamed(RoutesNames.orderPlacedPage);
           }
         },
         builder: (context, state) {

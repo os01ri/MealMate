@@ -10,7 +10,7 @@ import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/localization/localization_class.dart';
 import 'package:mealmate/core/ui/theme/colors.dart';
 import 'package:mealmate/core/ui/theme/text_styles.dart';
-import 'package:mealmate/core/ui/ui_messages.dart';
+import 'package:mealmate/core/ui/toaster.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
 import 'package:mealmate/core/ui/widgets/main_text_field.dart';
 import 'package:mealmate/dependency_injection.dart';
@@ -65,7 +65,7 @@ class _OtpPageState extends State<OtpPage> {
       onWillPop: () async {
         final willPop = await _showConfirmationDialog(context);
         if (willPop && !widget.args.isResetPassword) {
-          if (context.mounted) context.goNamed(RoutesNames.splash);
+          if (context.mounted) context.myGoNamed(RoutesNames.splash);
         }
         return Future.value(willPop);
       },
@@ -175,9 +175,7 @@ class _OtpPageState extends State<OtpPage> {
                                                 color: Theme.of(context).primaryColor, fontSize: 16),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                widget.args.authCubit
-                                                    .sendOtpCode(
-                                                        widget.args.email);
+                                                widget.args.authCubit.sendOtpCode(widget.args.email);
                                                 startTimer();
                                               },
                                           )
@@ -196,7 +194,7 @@ class _OtpPageState extends State<OtpPage> {
                             GestureDetector(
                               onTap: () async {
                                 await _showConfirmationDialog(context).then((value) {
-                                  if (value) context.pop();
+                                  if (value) context.myPop();
                                 });
                               },
                               child: Text(
@@ -243,7 +241,7 @@ class _OtpPageState extends State<OtpPage> {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
-      context.goNamed(
+      context.myGoNamed(
         widget.args.isResetPassword ? RoutesNames.changePassword : RoutesNames.accountCreationLoading,
       );
     } else if (state.status == AuthStatus.failed) {
@@ -262,12 +260,12 @@ class _OtpPageState extends State<OtpPage> {
             MainButton(
               text: serviceLocator<LocalizationClass>().appLocalizations!.yes,
               color: AppColors.mainColor,
-              onPressed: () => context.pop(true),
+              onPressed: () => context.myPop(true),
             ),
             MainButton(
               text: serviceLocator<LocalizationClass>().appLocalizations!.no,
               color: AppColors.mainColor,
-              onPressed: () => context.pop(false),
+              onPressed: () => context.myPop(false),
             )
           ],
         );

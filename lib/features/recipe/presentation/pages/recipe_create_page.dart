@@ -3,8 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
-
 import 'package:mealmate/features/recipe/data/models/recipe_step_model.dart';
 import 'package:mealmate/features/recipe/domain/usecases/add_recipe_usecase.dart';
 import 'package:mealmate/features/recipe/presentation/cubit/recipe_cubit.dart';
@@ -18,10 +16,11 @@ import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/ui_messages.dart';
+import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../core/ui/widgets/main_text_field.dart';
 import '../../../../dependency_injection.dart';
+import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../media_service/presentation/widgets/image_setter_form.dart';
 import '../widgets/app_bar.dart';
 
@@ -49,7 +48,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
           listener: (context, state) {
             if (state.addRecipeStatus == CubitStatus.success) {
               Toaster.closeLoading();
-              context.pop();
+              context.myPop();
               Toaster.showNotification(
                 leading: (_) => const Icon(
                   Icons.alarm,
@@ -149,7 +148,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                                 ).onTap(() {
                                   cubit.addIngredientToRecipe(state.ingredients[index]);
                                   log('$ingredients');
-                                  context.pop();
+                                  context.myPop();
                                 });
                               }),
                         );

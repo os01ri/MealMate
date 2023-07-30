@@ -63,7 +63,7 @@ class _VideoViewerState extends State<VideoViewer> {
       () async {
         FileInfo? file;
         file = await DefaultCacheManager().getFileFromCache(
-          widget.url.getMediaName(),
+          widget.url.getMediaType(),
         );
         if (file != null) {
           setState(() {
@@ -71,7 +71,7 @@ class _VideoViewerState extends State<VideoViewer> {
             chewieController = chewieController.copyWith(videoPlayerController: VideoPlayerController.file(file!.file));
           });
         } else {
-          DefaultCacheManager().downloadFile(widget.url, key: widget.url.getMediaName());
+          DefaultCacheManager().downloadFile(widget.url, key: widget.url.getMediaType());
         }
       }();
     }

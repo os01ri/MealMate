@@ -14,10 +14,10 @@ import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../store/data/models/index_ingredients_response_model.dart';
 import '../cubit/recipe_cubit.dart';
 import '../widgets/app_bar.dart';
@@ -86,7 +86,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
             floatingActionButton: MainButton(
               color: AppColors.mainColor,
               onPressed: () {
-                context.pushNamed(RoutesNames.recipeSteps, extra: state.recipe!.steps);
+                context.myPushNamed(RoutesNames.recipeSteps, extra: state.recipe!.steps);
               },
               width: context.width,
               text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,

@@ -31,7 +31,7 @@ class _CreateAccountLoadingPageState extends State<CreateAccountLoadingPage> wit
       upperBound: 1,
       duration: const Duration(seconds: 3),
     )..forward().whenComplete(() {
-        context.goNamed(RoutesNames.recipesHome);
+        context.myGoNamed(RoutesNames.recipesHome);
       });
   }
 

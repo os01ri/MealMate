@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
@@ -10,11 +11,11 @@ import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/ui_messages.dart';
-import '../../../../core/ui/widgets/cache_network_image.dart';
+import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/error_widget.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
+import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
 import '../../data/models/index_ingredients_response_model.dart';
 import '../../domain/usecases/add_to_wishlist_usecase.dart';
@@ -110,7 +111,7 @@ class _IngredientPageState extends State<IngredientPage> {
                     MainButton(
                       color: AppColors.mainColor,
                       onPressed: () {
-                        context.pop(true);
+                        context.myPop(true);
                         widget.onAddToCart(_widgetKey);
                         serviceLocator<CartCubit>().addOrUpdateProduct(
                             ingredient: state.ingredient!,
@@ -137,7 +138,7 @@ class _IngredientPageState extends State<IngredientPage> {
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.addToWishlistStatus == CubitStatus.success) {
       Toaster.closeLoading();
-      context.pop(false);
+      context.myPop(false);
       widget.onAddToWishlist(_widgetKey);
     }
   }

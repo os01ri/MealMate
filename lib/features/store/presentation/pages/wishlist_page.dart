@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
@@ -7,7 +8,7 @@ import '../../../../core/helper/app_config.dart';
 import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/ui_messages.dart';
+import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/error_widget.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../core/ui/widgets/skelton_loading.dart';
@@ -68,7 +69,7 @@ class WishlistPage extends StatelessWidget {
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.removeFromWishlistStatus == CubitStatus.success) {
       Toaster.closeLoading();
-      context.pop();
+      context.myPop();
     }
   }
 
@@ -133,7 +134,7 @@ class WishlistPage extends StatelessWidget {
                                 Toaster.showToast(
                                   serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,
                                 );
-                                context.pop();
+                                context.myPop();
                               },
                             ),
                             const SizedBox(height: 20),
@@ -154,7 +155,7 @@ class WishlistPage extends StatelessWidget {
                               text: 'إغلاق',
                               textColor: AppColors.lightRed,
                               color: Colors.white,
-                              onPressed: () => context.pop(),
+                              onPressed: () => context.myPop(),
                             ),
                           ],
                         );

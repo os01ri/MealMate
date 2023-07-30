@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
-import '../../../../core/helper/media_type.dart';
 import '../../data/repository/media_upload_repositories_implement.dart';
 import '../../domain/usecase/gif_upload_usecase.dart';
 import '../../domain/usecase/image_upload_usecase.dart';
@@ -22,7 +21,6 @@ class ImageUploadBloc extends Bloc<ImageUploadEvent, ImageUploadState> {
     on<SetImageEvent>((event, emit) {
       emit(state.copyWith(
         media: event.media,
-        mediaType: event.mediaType,
       ));
       if (!event.isUploaded) add(const GoImageUploadEvent());
     }, transformer: droppable());
@@ -43,42 +41,18 @@ class ImageUploadBloc extends Bloc<ImageUploadEvent, ImageUploadState> {
       status: ImageUploadStatus.loading,
     ));
 
-    if (state.mediaType == MediaType.video.value) {
-      final result = await videoUpload(
-        VideoUploadParams(
-          videoPath: state.media!.path,
-        ),
-      );
-      result.fold(
-        (l) => emit(state.copyWith(status: ImageUploadStatus.failed)),
-        (r) => emit(state.copyWith(
-          mediaName: r.data!.videoUrl,
-          status: ImageUploadStatus.succ,
-        )),
-      );
-    } else if (state.mediaType == MediaType.gif.value) {
-      final result = await gifUpload(GifUploadParams(gifPath: state.media!.path));
-      result.fold(
-        (l) => emit(state.copyWith(status: ImageUploadStatus.failed)),
-        (r) => emit(state.copyWith(
-          mediaName: r.data!.gifUrl,
-          status: ImageUploadStatus.succ,
-        )),
-      );
-    } else if (state.mediaType == MediaType.image.value) {
-      final result = await imageUpload(ImageUploadParams(
-        media: state.media!,
-      ));
+    final result = await imageUpload(ImageUploadParams(
+      media: state.media!,
+    ));
 
-      result.fold(
-        (l) => emit(state.copyWith(
-          status: ImageUploadStatus.failed,
-        )),
-        (r) => emit(state.copyWith(
-          mediaName: r.data!.first.url,
-          status: ImageUploadStatus.succ,
-        )),
-      );
-    }
+    result.fold(
+      (l) => emit(state.copyWith(
+        status: ImageUploadStatus.failed,
+      )),
+      (r) => emit(state.copyWith(
+        mediaName: r.data!.first.url,
+        status: ImageUploadStatus.succ,
+      )),
+    );
   }
 }

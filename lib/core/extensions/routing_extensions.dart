@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart' as go_router;
 
 extension RoutingExtension on BuildContext {
-  void go(String path, {Object? extra}) => go_router.GoRouter.of(this).go(path, extra: extra);
+  void myGo(String path, {Object? extra}) => go_router.GoRouter.of(this).go(path, extra: extra);
 
-  void goNamed(
+  void myGoNamed(
     String name, {
     Map<String, String> params = const <String, String>{},
     Map<String, dynamic> queryParams = const <String, dynamic>{},
@@ -17,12 +17,12 @@ extension RoutingExtension on BuildContext {
         queryParams: queryParams,
       );
 
-  Future<T?> push<T extends Object?>(String path, {Object? extra}) => go_router.GoRouter.of(this).push(
+  Future<T?> myPush<T extends Object?>(String path, {Object? extra}) => go_router.GoRouter.of(this).push(
         path,
         extra: extra,
       );
 
-  void pushReplacement(
+  void myPushReplacement(
     String path, {
     Object? extra,
   }) =>
@@ -31,7 +31,7 @@ extension RoutingExtension on BuildContext {
         extra: extra,
       );
 
-  Future<T?> pushNamed<T extends Object?>(
+  Future<T?> myPushNamed<T extends Object?>(
     String name, {
     Map<String, String> params = const <String, String>{},
     Map<String, dynamic> queryParams = const <String, dynamic>{},
@@ -44,7 +44,7 @@ extension RoutingExtension on BuildContext {
         queryParams: queryParams,
       );
 
-  void pushReplacementNamed(
+  void myPushReplacementNamed(
     String name, {
     Map<String, String> params = const <String, String>{},
     Map<String, dynamic> queryParams = const <String, dynamic>{},
@@ -57,9 +57,9 @@ extension RoutingExtension on BuildContext {
         queryParams: queryParams,
       );
 
-  pop<T extends Object?>([T? result]) => go_router.GoRouter.of(this).pop(result);
+  myPop<T extends Object?>([T? result]) => go_router.GoRouter.of(this).pop(result);
 
-  canPop() => go_router.GoRouter.of(this).canPop();
+  myCanPop() => go_router.GoRouter.of(this).canPop();
 
   aboutApp(
     Widget applicationIcon,

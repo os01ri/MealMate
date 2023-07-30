@@ -6,7 +6,7 @@ import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mealmate/core/ui/ui_messages.dart';
+import 'package:mealmate/core/ui/toaster.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';

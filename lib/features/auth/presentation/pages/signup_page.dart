@@ -11,7 +11,7 @@ import '../../../../core/helper/helper.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
-import '../../../../core/ui/ui_messages.dart';
+import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
@@ -146,8 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().register(
                               RegisterUserParams(
-                                name:
-                                    "${_firstNameController.text} ${_lastNameController.text}",
+                                name: "${_firstNameController.text} ${_lastNameController.text}",
                                 email: _emailController.text,
                                 userName: _userNameController.text,
                                 password: _passwordController.text,
@@ -161,7 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: TextButton(
                       child: Text(serviceLocator<LocalizationClass>().appLocalizations!.orLogin),
                       onPressed: () {
-                        context.goNamed(RoutesNames.login);
+                        context.myGoNamed(RoutesNames.login);
                       },
                     ),
                   ),
@@ -198,9 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
       Toaster.closeLoading();
       log(state.user!.tokenInfo!.token!);
       Helper.setUserToken(state.user!.tokenInfo!.token!);
-      context.goNamed(RoutesNames.otp,
-          extra: OtpPageParams(
-              email: _emailController.text, authCubit: AuthCubit()));
+      context.myGoNamed(RoutesNames.otp, extra: OtpPageParams(email: _emailController.text, authCubit: AuthCubit()));
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);

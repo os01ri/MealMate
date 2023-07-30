@@ -8,14 +8,13 @@ import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/ui_messages.dart';
+import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
 import '../widgets/auth_text_field.dart';
-
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -116,7 +115,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     }
     if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
-      context.goNamed(
+      context.myGoNamed(
         RoutesNames.login,
       );
     }

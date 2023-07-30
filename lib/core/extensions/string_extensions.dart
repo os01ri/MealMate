@@ -5,5 +5,7 @@ extension StringParser on String {
   String get png => '$this.png';
   String get json => '$this.json';
 
-  String getMediaName() => split('/').last.split('.').last;
+  String getMediaType() => split('/').last.split('.').last;
+
+  String getMediaName() => split('/').last.split('.').first;
 }

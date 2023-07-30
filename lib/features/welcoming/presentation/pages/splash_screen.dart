@@ -15,12 +15,12 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(AppConfig.splashScreenDuration).whenComplete(() async {
       if (await Helper.isFirstTimeOpeningApp()) {
-        if (context.mounted) context.goNamed(RoutesNames.onboarding);
+        if (context.mounted) context.myGoNamed(RoutesNames.onboarding);
       } else if (Helper.isAuthSavedToStorage()) {
         Helper.setUserToken((Helper.getTokenFromStorage())!);
-        if (context.mounted) context.goNamed(RoutesNames.recipesHome);
+        if (context.mounted) context.myGoNamed(RoutesNames.recipesHome);
       } else {
-        if (context.mounted) context.goNamed(RoutesNames.login);
+        if (context.mounted) context.myGoNamed(RoutesNames.login);
       }
     });
 

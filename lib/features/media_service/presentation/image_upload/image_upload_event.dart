@@ -10,11 +10,10 @@ class GoImageUploadEvent extends ImageUploadEvent {
 
 class SetImageEvent extends ImageUploadEvent {
   final File media;
-  final int mediaType;
   final bool isUploaded;
+  
   const SetImageEvent({
     required this.media,
-    this.mediaType = MediaTypeExtension.imageVal,
     this.isUploaded = false,
   });
 }

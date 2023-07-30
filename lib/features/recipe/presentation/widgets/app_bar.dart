@@ -35,7 +35,7 @@ class RecipeAppBar extends AppBar {
                     IconButton(
                       style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
                       onPressed: () {
-                        context.pop();
+                        context.myPop();
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios_rounded,

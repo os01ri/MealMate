@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../core/extensions/routing_extensions.dart';
 import '../../core/extensions/widget_extensions.dart';
 import '../../core/ui/theme/colors.dart';
-import 'cubit/navigation_cubit.dart';
-
 import '../../router/routes_names.dart';
+import 'cubit/navigation_cubit.dart';
 
 class MainPage extends StatelessWidget {
   final Widget screen;
@@ -70,7 +70,7 @@ class MainPage extends StatelessWidget {
             color: Colors.white,
           ).paddingAll(12.0),
           onPressed: () {
-            context.push(RoutesNames.recipeCreate);
+            context.myPush(RoutesNames.recipeCreate);
           },
         ),
       ),
@@ -109,7 +109,7 @@ class MainPage extends StatelessWidget {
                               onPressed: () {
                                 if (state.index != e.index) {
                                   context.read<NavigationCubit>().updateNavBarItem(e.index);
-                                  context.go(_tabs[e.index].initialLocation);
+                                  context.myGo(_tabs[e.index].initialLocation);
                                 }
                               },
                             ),

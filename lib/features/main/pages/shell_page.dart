@@ -12,8 +12,6 @@ class ShellPage extends StatelessWidget {
   final Widget screen;
 
   const ShellPage({Key? key, required this.screen}) : super(key: key);
- 
- 
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +54,7 @@ class ShellPage extends StatelessWidget {
                             onPressed: () {
                               if (state.index != e.index) {
                                 context.read<NavigationCubit>().updateNavBarItem(e.index);
-                                context.goNamed(_tabs[e.index].routePath);
+                                context.myGoNamed(_tabs[e.index].routePath);
                               }
                             },
                           ),

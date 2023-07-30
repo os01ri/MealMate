@@ -11,7 +11,7 @@ class _RecipeCard extends StatelessWidget {
       fit: BoxFit.fitHeight,
       child: GestureDetector(
         onTap: () {
-          context.pushNamed(RoutesNames.recipeIntro, extra: recipe);
+          context.myPushNamed(RoutesNames.recipeIntro, extra: recipe);
         },
         child: Container(
           margin: const EdgeInsetsDirectional.only(start: 15),
@@ -20,7 +20,7 @@ class _RecipeCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
-            children: [ 
+            children: [
               CachedNetworkImage(
                 hash: recipe.hash!,
                 borderRadius: BorderRadius.circular(15),

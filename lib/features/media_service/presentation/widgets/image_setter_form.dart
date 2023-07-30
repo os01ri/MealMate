@@ -9,10 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:mealmate/features/media_service/presentation/widgets/cache_network_image.dart';
-import 'package:mealmate/features/media_service/presentation/widgets/video_viewer.dart';
 
 import '../../../../core/helper/helper.dart';
-import '../../../../core/helper/media_type.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
 import '../../../../core/ui/widgets/gif_image.dart';
@@ -34,7 +32,6 @@ class ImageSetterForm extends StatefulWidget {
     this.heightFactor,
     this.widthFactor,
     this.cropperRatio = CropperRatio.horizontalRectangle,
-    this.mediaType = MediaTypeExtension.imageVal,
     this.mediaModelNotifier,
     this.bloc,
     this.file,
@@ -51,7 +48,6 @@ class ImageSetterForm extends StatefulWidget {
   final double? heightFactor;
   final double? widthFactor;
   final CropperRatio cropperRatio;
-  final int mediaType;
   final ValueNotifier<MediaModel?>? mediaModelNotifier;
   final ImageUploadBloc? bloc;
   final File? file;
@@ -112,7 +108,6 @@ class _ImageSetterFormState extends State<ImageSetterForm> {
         cropAspectRatio: cropAspectRatio,
         widthFactor: widthFactor,
         heightFactor: heightFactor,
-        mediaType: widget.mediaType,
         borderColor: widget.borderColor,
       );
     }
@@ -176,34 +171,7 @@ class _NetworkMedia extends StatefulWidget {
 }
 
 class _NetworkMediaState extends State<_NetworkMedia> with TickerProviderStateMixin {
-  late final FlutterGifController gifController;
   List<ImageInfo> infos = [];
-
-  @override
-  void initState() {
-    super.initState();
-    gifController = FlutterGifController(
-      vsync: this,
-      animationBehavior: AnimationBehavior.preserve,
-      duration: const Duration(seconds: 2),
-    );
-
-    if (widget.mediaModelNotifier.value!.mediaType == MediaType.gif.value) {
-      () async {
-        infos = await fetchGif(NetworkImage(widget.mediaModelNotifier.value!.mediaUrl!));
-      };
-      gifController.repeat(
-        min: 0,
-        max: infos.length.toDouble(),
-      );
-    }
-
-    gifController.addListener(() {
-      if (gifController.value.ceil() == infos.length) {
-        gifController.stop();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,68 +193,14 @@ class _NetworkMediaState extends State<_NetworkMedia> with TickerProviderStateMi
           ),
           child: Stack(
             children: [
-              widget.mediaModelNotifier.value!.mediaType == MediaType.image.value
-                  ? CachedNetworkImage(
-                      url: widget.mediaModelNotifier.value!.mediaUrl!,
-                      hash: widget.mediaModelNotifier.value!.hash!,
-                      borderRadius: BorderRadius.circular(15),
-                      width: size.width * widget.widthFactor,
-                      height: size.width * widget.heightFactor,
-                      fit: BoxFit.cover,
-                    )
-                  : widget.mediaModelNotifier.value!.mediaType == MediaType.video.value
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: GestureDetector(
-                            onTap: () async {
-                              await showGeneralDialog(
-                                context: context,
-                                pageBuilder: (context, c, s) {
-                                  return VideoViewer(
-                                    url: widget.mediaModelNotifier.value!.mediaUrl!,
-                                    hash: 'L4S\$ov~qxu~q~qj[WBj[t7j[Rjay',
-                                  );
-                                },
-                              );
-                            },
-                            child: Container(
-                              constraints: const BoxConstraints.expand(),
-                              child: AspectRatio(
-                                aspectRatio: 2 / 1,
-                                child: ClipRRect(
-                                  child: VideoViewer(
-                                    aspectRatio: .58,
-                                    volume: 0,
-                                    url: widget.mediaModelNotifier.value!.mediaUrl!,
-                                    hash: widget.mediaModelNotifier.value!.hash!,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : widget.mediaModelNotifier.value!.mediaType == MediaType.gif.value
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: GestureDetector(
-                                onTap: () {
-                                  gifController.reset();
-                                  gifController.repeat(
-                                    min: 0,
-                                    max: infos.length.toDouble(),
-                                  );
-                                },
-                                child: GifImage(
-                                  controller: gifController,
-                                  image: NetworkImage(
-                                    widget.mediaModelNotifier.value!.mediaUrl!,
-                                  ),
-                                  height: size.height * widget.heightFactor,
-                                  width: size.width * widget.widthFactor,
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
+              CachedNetworkImage(
+                url: widget.mediaModelNotifier.value!.mediaUrl!,
+                hash: widget.mediaModelNotifier.value!.hash!,
+                borderRadius: BorderRadius.circular(15),
+                width: size.width * widget.widthFactor,
+                height: size.width * widget.heightFactor,
+                fit: BoxFit.cover,
+              ),
               Positioned(
                 top: size.width * .01,
                 left: size.width * .01,
@@ -321,7 +235,7 @@ class _NetworkMediaState extends State<_NetworkMedia> with TickerProviderStateMi
 }
 
 class _UserSettingMedia extends StatefulWidget {
-  _UserSettingMedia({
+  const _UserSettingMedia({
     Key? key,
     required this.onSuccess,
     required this.title,
@@ -330,7 +244,6 @@ class _UserSettingMedia extends StatefulWidget {
     required this.heightFactor,
     required this.borderColor,
     this.loadingColor = AppColors.orange,
-    this.mediaType,
     this.onPickingFinished,
     this.onRemove,
     this.bloc,
@@ -338,7 +251,6 @@ class _UserSettingMedia extends StatefulWidget {
     this.isUploaded = false,
   }) : super(key: key);
 
-  int? mediaType;
   final File? file;
   final bool isUploaded;
   final ImageUploadBloc? bloc;
@@ -416,13 +328,6 @@ class _UserSettingMediaState extends State<_UserSettingMedia> with TickerProvide
         value: imageUploadBloc,
         child: BlocConsumer<ImageUploadBloc, ImageUploadState>(
           listener: (context, state) async {
-            if (widget.mediaType == MediaType.gif.value) {
-              infos = await fetchGif(FileImage(state.media!));
-              gifController.repeat(
-                min: 0,
-                max: infos.length.toDouble(),
-              );
-            }
             if (state.status == ImageUploadStatus.failed) {
               BotToast.showText(text: appLocalizations.error);
             }
@@ -434,49 +339,21 @@ class _UserSettingMediaState extends State<_UserSettingMedia> with TickerProvide
             return (state.media == null)
                 ? GestureDetector(
                     onTap: () async {
-                      if (widget.mediaType == MediaType.image.value) {
-                        Helper.pickImage().then(
-                          (value) {
-                            if (value != null) {
-                              if (widget.onPickingFinished != null) {
-                                widget.onPickingFinished!(value);
-                              }
-                              if (widget.file != null || widget.bloc == null) {
-                                imageUploadBloc.add(SetImageEvent(
-                                  media: value,
-                                  // mediaType: widget.mediaType!,
-                                ));
-                              }
+                      Helper.pickImage().then(
+                        (value) {
+                          if (value != null) {
+                            if (widget.onPickingFinished != null) {
+                              widget.onPickingFinished!(value);
                             }
-                          },
-                        );
-                      } else {
-                        widget.mediaType = await showDialog<int>(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              actionsAlignment: MainAxisAlignment.spaceEvenly,
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(MediaType.gif.value);
-                                    },
-                                    child: const Text('Gif')),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(MediaType.video.value);
-                                  },
-                                  child: const Text('Video'),
-                                )
-                              ],
-                            );
-                          },
-                        ).then((value) {
-                          final ok = [MediaType.gif.value, MediaType.video.value].contains(value);
-                          if (ok) getMedia(value!);
-                          return null;
-                        });
-                      }
+                            if (widget.file != null || widget.bloc == null) {
+                              imageUploadBloc.add(SetImageEvent(
+                                media: value,
+                                // mediaType: widget.mediaType!,
+                              ));
+                            }
+                          }
+                        },
+                      );
                     },
                     child: DottedBorder(
                       radius: const Radius.circular(15),
@@ -520,51 +397,12 @@ class _UserSettingMediaState extends State<_UserSettingMedia> with TickerProvide
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                            child: widget.mediaType == MediaType.image.value
-                                ? Image.file(
-                                    widget.file ?? state.media!,
-                                    width: size.width * widget.widthFactor,
-                                    height: size.width * widget.heightFactor,
-                                    fit: BoxFit.cover,
-                                  )
-                                : widget.mediaType == MediaType.video.value
-                                    ? GestureDetector(
-                                        onTap: () async {
-                                          await showGeneralDialog(
-                                            context: context,
-                                            pageBuilder: (context, c, s) {
-                                              return VideoViewer(
-                                                url: state.media!.path,
-                                                hash: 'L4S\$ov~qxu~q~qj[WBj[t7j[Rjay',
-                                                isFile: true,
-                                                aspectRatio: .58,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: ClipRRect(
-                                          child: VideoViewer(
-                                            isFile: true,
-                                            volume: 0,
-                                            url: state.media!.path,
-                                            hash: 'L4S\$ov~qxu~q~qj[WBj[t7j[Rjay',
-                                            aspectRatio: .58,
-                                          ),
-                                        ),
-                                      )
-                                    : widget.mediaType == MediaType.gif.value
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              gifController.reset();
-                                              gifController.repeat(min: 0, max: infos.length.toDouble());
-                                            },
-                                            child: GifImage(
-                                                controller: gifController,
-                                                image: FileImage(state.media!),
-                                                height: size.height * widget.heightFactor,
-                                                width: size.width * widget.widthFactor),
-                                          )
-                                        : const SizedBox(),
+                            child: Image.file(
+                              widget.file ?? state.media!,
+                              width: size.width * widget.widthFactor,
+                              height: size.width * widget.heightFactor,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           (state.status == ImageUploadStatus.loading)
                               ? const Center(child: CircularProgressIndicator.adaptive())

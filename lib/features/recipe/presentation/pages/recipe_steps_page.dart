@@ -7,10 +7,10 @@ import '../../../../core/helper/app_config.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
-import '../../../../core/ui/widgets/cache_network_image.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../data/models/recipe_step_model.dart';
 
 class RecipeStepsPage extends StatelessWidget {
@@ -131,7 +131,7 @@ class _StepsSection extends StatelessWidget {
                     color: AppColors.grey,
                     onPressed: () {
                       if (currentStepValue == 0) {
-                        context.pop();
+                        context.myPop();
                       } else {
                         currentStep.value--;
                       }
@@ -145,7 +145,7 @@ class _StepsSection extends StatelessWidget {
                     color: AppColors.mainColor,
                     onPressed: () {
                       if (currentStepValue == steps.length) {
-                        context.goNamed(RoutesNames.recipesHome);
+                        context.myGoNamed(RoutesNames.recipesHome);
                       } else {
                         currentStep.value++;
                       }

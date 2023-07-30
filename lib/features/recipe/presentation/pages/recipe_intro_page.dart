@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mealmate/core/ui/widgets/cache_network_image.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
@@ -9,10 +9,11 @@ import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/main_button.dart';
-import '../../data/models/recipe_model.dart';
-import '../widgets/app_bar.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../media_service/presentation/widgets/cache_network_image.dart';
+import '../../data/models/recipe_model.dart';
+import '../widgets/app_bar.dart';
 
 class RecipeIntroPage extends StatelessWidget {
   const RecipeIntroPage({super.key, required this.recipe});
@@ -99,7 +100,7 @@ class RecipeIntroPage extends StatelessWidget {
         color: AppColors.mainColor,
         width: context.width,
         onPressed: () {
-          context.pushNamed(RoutesNames.recipeDetails, extra: recipe.id);
+          context.myPushNamed(RoutesNames.recipeDetails, extra: recipe.id);
         },
       ).paddingHorizontal(8).padding(AppConfig.pagePadding).hero('button'),
     );

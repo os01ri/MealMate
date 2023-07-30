@@ -435,9 +435,7 @@ class _UserSettingMediaState extends State<_UserSettingMedia> with TickerProvide
                 ? GestureDetector(
                     onTap: () async {
                       if (widget.mediaType == MediaType.image.value) {
-                        Helper.getImageWithCrop(
-                          aspectRatio: widget.cropAspectRatio,
-                        ).then(
+                        Helper.pickImage().then(
                           (value) {
                             if (value != null) {
                               if (widget.onPickingFinished != null) {
@@ -627,9 +625,9 @@ class _UserSettingMediaState extends State<_UserSettingMedia> with TickerProvide
   }
 
   Future<void> getMedia(int mediaType) async {
-    final media = (mediaType == MediaType.gif.value) ? await Helper.getGif() : await Helper.getVideo();
-    if (media != null) {
-      imageUploadBloc.add(SetImageEvent(media: media));
-    }
+    // final media = (mediaType == MediaType.gif.value) ? await Helper.getGif() : await Helper.getVideo();
+    // if (media != null) {
+    //   imageUploadBloc.add(SetImageEvent(media: media));
+    // }
   }
 }

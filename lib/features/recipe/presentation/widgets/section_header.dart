@@ -10,9 +10,11 @@ class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
     required this.title,
+    this.showTrailing = true,
   });
 
   final String title;
+  final bool showTrailing;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +25,18 @@ class SectionHeader extends StatelessWidget {
           title,
           style: const TextStyle(color: AppColors.brown).largeFontSize.bold,
         ),
-        Row(
-          children: [
-            Text(
-              serviceLocator<LocalizationClass>().appLocalizations!.seeAll,
-              style: const TextStyle(color: AppColors.mainColor).normalFontSize.bold,
-            ),
-            const Icon(Icons.arrow_forward, color: AppColors.mainColor),
-          ],
-        ),
+        if (showTrailing)
+          Row(
+            children: [
+              Text(
+                serviceLocator<LocalizationClass>().appLocalizations!.seeAll,
+                style: const TextStyle(color: AppColors.mainColor).normalFontSize.bold,
+              ),
+              const Icon(Icons.arrow_forward, color: AppColors.mainColor),
+            ],
+          )
+        else
+          const SizedBox.shrink(),
       ],
     ).paddingHorizontal(20);
   }

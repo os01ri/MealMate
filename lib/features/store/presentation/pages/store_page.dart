@@ -39,12 +39,14 @@ class _StorePageState extends State<StorePage> {
   late final GlobalKey<CartIconKey> _wishlistKey;
   late final ValueNotifier<GlobalKey<CartIconKey>> _currentKey;
   late final ValueNotifier<int> _selectedCat;
+  late final TextEditingController _searchController;
   late final Function(GlobalKey) _runAddToCartAnimation;
 
   @override
   void initState() {
     super.initState();
     _cartKey = GlobalKey<CartIconKey>();
+    _searchController = TextEditingController();
     _wishlistKey = GlobalKey<CartIconKey>();
     _selectedCat = ValueNotifier(0);
     _currentKey = ValueNotifier(_cartKey);
@@ -146,12 +148,23 @@ class _StorePageState extends State<StorePage> {
             children: [
               Builder(builder: (context) {
                 return MainTextField(
-                  controller: TextEditingController(),
+                  controller: _searchController,
                   hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
                   prefixIcon: const Icon(Icons.search_rounded),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.cancel_outlined),
+                    onPressed: () {
+                      if (_searchController.text.isNotEmpty) {
+                        _searchController.clear();
+                        context.read<StoreCubit>().getIngredients(const IndexIngredientsParams());
+                      }
+                    },
+                  ),
                   onSubmitted: (searchTerm) {
-                    context.read<StoreCubit>().getIngredients(IndexIngredientsParams(name: searchTerm));
-                    _selectedCat.value = 0;
+                    if (searchTerm.isNotEmpty) {
+                      context.read<StoreCubit>().getIngredients(IndexIngredientsParams(name: searchTerm));
+                      _selectedCat.value = 0;
+                    }
                   },
                   textInputAction: TextInputAction.search,
                 ).paddingVertical(5).padding(AppConfig.pagePadding);
@@ -215,7 +228,7 @@ class _StorePageState extends State<StorePage> {
           6,
           (_) => const SkeltonLoading(
             height: 50,
-            width: 100,
+            width: 110,
             padding: 12,
             margin: EdgeInsetsDirectional.only(start: 15),
           ),

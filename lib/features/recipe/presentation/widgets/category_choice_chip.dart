@@ -19,7 +19,7 @@ class CategoryChoiceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
       margin: const EdgeInsetsDirectional.only(start: 15),
       decoration: BoxDecoration(
         color: isActive ? AppColors.mainColor : Colors.white,

@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, initialIndex: 0, vsync: this);
+    tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     index = ValueNotifier(0);
   }
 
@@ -38,24 +38,18 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
         context: context,
         centerText: true,
         leadingWidget: IconButton(
-          icon: const Icon(Icons.star_rounded, color: AppColors.orange),
-          onPressed: () {
-            context.myPushNamed(RoutesNames.favorite);
-          },
+          icon: const Icon(Icons.storefront_outlined, color: AppColors.orange),
+          onPressed: () => context.myPushNamed(RoutesNames.grocery),
         ),
         title: 'Profile',
         actions: [
           IconButton(
-            onPressed: () {
-              context.myPushNamed(RoutesNames.grocery);
-            },
-            icon: const Icon(Icons.storefront_outlined, color: AppColors.orange),
+            icon: const Icon(Icons.star_rounded, color: AppColors.orange),
+            onPressed: () => context.myPushNamed(RoutesNames.favorite),
           ),
           IconButton(
             icon: const Icon(Icons.settings_rounded, color: AppColors.orange),
-            onPressed: () {
-              context.myPushNamed(RoutesNames.settings);
-            },
+            onPressed: () => context.myPushNamed(RoutesNames.settings),
           ),
         ],
       ),

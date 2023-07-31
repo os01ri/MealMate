@@ -191,11 +191,13 @@ class _BodyWidget extends StatefulWidget {
 
 class _BodyWidgetState extends State<_BodyWidget> {
   late final ScrollController _scrollController;
+  late final ValueNotifier<int> _selectedCat;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _selectedCat = ValueNotifier(0);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.minScrollExtent) {
         widget.onDrag(
@@ -245,54 +247,122 @@ class _BodyWidgetState extends State<_BodyWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 25),
-          SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.categories),
+          SectionHeader(
+            title: serviceLocator<LocalizationClass>().appLocalizations!.categories,
+            showTrailing: false,
+          ),
           const SizedBox(height: 15),
-          Row(
-            children: [
-              CategoryChoiceChip(title: 'الإفطار', isActive: true, onTap: () {}),
-              for (int i = 0; i < 10; i++) CategoryChoiceChip(title: 'العشاء', isActive: false, onTap: () {}),
-            ],
-          ).scrollable(scrollDirection: Axis.horizontal),
-          for (int i = 10; i <= 50; i += 10) ...[
-            const SizedBox(height: 25),
-            SectionHeader(title: serviceLocator<LocalizationClass>().appLocalizations!.recommended),
-            const SizedBox(height: 15),
-            SizedBox(
-              height: context.height * .25,
-              child: BlocBuilder<RecipeCubit, RecipeState>(
-                builder: (context, state) {
-                  if (state.indexRecipeStatus == CubitStatus.loading) {
-                    return ListView.builder(
-                      itemCount: 4,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => Shimmer.fromColors(
-                          baseColor: Colors.grey.shade300,
-                          highlightColor: Colors.grey.shade200,
-                          child: Container(
-                            margin: const EdgeInsetsDirectional.only(start: 15),
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                            width: context.width * .4,
-                            height: context.height * .25,
-                            child: const Icon(Icons.abc),
-                          )),
-                    );
-                  } else if (state.indexRecipeStatus == CubitStatus.success) {
-                    return ListView.builder(
-                      itemCount: state.recipes.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => _RecipeCard(recipe: state.recipes[index]),
-                    );
-                  } else {
-                    return MainErrorWidget(onTap: () {
-                      context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams());
-                    });
-                  }
-                },
-              ),
-            ),
-          ],
+          _buildCategoriesListView(context),
+          const _Section(title: 'أحدث الوصفات'),
+          _Section(title: serviceLocator<LocalizationClass>().appLocalizations!.recommended),
+          const _Section(title: 'اهتماماتك'),
+          const _Section(title: 'الأكثر طلبَا'),
+          const _Section(title: 'الأعلى تقييما'),
         ],
       ),
+    );
+  }
+
+  Widget _buildCategoriesListView(BuildContext context) {
+    return SizedBox(
+      height: 75,
+      child: ValueListenableBuilder<int>(
+        valueListenable: _selectedCat,
+        builder: (context, value, child) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              // context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
+              //       categoryId: value != 0 ? state.ingredientsCategories[value].id : null,
+              //     ));
+            },
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsetsDirectional.only(end: 15),
+              children: [
+                CategoryChoiceChip(
+                  title: 'الكـل',
+                  isActive: 0 == value,
+                  onTap: () {
+                    _selectedCat.value = 0;
+                  },
+                ),
+                CategoryChoiceChip(
+                  title: 'الإفطار',
+                  isActive: 1 == value,
+                  onTap: () {
+                    _selectedCat.value = 1;
+                  },
+                ),
+                CategoryChoiceChip(
+                  title: 'الغداء',
+                  isActive: 2 == value,
+                  onTap: () {
+                    _selectedCat.value = 2;
+                  },
+                ),
+                CategoryChoiceChip(
+                  title: 'العشاء',
+                  isActive: 3 == value,
+                  onTap: () {
+                    _selectedCat.value = 3;
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ).paddingVertical(10),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  const _Section({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 25),
+        SectionHeader(title: title),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: context.height * .25,
+          child: BlocBuilder<RecipeCubit, RecipeState>(
+            builder: (context, state) {
+              if (state.indexRecipeStatus == CubitStatus.loading) {
+                return ListView.builder(
+                  itemCount: 4,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade200,
+                    child: Container(
+                      margin: const EdgeInsetsDirectional.only(start: 15),
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                      width: context.width * .4,
+                      height: context.height * .25,
+                      child: const Icon(Icons.abc),
+                    ),
+                  ),
+                );
+              } else if (state.indexRecipeStatus == CubitStatus.success) {
+                return ListView.builder(
+                  itemCount: state.recipes.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => _RecipeCard(recipe: state.recipes[index]),
+                );
+              } else {
+                return MainErrorWidget(onTap: () {
+                  context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams());
+                });
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

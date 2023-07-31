@@ -23,8 +23,11 @@ class RoutesNames {
   static const orderPlacedPage = 'order_placed';
   ////notification////
   static const notification = "notification";
+  ////profile////
+  static const profile = "profile";
+  static const settings = "settings";
+  static const favorite = "favorite";
 
-////grocery////
+  ////grocery////
   static const grocery = "grocery";
 }
-

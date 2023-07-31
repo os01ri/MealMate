@@ -21,6 +21,7 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> with TickerProviderStateMixin {
   late TabController tabController;
   late ValueNotifier<int> index;
+  
   @override
   void initState() {
     tabController = TabController(length: 3, initialIndex: 0, vsync: this);

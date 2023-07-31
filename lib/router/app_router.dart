@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mealmate/features/recipe/data/models/recipe_step_model.dart';
 
 import '../features/auth/presentation/pages/change_password_page.dart';
 import '../features/auth/presentation/pages/create_account_loading_page.dart';
@@ -13,7 +12,11 @@ import '../features/grocery/presentation/pages/grocery_screen.dart';
 import '../features/main/cubit/navigation_cubit.dart';
 import '../features/main/pages/shell_page.dart';
 import '../features/notification/notification_page.dart';
+import '../features/profile/presentation/pages/favorite_page.dart';
+import '../features/profile/presentation/pages/profile_page.dart';
+import '../features/profile/presentation/pages/settings_page.dart';
 import '../features/recipe/data/models/recipe_model.dart';
+import '../features/recipe/data/models/recipe_step_model.dart';
 import '../features/recipe/presentation/pages/recipe_create_page.dart';
 import '../features/recipe/presentation/pages/recipe_details_page.dart';
 import '../features/recipe/presentation/pages/recipe_intro_page.dart';
@@ -30,6 +33,7 @@ import 'routes_names.dart';
 import 'transitions/slide_transition.dart';
 
 class AppRouter {
+  const AppRouter._();
   static GoRouter get router => _router;
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -37,48 +41,12 @@ class AppRouter {
 
   static final GoRouter _router = GoRouter(
     initialLocation: '/welcome/splash',
-    // redirect: (context, state) => '/${RoutesNames.recipesHome}',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
-    routes: [
-      _welcomingRoutes,
-      _authRoutes,
-      _groceryRoutes,
-      _homeShellRoute,
-    ],
+    routes: [_onboardingRoutes, _authRoutes, _homeShellRoute],
   );
 
-  static final ShellRoute _homeShellRoute = ShellRoute(
-    navigatorKey: _shellNavigatorKey,
-    builder: (context, state, child) => BlocProvider<NavigationCubit>(
-      create: (context) => NavigationCubit(),
-      child: ShellPage(screen: child),
-    ),
-    routes: [
-      GoRoute(
-        path: '/${RoutesNames.recipesHome}',
-        name: RoutesNames.recipesHome,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
-        routes: _recipeRoutes,
-      ),
-      GoRoute(
-        path: '/${RoutesNames.storePage}',
-        name: RoutesNames.storePage,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
-        routes: _storeRoutes,
-      ),
-      GoRoute(
-        path: '/${RoutesNames.notification}',
-        name: RoutesNames.notification,
-        parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
-      ),
-    ],
-  );
-
-  static final _welcomingRoutes = GoRoute(
+  static final GoRoute _onboardingRoutes = GoRoute(
     path: '/welcome',
     builder: (context, state) => const Scaffold(),
     routes: [
@@ -97,7 +65,7 @@ class AppRouter {
     ],
   );
 
-  static final _authRoutes = GoRoute(
+  static final GoRoute _authRoutes = GoRoute(
     path: '/auth',
     builder: (context, state) => const Scaffold(),
     routes: [
@@ -148,7 +116,44 @@ class AppRouter {
     ],
   );
 
-  static final _recipeRoutes = [
+  static final ShellRoute _homeShellRoute = ShellRoute(
+    navigatorKey: _shellNavigatorKey,
+    builder: (context, state, child) => BlocProvider<NavigationCubit>(
+      create: (context) => NavigationCubit(),
+      child: ShellPage(screen: child),
+    ),
+    routes: [
+      GoRoute(
+        path: '/${RoutesNames.recipesHome}',
+        name: RoutesNames.recipesHome,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
+        routes: _recipeRoutes,
+      ),
+      GoRoute(
+        path: '/${RoutesNames.storePage}',
+        name: RoutesNames.storePage,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
+        routes: _storeRoutes,
+      ),
+      GoRoute(
+        path: '/${RoutesNames.notification}',
+        name: RoutesNames.notification,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
+      ),
+      GoRoute(
+        path: '/${RoutesNames.profile}',
+        name: RoutesNames.profile,
+        parentNavigatorKey: _shellNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: ProfilePage()),
+        routes: _profileRoutes,
+      ),
+    ],
+  );
+
+  static final List<GoRoute> _recipeRoutes = [
     GoRoute(
       path: RoutesNames.recipeIntro,
       name: RoutesNames.recipeIntro,
@@ -191,22 +196,7 @@ class AppRouter {
     ),
   ];
 
-  static final _groceryRoutes = GoRoute(
-    path: '/grocery',
-    builder: (context, state) => const Scaffold(),
-    routes: [
-      GoRoute(
-        path: RoutesNames.grocery,
-        name: RoutesNames.grocery,
-        parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) {
-          return slideTransition(context: context, state: state, child: const GroceryPage());
-        },
-      ),
-    ],
-  );
-
-  static final _storeRoutes = [
+  static final List<GoRoute> _storeRoutes = [
     GoRoute(
       path: '${RoutesNames.ingredient}/:id',
       name: RoutesNames.ingredient,
@@ -247,6 +237,33 @@ class AppRouter {
       pageBuilder: (context, state) {
         final arg = (state.extra as void Function(GlobalKey));
         return NoTransitionPage(child: WishlistPage(onAddToCart: arg));
+      },
+    ),
+  ];
+
+  static final List<GoRoute> _profileRoutes = [
+    GoRoute(
+      path: RoutesNames.favorite,
+      name: RoutesNames.favorite,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return slideTransition(context: context, state: state, child: const FavoritePage());
+      },
+    ),
+    GoRoute(
+      path: RoutesNames.grocery,
+      name: RoutesNames.grocery,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return slideTransition(context: context, state: state, child: const GroceryPage());
+      },
+    ),
+    GoRoute(
+      path: RoutesNames.settings,
+      name: RoutesNames.settings,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return slideTransition(context: context, state: state, child: const SettingsPage());
       },
     ),
   ];

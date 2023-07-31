@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../core/extensions/routing_extensions.dart';
 import '../../../core/extensions/widget_extensions.dart';
 import '../../../core/ui/theme/colors.dart';
-import '../cubit/navigation_cubit.dart';
 import '../../../router/routes_names.dart';
+import '../cubit/navigation_cubit.dart';
 
 part '../widgets/main_fab.dart';
 
@@ -92,7 +93,7 @@ class ShellPage extends StatelessWidget {
       index: 2,
     ),
     _MainNavigationBarItemWidget(
-      routePath: RoutesNames.recipesHome,
+      routePath: RoutesNames.profile,
       icon: Icon(Icons.person),
       label: 'Profile',
       index: 3,

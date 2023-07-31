@@ -101,20 +101,23 @@ class _StorePageState extends State<StorePage> {
                 clipBehavior: Clip.none,
                 children: [
                   Positioned(
-                      right: -5,
-                      child: BlocBuilder<CartCubit, CartState>(
-                        bloc: serviceLocator<CartCubit>(),
-                        builder: (context, state) {
-                          return state.cartItems.isNotEmpty
-                              ? Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: const BoxDecoration(color: AppColors.mainColor, shape: BoxShape.circle),
-                                  child: Text("${state.cartItems.length}",
-                                      style: AppTextStyles.styleWeight400(color: Colors.white, fontSize: 16)),
-                                )
-                              : const SizedBox.shrink();
-                        },
-                      )),
+                    right: -5,
+                    child: BlocBuilder<CartCubit, CartState>(
+                      bloc: serviceLocator<CartCubit>(),
+                      builder: (context, state) {
+                        return state.cartItems.isNotEmpty
+                            ? Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(color: AppColors.mainColor, shape: BoxShape.circle),
+                                child: Text(
+                                  "${state.cartItems.length}",
+                                  style: AppTextStyles.styleWeight400(color: Colors.white, fontSize: 16),
+                                ),
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    ),
+                  ),
                   AddToCartIcon(
                     key: _cartKey,
                     badgeOptions: const BadgeOptions(
@@ -137,14 +140,6 @@ class _StorePageState extends State<StorePage> {
                   ),
                 ],
               ),
-              AddToCartIcon(
-                  key: GlobalKey(),
-                  badgeOptions: const BadgeOptions(active: false),
-                  icon: IconButton(
-                      onPressed: () {
-                        context.myPushNamed(RoutesNames.grocery);
-                      },
-                      icon: const Icon(Icons.storefront_outlined)))
             ],
           ),
           body: Column(

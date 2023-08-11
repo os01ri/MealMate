@@ -21,7 +21,7 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> with TickerProviderStateMixin {
   late TabController tabController;
   late ValueNotifier<int> index;
-  
+
   @override
   void initState() {
     tabController = TabController(length: 3, initialIndex: 0, vsync: this);
@@ -144,18 +144,16 @@ class NotificationList extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(6.0),
         child: ListTile(
-          onTap: () {
-
-          },
+          onTap: () {},
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           tileColor: Colors.white,
           contentPadding: const EdgeInsets.all(8),
           title: Text(
-            notifications?[index]['title'] ?? 'NewRecipe',
+            notifications?[index]['title'] ?? 'وصفة جديدة من الشيف بوراك!',
             style: AppTextStyles.styleWeight600(fontSize: 16),
           ),
           subtitle: Text(notifications?[index]['description'] ??
-                  'Hmm. We’re having trouble finding that site We can’t connect to the server at www.google.com.')
+                  'قام الشيف بورك بنشر وصفته الجديدة "معكرونة بالباشاميل" على طريقته الخاصة، قم بتحضيرها اﻵن!')
               .paddingAll(10),
           iconColor: Colors.green,
           trailing: Icon(Icons.circle, color: Colors.red, size: context.width * .02).paddingHorizontal(10),

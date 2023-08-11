@@ -16,7 +16,6 @@ import '../features/profile/presentation/pages/favorite_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/profile/presentation/pages/settings_page.dart';
 import '../features/recipe/data/models/recipe_model.dart';
-import '../features/recipe/data/models/recipe_step_model.dart';
 import '../features/recipe/presentation/pages/recipe_create_page.dart';
 import '../features/recipe/presentation/pages/recipe_details_page.dart';
 import '../features/recipe/presentation/pages/recipe_intro_page.dart';
@@ -181,7 +180,7 @@ class AppRouter {
       pageBuilder: (context, state) => slideTransition(
         context: context,
         state: state,
-        child: RecipeStepsPage(steps: state.extra as List<RecipeStepModel>),
+        child: RecipeStepsPage(screenParams: state.extra as StepsScreenParams),
       ),
     ),
     GoRoute(

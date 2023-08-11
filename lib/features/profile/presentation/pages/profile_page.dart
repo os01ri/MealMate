@@ -108,9 +108,9 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     height: context.height * .3,
                     child: TabBarView(
                       controller: tabController,
-                      children: [
-                        Center(child: Text('${index.value}')),
-                        Center(child: Text('${index.value}')),
+                      children: const [
+                        Center(child: Text('لم تقم بتحديد تفضيلاتك بعد')),
+                        Center(child: Text('لم تقم بنشر وصفات بعد')),
                       ],
                     ),
                   ),

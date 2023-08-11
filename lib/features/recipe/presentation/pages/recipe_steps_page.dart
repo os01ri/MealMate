@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealmate/features/media_service/data/model/media_model.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -14,8 +15,10 @@ import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../data/models/recipe_step_model.dart';
 
 class RecipeStepsPage extends StatelessWidget {
-  const RecipeStepsPage({super.key, required this.steps});
-  final List<RecipeStepModel> steps;
+  const RecipeStepsPage({super.key, required this.screenParams});
+
+  final StepsScreenParams screenParams;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,12 +43,12 @@ class RecipeStepsPage extends StatelessWidget {
             CachedNetworkImage(
               width: context.width,
               height: context.height * .4,
-              hash: '',
-              url: 'http://food.programmer23.store/public/recipe/65902501689541771637.jpeg',
+              hash: screenParams.image.hash!,
+              url: screenParams.image.mediaUrl!,
               fit: BoxFit.fitWidth,
             ).positioned(top: 0),
             _StepsSection(
-              steps: steps,
+              steps: screenParams.steps,
             ).positioned(bottom: 0),
           ],
         ),
@@ -56,8 +59,10 @@ class RecipeStepsPage extends StatelessWidget {
 
 class _StepsSection extends StatelessWidget {
   _StepsSection({required this.steps});
+
   final List<RecipeStepModel> steps;
   final ValueNotifier<int> currentStep = ValueNotifier(0);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -91,11 +96,12 @@ class _StepsSection extends StatelessWidget {
                       stepNumber: i + 1,
                     ),
                   StepBullet(
-                      isActive: currentStepValue == steps.length,
-                      child: Icon(
-                        Icons.flag_outlined,
-                        color: currentStepValue == steps.length ? Colors.white : Colors.black,
-                      )),
+                    isActive: currentStepValue == steps.length,
+                    child: Icon(
+                      Icons.flag_outlined,
+                      color: currentStepValue == steps.length ? Colors.white : Colors.black,
+                    ),
+                  ),
                 ],
               ),
               Column(
@@ -200,4 +206,11 @@ class StepBullet extends StatelessWidget {
       ),
     );
   }
+}
+
+class StepsScreenParams {
+  final MediaModel image;
+  final List<RecipeStepModel> steps;
+
+  const StepsScreenParams({required this.image, required this.steps});
 }

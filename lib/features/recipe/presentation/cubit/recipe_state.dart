@@ -37,8 +37,6 @@ class RecipeState {
     this.addRecipeStatus = CubitStatus.initial,
     this.cookRecipeStatus = CubitStatus.initial,
     this.rateRecipeStatus = CubitStatus.initial,
-    this.recipeIngredients = const [],
-    this.ingredients = const [],
     this.recipes = const [],
     this.mostOrderedRecipes = const [],
     this.followingsRecipes = const [],

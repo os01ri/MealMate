@@ -74,54 +74,6 @@ class RecipeRepositoryImpl
   }
 
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesForUser(
-      {ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result =
-            await RemoteRecipeDatasource.indexRecipesForUser(params: params);
-        return Right(result);
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesTrending(
-      {ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result =
-            await RemoteRecipeDatasource.indexRecipesTrending(params: params);
-        return Right(result);
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesMostOrdered(
-      {ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesMostOrdered(
-            params: params);
-        return Right(result);
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesByFollowings(
-      {ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesByFollowings(
-            params: params);
-        return Right(result);
-      },
-    );
-  }
-
-  @override
   Future<Either<Failure, ShowRecipeResponseModel>> showRecipe(
       {required int id}) {
     return wrapHandling(tryCall: () async {

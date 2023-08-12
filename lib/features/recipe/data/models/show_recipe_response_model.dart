@@ -9,7 +9,8 @@ import 'recipe_model.dart';
 ShowRecipeResponseModel showRecipeResponseModelFromJson(String str) =>
     ShowRecipeResponseModel.fromJson(json.decode(str));
 
-String showRecipeResponseModelToJson(ShowRecipeResponseModel data) => json.encode(data.toJson());
+String showRecipeResponseModelToJson(ShowRecipeResponseModel data) =>
+    json.encode(data.toJson());
 
 class ShowRecipeResponseModel {
   final String? message;
@@ -22,7 +23,8 @@ class ShowRecipeResponseModel {
     this.success,
   });
 
-  factory ShowRecipeResponseModel.fromJson(Map<String, dynamic> json) => ShowRecipeResponseModel(
+  factory ShowRecipeResponseModel.fromJson(Map<String, dynamic> json) =>
+      ShowRecipeResponseModel(
         message: json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         success: json["success"],
@@ -38,7 +40,7 @@ class ShowRecipeResponseModel {
 class Data {
   final RecipeModel? recipes;
   final List<Nutritional>? nutritionals;
-  final int? sum;
+  final double? sum;
 
   Data({
     this.recipes,
@@ -47,16 +49,21 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        recipes: json["recipes"] == null ? null : RecipeModel.fromJson(json["recipes"]),
+        recipes: json["recipes"] == null
+            ? null
+            : RecipeModel.fromJson(json["recipes"]),
         nutritionals: json["nutritionals"] == null
             ? []
-            : List<Nutritional>.from(json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
+            : List<Nutritional>.from(
+                json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
         // sum: json["sum"],
       );
 
   Map<String, dynamic> toJson() => {
         "recipes": recipes?.toJson(),
-        "nutritionals": nutritionals == null ? [] : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
+        "nutritionals": nutritionals == null
+            ? []
+            : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
         "sum": sum,
       };
 }
@@ -94,7 +101,8 @@ class IngredientNutritionals {
     this.value,
   });
 
-  factory IngredientNutritionals.fromJson(Map<String, dynamic> json) => IngredientNutritionals(
+  factory IngredientNutritionals.fromJson(Map<String, dynamic> json) =>
+      IngredientNutritionals(
         value: json["value"],
       );
 
@@ -145,11 +153,16 @@ class Recipes {
         status: json["status"],
         userId: json["user_id"],
         type: json["type"] == null ? null : Category.fromJson(json["type"]),
-        category: json["category"] == null ? null : Category.fromJson(json["category"]),
+        category: json["category"] == null
+            ? null
+            : Category.fromJson(json["category"]),
         ingredients: json["ingredients"] == null
             ? []
-            : List<Ingredient>.from(json["ingredients"]!.map((x) => Ingredient.fromJson(x))),
-        steps: json["steps"] == null ? [] : List<Step>.from(json["steps"]!.map((x) => Step.fromJson(x))),
+            : List<Ingredient>.from(
+                json["ingredients"]!.map((x) => Ingredient.fromJson(x))),
+        steps: json["steps"] == null
+            ? []
+            : List<Step>.from(json["steps"]!.map((x) => Step.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -164,8 +177,12 @@ class Recipes {
         "user_id": userId,
         "type": type?.toJson(),
         "category": category?.toJson(),
-        "ingredients": ingredients == null ? [] : List<dynamic>.from(ingredients!.map((x) => x.toJson())),
-        "steps": steps == null ? [] : List<dynamic>.from(steps!.map((x) => x.toJson())),
+        "ingredients": ingredients == null
+            ? []
+            : List<dynamic>.from(ingredients!.map((x) => x.toJson())),
+        "steps": steps == null
+            ? []
+            : List<dynamic>.from(steps!.map((x) => x.toJson())),
       };
 }
 
@@ -225,8 +242,9 @@ class Ingredient {
         url: json["url"],
         hash: json["hash"],
         priceBy: json["price_by"],
-        recipeIngredient:
-            json["recipe_ingredient"] == null ? null : RecipeIngredient.fromJson(json["recipe_ingredient"]),
+        recipeIngredient: json["recipe_ingredient"] == null
+            ? null
+            : RecipeIngredient.fromJson(json["recipe_ingredient"]),
         unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
       );
 
@@ -249,7 +267,8 @@ class RecipeIngredient {
     this.quantity,
   });
 
-  factory RecipeIngredient.fromJson(Map<String, dynamic> json) => RecipeIngredient(
+  factory RecipeIngredient.fromJson(Map<String, dynamic> json) =>
+      RecipeIngredient(
         quantity: json["quantity"],
       );
 

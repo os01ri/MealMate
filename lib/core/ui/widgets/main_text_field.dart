@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
@@ -29,7 +30,8 @@ class MainTextField extends StatefulWidget {
     this.onSubmitted,
     required this.controller,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
-    this.contentPadding = const EdgeInsets.symmetric(vertical: 18.0, horizontal: 15),
+    this.contentPadding =
+        const EdgeInsets.symmetric(vertical: 18.0, horizontal: 15),
     this.textAlign = TextAlign.start,
   }) : super(key: key);
 
@@ -63,7 +65,8 @@ class MainTextField extends StatefulWidget {
   State<MainTextField> createState() => _MainTextFieldState();
 }
 
-class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserver {
+class _MainTextFieldState extends State<MainTextField>
+    with WidgetsBindingObserver {
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addObserver(this);
@@ -89,6 +92,9 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
         textInputAction: widget.textInputAction,
         cursorColor: widget.borderColor ?? Theme.of(context).primaryColor,
         enabled: widget.enabled,
+        inputFormatters: widget.keyboardType == TextInputType.number
+            ? [FilteringTextInputFormatter.digitsOnly]
+            : null,
         keyboardType: widget.keyboardType,
         maxLines: widget.maxLines,
         onChanged: widget.onChanged,
@@ -134,12 +140,15 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
           disabledBorder: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
             borderSide: BorderSide(
-              color: widget.error ? Theme.of(context).colorScheme.error : AppColors.lightTextColor,
+              color: widget.error
+                  ? Theme.of(context).colorScheme.error
+                  : AppColors.lightTextColor,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
-            borderSide: BorderSide(color: widget.borderColor ?? AppColors.mainColor),
+            borderSide:
+                BorderSide(color: widget.borderColor ?? AppColors.mainColor),
           ),
           border: OutlineInputBorder(
             borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
@@ -147,9 +156,13 @@ class _MainTextFieldState extends State<MainTextField> with WidgetsBindingObserv
           ),
 
           prefixIcon: widget.prefixIcon,
-          prefixIconConstraints: widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
+          prefixIconConstraints: widget.smallSuffixIcon
+              ? BoxConstraints(maxWidth: size.width * .15)
+              : null,
           suffixIcon: widget.suffixIcon,
-          suffixIconConstraints: widget.smallSuffixIcon ? BoxConstraints(maxWidth: size.width * .15) : null,
+          suffixIconConstraints: widget.smallSuffixIcon
+              ? BoxConstraints(maxWidth: size.width * .15)
+              : null,
           // contentPadding: widget.maxLines != 1 ? null : const EdgeInsets.symmetric(horizontal: 16.0),
         ),
       ),

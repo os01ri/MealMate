@@ -16,12 +16,19 @@ class RecipeState {
   final List<RecipeModel> mostOrderedRecipes;
   final List<RecipeModel> followingsRecipes;
 
-  final RecipeModel? recipe;
-
   final List<IngredientModel> ingredients;
-  final List<IngredientModel> recipeIngredients;
+  final List<CartItemModel> recipeIngredients;
+  final RecipeModel? recipe;
+  final List<RecipeStepModel> steps;
+  final List<RecipeCategoryModel> categories;
+  final List<RecipeCategoryModel> types;
 
   const RecipeState({
+    this.recipeIngredients = const [],
+    this.ingredients = const [],
+    this.steps = const [],
+    this.types = const [],
+    this.categories = const [],
     this.indexRecipeStatus = CubitStatus.initial,
     this.indexTrendingRecipeStatus = CubitStatus.initial,
     this.indexMostOrderedRecipeStatus = CubitStatus.initial,
@@ -45,6 +52,8 @@ class RecipeState {
     CubitStatus? indexMostOrderedRecipeStatus,
     CubitStatus? indexByFollowingRecipeStatus,
     CubitStatus? showRecipeStatus,
+    List<RecipeCategoryModel>? categories,
+    List<RecipeCategoryModel>? types,
     CubitStatus? addRecipeStatus,
     CubitStatus? cookRecipeStatus,
     CubitStatus? rateRecipeStatus,
@@ -54,29 +63,27 @@ class RecipeState {
     List<RecipeModel>? followingsRecipes,
     RecipeModel? recipe,
     List<IngredientModel>? ingredients,
-    List<IngredientModel>? recipeIngredients,
+    List<CartItemModel>? recipeIngredients,
+    List<RecipeStepModel>? steps,
   }) {
     return RecipeState(
-      indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
-      indexTrendingRecipeStatus: indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
-      indexMostOrderedRecipeStatus: indexMostOrderedRecipeStatus ?? this.indexMostOrderedRecipeStatus,
-      indexByFollowingRecipeStatus: indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
-      showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
-      addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,
-      cookRecipeStatus: cookRecipeStatus ?? this.cookRecipeStatus,
-      rateRecipeStatus: rateRecipeStatus ?? this.rateRecipeStatus,
-      recipes: recipes ?? this.recipes,
-      trendingRecipes: trendingRecipes ?? this.trendingRecipes,
-      mostOrderedRecipes: mostOrderedRecipes ?? this.mostOrderedRecipes,
-      followingsRecipes: followingsRecipes ?? this.followingsRecipes,
-      recipe: recipe ?? this.recipe,
-      ingredients: ingredients ?? this.ingredients,
-      recipeIngredients: recipeIngredients ?? this.recipeIngredients,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'RecipeState(indexRecipeStatus: $indexRecipeStatus, indexTrendingRecipeStatus: $indexTrendingRecipeStatus, indexMostOrderedRecipeStatus: $indexMostOrderedRecipeStatus, indexByFollowingRecipeStatus: $indexByFollowingRecipeStatus, showRecipeStatus: $showRecipeStatus, addRecipeStatus: $addRecipeStatus, cookRecipeStatus: $cookRecipeStatus, rateRecipeStatus: $rateRecipeStatus, recipes: $recipes, trendingRecipes: $trendingRecipes, mostOrderedRecipes: $mostOrderedRecipes, followingsRecipes: $followingsRecipes, recipe: $recipe, ingredients: $ingredients, recipeIngredients: $recipeIngredients)';
+        indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
+        indexTrendingRecipeStatus:
+            indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
+        indexMostOrderedRecipeStatus:
+            indexMostOrderedRecipeStatus ?? this.indexMostOrderedRecipeStatus,
+        indexByFollowingRecipeStatus:
+            indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
+        showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
+        addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,
+        cookRecipeStatus: cookRecipeStatus ?? this.cookRecipeStatus,
+        rateRecipeStatus: rateRecipeStatus ?? this.rateRecipeStatus,
+        recipes: recipes ?? this.recipes,
+        trendingRecipes: trendingRecipes ?? this.trendingRecipes,
+        mostOrderedRecipes: mostOrderedRecipes ?? this.mostOrderedRecipes,
+        followingsRecipes: followingsRecipes ?? this.followingsRecipes,
+        recipe: recipe ?? this.recipe,
+        ingredients: ingredients ?? this.ingredients,
+        recipeIngredients: recipeIngredients ?? this.recipeIngredients);
   }
 }

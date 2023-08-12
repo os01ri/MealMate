@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:mealmate/features/recipe/data/models/recipe_category_model.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/helper/type_defs.dart';
@@ -9,55 +10,120 @@ import '../datasources/remote_recipe_datasource.dart';
 import '../models/index_recipes_response_model.dart';
 import '../models/show_recipe_response_model.dart';
 
-class RecipeRepositoryImpl with HandlingExceptionManager implements RecipeRepository {
+class RecipeRepositoryImpl
+    with HandlingExceptionManager
+    implements RecipeRepository {
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipes({ParamsMap params}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipes(
+      {ParamsMap params}) {
     return wrapHandling(
       tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipes(params: params);
-        return Right(result);
-      },
-    );
-  }
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesForUser({ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesForUser(params: params);
-        return Right(result);
-      },
-    );
-  }
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesTrending({ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesTrending(params: params);
-        return Right(result);
-      },
-    );
-  }
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesMostOrdered({ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesMostOrdered(params: params);
-        return Right(result);
-      },
-    );
-  }
-  @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesByFollowings({ParamsMap params}) {
-    return wrapHandling(
-      tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesByFollowings(params: params);
+        final result =
+            await RemoteRecipeDatasource.indexRecipes(params: params);
         return Right(result);
       },
     );
   }
 
   @override
-  Future<Either<Failure, ShowRecipeResponseModel>> showRecipe({required int id}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesForUser(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result =
+            await RemoteRecipeDatasource.indexRecipesForUser(params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesTrending(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result =
+            await RemoteRecipeDatasource.indexRecipesTrending(params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesMostOrdered(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await RemoteRecipeDatasource.indexRecipesMostOrdered(
+            params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesByFollowings(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await RemoteRecipeDatasource.indexRecipesByFollowings(
+            params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesForUser(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result =
+            await RemoteRecipeDatasource.indexRecipesForUser(params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesTrending(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result =
+            await RemoteRecipeDatasource.indexRecipesTrending(params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesMostOrdered(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await RemoteRecipeDatasource.indexRecipesMostOrdered(
+            params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesByFollowings(
+      {ParamsMap params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await RemoteRecipeDatasource.indexRecipesByFollowings(
+            params: params);
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ShowRecipeResponseModel>> showRecipe(
+      {required int id}) {
     return wrapHandling(tryCall: () async {
       final result = await RemoteRecipeDatasource.showRecipe(id);
       return Right(result);
@@ -86,5 +152,27 @@ class RecipeRepositoryImpl with HandlingExceptionManager implements RecipeReposi
       final result = await RemoteRecipeDatasource.rateRecipe(body);
       return Right(result);
     });
+  }
+
+  @override
+  Future<Either<Failure, RecipeCategoryResponseModel>> indexRecipeCategories(
+      {ParamsMap? params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await RemoteRecipeDatasource.indexRecipeCategories();
+        return Right(result);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, RecipeCategoryResponseModel>> indexRecipeTypes(
+      {ParamsMap? params}) {
+    return wrapHandling(
+      tryCall: () async {
+        final result = await RemoteRecipeDatasource.indexRecipeTypes();
+        return Right(result);
+      },
+    );
   }
 }

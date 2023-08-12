@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/features/media_service/data/model/media_model.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -17,12 +18,10 @@ import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
-import '../../../media_service/data/model/media_model.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../store/data/models/index_ingredients_response_model.dart';
 import '../cubit/recipe_cubit.dart';
 import '../widgets/app_bar.dart';
-import 'recipe_steps_page.dart';
 
 part '../widgets/header_image.dart';
 part '../widgets/recipe_budget_card.dart';
@@ -50,7 +49,9 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
           return Scaffold(
             appBar: RecipeAppBar(
               context: context,
-              title: state.showRecipeStatus == CubitStatus.success ? state.recipe!.name! : 'loading...',
+              title: state.showRecipeStatus == CubitStatus.success
+                  ? state.recipe!.name!
+                  : 'loading...',
               actions: [
                 IconButton(
                   onPressed: () {},
@@ -74,7 +75,10 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                             price: state.recipe!.ingredients!
                                 .map((e) => e.price)
                                 .toList()
-                                .fold(0, (previousValue, element) => previousValue + element!),
+                                .fold(
+                                    0,
+                                    (previousValue, element) =>
+                                        previousValue + element!),
                             stepsCount: state.recipe!.steps!.length,
                           ).paddingVertical(8),
                           const _TabBar(),
@@ -84,7 +88,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                     ],
                   ).padding(AppConfig.pagePadding)
                 : const Center(child: CircularProgressIndicator.adaptive()),
-            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.miniCenterDocked,
             floatingActionButton: MainButton(
               color: AppColors.mainColor,
               onPressed: () {
@@ -103,7 +108,9 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                 }
               },
               width: context.width,
-              text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,
+              text: serviceLocator<LocalizationClass>()
+                  .appLocalizations!
+                  .startCooking,
             ).hero('button').padding(AppConfig.pagePadding),
           );
         },

@@ -90,7 +90,9 @@ class _StepsSection extends StatelessWidget {
             children: [
               Text(
                 currentStepValue == steps.length
-                    ? serviceLocator<LocalizationClass>().appLocalizations!.recipeFinished
+                    ? serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .recipeFinished
                     : '${serviceLocator<LocalizationClass>().appLocalizations!.step} ${currentStepValue + 1}',
                 style: const TextStyle().bold.largeFontSize,
               ),
@@ -107,7 +109,9 @@ class _StepsSection extends StatelessWidget {
                     isActive: currentStepValue == steps.length,
                     child: Icon(
                       Icons.flag_outlined,
-                      color: currentStepValue == steps.length ? Colors.white : Colors.black,
+                      color: currentStepValue == steps.length
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   ),
                 ],
@@ -136,7 +140,9 @@ class _StepsSection extends StatelessWidget {
               Text(
                 currentStepValue < steps.length
                     ? steps[currentStepValue].description!
-                    : serviceLocator<LocalizationClass>().appLocalizations!.congratsOnFinishingThRecipe,
+                    : serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .congratsOnFinishingThRecipe,
                 style: const TextStyle().normalFontSize.regular,
               ).paddingVertical(15).scrollable().expand(),
               BlocProvider(
@@ -147,23 +153,28 @@ class _StepsSection extends StatelessWidget {
                       listener: (context, state) {
                         if (state.cookRecipeStatus == CubitStatus.loading) {
                           Toaster.showLoading();
-                        } else if (state.cookRecipeStatus == CubitStatus.success) {
+                        } else if (state.cookRecipeStatus ==
+                            CubitStatus.success) {
                           Toaster.closeLoading();
 
                           if (state.rateRecipeStatus == CubitStatus.initial) {
                             showRateDialog(context);
-                          } else if (state.rateRecipeStatus == CubitStatus.loading) {
+                          } else if (state.rateRecipeStatus ==
+                              CubitStatus.loading) {
                             Toaster.showLoading();
-                          } else if (state.rateRecipeStatus == CubitStatus.success) {
+                          } else if (state.rateRecipeStatus ==
+                              CubitStatus.success) {
                             Toaster.closeLoading();
                             context.myPop();
                             context.myGoNamed(RoutesNames.recipesHome);
                             Toaster.showToast('شكرا لتقييمك للوصفة!');
-                          } else if (state.rateRecipeStatus == CubitStatus.failure) {
+                          } else if (state.rateRecipeStatus ==
+                              CubitStatus.failure) {
                             Toaster.closeLoading();
                             Toaster.showToast('أعد المحاولة!');
                           }
-                        } else if (state.cookRecipeStatus == CubitStatus.failure) {
+                        } else if (state.cookRecipeStatus ==
+                            CubitStatus.failure) {
                           Toaster.closeLoading();
                           Toaster.showToast('حدث خطأ، أعد المحاولة');
                         }
@@ -180,22 +191,32 @@ class _StepsSection extends StatelessWidget {
                               }
                             },
                             text: currentStepValue == 0
-                                ? serviceLocator<LocalizationClass>().appLocalizations!.cancel
-                                : serviceLocator<LocalizationClass>().appLocalizations!.previous,
+                                ? serviceLocator<LocalizationClass>()
+                                    .appLocalizations!
+                                    .cancel
+                                : serviceLocator<LocalizationClass>()
+                                    .appLocalizations!
+                                    .previous,
                             textColor: Colors.black,
                           ).paddingAll(8).expand(),
                           MainButton(
                             color: AppColors.mainColor,
                             onPressed: () {
                               if (currentStepValue == steps.length) {
-                                context.read<RecipeCubit>().cookRecipe(CookRecipeParams(id: id));
+                                context
+                                    .read<RecipeCubit>()
+                                    .cookRecipe(CookRecipeParams(id: id));
                               } else {
                                 currentStep.value++;
                               }
                             },
                             text: currentStepValue == steps.length
-                                ? serviceLocator<LocalizationClass>().appLocalizations!.finishCooking
-                                : serviceLocator<LocalizationClass>().appLocalizations!.next,
+                                ? serviceLocator<LocalizationClass>()
+                                    .appLocalizations!
+                                    .finishCooking
+                                : serviceLocator<LocalizationClass>()
+                                    .appLocalizations!
+                                    .next,
                           ).hero('button').paddingAll(8).expand(),
                         ],
                       ),
@@ -296,5 +317,6 @@ class StepsScreenParams {
   final MediaModel image;
   final List<RecipeStepModel> steps;
 
-  const StepsScreenParams({required this.recipeId, required this.image, required this.steps});
+  const StepsScreenParams(
+      {required this.recipeId, required this.image, required this.steps});
 }

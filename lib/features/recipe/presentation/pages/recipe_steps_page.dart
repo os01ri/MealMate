@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/helper/cubit_status.dart';
+import 'package:mealmate/core/ui/toaster.dart';
 import 'package:mealmate/features/media_service/data/model/media_model.dart';
+import 'package:mealmate/features/recipe/domain/usecases/rate_recipe_usecase.dart';
+import 'package:mealmate/features/recipe/presentation/cubit/recipe_cubit.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -13,6 +18,7 @@ import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../data/models/recipe_step_model.dart';
+import '../../domain/usecases/cook_recipe_usecase.dart';
 
 class RecipeStepsPage extends StatelessWidget {
   const RecipeStepsPage({super.key, required this.screenParams});
@@ -48,6 +54,7 @@ class RecipeStepsPage extends StatelessWidget {
               fit: BoxFit.fitWidth,
             ).positioned(top: 0),
             _StepsSection(
+              id: screenParams.recipeId,
               steps: screenParams.steps,
             ).positioned(bottom: 0),
           ],
@@ -58,8 +65,9 @@ class RecipeStepsPage extends StatelessWidget {
 }
 
 class _StepsSection extends StatelessWidget {
-  _StepsSection({required this.steps});
+  _StepsSection({required this.steps, required this.id});
 
+  final int id;
   final List<RecipeStepModel> steps;
   final ValueNotifier<int> currentStep = ValueNotifier(0);
 
@@ -104,68 +112,143 @@ class _StepsSection extends StatelessWidget {
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  //TODO!
-                  for (int i = 0; i < 0; i++) ...[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'صدور الدجاج',
-                          style: const TextStyle().normalFontSize.semiBold,
-                        ),
-                        const Text(
-                          '250 غ',
-                          style: TextStyle(),
-                        ),
-                      ],
-                    ).paddingAll(8),
-                    const Divider(),
-                  ],
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     //TODO!
+              //     for (int i = 0; i < 0; i++) ...[
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Text(
+              //             'صدور الدجاج',
+              //             style: const TextStyle().normalFontSize.semiBold,
+              //           ),
+              //           const Text(
+              //             '250 غ',
+              //             style: TextStyle(),
+              //           ),
+              //         ],
+              //       ).paddingAll(8),
+              //       const Divider(),
+              //     ],
+              //   ],
+              // ),
               Text(
                 currentStepValue < steps.length
                     ? steps[currentStepValue].description!
                     : serviceLocator<LocalizationClass>().appLocalizations!.congratsOnFinishingThRecipe,
                 style: const TextStyle().normalFontSize.regular,
               ).paddingVertical(15).scrollable().expand(),
-              Row(
-                children: [
-                  MainButton(
-                    color: AppColors.grey,
-                    onPressed: () {
-                      if (currentStepValue == 0) {
-                        context.myPop();
-                      } else {
-                        currentStep.value--;
-                      }
-                    },
-                    text: currentStepValue == 0
-                        ? serviceLocator<LocalizationClass>().appLocalizations!.cancel
-                        : serviceLocator<LocalizationClass>().appLocalizations!.previous,
-                    textColor: Colors.black,
-                  ).paddingAll(8).expand(),
-                  MainButton(
-                    color: AppColors.mainColor,
-                    onPressed: () {
-                      if (currentStepValue == steps.length) {
-                        context.myGoNamed(RoutesNames.recipesHome);
-                      } else {
-                        currentStep.value++;
-                      }
-                    },
-                    text: currentStepValue == steps.length
-                        ? serviceLocator<LocalizationClass>().appLocalizations!.finishCooking
-                        : serviceLocator<LocalizationClass>().appLocalizations!.next,
-                  ).hero('button').paddingAll(8).expand(),
-                ],
+              BlocProvider(
+                create: (context) => RecipeCubit(),
+                child: Builder(
+                  builder: (context) {
+                    return BlocListener<RecipeCubit, RecipeState>(
+                      listener: (context, state) {
+                        if (state.cookRecipeStatus == CubitStatus.loading) {
+                          Toaster.showLoading();
+                        } else if (state.cookRecipeStatus == CubitStatus.success) {
+                          Toaster.closeLoading();
+
+                          if (state.rateRecipeStatus == CubitStatus.initial) {
+                            showRateDialog(context);
+                          } else if (state.rateRecipeStatus == CubitStatus.loading) {
+                            Toaster.showLoading();
+                          } else if (state.rateRecipeStatus == CubitStatus.success) {
+                            Toaster.closeLoading();
+                            context.myPop();
+                            context.myGoNamed(RoutesNames.recipesHome);
+                            Toaster.showToast('شكرا لتقييمك للوصفة!');
+                          } else if (state.rateRecipeStatus == CubitStatus.failure) {
+                            Toaster.closeLoading();
+                            Toaster.showToast('أعد المحاولة!');
+                          }
+                        } else if (state.cookRecipeStatus == CubitStatus.failure) {
+                          Toaster.closeLoading();
+                          Toaster.showToast('حدث خطأ، أعد المحاولة');
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          MainButton(
+                            color: AppColors.grey,
+                            onPressed: () {
+                              if (currentStepValue == 0) {
+                                context.myPop();
+                              } else {
+                                currentStep.value--;
+                              }
+                            },
+                            text: currentStepValue == 0
+                                ? serviceLocator<LocalizationClass>().appLocalizations!.cancel
+                                : serviceLocator<LocalizationClass>().appLocalizations!.previous,
+                            textColor: Colors.black,
+                          ).paddingAll(8).expand(),
+                          MainButton(
+                            color: AppColors.mainColor,
+                            onPressed: () {
+                              if (currentStepValue == steps.length) {
+                                context.read<RecipeCubit>().cookRecipe(CookRecipeParams(id: id));
+                              } else {
+                                currentStep.value++;
+                              }
+                            },
+                            text: currentStepValue == steps.length
+                                ? serviceLocator<LocalizationClass>().appLocalizations!.finishCooking
+                                : serviceLocator<LocalizationClass>().appLocalizations!.next,
+                          ).hero('button').paddingAll(8).expand(),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           );
         },
       ).padding(AppConfig.pagePadding),
+    );
+  }
+
+  showRateDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (_) {
+        return Dialog(
+          child: Container(
+            decoration: BoxDecoration(borderRadius: AppConfig.borderRadius),
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'الرجاء تقييم الوصفة',
+                  style: const TextStyle().bold.normalFontSize,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    5,
+                    (index) => IconButton(
+                      onPressed: () => context.read<RecipeCubit>().rateRecipe(
+                            RateRecipeParams(
+                              id: id,
+                              rate: index + 1,
+                            ),
+                          ),
+                      icon: const Icon(
+                        Icons.star_rate_outlined,
+                        color: AppColors.mainColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -209,8 +292,9 @@ class StepBullet extends StatelessWidget {
 }
 
 class StepsScreenParams {
+  final int recipeId;
   final MediaModel image;
   final List<RecipeStepModel> steps;
 
-  const StepsScreenParams({required this.image, required this.steps});
+  const StepsScreenParams({required this.recipeId, required this.image, required this.steps});
 }

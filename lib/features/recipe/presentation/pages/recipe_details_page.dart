@@ -92,6 +92,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                   context.myPushNamed(
                     RoutesNames.recipeSteps,
                     extra: StepsScreenParams(
+                      recipeId: state.recipe!.id!,
                       image: MediaModel(
                         mediaUrl: state.recipe!.url!,
                         hash: state.recipe!.hash!,

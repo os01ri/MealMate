@@ -51,7 +51,7 @@ class Data {
         nutritionals: json["nutritionals"] == null
             ? []
             : List<Nutritional>.from(json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
-        sum: json["sum"],
+        // sum: json["sum"],
       );
 
   Map<String, dynamic> toJson() => {

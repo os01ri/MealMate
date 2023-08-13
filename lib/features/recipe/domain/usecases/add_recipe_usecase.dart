@@ -55,8 +55,11 @@ class AddRecipeParams implements UseCaseParams {
       "category_id": categoryId,
       "step": steps,
       "ingredient": ingredients
-          .map((e) =>
-              {'id': e.model!.id, 'quantity': e.quantity, 'unit_id': e.unitId})
+          .map((e) => {
+                'id': e.model!.id,
+                'quantity': e.quantity,
+                'unit_id': e.model!.unit!.id
+              })
           .toList()
     };
   }

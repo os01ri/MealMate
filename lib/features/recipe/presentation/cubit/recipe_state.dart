@@ -65,6 +65,9 @@ class RecipeState {
     List<RecipeStepModel>? steps,
   }) {
     return RecipeState(
+        steps: steps ?? this.steps,
+        categories: categories ?? this.categories,
+        types: types ?? this.types,
         indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
         indexTrendingRecipeStatus:
             indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,

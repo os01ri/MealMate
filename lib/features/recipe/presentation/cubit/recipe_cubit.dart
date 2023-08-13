@@ -46,26 +46,26 @@ class RecipeCubit extends Cubit<RecipeState> {
   final _cook = CookRecipeUseCase(repository: RecipeRepositoryImpl());
   final _rate = RateRecipeUseCase(repository: RecipeRepositoryImpl());
 
-  RecipeCubit() : super(RecipeState());
+  RecipeCubit() : super(const RecipeState());
 
   indexIngredients() async {
     final result = await _indexIngredients
         .call(const IndexIngredientsParams(page: 1, perPage: 100));
     result.fold((l) => indexIngredients(),
         (r) => emit(state.copyWith(ingredients: r.data!)));
-    result.fold((l) => indexIngredients(),
-        (r) => emit(state.copyWith(ingredients: r.data!)));
   }
 
   indexTypes() async {
-    final types = await _indexRecipeTypesUseCase.call(NoParams());
-    types.fold((l) => indexTypes(), (r) => emit(state.copyWith(types: r.data)));
+    final result = await _indexRecipeTypesUseCase.call(NoParams());
+    result.fold(
+        (l) => indexTypes(), (r) => emit(state.copyWith(types: r.data)));
   }
 
   indexCategories() async {
-    final categories = await _indexRecipeCategoriesUseCase.call(NoParams());
-    categories.fold((l) => indexCategories(),
-        (r) => emit(state.copyWith(categories: r.data)));
+    final result = await _indexRecipeCategoriesUseCase.call(NoParams());
+    result.fold((l) => indexCategories(), (r) {
+      emit(state.copyWith(categories: r.data));
+    });
   }
 
   addStepToRecipe(RecipeStepModel stepModel) {

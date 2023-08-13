@@ -3,7 +3,7 @@ class RecipeStepModel {
   final String? name;
   final int? rank;
   final String? description;
-  final String? time;
+  final int? time;
 
   RecipeStepModel({this.id, this.name, this.rank, this.description, this.time});
 

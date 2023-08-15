@@ -40,7 +40,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
   var qunatityController = TextEditingController();
   var typeController = TextEditingController();
   var categoryController = TextEditingController();
-  late int categroyId;
+  late int categoryId;
   late int typeId;
   var stepTimeController = TextEditingController();
   var stepDescriptionController = TextEditingController();
@@ -92,9 +92,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .createRecipe,
+                    serviceLocator<LocalizationClass>().appLocalizations!.createRecipe,
                     style: const TextStyle().xLargeFontSize.bold,
                   ).paddingVertical(10),
                   ClipRRect(
@@ -111,49 +109,29 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                       title: '+',
                     ).hero('picture'),
                   ).paddingVertical(5),
-                  Text(serviceLocator<LocalizationClass>()
-                      .appLocalizations!
-                      .recipeName),
+                  Text(serviceLocator<LocalizationClass>().appLocalizations!.recipeName),
                   MainTextField(
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .recipeName,
-                    validator: (recipeName) =>
-                        !(recipeName != null && recipeName.length > 3)
-                            ? serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .pleaseAddRecipeName
-                            : null,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.recipeName,
+                    validator: (recipeName) => !(recipeName != null && recipeName.length > 3)
+                        ? serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddRecipeName
+                        : null,
                     controller: recipeNameController,
                   ).paddingVertical(5),
-                  Text(serviceLocator<LocalizationClass>()
-                      .appLocalizations!
-                      .description),
+                  Text(serviceLocator<LocalizationClass>().appLocalizations!.description),
                   MainTextField(
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .description,
-                    validator: (description) =>
-                        description != null && description.length > 8
-                            ? null
-                            : serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .pleaseAddRecipeDescription,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.description,
+                    validator: (description) => description != null && description.length > 8
+                        ? null
+                        : serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddRecipeDescription,
                     controller: descriptionController,
                   ).paddingVertical(5),
-                  Text(serviceLocator<LocalizationClass>()
-                      .appLocalizations!
-                      .selectCategory),
+                  Text(serviceLocator<LocalizationClass>().appLocalizations!.selectCategory),
                   MainTextField(
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .selectCategory,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.selectCategory,
                     enabled: false,
                     validator: (value) => value != null
                         ? null
-                        : serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .pleaseSelectCategory,
+                        : serviceLocator<LocalizationClass>().appLocalizations!.pleaseSelectCategory,
                     controller: categoryController,
                   ).paddingVertical(5).onTap(() {
                     print(state.types.length);
@@ -168,46 +146,35 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                                     return Container(
                                       margin: const EdgeInsets.all(8),
                                       padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: AppColors.grey,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
+                                      decoration:
+                                          BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(15)),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           CachedNetworkImage(
-                                            hash: state.categories[index].hash,
-                                            url: state.categories[index].url,
+                                            hash: state.categories[index].hash!,
+                                            url: state.categories[index].url!,
                                             width: 50,
                                             height: 50,
                                             shape: BoxShape.circle,
                                           ),
-                                          Text(state.categories[index].name),
+                                          Text(state.categories[index].name!),
                                         ],
                                       ),
                                     ).onTap(() {
-                                      categoryController.text =
-                                          state.categories[index].name;
-                                      categroyId = state.categories[index].id;
+                                      categoryController.text = state.categories[index].name!;
+                                      categoryId = state.categories[index].id!;
                                       context.myPop();
                                     });
                                   }),
                             ));
                   }),
-                  Text(serviceLocator<LocalizationClass>()
-                      .appLocalizations!
-                      .selectType),
+                  Text(serviceLocator<LocalizationClass>().appLocalizations!.selectType),
                   MainTextField(
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .selectType,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.selectType,
                     enabled: false,
-                    validator: (value) => value != null
-                        ? null
-                        : serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .pleaseSelectType,
+                    validator: (value) =>
+                        value != null ? null : serviceLocator<LocalizationClass>().appLocalizations!.pleaseSelectType,
                     controller: typeController,
                   ).paddingVertical(5).onTap(() => showModalBottomSheet(
                       context: context,
@@ -220,47 +187,39 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                                 return Container(
                                   margin: const EdgeInsets.all(8),
                                   padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.grey,
-                                      borderRadius: BorderRadius.circular(15)),
+                                  decoration:
+                                      BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(15)),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CachedNetworkImage(
-                                        hash: state.types[index].hash,
-                                        url: state.types[index].url,
+                                        hash: state.types[index].hash!,
+                                        url: state.types[index].url!,
                                         width: 50,
                                         height: 50,
                                         shape: BoxShape.circle,
                                       ),
-                                      Text(state.types[index].name),
+                                      Text(state.types[index].name!),
                                     ],
                                   ),
                                 ).onTap(() {
-                                  typeController.text = state.types[index].name;
-                                  typeId = state.types[index].id;
+                                  typeController.text = state.types[index].name!;
+                                  typeId = state.types[index].id!;
                                   context.myPop();
                                 });
                               }),
                         );
                       })),
                   _DetailCard(
-                    title: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .serves,
+                    title: serviceLocator<LocalizationClass>().appLocalizations!.serves,
                     value: servesNotifier,
                   ).paddingVertical(5),
                   _DetailCard(
-                    title: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .time,
+                    title: serviceLocator<LocalizationClass>().appLocalizations!.time,
                     value: timeNotifier,
                   ).paddingVertical(5),
                   Text(
-                    serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .ingredients,
+                    serviceLocator<LocalizationClass>().appLocalizations!.ingredients,
                     style: const TextStyle().largeFontSize.bold,
                   ).paddingVertical(10),
                   ...List.generate(
@@ -271,9 +230,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                             ingredient: state.recipeIngredients[index].model!,
                           ).paddingAll(5)),
                   Text(
-                    serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .addNewIngredient,
+                    serviceLocator<LocalizationClass>().appLocalizations!.addNewIngredient,
                     style: const TextStyle().normalFontSize.extraBold,
                   ).paddingVertical(10).onTap(() => showModalBottomSheet(
                       context: context,
@@ -286,12 +243,10 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                                 return Container(
                                   margin: const EdgeInsets.all(8),
                                   padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.grey,
-                                      borderRadius: BorderRadius.circular(15)),
+                                  decoration:
+                                      BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(15)),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CachedNetworkImage(
                                         hash: state.ingredients[index].hash!,
@@ -304,9 +259,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                                     ],
                                   ),
                                 ).onTap(() {
-                                  cubit.addOrUpdateIngredientToRecipe(
-                                      CartItemModel(
-                                          model: state.ingredients[index]));
+                                  cubit.addOrUpdateIngredientToRecipe(CartItemModel(model: state.ingredients[index]));
                                   log('$ingredients');
                                   context.myPop();
                                 });
@@ -319,8 +272,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                             children: [
                               MainTextField(
                                 enabled: false,
-                                controller: TextEditingController(
-                                    text: state.steps[index].name),
+                                controller: TextEditingController(text: state.steps[index].name),
                               ).expand(flex: 2),
                               Container(
                                 width: context.width * .06,
@@ -331,71 +283,50 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                                     color: Colors.black,
                                   ),
                                 ),
-                                child: const Center(
-                                    child:
-                                        FittedBox(child: Icon(Icons.remove))),
-                              ).paddingAll(10).onTap(() =>
-                                  cubit.deleteStepFromRecipe(
-                                      state.steps[index].rank!))
+                                child: const Center(child: FittedBox(child: Icon(Icons.remove))),
+                              ).paddingAll(10).onTap(() => cubit.deleteStepFromRecipe(state.steps[index].rank!))
                             ],
                           ).paddingAll(5)),
                   Text(
-                    serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .addNewStep,
+                    serviceLocator<LocalizationClass>().appLocalizations!.addNewStep,
                     style: const TextStyle().normalFontSize.extraBold,
                   ).paddingVertical(10).onTap(() => showModalBottomSheet(
                       context: context,
                       builder: (context) {
                         return SizedBox(
                             height: .5 * context.height,
-                            child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  MainTextField(
-                                    hint: serviceLocator<LocalizationClass>()
-                                        .appLocalizations!
-                                        .stepName,
-                                    controller: stepNameController,
-                                  ),
-                                  MainTextField(
-                                    hint: serviceLocator<LocalizationClass>()
-                                        .appLocalizations!
-                                        .stepDescription,
-                                    controller: stepDescriptionController,
-                                  ),
-                                  MainTextField(
-                                    hint: serviceLocator<LocalizationClass>()
-                                        .appLocalizations!
-                                        .stepTime,
-                                    keyboardType: TextInputType.number,
-                                    controller: stepTimeController,
-                                  ),
-                                  MainButton(
-                                      text: serviceLocator<LocalizationClass>()
-                                          .appLocalizations!
-                                          .addStep,
-                                      color: AppColors.mainColor,
-                                      onPressed: () {
-                                        cubit.addStepToRecipe(RecipeStepModel(
-                                            description:
-                                                stepDescriptionController.text,
-                                            time: int.parse(
-                                                stepTimeController.text),
-                                            name: stepNameController.text,
-                                            rank: state.steps.length + 1));
-                                        stepDescriptionController.clear();
-                                        stepTimeController.clear();
-                                        stepNameController.clear();
-                                        Navigator.of(context).pop();
-                                      })
-                                ]));
+                            child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                              MainTextField(
+                                hint: serviceLocator<LocalizationClass>().appLocalizations!.stepName,
+                                controller: stepNameController,
+                              ),
+                              MainTextField(
+                                hint: serviceLocator<LocalizationClass>().appLocalizations!.stepDescription,
+                                controller: stepDescriptionController,
+                              ),
+                              MainTextField(
+                                hint: serviceLocator<LocalizationClass>().appLocalizations!.stepTime,
+                                keyboardType: TextInputType.number,
+                                controller: stepTimeController,
+                              ),
+                              MainButton(
+                                  text: serviceLocator<LocalizationClass>().appLocalizations!.addStep,
+                                  color: AppColors.mainColor,
+                                  onPressed: () {
+                                    cubit.addStepToRecipe(RecipeStepModel(
+                                        description: stepDescriptionController.text,
+                                        time: int.parse(stepTimeController.text),
+                                        name: stepNameController.text,
+                                        rank: state.steps.length + 1));
+                                    stepDescriptionController.clear();
+                                    stepTimeController.clear();
+                                    stepNameController.clear();
+                                    Navigator.of(context).pop();
+                                  })
+                            ]));
                       })),
                   MainButton(
-                    text: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .publish,
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.publish,
                     color: AppColors.mainColor,
                     onPressed: () {
                       if (formKey.currentState!.validate() &&
@@ -408,7 +339,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                             preparationTime: timeNotifier.value,
                             imageUrl: imageUrl,
                             typeId: typeId,
-                            categoryId: categroyId,
+                            categoryId: categoryId,
                             feeds: servesNotifier.value,
                             steps: state.steps,
                             ingredients: state.recipeIngredients));
@@ -457,8 +388,7 @@ class _Ingredient extends StatelessWidget {
                 .quantity
                 .toString(),
           onChanged: (value) {
-            cubit.addOrUpdateIngredientToRecipe(
-                CartItemModel(model: ingredient, quantity: int.parse(value)));
+            cubit.addOrUpdateIngredientToRecipe(CartItemModel(model: ingredient, quantity: int.parse(value)));
           },
           keyboardType: TextInputType.number,
         ).paddingHorizontal(20).expand(flex: 2),
@@ -472,9 +402,7 @@ class _Ingredient extends StatelessWidget {
             ),
           ),
           child: const Center(child: FittedBox(child: Icon(Icons.remove))),
-        )
-            .paddingAll(10)
-            .onTap(() => cubit.deleteIngredientFromRecipe(ingredient.id!)),
+        ).paddingAll(10).onTap(() => cubit.deleteIngredientFromRecipe(ingredient.id!)),
       ],
     );
   }

@@ -1,56 +1,72 @@
-// To parse this JSON data, do
-//
-//     final recipeCategoryResponseModel = recipeCategoryResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
 RecipeCategoryResponseModel recipeCategoryResponseModelFromJson(String str) =>
     RecipeCategoryResponseModel.fromJson(json.decode(str));
 
-String recipeCategoryResponseModelToJson(RecipeCategoryResponseModel data) =>
-    json.encode(data.toJson());
+String recipeCategoryResponseModelToJson(RecipeCategoryResponseModel data) => json.encode(data.toJson());
 
 class RecipeCategoryResponseModel {
-  final String message;
-  final List<RecipeCategoryModel> data;
-  final bool success;
+  final String? message;
+  final List<RecipeCategoryModel>? data;
+  final bool? success;
 
   RecipeCategoryResponseModel({
-    required this.message,
-    required this.data,
-    required this.success,
+    this.message,
+    this.data,
+    this.success,
   });
 
-  factory RecipeCategoryResponseModel.fromJson(Map<String, dynamic> json) =>
+  RecipeCategoryResponseModel copyWith({
+    String? message,
+    List<RecipeCategoryModel>? data,
+    bool? success,
+  }) =>
       RecipeCategoryResponseModel(
+        message: message ?? this.message,
+        data: data ?? this.data,
+        success: success ?? this.success,
+      );
+
+  factory RecipeCategoryResponseModel.fromJson(Map<String, dynamic> json) => RecipeCategoryResponseModel(
         message: json["message"],
-        data: List<RecipeCategoryModel>.from(
-            json["data"].map((x) => RecipeCategoryModel.fromJson(x))),
+        data: json["data"] == null ? [] : List<RecipeCategoryModel>.from(json["data"]!.map((x) => RecipeCategoryModel.fromJson(x))),
         success: json["success"],
       );
 
   Map<String, dynamic> toJson() => {
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
         "success": success,
       };
 }
 
 class RecipeCategoryModel {
-  final int id;
-  final String name;
-  final String url;
-  final String hash;
+  final int? id;
+  final String? name;
+  final String? url;
+  final String? hash;
 
-  RecipeCategoryModel({
-    required this.id,
-    required this.name,
-    required this.url,
-    required this.hash,
+  const RecipeCategoryModel({
+    this.id,
+    this.name,
+    this.url,
+    this.hash,
   });
 
-  factory RecipeCategoryModel.fromJson(Map<String, dynamic> json) =>
+  RecipeCategoryModel copyWith({
+    int? id,
+    String? name,
+    String? url,
+    String? hash,
+  }) =>
       RecipeCategoryModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        url: url ?? this.url,
+        hash: hash ?? this.hash,
+      );
+
+  factory RecipeCategoryModel.fromJson(Map<String, dynamic> json) => RecipeCategoryModel(
         id: json["id"],
         name: json["name"],
         url: json["url"],

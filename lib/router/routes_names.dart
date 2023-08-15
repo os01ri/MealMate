@@ -11,6 +11,7 @@ class RoutesNames {
   static const accountCreationLoading = 'account_creation_loading';
   ////recipes////
   static const recipesHome = 'recipes';
+  static const recipesSearch = 'search';
   static const recipeIntro = 'intro';
   static const recipeDetails = 'details';
   static const recipeSteps = 'steps';

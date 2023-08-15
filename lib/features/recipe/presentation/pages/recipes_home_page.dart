@@ -11,9 +11,9 @@ import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/error_widget.dart';
+import '../../../../core/ui/widgets/skelton_loading.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
-import '../../../main/widgets/main_drawer.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../data/models/recipe_model.dart';
 import '../../domain/usecases/index_recipes_usecase.dart';
@@ -45,10 +45,15 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   static double _searchButtonDownPosition(BuildContext context) => context.height * .29;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _allowScroll = ValueNotifier(false);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _bodyPosition = ValueNotifier(_bodyDownPosition(context));
     _searchButtonPosition = ValueNotifier(_searchButtonDownPosition(context));
   }
@@ -75,14 +80,14 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              IconButton(
-                onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                icon: Icon(
-                  Icons.menu_open_rounded,
-                  color: Colors.white,
-                  size: FontSize.heading_02,
-                ),
-              ),
+              // IconButton(
+              //   onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+              //   icon: Icon(
+              //     Icons.menu_open_rounded,
+              //     color: Colors.white,
+              //     size: FontSize.heading_02,
+              //   ),
+              // ),
               Text(
                 '${serviceLocator<LocalizationClass>().appLocalizations!.hello} Osama!',
                 style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
@@ -130,7 +135,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
             ],
           ),
         ),
-      ),
+      ).onTap(() => context.myPushNamed(RoutesNames.recipesSearch)),
     );
   }
 
@@ -162,14 +167,14 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RecipeCubit()
-        ..indexRecipes(const IndexRecipesParams())
-        ..indexRecipesMostOrdered(const IndexRecipesParams())
-        ..indexRecipesTrending(const IndexRecipesParams())
-        ..indexRecipesBuyFollowings(const IndexRecipesParams()),
+      create: (context) => RecipeCubit()..indexCategories()
+      ..indexRecipes(const IndexRecipesParams())
+      ..indexRecipesMostOrdered(const IndexRecipesParams())
+      ..indexRecipesTrending(const IndexRecipesParams())
+      ..indexRecipesBuyFollowings(const IndexRecipesParams()),
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: const MainDrawer(),
+        // drawer: const MainDrawer(),
         body: Stack(
           children: [
             _buildOrangeContainer(context),
@@ -258,7 +263,15 @@ class _BodyWidgetState extends State<_BodyWidget> {
             showTrailing: false,
           ),
           const SizedBox(height: 15),
-          _buildCategoriesListView(context),
+          BlocBuilder<RecipeCubit, RecipeState>(
+            builder: (context, state) {
+              return switch (context.read<RecipeCubit>().state.indexCategoriesStatus) {
+                CubitStatus.loading => _buildCategoriesSkeltonLoading(),
+                CubitStatus.success => _buildCategoriesListView(context),
+                _ => MainErrorWidget(onTap: () => context.read<RecipeCubit>().indexCategories()).center(),
+              };
+            },
+          ),
           const _Section(title: 'أحدث الوصفات', indexType: IndexType.newest),
           _Section(
             title: serviceLocator<LocalizationClass>().appLocalizations!.recommended,
@@ -268,6 +281,27 @@ class _BodyWidgetState extends State<_BodyWidget> {
           const _Section(title: 'الأكثر طلبَا', indexType: IndexType.trending),
           const _Section(title: 'الأعلى تقييما', indexType: IndexType.mostRated),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoriesSkeltonLoading() {
+    return SizedBox(
+      key: UniqueKey(),
+      height: 75,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsetsDirectional.only(end: 15),
+        children: List.generate(
+          6,
+          (_) => const SkeltonLoading(
+            height: 50,
+            width: 110,
+            padding: 12,
+            margin: EdgeInsetsDirectional.only(start: 15),
+          ),
+        ),
       ),
     );
   }
@@ -284,39 +318,23 @@ class _BodyWidgetState extends State<_BodyWidget> {
               //       categoryId: value != 0 ? state.ingredientsCategories[value].id : null,
               //     ));
             },
-            child: ListView(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsetsDirectional.only(end: 15),
-              children: [
-                CategoryChoiceChip(
-                  title: 'الكـل',
-                  isActive: 0 == value,
+              itemCount: context.read<RecipeCubit>().state.categories.length,
+              itemBuilder: (context, index) {
+                return CategoryChoiceChip(
+                  title: context.read<RecipeCubit>().state.categories[index].name!,
+                  isActive: index == value,
                   onTap: () {
-                    _selectedCat.value = 0;
+                    _selectedCat.value = index;
+
+                    context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams(
+                        //TODOOOOOO: categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
+                        ));
                   },
-                ),
-                CategoryChoiceChip(
-                  title: 'الإفطار',
-                  isActive: 1 == value,
-                  onTap: () {
-                    _selectedCat.value = 1;
-                  },
-                ),
-                CategoryChoiceChip(
-                  title: 'الغداء',
-                  isActive: 2 == value,
-                  onTap: () {
-                    _selectedCat.value = 2;
-                  },
-                ),
-                CategoryChoiceChip(
-                  title: 'العشاء',
-                  isActive: 3 == value,
-                  onTap: () {
-                    _selectedCat.value = 3;
-                  },
-                ),
-              ],
+                );
+              },
             ),
           );
         },

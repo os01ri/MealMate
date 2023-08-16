@@ -10,14 +10,14 @@ import '../../../../router/routes_names.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ControlPanelPage extends StatefulWidget {
+  const ControlPanelPage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ControlPanelPage> createState() => _ControlPanelPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+class _ControlPanelPageState extends State<ControlPanelPage> with SingleTickerProviderStateMixin {
   static const _verticalSeparator = SizedBox(height: 20);
   static const _horizontalSeparator = SizedBox(width: 20);
 

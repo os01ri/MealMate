@@ -93,7 +93,7 @@ class ShellPage extends StatelessWidget {
       index: 2,
     ),
     _MainNavigationBarItemWidget(
-      routePath: RoutesNames.profile,
+      routePath: RoutesNames.controlPanel,
       icon: Icon(Icons.person),
       label: 'Profile',
       index: 3,

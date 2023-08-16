@@ -8,13 +8,13 @@ import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/otp_page.dart';
 import '../features/auth/presentation/pages/reset_password_page.dart';
 import '../features/auth/presentation/pages/signup_page.dart';
+import '../features/control_panel/presentation/pages/favorite_page.dart';
+import '../features/control_panel/presentation/pages/control_panel_page.dart';
+import '../features/control_panel/presentation/pages/settings_page.dart';
 import '../features/grocery/presentation/pages/grocery_screen.dart';
 import '../features/main/cubit/navigation_cubit.dart';
 import '../features/main/pages/shell_page.dart';
 import '../features/notification/notification_page.dart';
-import '../features/profile/presentation/pages/favorite_page.dart';
-import '../features/profile/presentation/pages/profile_page.dart';
-import '../features/profile/presentation/pages/settings_page.dart';
 import '../features/recipe/data/models/recipe_model.dart';
 import '../features/recipe/presentation/pages/recipe_create_page.dart';
 import '../features/recipe/presentation/pages/recipe_details_page.dart';
@@ -144,11 +144,11 @@ class AppRouter {
         pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
       ),
       GoRoute(
-        path: '/${RoutesNames.profile}',
-        name: RoutesNames.profile,
+        path: '/${RoutesNames.controlPanel}',
+        name: RoutesNames.controlPanel,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: ProfilePage()),
-        routes: _profileRoutes,
+        pageBuilder: (context, state) => const NoTransitionPage(child: ControlPanelPage()),
+        routes: _controlPanelRoutes,
       ),
     ],
   );
@@ -249,7 +249,7 @@ class AppRouter {
     ),
   ];
 
-  static final List<GoRoute> _profileRoutes = [
+  static final List<GoRoute> _controlPanelRoutes = [
     GoRoute(
       path: RoutesNames.favorite,
       name: RoutesNames.favorite,

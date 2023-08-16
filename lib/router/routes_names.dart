@@ -24,11 +24,9 @@ class RoutesNames {
   static const orderPlacedPage = 'order_placed';
   ////notification////
   static const notification = "notification";
-  ////profile////
-  static const profile = "profile";
+  ////control panel////
+  static const controlPanel = "control_panel";
   static const settings = "settings";
   static const favorite = "favorite";
-
-  ////grocery////
   static const grocery = "grocery";
 }

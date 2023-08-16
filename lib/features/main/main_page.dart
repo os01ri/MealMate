@@ -34,7 +34,7 @@ class MainPage extends StatelessWidget {
       index: 2,
     ),
     MainNavigationBarItemWidget(
-      initialLocation: RoutesNames.profile,
+      initialLocation: RoutesNames.controlPanel,
       icon: Icon(Icons.person),
       label: 'Profile',
       index: 3,

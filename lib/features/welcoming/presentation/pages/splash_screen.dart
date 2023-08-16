@@ -8,6 +8,7 @@ import '../../../../core/helper/helper.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import '../cubit/user_cubit.dart';
 import '../widgets/custom_intro_paint.dart';
 
@@ -27,33 +28,41 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserCubit, UserState>(
-      bloc: serviceLocator<UserCubit>(),
-      listener: (context, state) async {
-        if (state.userInfoStatus == CubitStatus.initial) {
-          serviceLocator<UserCubit>().getUserInfo();
-        } else if (state.userInfoStatus == CubitStatus.loading) {
-          //do nothing
-        } else if (state.userInfoStatus == CubitStatus.success) {
-          if (await Helper.getWillSaveToken()) {
-            if (context.mounted) context.myGo(RoutesNames.recipesHome);
-          } else {
-            if (context.mounted) context.myGo(RoutesNames.login);
-          }
-        } else if (state.userInfoStatus == CubitStatus.failure) {
-          if (await Helper.isFirstTimeOpeningApp()) {
-            if (context.mounted) context.myGoNamed(RoutesNames.onboarding);
-          } else {
-            if (context.mounted) context.myGoNamed(RoutesNames.login);
-          }
+    return BlocListener<AuthCubit, AuthState>(
+      bloc: serviceLocator<AuthCubit>(),
+      listener: (context, state) {
+        if (state.status == AuthStatus.unAthenticated) {
+          context.myGo(RoutesNames.login);
         }
       },
-      child: Scaffold(
-        backgroundColor: AppColors.orange,
-        body: SafeArea(
-          child: CustomPaint(
-            painter: const RPSCustomPainter(),
-            size: context.deviceSize,
+      child: BlocListener<UserCubit, UserState>(
+        bloc: serviceLocator<UserCubit>(),
+        listener: (context, state) async {
+          if (state.userInfoStatus == CubitStatus.initial) {
+            serviceLocator<UserCubit>().getUserInfo();
+          } else if (state.userInfoStatus == CubitStatus.loading) {
+            //do nothing
+          } else if (state.userInfoStatus == CubitStatus.success) {
+            if (await Helper.getWillSaveToken()) {
+              if (context.mounted) context.myGo(RoutesNames.recipesHome);
+            } else {
+              if (context.mounted) context.myGo(RoutesNames.login);
+            }
+          } else if (state.userInfoStatus == CubitStatus.failure) {
+            if (await Helper.isFirstTimeOpeningApp()) {
+              if (context.mounted) context.myGoNamed(RoutesNames.onboarding);
+            } else {
+              if (context.mounted) context.myGoNamed(RoutesNames.login);
+            }
+          }
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.orange,
+          body: SafeArea(
+            child: CustomPaint(
+              painter: const RPSCustomPainter(),
+              size: context.deviceSize,
+            ),
           ),
         ),
       ),

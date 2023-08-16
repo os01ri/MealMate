@@ -45,7 +45,7 @@ class ApiVariables {
   static Uri checkPasswordCode() => _mobileUri(path: 'password/checkCode');
 
   static Uri changePassword() => _mobileUri(path: 'password/changePassword');
-
+  static Uri refreshToken() => _auth(path: 'refreshtoken');
   static Uri placeOrder() => _mobileUri(path: "order/store");
 
   ///grocery

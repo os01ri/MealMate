@@ -58,7 +58,8 @@ class UserModel {
       tokenInfo: tokenInfo ?? this.tokenInfo,
       followers: followers ?? this.followers,
       following: following ?? this.following,
-      restrictedIngredients: restrictedIngredients ?? this.restrictedIngredients,
+      restrictedIngredients:
+          restrictedIngredients ?? this.restrictedIngredients,
     );
   }
 
@@ -70,12 +71,15 @@ class UserModel {
         logo: json["logo"],
         hash: json["hash"],
         status: json["status"],
-        tokenInfo: json["token_info"] == null ? null : TokenInfo.fromJson(json["token_info"]),
+        tokenInfo: json["token_info"] == null
+            ? null
+            : TokenInfo.fromJson(json["token_info"]),
         followers: json["followers"],
         following: json["following"],
         restrictedIngredients: json["unlikeingredient"] == null
             ? []
-            : List<IngredientModel>.from(json["unlikeingredient"]!.map((x) => IngredientModel.fromJson(x))),
+            : List<IngredientModel>.from(json["unlikeingredient"]!
+                .map((x) => IngredientModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,8 +93,9 @@ class UserModel {
         "token_info": tokenInfo?.toJson(),
         "followers": followers,
         "following": following,
-        "unlikeingredient":
-            restrictedIngredients == null ? [] : List<dynamic>.from(restrictedIngredients!.map((x) => x.toJson())),
+        "unlikeingredient": restrictedIngredients == null
+            ? []
+            : List<dynamic>.from(restrictedIngredients!.map((x) => x.toJson())),
       };
 }
 

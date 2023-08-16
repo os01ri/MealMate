@@ -22,7 +22,7 @@ class GetApi<T> with HandlingExceptionRequest {
     this.getFCMToken = false,
   });
   Future<T> callRequest() async {
-    String? token = Helper.userToken;
+    String? token = await Helper.getToken();
     log(token.toString().logWhite, name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
     bool isAuth = await Helper.isAuth();

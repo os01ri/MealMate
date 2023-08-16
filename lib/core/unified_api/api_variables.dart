@@ -29,7 +29,7 @@ class ApiVariables {
   static Uri _mobileUri({required String path, ParamsMap params}) => _mainUri(path: 'user/$path', params: params);
 
   ///user
-  static Uri getUserInfo() => _mobileUri(path: '/user/showuserinfo');
+  static Uri getUserInfo() => _mobileUri(path: 'showuserinfo');
 
   ///Auth
   static Uri _auth({required String path}) => _mobileUri(path: 'auth/$path');

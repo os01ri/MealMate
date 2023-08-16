@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/features/welcoming/presentation/cubit/user_cubit.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -163,11 +164,12 @@ class _LoginPageState extends State<LoginPage> {
     if (state.status == AuthStatus.loading) {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
-      if (_rememberMe.value) Helper.setUserDataToStorage(state.user!);
-      Helper.setUserToken(state.user!.tokenInfo!.token!);
+      serviceLocator<UserCubit>().setUser(state.user!);
+      Helper.setWillSaveToken(_rememberMe.value);
+      Helper.setToken(state.user!.tokenInfo!.token!);
       Toaster.closeLoading();
       context.myGoNamed((RoutesNames.accountCreationLoading));
-      log('logged in successfully');
+      log('logged in successfully...');
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);

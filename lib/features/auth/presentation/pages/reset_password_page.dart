@@ -45,7 +45,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           if (state.status == AuthStatus.loading) {
             Toaster.showLoading();
           } else if (state.status == AuthStatus.resend) {
-            Helper.setUserToken(state.token!);
+            Helper.setToken(state.token!);
             Toaster.closeLoading();
             context.myPushNamed(
               RoutesNames.otp,

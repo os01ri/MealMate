@@ -6,15 +6,13 @@ import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mealmate/core/ui/toaster.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../features/auth/data/models/user_model.dart';
-import '../extensions/colorful_logging_extension.dart';
 import '../ui/theme/colors.dart';
+import '../ui/toaster.dart';
 import 'prefs_keys.dart';
 
 part 'image_helper.dart';
@@ -22,44 +20,35 @@ part 'image_helper.dart';
 class Helper {
   Helper._();
 
-  ////////////////////
-  static String? _userToken;
-  static String? get userToken => _userToken;
-  static Future<void> setUserToken(String token) async {
-    _userToken = token;
-  }
-
-  static Future<void> deleteUserToken() async {
+  static Future<void> setToken(String token) async {
     final sp = await SharedPreferences.getInstance();
-    _userToken = null;
-    sp.clear();
-  }
-  ////////////////////
-
-  static Future<bool> isAuth() async {
-    return _userToken != null || await isAuthSavedToStorage();
+    sp.setString(PrefsKeys.accessToken, token);
   }
 
-  static Future<bool> isAuthSavedToStorage() async {
+  static Future<String?> getToken() async {
     final sp = await SharedPreferences.getInstance();
-    return sp.containsKey(PrefsKeys.userInfo);
-  }
-
-  static void setUserDataToStorage(UserModel user) async {
-    final sp = await SharedPreferences.getInstance();
-    sp.setString(PrefsKeys.userInfo, userModelToJson(user));
-    log("${sp.getString(PrefsKeys.userInfo)}".logWhite);
-  }
-
-  static Future<String?> getTokenFromStorage() async {
-    final sp = await SharedPreferences.getInstance();
-    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').tokenInfo?.token;
+    String? token = sp.getString(PrefsKeys.accessToken);
     return token;
   }
 
-  static void removeUserInfoFromStorage() async {
+  static Future<void> deleteToken() async {
     final sp = await SharedPreferences.getInstance();
-    sp.remove(PrefsKeys.userInfo);
+    sp.remove(PrefsKeys.accessToken);
+  }
+
+  static Future<bool> isAuth() async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.containsKey(PrefsKeys.accessToken);
+  }
+
+  static Future<void> setWillSaveToken(bool value) async {
+    final sp = await SharedPreferences.getInstance();
+    sp.setBool(PrefsKeys.saveToken, value);
+  }
+
+  static Future<bool> getWillSaveToken() async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.getBool(PrefsKeys.saveToken) ?? false;
   }
 
   static Future<bool> isFirstTimeOpeningApp() async {

@@ -1,35 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
-import '../../../../core/helper/app_config.dart';
+import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/helper/helper.dart';
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../cubit/user_cubit.dart';
 import '../widgets/custom_intro_paint.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Future.delayed(AppConfig.splashScreenDuration).whenComplete(() async {
-      if (await Helper.isFirstTimeOpeningApp()) {
-        if (context.mounted) context.myGoNamed(RoutesNames.onboarding);
-      } else if (await Helper.isAuthSavedToStorage()) {
-        Helper.setUserToken((await Helper.getTokenFromStorage())!);
-        if (context.mounted) context.myGoNamed(RoutesNames.recipesHome);
-      } else {
-        if (context.mounted) context.myGoNamed(RoutesNames.login);
-      }
-    });
+  State<SplashScreen> createState() => _SplashScreenState();
+}
 
-    return Scaffold(
-      backgroundColor: AppColors.orange,
-      body: SafeArea(
-        child: CustomPaint(
-          painter: const RPSCustomPainter(),
-          size: context.deviceSize,
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    serviceLocator<UserCubit>().getUserInfo();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<UserCubit, UserState>(
+      bloc: serviceLocator<UserCubit>(),
+      listener: (context, state) async {
+        if (state.userInfoStatus == CubitStatus.initial) {
+          serviceLocator<UserCubit>().getUserInfo();
+        } else if (state.userInfoStatus == CubitStatus.loading) {
+          //do nothing
+        } else if (state.userInfoStatus == CubitStatus.success) {
+          if (await Helper.getWillSaveToken()) {
+            if (context.mounted) context.myGo(RoutesNames.recipesHome);
+          } else {
+            if (context.mounted) context.myGo(RoutesNames.login);
+          }
+        } else if (state.userInfoStatus == CubitStatus.failure) {
+          if (await Helper.isFirstTimeOpeningApp()) {
+            if (context.mounted) context.myGoNamed(RoutesNames.onboarding);
+          } else {
+            if (context.mounted) context.myGoNamed(RoutesNames.login);
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.orange,
+        body: SafeArea(
+          child: CustomPaint(
+            painter: const RPSCustomPainter(),
+            size: context.deviceSize,
+          ),
         ),
       ),
     );

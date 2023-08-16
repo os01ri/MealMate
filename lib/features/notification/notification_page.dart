@@ -40,8 +40,8 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list_alt),
-            onPressed: () {
-              final token = Helper.userToken;
+            onPressed: () async {
+              final token = await Helper.getToken();
               log(token ?? "omar");
             },
           )

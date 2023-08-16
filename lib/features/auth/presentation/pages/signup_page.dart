@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/validation_extensions.dart';
@@ -15,11 +16,11 @@ import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
+import '../../../../router/routes_names.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
-import 'otp_page.dart';
 import '../widgets/auth_text_field.dart';
-import '../../../../router/routes_names.dart';
+import 'otp_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -196,7 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
     } else if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
       log(state.user!.tokenInfo!.token!);
-      Helper.setUserToken(state.user!.tokenInfo!.token!);
+      Helper.setToken(state.user!.tokenInfo!.token!);
       context.myGoNamed(RoutesNames.otp, extra: OtpPageParams(email: _emailController.text, authCubit: AuthCubit()));
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();

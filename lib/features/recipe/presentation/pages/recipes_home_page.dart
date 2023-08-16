@@ -15,6 +15,7 @@ import '../../../../core/ui/widgets/skelton_loading.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
+import '../../../welcoming/presentation/cubit/user_cubit.dart';
 import '../../data/models/recipe_model.dart';
 import '../../domain/usecases/index_recipes_usecase.dart';
 import '../cubit/recipe_cubit.dart';
@@ -89,7 +90,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
               //   ),
               // ),
               Text(
-                '${serviceLocator<LocalizationClass>().appLocalizations!.hello} Osama!',
+                '${serviceLocator<LocalizationClass>().appLocalizations!.hello} ${serviceLocator<UserCubit>().state.user!.name!.split(' ').first}!',
                 style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
               ),
             ],

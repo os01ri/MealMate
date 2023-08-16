@@ -25,7 +25,7 @@ class PutApi<T> with HandlingExceptionRequest {
   });
 
   Future<T> callRequest() async {
-    String? token = Helper.userToken;
+    String? token = await Helper.getToken();
     // String fcmToken = await HelperFunctions.getFCMToken();
     bool isAuth = await Helper.isAuth();
     log(token.toString().logWhite, name: 'request manager ==> post function ');

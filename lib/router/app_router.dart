@@ -25,6 +25,7 @@ import '../features/recipe/presentation/pages/recipes_home_page.dart';
 import '../features/recipe/presentation/pages/view_all_page.dart';
 import '../features/store/presentation/pages/cart_page.dart';
 import '../features/store/presentation/pages/ingredient_page.dart';
+import '../features/store/presentation/pages/map_pick_location_page.dart';
 import '../features/store/presentation/pages/order_placed_screen.dart';
 import '../features/store/presentation/pages/store_page.dart';
 import '../features/store/presentation/pages/wishlist_page.dart';
@@ -232,6 +233,15 @@ class AppRouter {
       },
     ),
     GoRoute(
+      path: RoutesNames.wishListPage,
+      name: RoutesNames.wishListPage,
+      parentNavigatorKey: _shellNavigatorKey,
+      pageBuilder: (context, state) {
+        final arg = (state.extra as void Function(GlobalKey));
+        return NoTransitionPage(child: WishlistPage(onAddToCart: arg));
+      },
+    ),
+    GoRoute(
       path: RoutesNames.cartPage,
       name: RoutesNames.cartPage,
       parentNavigatorKey: _rootNavigatorKey,
@@ -240,20 +250,19 @@ class AppRouter {
       },
     ),
     GoRoute(
+      path: RoutesNames.pickLocation,
+      name: RoutesNames.pickLocation,
+      parentNavigatorKey: _shellNavigatorKey,
+      pageBuilder: (context, state) {
+        return const NoTransitionPage(child: MapPickLocationPage());
+      },
+    ),
+    GoRoute(
       path: RoutesNames.orderPlacedPage,
       name: RoutesNames.orderPlacedPage,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
         return const NoTransitionPage(child: OrderPlacedScreen());
-      },
-    ),
-    GoRoute(
-      path: RoutesNames.wishListPage,
-      name: RoutesNames.wishListPage,
-      parentNavigatorKey: _shellNavigatorKey,
-      pageBuilder: (context, state) {
-        final arg = (state.extra as void Function(GlobalKey));
-        return NoTransitionPage(child: WishlistPage(onAddToCart: arg));
       },
     ),
   ];

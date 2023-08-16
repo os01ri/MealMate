@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mealmate/features/store/presentation/pages/map_pick_location_page.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/number_extension.dart';
@@ -28,10 +30,12 @@ class CartPage extends StatefulWidget {
 
 class CartPageState extends State<CartPage> {
   late final CartCubit _cartCubit;
+  late final ValueNotifier<LatLng?> latLng;
 
   @override
   void initState() {
     _cartCubit = serviceLocator<CartCubit>();
+    latLng = ValueNotifier(null);
     super.initState();
   }
 
@@ -137,13 +141,35 @@ class CartPageState extends State<CartPage> {
                               )
                             ],
                           ),
-                          MainButton(
-                            fontSize: 20,
-                            width: context.width * .55,
-                            text: serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress,
-                            icon: const Icon(Icons.location_on_outlined, size: 35),
-                            color: AppColors.lightTextColor,
-                            onPressed: () {},
+                          ValueListenableBuilder<LatLng?>(
+                            valueListenable: latLng,
+                            builder: (context, value, _) {
+                              return MainButton(
+                                fontSize: 20,
+                                width: context.width * .55,
+                                text: value == null
+                                    ? serviceLocator<LocalizationClass>().appLocalizations!.pleaseAddYourAddress
+                                    : 'تم تحديد  العنوان',
+                                icon: Icon(
+                                  value == null ? Icons.location_on_outlined : Icons.check_circle_outline_outlined,
+                                  size: 35,
+                                ),
+                                color: value == null ? AppColors.lightTextColor : AppColors.mainColor,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MapPickLocationPage(),
+                                    ),
+                                  ).then((value) {
+                                    LatLng? location = value;
+                                    if (location != null) {
+                                      latLng.value = location;
+                                    }
+                                  });
+                                },
+                              );
+                            },
                           ),
                           MainButton(
                             width: context.width * .75,

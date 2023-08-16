@@ -9,10 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mealmate/core/ui/toaster.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../features/auth/data/models/user_model.dart';
-import '../../services/shared_preferences_service.dart';
 import '../extensions/colorful_logging_extension.dart';
 import '../ui/theme/colors.dart';
 import 'prefs_keys.dart';
@@ -30,56 +30,62 @@ class Helper {
   }
 
   static Future<void> deleteUserToken() async {
+    final sp = await SharedPreferences.getInstance();
     _userToken = null;
-    SharedPreferencesService.sp.clear();
+    sp.clear();
   }
   ////////////////////
 
   static Future<bool> isAuth() async {
-    return _userToken != null || isAuthSavedToStorage();
+    return _userToken != null || await isAuthSavedToStorage();
   }
 
-  static bool isAuthSavedToStorage() {
-    return SharedPreferencesService.sp.containsKey(PrefsKeys.userInfo) && getTokenFromStorage() != null;
+  static Future<bool> isAuthSavedToStorage() async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.containsKey(PrefsKeys.userInfo);
   }
 
-  static void setUserDataToStorage(UserModel user) {
-    SharedPreferencesService.sp.setString(PrefsKeys.userInfo, userModelToJson(user));
-    log("${SharedPreferencesService.sp.getString(PrefsKeys.userInfo)}".logWhite);
+  static void setUserDataToStorage(UserModel user) async {
+    final sp = await SharedPreferences.getInstance();
+    sp.setString(PrefsKeys.userInfo, userModelToJson(user));
+    log("${sp.getString(PrefsKeys.userInfo)}".logWhite);
   }
 
-  static String? getTokenFromStorage() {
-    String? token = userModelFromJson(
-      SharedPreferencesService.sp.getString(PrefsKeys.userInfo) ?? '{}',
-    ).tokenInfo?.token;
+  static Future<String?> getTokenFromStorage() async {
+    final sp = await SharedPreferences.getInstance();
+    String? token = userModelFromJson(sp.getString(PrefsKeys.userInfo) ?? '{}').tokenInfo?.token;
     return token;
   }
 
-  static void removeUserInfoFromStorage() {
-    SharedPreferencesService.sp.remove(PrefsKeys.userInfo);
+  static void removeUserInfoFromStorage() async {
+    final sp = await SharedPreferences.getInstance();
+    sp.remove(PrefsKeys.userInfo);
   }
 
   static Future<bool> isFirstTimeOpeningApp() async {
-    if (!SharedPreferencesService.sp.containsKey(PrefsKeys.showOnBorder)) {
-      SharedPreferencesService.sp.setBool(PrefsKeys.showOnBorder, true);
+    final sp = await SharedPreferences.getInstance();
+    if (!sp.containsKey(PrefsKeys.showOnBorder)) {
+      sp.setBool(PrefsKeys.showOnBorder, true);
       return true;
     } else {
-      return SharedPreferencesService.sp.getBool(PrefsKeys.showOnBorder)!;
+      return sp.getBool(PrefsKeys.showOnBorder)!;
     }
   }
 
   static void setNotFirstTimeOpeningApp() async {
-    await SharedPreferencesService.sp.setBool(PrefsKeys.showOnBorder, false);
+    final sp = await SharedPreferences.getInstance();
+    await sp.setBool(PrefsKeys.showOnBorder, false);
   }
 
   static Future<String> getFCMToken({bool getFCMToken = false}) async {
     late String token;
+    final sp = await SharedPreferences.getInstance();
 
-    if (SharedPreferencesService.sp.containsKey(PrefsKeys.fcmToken) && !getFCMToken) {
-      token = SharedPreferencesService.sp.getString(PrefsKeys.fcmToken)!;
+    if (sp.containsKey(PrefsKeys.fcmToken) && !getFCMToken) {
+      token = sp.getString(PrefsKeys.fcmToken)!;
     } else {
       token = (await FirebaseMessaging.instance.getToken())!;
-      SharedPreferencesService.sp.setString(PrefsKeys.fcmToken, token);
+      sp.setString(PrefsKeys.fcmToken, token);
     }
 
     log(token, name: 'FcmHelper ==> initFCM ==> fcm token');

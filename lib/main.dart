@@ -8,13 +8,11 @@ import 'core/ui/theme/them.dart';
 import 'core/ui/widgets/restart_widget.dart';
 import 'dependency_injection.dart' as di;
 import 'router/app_router.dart';
-import 'services/shared_preferences_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   di.init();
-  await SharedPreferencesService.init();
   runApp(const RestartWidget(child: MyApp()));
 }
 

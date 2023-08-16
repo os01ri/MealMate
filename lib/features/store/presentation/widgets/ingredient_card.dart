@@ -44,6 +44,7 @@ class IngredientCard extends StatelessWidget {
                   child: Text(
                     ingredient.name!,
                     softWrap: true,
+                    maxLines: 1,
                     style: const TextStyle().normal2FontSize.bold,
                   ),
                 ),

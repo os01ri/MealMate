@@ -167,11 +167,12 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RecipeCubit()..indexCategories()
-      ..indexRecipes(const IndexRecipesParams())
-      ..indexRecipesMostOrdered(const IndexRecipesParams())
-      ..indexRecipesTrending(const IndexRecipesParams())
-      ..indexRecipesBuyFollowings(const IndexRecipesParams()),
+      create: (context) => RecipeCubit()
+        ..indexCategories()
+        ..indexRecipes(const IndexRecipesParams())
+        ..indexRecipesMostOrdered(const IndexRecipesParams())
+        ..indexRecipesTrending(const IndexRecipesParams())
+        ..indexRecipesBuyFollowings(const IndexRecipesParams()),
       child: Scaffold(
         key: _scaffoldKey,
         // drawer: const MainDrawer(),
@@ -383,7 +384,7 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.recipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => _RecipeCard(recipe: state.recipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(recipe: state.recipes[index]),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
@@ -395,7 +396,7 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.followingsRecipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => _RecipeCard(recipe: state.followingsRecipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(recipe: state.followingsRecipes[index]),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
@@ -407,7 +408,7 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.trendingRecipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => _RecipeCard(recipe: state.trendingRecipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(recipe: state.trendingRecipes[index]),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
@@ -419,7 +420,7 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.mostOrderedRecipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => _RecipeCard(recipe: state.mostOrderedRecipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(recipe: state.mostOrderedRecipes[index]),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {

@@ -12,6 +12,7 @@ class RoutesNames {
   ////recipes////
   static const recipesHome = 'recipes';
   static const recipesSearch = 'search';
+  static const recipesViewAll = 'all_recipes';
   static const recipeIntro = 'intro';
   static const recipeDetails = 'details';
   static const recipeSteps = 'steps';

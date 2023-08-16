@@ -8,8 +8,8 @@ import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/otp_page.dart';
 import '../features/auth/presentation/pages/reset_password_page.dart';
 import '../features/auth/presentation/pages/signup_page.dart';
-import '../features/control_panel/presentation/pages/favorite_page.dart';
 import '../features/control_panel/presentation/pages/control_panel_page.dart';
+import '../features/control_panel/presentation/pages/favorite_page.dart';
 import '../features/control_panel/presentation/pages/settings_page.dart';
 import '../features/grocery/presentation/pages/grocery_screen.dart';
 import '../features/main/cubit/navigation_cubit.dart';
@@ -22,6 +22,7 @@ import '../features/recipe/presentation/pages/recipe_intro_page.dart';
 import '../features/recipe/presentation/pages/recipe_search_page.dart';
 import '../features/recipe/presentation/pages/recipe_steps_page.dart';
 import '../features/recipe/presentation/pages/recipes_home_page.dart';
+import '../features/recipe/presentation/pages/view_all_page.dart';
 import '../features/store/presentation/pages/cart_page.dart';
 import '../features/store/presentation/pages/ingredient_page.dart';
 import '../features/store/presentation/pages/order_placed_screen.dart';
@@ -160,6 +161,14 @@ class AppRouter {
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) => const NoTransitionPage(
         child: RecipeSearchPage(),
+      ),
+    ),
+    GoRoute(
+      path: RoutesNames.recipesViewAll,
+      name: RoutesNames.recipesViewAll,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: RecipeViewAllPage(),
       ),
     ),
     GoRoute(

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/features/welcoming/presentation/cubit/user_cubit.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
@@ -61,6 +62,17 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    height: 150,
+                    child: Text(
+                      'Meal Mate',
+                      style: const TextStyle(
+                        color: AppColors.mainColor,
+                        fontFamily: 'Pacifico',
+                        fontSize: 50,
+                      ).extraBold,
+                    ).center(),
+                  ),
                   AuthTextField(
                     label: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     icon: Icons.person,
@@ -122,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () => context.myPushNamed(RoutesNames.forgotPassword),
                     child: Text(serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword),
                   ),
-                  const SizedBox(height: 20),
+                  /*const SizedBox(height: 20),
                   Column(
                     children: [
                       Text(serviceLocator<LocalizationClass>().appLocalizations!.orContinueWith),
@@ -143,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () => Helper.setNotFirstTimeOpeningApp(),
                       ),
                     ],
-                  ),
+                  ),*/
                   SizedBox(
                     height: 40,
                     child: TextButton(

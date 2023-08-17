@@ -5,15 +5,13 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../repositories/recipe_repository.dart';
 
-class IndexRecipeTypesUseCase
-    implements UseCase<RecipeCategoryResponseModel, NoParams> {
+class IndexRecipeTypesUseCase implements UseCase<RecipeCategoryResponseModel, NoParams> {
   final RecipeRepository repository;
 
   const IndexRecipeTypesUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, RecipeCategoryResponseModel>> call(
-      NoParams noParams) async {
+  Future<Either<Failure, RecipeCategoryResponseModel>> call(NoParams noParams) async {
     return repository.indexRecipeTypes();
   }
 }

@@ -64,9 +64,9 @@ class ApiVariables {
   ////////Recipe////////
   //////////////////////
   static Uri indexRecipesForUser({ParamsMap params}) => _mobileUri(path: 'recipe/getUserRecipe', params: params);
-  static Uri indexRecipesTrending({ParamsMap params}) => _mobileUri(path: 'recipe/indextrending', params: params);
-  static Uri indexRecipesMostOrdered({ParamsMap params}) => _mobileUri(path: 'recipe/indexmostordered', params: params);
   static Uri indexRecipesByFollowings({ParamsMap params}) => _mobileUri(path: 'recipe/indexbyfollow', params: params);
+  static Uri indexRecipesTrending({ParamsMap params}) => _mobileUri(path: 'recipe/indextrending', params: params);
+  static Uri indexRecipesMostRated({ParamsMap params}) => _mobileUri(path: 'recipe/indexmostrated', params: params);
   static Uri indexRecipes({ParamsMap params}) => _mobileUri(path: 'recipe/index', params: params);
 
   static Uri showRecipe(int id) => _mobileUri(path: 'recipe/$id/show');

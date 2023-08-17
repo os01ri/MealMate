@@ -20,16 +20,22 @@ class IndexRecipesUseCase implements UseCase<IndexRecipesResponseModel, IndexRec
 class IndexRecipesParams implements UseCaseParams {
   final int? perPage;
   final int? page;
+  final String? name;
+  final int? categoryId;
 
   const IndexRecipesParams({
     this.perPage,
     this.page,
+    this.name,
+    this.categoryId,
   });
 
   @override
   ParamsMap getParams() => {
         if (page != null) "page": page.toString(),
         if (perPage != null) "perPage": perPage.toString(),
+        if (name != null) "name": name.toString(),
+        if (categoryId != null) "category_id": categoryId.toString(),
       };
 
   @override

@@ -27,4 +27,8 @@ class UserCubit extends Cubit<UserState> {
   void setUser(UserModel user) {
     emit(state.copyWith(user: user, userInfoStatus: CubitStatus.success));
   }
+
+  void dontGetUserInfo() {
+    emit(state.copyWith(userInfoStatus: CubitStatus.initial));
+  }
 }

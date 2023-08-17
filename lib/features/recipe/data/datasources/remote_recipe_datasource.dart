@@ -13,7 +13,7 @@ class RemoteRecipeDatasource {
 
   static Future<IndexRecipesResponseModel> indexRecipes({ParamsMap params}) async {
     GetApi api = GetApi(
-      uri: ApiVariables.indexRecipes(),
+      uri: ApiVariables.indexRecipes(params: params),
       fromJson: indexRecipesResponseModelFromJson,
     );
     final result = await api.callRequest();
@@ -22,7 +22,7 @@ class RemoteRecipeDatasource {
 
   static Future<IndexRecipesResponseModel> indexRecipesForUser({ParamsMap params}) async {
     GetApi api = GetApi(
-      uri: ApiVariables.indexRecipesForUser(),
+      uri: ApiVariables.indexRecipesForUser(params: params),
       fromJson: indexRecipesResponseModelFromJson,
     );
     final result = await api.callRequest();
@@ -31,7 +31,7 @@ class RemoteRecipeDatasource {
 
   static Future<IndexRecipesResponseModel> indexRecipesByFollowings({ParamsMap params}) async {
     GetApi api = GetApi(
-      uri: ApiVariables.indexRecipesByFollowings(),
+      uri: ApiVariables.indexRecipesByFollowings(params: params),
       fromJson: indexRecipesResponseModelFromJson,
     );
     final result = await api.callRequest();
@@ -40,7 +40,7 @@ class RemoteRecipeDatasource {
 
   static Future<IndexRecipesResponseModel> indexRecipesMostOrdered({ParamsMap params}) async {
     GetApi api = GetApi(
-      uri: ApiVariables.indexRecipesMostOrdered(),
+      uri: ApiVariables.indexRecipesMostRated(params: params),
       fromJson: indexRecipesResponseModelFromJson,
     );
     final result = await api.callRequest();
@@ -49,7 +49,7 @@ class RemoteRecipeDatasource {
 
   static Future<IndexRecipesResponseModel> indexRecipesTrending({ParamsMap params}) async {
     GetApi api = GetApi(
-      uri: ApiVariables.indexRecipesTrending(),
+      uri: ApiVariables.indexRecipesTrending(params: params),
       fromJson: indexRecipesResponseModelFromJson,
     );
     final result = await api.callRequest();

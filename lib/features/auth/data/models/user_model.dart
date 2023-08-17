@@ -14,19 +14,21 @@ class UserModel {
   final String? email;
   final String? logo;
   final String? hash;
+  final String? city;
   final bool? status;
   final TokenInfo? tokenInfo;
   final int? followers;
   final int? following;
   final List<IngredientModel>? restrictedIngredients;
 
-  UserModel({
+  const UserModel({
     this.id,
     this.name,
     this.username,
     this.email,
     this.logo,
     this.hash,
+    this.city,
     this.status,
     this.tokenInfo,
     this.followers,
@@ -41,6 +43,7 @@ class UserModel {
     String? email,
     String? logo,
     String? hash,
+    String? city,
     bool? status,
     TokenInfo? tokenInfo,
     int? followers,
@@ -55,11 +58,11 @@ class UserModel {
       logo: logo ?? this.logo,
       hash: hash ?? this.hash,
       status: status ?? this.status,
+      city: city ?? this.city,
       tokenInfo: tokenInfo ?? this.tokenInfo,
       followers: followers ?? this.followers,
       following: following ?? this.following,
-      restrictedIngredients:
-          restrictedIngredients ?? this.restrictedIngredients,
+      restrictedIngredients: restrictedIngredients ?? this.restrictedIngredients,
     );
   }
 
@@ -70,16 +73,14 @@ class UserModel {
         email: json["email"],
         logo: json["logo"],
         hash: json["hash"],
+        city: json["city"],
         status: json["status"],
-        tokenInfo: json["token_info"] == null
-            ? null
-            : TokenInfo.fromJson(json["token_info"]),
+        tokenInfo: json["token_info"] == null ? null : TokenInfo.fromJson(json["token_info"]),
         followers: json["followers"],
         following: json["following"],
         restrictedIngredients: json["unlikeingredient"] == null
             ? []
-            : List<IngredientModel>.from(json["unlikeingredient"]!
-                .map((x) => IngredientModel.fromJson(x))),
+            : List<IngredientModel>.from(json["unlikeingredient"]!.map((x) => IngredientModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,13 +90,13 @@ class UserModel {
         "email": email,
         "logo": logo,
         "hash": hash,
+        "city": city,
         "status": status,
         "token_info": tokenInfo?.toJson(),
         "followers": followers,
         "following": following,
-        "unlikeingredient": restrictedIngredients == null
-            ? []
-            : List<dynamic>.from(restrictedIngredients!.map((x) => x.toJson())),
+        "unlikeingredient":
+            restrictedIngredients == null ? [] : List<dynamic>.from(restrictedIngredients!.map((x) => x.toJson())),
       };
 }
 

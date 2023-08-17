@@ -4,7 +4,7 @@ class RecipeState {
   final CubitStatus indexCategoriesStatus;
   final CubitStatus indexRecipeStatus;
   final CubitStatus indexTrendingRecipeStatus;
-  final CubitStatus indexMostOrderedRecipeStatus;
+  final CubitStatus indexMostRatedRecipeStatus;
   final CubitStatus indexByFollowingRecipeStatus;
   final CubitStatus showRecipeStatus;
   final CubitStatus addRecipeStatus;
@@ -36,7 +36,7 @@ class RecipeState {
     this.indexCategoriesStatus = CubitStatus.initial,
     this.indexRecipeStatus = CubitStatus.initial,
     this.indexTrendingRecipeStatus = CubitStatus.initial,
-    this.indexMostOrderedRecipeStatus = CubitStatus.initial,
+    this.indexMostRatedRecipeStatus = CubitStatus.initial,
     this.indexByFollowingRecipeStatus = CubitStatus.initial,
     this.showRecipeStatus = CubitStatus.initial,
     this.addRecipeStatus = CubitStatus.initial,
@@ -49,7 +49,7 @@ class RecipeState {
     CubitStatus? indexCategoriesStatus,
     CubitStatus? indexRecipeStatus,
     CubitStatus? indexTrendingRecipeStatus,
-    CubitStatus? indexMostOrderedRecipeStatus,
+    CubitStatus? indexMostRatedRecipeStatus,
     CubitStatus? indexByFollowingRecipeStatus,
     CubitStatus? showRecipeStatus,
     CubitStatus? addRecipeStatus,
@@ -70,7 +70,7 @@ class RecipeState {
       indexCategoriesStatus: indexCategoriesStatus ?? this.indexCategoriesStatus,
       indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
       indexTrendingRecipeStatus: indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
-      indexMostOrderedRecipeStatus: indexMostOrderedRecipeStatus ?? this.indexMostOrderedRecipeStatus,
+      indexMostRatedRecipeStatus: indexMostRatedRecipeStatus ?? this.indexMostRatedRecipeStatus,
       indexByFollowingRecipeStatus: indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
       showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
       addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,

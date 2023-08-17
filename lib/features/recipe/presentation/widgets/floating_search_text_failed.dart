@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/features/recipe/domain/usecases/index_recipes_usecase.dart';
+import 'package:mealmate/features/recipe/presentation/cubit/recipe_cubit.dart';
 
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
@@ -38,13 +41,9 @@ class FloatingSearchTextFailed extends StatelessWidget {
       clearQueryOnClose: false,
       closeOnBackdropTap: false,
       onSubmitted: (query) {
-        // floatingSearchBarController.query = query;
-        // floatingSearchBarController.close();
-        // context.read<SearchBloc>().add(
-        //       StartAllSearchEvent(
-        //         allSearch: query,
-        //       ),
-        //     );
+        floatingSearchBarController.query = query;
+        floatingSearchBarController.close();
+        context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(name: query));
       },
       hintStyle: AppTextStyles.styleWeight500(
         color: Colors.black54,

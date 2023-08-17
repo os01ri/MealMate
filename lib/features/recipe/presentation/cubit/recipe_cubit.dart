@@ -1,19 +1,19 @@
 import 'package:bloc/bloc.dart';
-import 'package:mealmate/features/recipe/data/models/recipe_step_model.dart';
-import 'package:mealmate/features/recipe/domain/usecases/index_recipe_categories_usecase.dart';
-import 'package:mealmate/features/recipe/domain/usecases/index_recipe_types_usecase.dart';
-import 'package:mealmate/features/store/domain/usecases/index_ingredients_usecase.dart';
 
 import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../store/data/models/cart_item_model.dart';
 import '../../../store/data/models/index_ingredients_response_model.dart';
 import '../../../store/data/repositories/store_repository_impl.dart';
+import '../../../store/domain/usecases/index_ingredients_usecase.dart';
 import '../../data/models/recipe_category_model.dart';
 import '../../data/models/recipe_model.dart';
+import '../../data/models/recipe_step_model.dart';
 import '../../data/repositories/recipe_repository_impl.dart';
 import '../../domain/usecases/add_recipe_usecase.dart';
 import '../../domain/usecases/cook_recipe_usecase.dart';
+import '../../domain/usecases/index_recipe_categories_usecase.dart';
+import '../../domain/usecases/index_recipe_types_usecase.dart';
 import '../../domain/usecases/index_recipes_by_following_usecase.dart';
 import '../../domain/usecases/index_recipes_most_ordered_usecase.dart';
 import '../../domain/usecases/index_recipes_trending_usecase.dart';
@@ -28,7 +28,7 @@ class RecipeCubit extends Cubit<RecipeState> {
 
   final _index = IndexRecipesUseCase(repository: RecipeRepositoryImpl());
   final _indexByFollowings = IndexRecipesByFollowingsUseCase(repository: RecipeRepositoryImpl());
-  final _indexMostOrdered = IndexRecipesMostOrderedUseCase(repository: RecipeRepositoryImpl());
+  final _indexMostRated = IndexRecipesMostOrderedUseCase(repository: RecipeRepositoryImpl());
   final _indexTrending = IndexRecipesTrendingUseCase(repository: RecipeRepositoryImpl());
 
   final _indexRecipeCategoriesUseCase = IndexRecipeCategoriesUseCase(repository: RecipeRepositoryImpl());
@@ -62,7 +62,10 @@ class RecipeCubit extends Cubit<RecipeState> {
 
     result.fold(
       (l) => emit(state.copyWith(indexCategoriesStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexCategoriesStatus: CubitStatus.success, categories: r.data)),
+      (r) => emit(state.copyWith(
+        indexCategoriesStatus: CubitStatus.success,
+        categories: r.data!..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
+      )),
     );
   }
 
@@ -129,14 +132,14 @@ class RecipeCubit extends Cubit<RecipeState> {
     );
   }
 
-  indexRecipesMostOrdered(IndexRecipesParams params) async {
-    emit(state.copyWith(indexMostOrderedRecipeStatus: CubitStatus.loading, mostOrderedRecipes: []));
+  indexRecipesMostRated(IndexRecipesParams params) async {
+    emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.loading, mostOrderedRecipes: []));
 
-    final result = await _indexMostOrdered(params);
+    final result = await _indexMostRated(params);
 
     result.fold(
-      (l) => emit(state.copyWith(indexMostOrderedRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexMostOrderedRecipeStatus: CubitStatus.success, mostOrderedRecipes: r.data)),
+      (l) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.success, mostOrderedRecipes: r.data)),
     );
   }
 

@@ -41,7 +41,7 @@ class _ControlPanelPageState extends State<ControlPanelPage> with SingleTickerPr
           icon: const Icon(Icons.storefront_outlined, color: AppColors.orange),
           onPressed: () => context.myPushNamed(RoutesNames.grocery),
         ),
-        title: 'Profile',
+        title: 'Control',
         actions: [
           IconButton(
             icon: const Icon(Icons.star_rounded, color: AppColors.orange),

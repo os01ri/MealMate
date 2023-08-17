@@ -178,7 +178,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
       create: (context) => RecipeCubit()
         ..indexCategories()
         ..indexRecipes(const IndexRecipesParams())
-        ..indexRecipesMostOrdered(const IndexRecipesParams())
+        ..indexRecipesMostRated(const IndexRecipesParams())
         ..indexRecipesTrending(const IndexRecipesParams())
         ..indexRecipesBuyFollowings(const IndexRecipesParams()),
       child: Scaffold(
@@ -276,7 +276,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
             builder: (context, state) {
               return switch (context.read<RecipeCubit>().state.indexCategoriesStatus) {
                 CubitStatus.loading => _buildCategoriesSkeltonLoading(),
-                CubitStatus.success => _buildCategoriesListView(context),
+                CubitStatus.success => _buildCategoriesListView(context, state),
                 _ => MainErrorWidget(onTap: () => context.read<RecipeCubit>().indexCategories()).center(),
               };
             },
@@ -315,7 +315,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
     );
   }
 
-  Widget _buildCategoriesListView(BuildContext context) {
+  Widget _buildCategoriesListView(BuildContext context, RecipeState state) {
     return SizedBox(
       height: 75,
       child: ValueListenableBuilder<int>(
@@ -323,9 +323,18 @@ class _BodyWidgetState extends State<_BodyWidget> {
         builder: (context, value, child) {
           return RefreshIndicator(
             onRefresh: () async {
-              // context.read<StoreCubit>().getIngredients(IndexIngredientsParams(
-              //       categoryId: value != 0 ? state.ingredientsCategories[value].id : null,
-              //     ));
+              context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(
+                    categoryId: value != 0 ? state.categories[value].id : null,
+                  ));
+              context.read<RecipeCubit>().indexRecipesBuyFollowings(IndexRecipesParams(
+                    categoryId: value != 0 ? state.categories[value].id : null,
+                  ));
+              context.read<RecipeCubit>().indexRecipesMostRated(IndexRecipesParams(
+                    categoryId: value != 0 ? state.categories[value].id : null,
+                  ));
+              context.read<RecipeCubit>().indexRecipesTrending(IndexRecipesParams(
+                    categoryId: value != 0 ? state.categories[value].id : null,
+                  ));
             },
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -392,7 +401,10 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.recipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(recipe: state.recipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(
+                          recipe: state.recipes[index],
+                          padding: const EdgeInsetsDirectional.only(start: 15),
+                        ),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
@@ -404,7 +416,10 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.followingsRecipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(recipe: state.followingsRecipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(
+                          recipe: state.followingsRecipes[index],
+                          padding: const EdgeInsetsDirectional.only(start: 15),
+                        ),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
@@ -416,7 +431,10 @@ class _Section extends StatelessWidget {
                       return ListView.builder(
                         itemCount: state.trendingRecipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(recipe: state.trendingRecipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(
+                          recipe: state.trendingRecipes[index],
+                          padding: const EdgeInsetsDirectional.only(start: 15),
+                        ),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
@@ -424,15 +442,18 @@ class _Section extends StatelessWidget {
                       });
                     }
                   case IndexType.mostRated:
-                    if (state.indexMostOrderedRecipeStatus == CubitStatus.success) {
+                    if (state.indexMostRatedRecipeStatus == CubitStatus.success) {
                       return ListView.builder(
                         itemCount: state.mostOrderedRecipes.length,
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(recipe: state.mostOrderedRecipes[index]),
+                        itemBuilder: (context, index) => RecipeCard(
+                          recipe: state.mostOrderedRecipes[index],
+                          padding: const EdgeInsetsDirectional.only(start: 15),
+                        ),
                       );
                     } else {
                       return MainErrorWidget(onTap: () {
-                        context.read<RecipeCubit>().indexRecipesMostOrdered(const IndexRecipesParams());
+                        context.read<RecipeCubit>().indexRecipesMostRated(const IndexRecipesParams());
                       });
                     }
                   default:

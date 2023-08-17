@@ -17,15 +17,14 @@ class AuthCubit extends Cubit<AuthState> {
   final _register = RegisterUseCase(repository: AuthRepositoryImpl());
   final _sendOtpCode = SendOtpCodeUseCase(repository: AuthRepositoryImpl());
   final _checkOtpCode = CheckOtpCodeUseCase(repository: AuthRepositoryImpl());
-  final _changePassword =
-      ChangePasswordUseCase(repository: AuthRepositoryImpl());
-  final _refreshTokenUseCase =
-      RefreshTokenUseCase(repository: AuthRepositoryImpl());
+  final _changePassword = ChangePasswordUseCase(repository: AuthRepositoryImpl());
+  final _refreshTokenUseCase = RefreshTokenUseCase(repository: AuthRepositoryImpl());
+
   AuthCubit() : super(const AuthState());
+
   refreshToken() async {
     final result = await _refreshTokenUseCase.call(NoParams());
-    result.fold((l) => emit(state.copyWith(status: AuthStatus.unAthenticated)),
-        (r) {
+    result.fold((l) => emit(state.copyWith(status: AuthStatus.unAuthenticated)), (r) {
       emit(state.copyWith(
         status: AuthStatus.success,
       ));
@@ -52,10 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
-      (r) => emit(state.copyWith(
-          status: AuthStatus.success,
-          user: r.data,
-          token: r.data!.tokenInfo!.token!)),
+      (r) => emit(state.copyWith(status: AuthStatus.success, user: r.data, token: r.data!.tokenInfo!.token!)),
     );
   }
 
@@ -68,29 +64,25 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
-      (r) => emit(
-          state.copyWith(status: AuthStatus.resend, token: r.data!.token!)),
+      (r) => emit(state.copyWith(status: AuthStatus.resend, token: r.data!.token!)),
     );
   }
 
   checkOtpCode(String code, bool isRegister) async {
     emit(state.copyWith(status: AuthStatus.loading));
 
-    final result = await _checkOtpCode
-        .call(CheckOtpParams(code: code, isRegister: isRegister));
+    final result = await _checkOtpCode.call(CheckOtpParams(code: code, isRegister: isRegister));
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
-      (r) => emit(state.copyWith(
-          status: AuthStatus.success, token: isRegister ? '' : r.data!.token!)),
+      (r) => emit(state.copyWith(status: AuthStatus.success, token: isRegister ? '' : r.data!.token!)),
     );
   }
 
   changePassword(String newPassword) async {
     emit(state.copyWith(status: AuthStatus.loading));
 
-    final result =
-        await _changePassword(ChangePasswordParams(newPassword: newPassword));
+    final result = await _changePassword(ChangePasswordParams(newPassword: newPassword));
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),

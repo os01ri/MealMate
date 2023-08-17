@@ -35,6 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
   late final TextEditingController _userNameController;
+  late final TextEditingController _cityController;
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
 
@@ -46,6 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
     _userNameController = TextEditingController();
+    _cityController = TextEditingController();
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
   }
@@ -97,6 +99,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         controller: _lastNameController,
                       ).expand(),
                     ],
+                  ),
+                  AuthTextField(
+                    icon: Icons.person,
+                    label: 'المدينة',
+                    hint: 'المدينة',
+                    validator: (text) {
+                      if ((text != null && text.length < 3)) {
+                        return 'أدخل مدينة صحيحة';
+                      }
+                      return null;
+                    },
+                    controller: _cityController,
                   ),
                   AuthTextField(
                     label: serviceLocator<LocalizationClass>().appLocalizations!.email,
@@ -151,6 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 email: _emailController.text,
                                 userName: _userNameController.text,
                                 password: _passwordController.text,
+                                city: _cityController.text,
                               ),
                             );
                       }

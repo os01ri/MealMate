@@ -22,12 +22,14 @@ class RegisterUserParams implements UseCaseParams {
   final String password;
   final String name;
   final String userName;
+  final String city;
 
   RegisterUserParams({
     required this.email,
     required this.userName,
     required this.name,
     required this.password,
+    required this.city,
   });
 
   @override
@@ -36,6 +38,7 @@ class RegisterUserParams implements UseCaseParams {
         "name": name,
         "password": password,
         "email": email,
+        "city": city,
       };
 
   @override

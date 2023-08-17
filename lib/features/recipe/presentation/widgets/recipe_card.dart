@@ -1,7 +1,7 @@
 part of '../pages/recipes_home_page.dart';
 
 class RecipeCard extends StatelessWidget {
-  const RecipeCard({required this.recipe});
+  const RecipeCard({super.key, required this.recipe});
 
   final RecipeModel recipe;
 

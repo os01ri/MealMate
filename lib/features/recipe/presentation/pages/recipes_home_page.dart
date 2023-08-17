@@ -97,7 +97,10 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
           ),
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
-            style: TextStyle(color: _allowScroll.value ? Colors.transparent : Colors.white).bold.xxLargeFontSize,
+            style: TextStyle(
+              color: _allowScroll.value ? Colors.transparent : Colors.white,
+              fontFamily: 'Almarai',
+            ).bold.xxLargeFontSize,
             child: Text(serviceLocator<LocalizationClass>().appLocalizations!.whatToCook),
           ),
           SizedBox(height: context.height * .22),
@@ -127,7 +130,11 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
               Flexible(
                 child: AnimatedDefaultTextStyle(
                   duration: AppConfig.animationDuration,
-                  style: TextStyle(fontSize: isDown ? 14 : 0, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: isDown ? 14 : 0,
+                    color: Colors.black,
+                    fontFamily: 'Almarai',
+                  ),
                   child: Text(
                     serviceLocator<LocalizationClass>().appLocalizations!.searchRecipes,
                   ).paddingHorizontal(10),

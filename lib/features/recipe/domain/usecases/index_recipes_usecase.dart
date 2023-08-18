@@ -22,12 +22,14 @@ class IndexRecipesParams implements UseCaseParams {
   final int? page;
   final String? name;
   final int? categoryId;
+  final int? typeId;
 
   const IndexRecipesParams({
     this.perPage,
     this.page,
     this.name,
     this.categoryId,
+    this.typeId,
   });
 
   @override
@@ -36,6 +38,7 @@ class IndexRecipesParams implements UseCaseParams {
         if (perPage != null) "perPage": perPage.toString(),
         if (name != null) "name": name.toString(),
         if (categoryId != null) "category_id": categoryId.toString(),
+        if (typeId != null) "type_id": typeId.toString(),
       };
 
   @override

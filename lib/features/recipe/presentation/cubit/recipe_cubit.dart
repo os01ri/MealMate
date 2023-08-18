@@ -48,10 +48,16 @@ class RecipeCubit extends Cubit<RecipeState> {
   }
 
   indexTypes() async {
+    emit(state.copyWith(indexTypesStatus: CubitStatus.loading));
+
     final result = await _indexRecipeTypesUseCase(NoParams());
+
     result.fold(
-      (l) => indexTypes(),
-      (r) => emit(state.copyWith(types: r.data)),
+      (l) => emit(state.copyWith(indexTypesStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(
+        indexTypesStatus: CubitStatus.success,
+        types: r.data!..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
+      )),
     );
   }
 

@@ -2,6 +2,8 @@ part of 'recipe_cubit.dart';
 
 class RecipeState {
   final CubitStatus indexCategoriesStatus;
+  final CubitStatus indexTypesStatus;
+
   final CubitStatus indexRecipeStatus;
   final CubitStatus indexTrendingRecipeStatus;
   final CubitStatus indexMostRatedRecipeStatus;
@@ -24,16 +26,20 @@ class RecipeState {
   final List<RecipeCategoryModel> types;
 
   const RecipeState({
-    this.recipeIngredients = const [],
-    this.ingredients = const [],
-    this.steps = const [],
-    this.types = const [],
     this.categories = const [],
+    this.types = const [],
+    //
+    this.ingredients = const [],
+    this.recipeIngredients = const [],
+    this.steps = const [],
+    //
     this.recipes = const [],
     this.mostOrderedRecipes = const [],
     this.followingsRecipes = const [],
     this.trendingRecipes = const [],
+    //
     this.indexCategoriesStatus = CubitStatus.initial,
+    this.indexTypesStatus = CubitStatus.initial,
     this.indexRecipeStatus = CubitStatus.initial,
     this.indexTrendingRecipeStatus = CubitStatus.initial,
     this.indexMostRatedRecipeStatus = CubitStatus.initial,
@@ -42,11 +48,13 @@ class RecipeState {
     this.addRecipeStatus = CubitStatus.initial,
     this.cookRecipeStatus = CubitStatus.initial,
     this.rateRecipeStatus = CubitStatus.initial,
+    //
     this.recipe,
   });
 
   RecipeState copyWith({
     CubitStatus? indexCategoriesStatus,
+    CubitStatus? indexTypesStatus,
     CubitStatus? indexRecipeStatus,
     CubitStatus? indexTrendingRecipeStatus,
     CubitStatus? indexMostRatedRecipeStatus,
@@ -68,6 +76,7 @@ class RecipeState {
   }) {
     return RecipeState(
       indexCategoriesStatus: indexCategoriesStatus ?? this.indexCategoriesStatus,
+      indexTypesStatus: indexTypesStatus ?? this.indexTypesStatus,
       indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
       indexTrendingRecipeStatus: indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
       indexMostRatedRecipeStatus: indexMostRatedRecipeStatus ?? this.indexMostRatedRecipeStatus,

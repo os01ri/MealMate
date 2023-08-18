@@ -11,12 +11,9 @@ import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
 
 class FloatingSearchTextFailed extends StatelessWidget {
-  const FloatingSearchTextFailed({
-    super.key,
-    required this.floatingSearchBarController,
-  });
-  final FloatingSearchBarController floatingSearchBarController;
+  const FloatingSearchTextFailed({super.key, required this.floatingSearchBarController});
 
+  final FloatingSearchBarController floatingSearchBarController;
   @override
   Widget build(BuildContext context) {
     return FloatingSearchBar(

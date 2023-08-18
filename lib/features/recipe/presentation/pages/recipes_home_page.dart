@@ -34,9 +34,9 @@ class RecipesHomePage extends StatefulWidget {
 }
 
 class _RecipesHomePageState extends State<RecipesHomePage> {
-  late final ValueNotifier<double> _bodyPosition;
-  late final ValueNotifier<double> _searchButtonPosition;
-  late final ValueNotifier<bool> _allowScroll;
+  late ValueNotifier<double> _bodyPosition;
+  late ValueNotifier<double> _searchButtonPosition;
+  late ValueNotifier<bool> _allowScroll;
   late final GlobalKey<ScaffoldState> _scaffoldKey;
 
   static double _bodyUpPosition(BuildContext context) => context.height * .15;
@@ -49,7 +49,6 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   void initState() {
     super.initState();
     _scaffoldKey = GlobalKey<ScaffoldState>();
-    _allowScroll = ValueNotifier(false);
   }
 
   @override
@@ -57,6 +56,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
     super.didChangeDependencies();
     _bodyPosition = ValueNotifier(_bodyDownPosition(context));
     _searchButtonPosition = ValueNotifier(_searchButtonDownPosition(context));
+    _allowScroll = ValueNotifier(false);
   }
 
   _buildOrangeContainer(BuildContext context) {
@@ -347,8 +347,8 @@ class _BodyWidgetState extends State<_BodyWidget> {
                   onTap: () {
                     _selectedCat.value = index;
 
-                    context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams(
-                        //TODOOOOOO: categoryId: index != 0 ? state.ingredientsCategories[index].id : null,
+                    context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(
+                          categoryId: index != 0 ? state.categories[index].id : null,
                         ));
                   },
                 );

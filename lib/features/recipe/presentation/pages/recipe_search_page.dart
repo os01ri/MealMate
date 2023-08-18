@@ -88,7 +88,7 @@ class _SearchBodyState extends State<SearchBody> {
               return AnimatedSwitcher(
                 duration: AppConfig.animationDuration,
                 child: switch (context.read<RecipeCubit>().state.indexTypesStatus) {
-                  CubitStatus.loading => _buildTypesSkeltonLoading(),
+                  CubitStatus.loading => _buildCategoriesSkeltonLoading(),
                   CubitStatus.success => _buildTypesListView(context, state),
                   _ => MainErrorWidget(onTap: () => context.read<RecipeCubit>().indexTypes()).center(),
                 },
@@ -101,7 +101,7 @@ class _SearchBodyState extends State<SearchBody> {
               return AnimatedSwitcher(
                 duration: AppConfig.animationDuration,
                 child: switch (context.read<RecipeCubit>().state.indexCategoriesStatus) {
-                  CubitStatus.loading => _buildTypesSkeltonLoading(),
+                  CubitStatus.loading => _buildCategoriesSkeltonLoading(),
                   CubitStatus.success => _buildCategoriesListView(context, state),
                   _ => MainErrorWidget(onTap: () => context.read<RecipeCubit>().indexCategories()).center(),
                 },
@@ -151,7 +151,7 @@ class _SearchBodyState extends State<SearchBody> {
     );
   }
 
-  Widget _buildTypesSkeltonLoading() {
+  Widget _buildCategoriesSkeltonLoading() {
     return SizedBox(
       key: UniqueKey(),
       height: 45,
@@ -164,7 +164,7 @@ class _SearchBodyState extends State<SearchBody> {
           (index) => SkeltonLoading(
             height: 50,
             width: 110,
-            margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+            margin: EdgeInsetsDirectional.only(start: index == 0 ? 15 : 0, end: 15),
           ),
         ),
       ),

@@ -189,7 +189,7 @@ class _StorePageState extends State<StorePage> {
                     },
                   );
                 },
-              ).paddingVertical(5),
+              ).paddingVertical(15),
               BlocBuilder<StoreCubit, StoreState>(
                 buildWhen: (previous, current) => previous.indexStatus != current.indexStatus,
                 builder: (BuildContext context, StoreState state) {
@@ -231,8 +231,7 @@ class _StorePageState extends State<StorePage> {
           (index) => SkeltonLoading(
             height: 50,
             width: 110,
-            // padding: 12,
-            margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+            margin: EdgeInsetsDirectional.only(start: index == 0 ? 15 : 0, end: 15),
           ),
         ),
       ),
@@ -260,6 +259,7 @@ class _StorePageState extends State<StorePage> {
                 itemBuilder: (context, index) {
                   return CategoryChoiceChip(
                     title: state.ingredientsCategories[index].name!,
+                    margin: EdgeInsetsDirectional.only(start: index == 0 ? 15 : 0, end: 15),
                     isActive: index == value,
                     onTap: () {
                       _selectedCat.value = index;

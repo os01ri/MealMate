@@ -39,7 +39,7 @@ class RecipeCard extends StatelessWidget {
                   const SizedBox(height: 5),
                   Text(
                     recipe.name!,
-                    maxLines: 2,
+                    maxLines: 1,
                     softWrap: true,
                     style: const TextStyle().normalFontSize.extraBold,
                   ),
@@ -50,7 +50,7 @@ class RecipeCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                 ],
-              ),
+              ).paddingHorizontal(5),
             ),
           ],
         ),

@@ -102,7 +102,6 @@ class IngredientModel {
         hash: json["hash"],
         recipeIngredient:
             json["recipe_ingredient"] == null ? null : RecipeIngredient.fromJson(json["recipe_ingredient"]),
-
         priceBy: json["price_by"],
         nutritionals: json["nutritionals"] == null
             ? []

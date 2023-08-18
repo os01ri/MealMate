@@ -7,13 +7,12 @@ class _IngredientBudgetCard extends StatelessWidget {
     required this.quantity,
     required this.unit,
   });
-final String unit;
+  final String unit;
   final int priceByUnit;
   final int price;
   final ValueNotifier<int> quantity;
   @override
   Widget build(BuildContext context) {
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -37,7 +36,7 @@ final String unit;
               builder: (BuildContext context, int value, Widget? child) {
                 return Text(
                   '$value $unit',
-              style: const TextStyle().middleFontSize.bold,
+                  style: const TextStyle().normalFontSize.bold,
                 ).paddingHorizontal(2);
               },
             ),
@@ -58,10 +57,10 @@ final String unit;
             ),
             ValueListenableBuilder(
               valueListenable: quantity,
-              builder: (_, Value, child) {
+              builder: (_, value, child) {
                 return Text(
-                  '${price * quantity.value / priceByUnit} SYP',
-                  style: const TextStyle().bold,
+                  '${(price * quantity.value / priceByUnit).toStringAsFixed(0)} SYP',
+                  style: const TextStyle().bold.normalFontSize,
                   textAlign: TextAlign.center,
                 ).expand();
               },
@@ -90,6 +89,7 @@ class _DetailCardRow extends StatelessWidget {
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: children,
       ).padding(margin),
     );

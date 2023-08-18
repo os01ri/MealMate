@@ -289,6 +289,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
           const _Section(title: 'اهتماماتك', indexType: IndexType.followings),
           const _Section(title: 'الأكثر طلبَا', indexType: IndexType.trending),
           const _Section(title: 'الأعلى تقييما', indexType: IndexType.mostRated),
+          const SizedBox(height: 30),
         ],
       ),
     );

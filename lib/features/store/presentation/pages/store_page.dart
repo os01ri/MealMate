@@ -305,7 +305,7 @@ class _StorePageState extends State<StorePage> {
               crossAxisCount: 2,
               crossAxisSpacing: 15,
               mainAxisSpacing: 15,
-              childAspectRatio: .75,
+              childAspectRatio: .77,
             ),
             itemCount: state.ingredients.length,
             itemBuilder: (context, index) {

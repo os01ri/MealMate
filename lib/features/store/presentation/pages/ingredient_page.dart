@@ -100,11 +100,11 @@ class _IngredientPageState extends State<IngredientPage> {
                           ),
                         ),
                         _IngredientBudgetCard(
-                                price: state.ingredient!.price!,
-                                priceByUnit: state.ingredient!.priceBy!,
-                                quantity: quantity,
-                                unit: state.ingredient!.unit!.code!)
-                            .paddingVertical(8),
+                          price: state.ingredient!.price!,
+                          priceByUnit: state.ingredient!.priceBy!,
+                          quantity: quantity,
+                          unit: state.ingredient!.unit!.code!,
+                        ).paddingVertical(8),
                         _InfoList(nutritional: state.ingredient!.nutritionals!).expand(),
                       ],
                     ).expand(),
@@ -161,20 +161,20 @@ class _InfoList extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              '${nutritional[index].ingredientNutritionals!.value}%',
+              '${nutritional[index].ingredientNutritionals!.value! / 10}%',
               textDirection: TextDirection.ltr,
-              style: const TextStyle(),
+              style: const TextStyle().normalFontSize.semiBold,
             ),
-            Icon(
-              switch (index) {
-                <= 2 => Icons.check_circle_outline_rounded,
-                _ => Icons.warning_amber_rounded,
-              },
-              color: switch (index) {
-                <= 2 => Colors.green,
-                _ => Colors.red,
-              },
-            ).paddingHorizontal(5),
+            // Icon(
+            //   switch (index) {
+            //     <= 2 => Icons.check_circle_outline_rounded,
+            //     _ => Icons.warning_amber_rounded,
+            //   },
+            //   color: switch (index) {
+            //     <= 2 => Colors.green,
+            //     _ => Colors.red,
+            //   },
+            // ).paddingHorizontal(5),
           ],
         ).paddingAll(8);
       },

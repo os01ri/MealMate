@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/widgets/error_widget.dart';
+import 'package:mealmate/core/ui/widgets/main_button.dart';
 
 import '../../../../core/ui/theme/colors.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
@@ -38,7 +41,8 @@ class UserProfilePage extends StatelessWidget {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state != false) {
-                      return _buildProfile(state);
+                      //TODO send profileModel
+                      return const UserProfileLayout();
                     }
                     if (state == false) {
                       return MainErrorWidget(onTap: () {});
@@ -55,252 +59,184 @@ class UserProfilePage extends StatelessWidget {
                   },
                 ))));
   }
+}
 
-  _buildProfile(profileResponseModel) => ListView(
-        children: [
-          Container(
-            child: Stack(
+class UserProfileLayout extends StatelessWidget {
+  const UserProfileLayout({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        const SizedBox(
+          height: 50,
+        ),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Column(
               children: [
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 4,
+                const Text(
+                  'User \$X Profile',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.grey,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: AppColors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
                     ),
-                    const Text(
-                      'profileResponseModel',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.mainColor,
-                      ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
                     ),
-                    const SizedBox(
-                      height: 2.5,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: AppColors.grey,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 40,
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 2,
-                          vertical: 2,
-                        ),
-                        child: Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const SizedBox(
-                              height: 8.0,
+                            const Text(
+                              "\$username",
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(
-                              width: 100,
-                              child: Text(
-                                "my addresses",
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            const LimitedBox(
-                              maxHeight: 10,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 1.0,
-                            ),
-                            InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  child: const Row(
-                                    children: [
-                                      Text("Add a new title"),
-                                      Icon(
-                                        Icons.arrow_forward,
-                                        size: 15.0,
-                                      )
-                                    ],
-                                  ),
-                                )),
-                            const SizedBox(
-                              height: 4.0,
-                            ),
-                            if ('profileResponseModel' == null) ...{
-                              const SizedBox(
-                                width: 100,
-                                child: Text(
-                                  "Country",
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 2.0,
-                              ),
-                              const SizedBox(
-                                width: 100,
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                      height: 10,
-                                      child: CachedNetworkImage(
-                                          url: ('profileResponseModel') ?? "",
-                                          hash: '',
-                                          height: 50,
-                                          width: 50),
-                                    ),
-                                    SizedBox(
-                                      width: 2.5,
-                                    ),
-                                    SizedBox(
-                                      child: Text(
-                                        "hello",
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            },
-                            const SizedBox(
-                              height: 3.0,
-                            ),
-                            const SizedBox(
-                              width: 100,
-                              child: Text(
-                                "my occasions",
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 90,
-                                    child: ListView.builder(
-                                      itemCount: 5,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        return InkWell(
-                                          onTap: () {
-                                            //check event existing
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                  color: AppColors.mainColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              8.0))),
-                                              child: const Column(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      child: SizedBox(
-                                                          width: 20,
-                                                          height: 20,
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            url:
-                                                                'profileResponseModel',
-                                                            hash: '',
-                                                            width: 50,
-                                                            height: 50,
-                                                          )),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: SizedBox(
-                                                        width: 20,
-                                                        child: FittedBox(
-                                                          fit: BoxFit.scaleDown,
-                                                          child: Text(
-                                                            'profileResponseModel',
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 10.0),
-                                                            maxLines: 1,
-                                                          ),
-                                                        )),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            const SizedBox(
-                              height: 30.0,
-                            ),
+                            MainButton(
+                                width: context.width * .18,
+                                text: 'Follow',
+                                color: AppColors.mainColor,
+                                onPressed: () {}),
                           ],
                         ),
-                      ),
+                        const SizedBox(
+                          height: 4.0,
+                        ).paddingAll(5),
+                        const Text(
+                          "Country",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                        ).paddingAll(5),
+                        const Text(
+                          "Following by \$ 100",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                        ).paddingAll(5),
+                        Container(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            'Recipes',
+                            style: const TextStyle().largeFontSize.bold,
+                          ).paddingVertical(25),
+                        ),
+                        SizedBox(
+                          height: context.height * .45,
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3),
+                            itemCount: 25,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  //Show Recipe
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            AppColors.mainColor.withOpacity(.5),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8.0))),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          flex: 4,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5),
+                                            child: CachedNetworkImage(
+                                              url:
+                                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSZeAxmjEiBWqDFmnAq7cvlXRWq_WaaEBVyDolxUAZ0l-B9w4rAAotFfqIVWi1B9l6UBc&usqp=CAU',
+                                              hash:
+                                                  'LPODnIj[~qof-;fQM{fQoffQM{ay',
+                                              width: context.width * .3,
+                                              height: context.width * .3,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        const Expanded(
+                                          flex: 1,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              '\$recipe Name',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16.0),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 2.0,
+                        ),
+                        const SizedBox(
+                          height: 30.0,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                Positioned(
-                  right: 4,
-                  top: 0,
-                  child: Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-                          color: AppColors.mainColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(6.0)),
-                          border:
-                              Border.all(width: 1, color: AppColors.mainColor)),
-                      child: 'profileResponseModel' == null
-                          ? Container(
-                              decoration: const BoxDecoration(),
-                            )
-                          : Container(
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                image: NetworkImage('profileResponseModel'),
-                                fit: BoxFit.cover,
-                              )),
-                            )),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      );
+            Positioned(
+              right: context.width * .06,
+              top: -25,
+              child: Container(
+                  height: context.width * .2,
+                  width: context.width * .2,
+                  decoration: BoxDecoration(
+                      color: AppColors.mainColor,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(6.0)),
+                      border: Border.all(width: 1, color: AppColors.mainColor)),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                      image: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSZeAxmjEiBWqDFmnAq7cvlXRWq_WaaEBVyDolxUAZ0l-B9w4rAAotFfqIVWi1B9l6UBc&usqp=CAU'),
+                      fit: BoxFit.cover,
+                    )),
+                  )),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }

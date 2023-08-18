@@ -53,7 +53,7 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
     var timeNotifier = ValueNotifier(45);
     var descriptionController = TextEditingController();
     return Scaffold(
-      appBar: RecipeAppBar(context: context),
+      appBar: RecipeAppBar(context: context, actions: const []),
       body: BlocConsumer<RecipeCubit, RecipeState>(
         bloc: cubit
           ..indexIngredients()
@@ -658,12 +658,10 @@ class _DetailCard extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: value,
                 builder: (_, valueValue, child) {
-                  return Text(
-                    '$valueValue',
-                    style: const TextStyle(
-                      color: AppColors.lightTextColor,
-                    ),
-                  );
+                  return Text('$valueValue',
+                      style: const TextStyle(color: AppColors.lightTextColor)
+                          .largeFontSize
+                          .bold);
                 },
               ),
               const Icon(Icons.add).onTap(() => value.value++)

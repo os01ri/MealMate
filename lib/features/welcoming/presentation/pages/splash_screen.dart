@@ -44,7 +44,7 @@ class SplashScreen extends StatelessWidget {
             } else if (state.userInfoStatus == CubitStatus.loading) {
               //do nothing
             } else if (state.userInfoStatus == CubitStatus.success) {
-              if (context.mounted) context.myGo(RoutesNames.recipesHome);
+              if (context.mounted) context.myGoNamed(RoutesNames.recipesHome);
             } else if (state.userInfoStatus == CubitStatus.failure) {
               if (context.mounted) context.myGoNamed(RoutesNames.login);
             }

@@ -64,7 +64,8 @@ class RecipeCubit extends Cubit<RecipeState> {
       (l) => emit(state.copyWith(indexTypesStatus: CubitStatus.failure)),
       (r) => emit(state.copyWith(
         indexTypesStatus: CubitStatus.success,
-        types: r.data!..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
+        types: r.data!
+          ..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
       )),
     );
   }
@@ -79,7 +80,12 @@ class RecipeCubit extends Cubit<RecipeState> {
       (r) => emit(state.copyWith(
         indexCategoriesStatus: CubitStatus.success,
         categories: r.data!
-          ..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
+          ..insert(
+              0,
+              const RecipeCategoryModel(
+                id: 0,
+                name: 'الكل',
+              )),
       )),
     );
   }

@@ -15,6 +15,7 @@ import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
+import '../../../welcoming/presentation/cubit/user_cubit.dart';
 import '../../data/models/recipe_model.dart';
 import '../widgets/app_bar.dart';
 
@@ -60,7 +61,8 @@ class RecipeIntroPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 15),
-              if (recipe.userId != null)
+              if (recipe.userId != null &&
+                  recipe.userId != serviceLocator<UserCubit>().state.user!.id)
                 Row(
                   children: [
                     Image.asset(PngPath.user),

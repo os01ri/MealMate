@@ -116,7 +116,7 @@ class RecipeCubit extends Cubit<RecipeState> {
     );
   }
 
-  indexRecipesBuyFollowings(IndexRecipesParams params) async {
+  indexRecipesByFollowings(IndexRecipesParams params) async {
     emit(state.copyWith(indexByFollowingRecipeStatus: CubitStatus.loading, followingsRecipes: []));
 
     final result = await _indexByFollowings(params);
@@ -139,13 +139,13 @@ class RecipeCubit extends Cubit<RecipeState> {
   }
 
   indexRecipesMostRated(IndexRecipesParams params) async {
-    emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.loading, mostOrderedRecipes: []));
+    emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.loading, mostRatedRecipes: []));
 
     final result = await _indexMostRated(params);
 
     result.fold(
       (l) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.success, mostOrderedRecipes: r.data)),
+      (r) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.success, mostRatedRecipes: r.data)),
     );
   }
 

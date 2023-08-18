@@ -146,29 +146,31 @@ class _StorePageState extends State<StorePage> {
           ),
           body: Column(
             children: [
-              Builder(builder: (context) {
-                return MainTextField(
-                  controller: _searchController,
-                  hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
-                  prefixIcon: const Icon(Icons.search_rounded),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.cancel_outlined),
-                    onPressed: () {
-                      if (_searchController.text.isNotEmpty) {
-                        _searchController.clear();
-                        context.read<StoreCubit>().getIngredients(const IndexIngredientsParams());
+              Builder(
+                builder: (context) {
+                  return MainTextField(
+                    controller: _searchController,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.searchIngredients,
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.cancel_outlined),
+                      onPressed: () {
+                        if (_searchController.text.isNotEmpty) {
+                          _searchController.clear();
+                          context.read<StoreCubit>().getIngredients(const IndexIngredientsParams());
+                        }
+                      },
+                    ),
+                    onSubmitted: (searchTerm) {
+                      if (searchTerm.isNotEmpty) {
+                        context.read<StoreCubit>().getIngredients(IndexIngredientsParams(name: searchTerm));
+                        _selectedCat.value = 0;
                       }
                     },
-                  ),
-                  onSubmitted: (searchTerm) {
-                    if (searchTerm.isNotEmpty) {
-                      context.read<StoreCubit>().getIngredients(IndexIngredientsParams(name: searchTerm));
-                      _selectedCat.value = 0;
-                    }
-                  },
-                  textInputAction: TextInputAction.search,
-                ).paddingVertical(5).padding(AppConfig.pagePadding);
-              }),
+                    textInputAction: TextInputAction.search,
+                  ).paddingVertical(5).padding(AppConfig.pagePadding);
+                },
+              ),
               BlocBuilder<StoreCubit, StoreState>(
                 buildWhen: (previous, current) => previous.indexCategoriesStatus != current.indexCategoriesStatus,
                 builder: (BuildContext context, StoreState state) {
@@ -219,18 +221,18 @@ class _StorePageState extends State<StorePage> {
   Widget _buildCategoriesSkeltonLoading() {
     return SizedBox(
       key: UniqueKey(),
-      height: 75,
+      height: 45,
       child: ListView(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsetsDirectional.only(end: 15),
         children: List.generate(
           6,
-          (_) => const SkeltonLoading(
+          (index) => SkeltonLoading(
             height: 50,
             width: 110,
-            padding: 12,
-            margin: EdgeInsetsDirectional.only(start: 15),
+            // padding: 12,
+            margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
           ),
         ),
       ),
@@ -240,7 +242,7 @@ class _StorePageState extends State<StorePage> {
   Widget _buildCategoriesListView(BuildContext context, StoreState state) {
     return SizedBox(
       key: UniqueKey(),
-      height: 75,
+      height: 45,
       child: ValueListenableBuilder<int>(
         valueListenable: _selectedCat,
         builder: (context, value, child) {
@@ -272,7 +274,7 @@ class _StorePageState extends State<StorePage> {
             ),
           );
         },
-      ).paddingVertical(10),
+      ),
     );
   }
 
@@ -323,9 +325,7 @@ class _StorePageState extends State<StorePage> {
                     };
                   });
                 },
-                child: IngredientCard(
-                  ingredient: state.ingredients[index],
-                ),
+                child: IngredientCard(ingredient: state.ingredients[index]),
               );
             },
           );

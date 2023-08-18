@@ -15,7 +15,7 @@ class RecipeState {
 
   final List<RecipeModel> recipes;
   final List<RecipeModel> trendingRecipes;
-  final List<RecipeModel> mostOrderedRecipes;
+  final List<RecipeModel> mostRatedRecipes;
   final List<RecipeModel> followingsRecipes;
 
   final List<IngredientModel> ingredients;
@@ -34,7 +34,7 @@ class RecipeState {
     this.steps = const [],
     //
     this.recipes = const [],
-    this.mostOrderedRecipes = const [],
+    this.mostRatedRecipes = const [],
     this.followingsRecipes = const [],
     this.trendingRecipes = const [],
     //
@@ -65,7 +65,7 @@ class RecipeState {
     CubitStatus? rateRecipeStatus,
     List<RecipeModel>? recipes,
     List<RecipeModel>? trendingRecipes,
-    List<RecipeModel>? mostOrderedRecipes,
+    List<RecipeModel>? mostRatedRecipes,
     List<RecipeModel>? followingsRecipes,
     List<IngredientModel>? ingredients,
     List<CartItemModel>? recipeIngredients,
@@ -87,7 +87,7 @@ class RecipeState {
       rateRecipeStatus: rateRecipeStatus ?? this.rateRecipeStatus,
       recipes: recipes ?? this.recipes,
       trendingRecipes: trendingRecipes ?? this.trendingRecipes,
-      mostOrderedRecipes: mostOrderedRecipes ?? this.mostOrderedRecipes,
+      mostRatedRecipes: mostRatedRecipes ?? this.mostRatedRecipes,
       followingsRecipes: followingsRecipes ?? this.followingsRecipes,
       ingredients: ingredients ?? this.ingredients,
       recipeIngredients: recipeIngredients ?? this.recipeIngredients,

@@ -40,6 +40,6 @@ class SectionHeader extends StatelessWidget {
         else
           const SizedBox.shrink(),
       ],
-    ).paddingHorizontal(20);
+    ).paddingHorizontal(30);
   }
 }

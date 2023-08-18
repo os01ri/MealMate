@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
@@ -120,8 +119,8 @@ class _SearchBodyState extends State<SearchBody> {
               return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 5,
-                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
                   childAspectRatio: .8,
                 ),
                 itemCount: switch (state.indexRecipeStatus) {
@@ -132,15 +131,13 @@ class _SearchBodyState extends State<SearchBody> {
                 itemBuilder: (context, index) => AnimatedSwitcher(
                   duration: AppConfig.animationDuration,
                   child: switch (state.indexRecipeStatus) {
-                    CubitStatus.loading => Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade200,
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                          margin: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 7.5),
-                          // width: context.width * .4,
-                          // height: context.width * .4 / .8,
-                        ),
+                    CubitStatus.loading => SkeltonLoading(
+                        borderRadius: BorderRadius.circular(15),
+                        // margin: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 7.5),
+                        height: double.infinity,
+                        width: double.infinity,
+                        // width: context.width * .4,
+                        // height: context.width * .4 / .8,
                       ),
                     CubitStatus.success => RecipeCard(recipe: state.recipes[index]),
                     _ => const SizedBox.shrink(),
@@ -148,9 +145,9 @@ class _SearchBodyState extends State<SearchBody> {
                 ),
               );
             },
-          ).expand(),
+          ).padding(AppConfig.pagePadding).expand(),
         ],
-      ).padding(AppConfig.pagePadding),
+      ),
     );
   }
 
@@ -164,10 +161,10 @@ class _SearchBodyState extends State<SearchBody> {
         padding: const EdgeInsetsDirectional.only(end: 15),
         children: List.generate(
           6,
-          (_) => const SkeltonLoading(
+          (index) => SkeltonLoading(
             height: 50,
             width: 110,
-            margin: EdgeInsetsDirectional.only(start: 15),
+            margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
           ),
         ),
       ),
@@ -195,6 +192,7 @@ class _SearchBodyState extends State<SearchBody> {
               itemBuilder: (context, index) {
                 return CategoryChoiceChip(
                   title: context.read<RecipeCubit>().state.types[index].name!,
+                  margin: EdgeInsetsDirectional.only(start: index == 0 ? 15 : 0, end: 15),
                   isActive: index == selectedTypeValue,
                   onTap: () {
                     _selectedType.value = index;
@@ -234,6 +232,7 @@ class _SearchBodyState extends State<SearchBody> {
               itemBuilder: (context, index) {
                 return CategoryChoiceChip(
                   title: context.read<RecipeCubit>().state.categories[index].name!,
+                  margin: EdgeInsetsDirectional.only(start: index == 0 ? 15 : 0, end: 15),
                   isActive: index == selectedCatValue,
                   onTap: () {
                     _selectedCat.value = index;

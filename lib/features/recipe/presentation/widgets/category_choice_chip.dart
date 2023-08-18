@@ -9,18 +9,19 @@ class CategoryChoiceChip extends StatelessWidget {
     super.key,
     required this.isActive,
     required this.title,
-    required this.onTap,
+    required this.onTap, this.margin,
   });
 
   final String title;
   final bool isActive;
   final VoidCallback onTap;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
-      margin: const EdgeInsetsDirectional.only(start: 15),
+      margin: margin ?? const EdgeInsetsDirectional.only(start: 30),
       decoration: BoxDecoration(
         color: isActive ? AppColors.mainColor : Colors.white,
         borderRadius: BorderRadius.circular(25),

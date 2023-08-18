@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -42,7 +41,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   static double _bodyUpPosition(BuildContext context) => context.height * .15;
   static double _bodyDownPosition(BuildContext context) => context.height * .38;
 
-  static double _searchButtonUpPosition(BuildContext context) => context.height * .06;
+  static double _searchButtonUpPosition(BuildContext context) => 60; //context.height * .06;
   static double _searchButtonDownPosition(BuildContext context) => context.height * .29;
 
   @override
@@ -78,22 +77,9 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // IconButton(
-              //   onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-              //   icon: Icon(
-              //     Icons.menu_open_rounded,
-              //     color: Colors.white,
-              //     size: FontSize.heading_02,
-              //   ),
-              // ),
-              Text(
-                '${serviceLocator<LocalizationClass>().appLocalizations!.hello} ${serviceLocator<UserCubit>().state.user!.name!.split(' ').first}!',
-                style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
-              ),
-            ],
+          Text(
+            '${serviceLocator<LocalizationClass>().appLocalizations!.hello} ${serviceLocator<UserCubit>().state.user!.name!.split(' ').first}!',
+            style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
           ),
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
@@ -105,7 +91,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
           ),
           SizedBox(height: context.height * .22),
         ],
-      ),
+      ).paddingVertical(10),
     ).positioned(top: 0);
   }
 
@@ -180,7 +166,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         ..indexRecipes(const IndexRecipesParams())
         ..indexRecipesMostRated(const IndexRecipesParams())
         ..indexRecipesTrending(const IndexRecipesParams())
-        ..indexRecipesBuyFollowings(const IndexRecipesParams()),
+        ..indexRecipesByFollowings(const IndexRecipesParams()),
       child: Scaffold(
         key: _scaffoldKey,
         // drawer: const MainDrawer(),
@@ -266,12 +252,12 @@ class _BodyWidgetState extends State<_BodyWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 25),
+          const SizedBox(height: 15),
           SectionHeader(
             title: serviceLocator<LocalizationClass>().appLocalizations!.categories,
             showTrailing: false,
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
           BlocBuilder<RecipeCubit, RecipeState>(
             builder: (context, state) {
               return switch (context.read<RecipeCubit>().state.indexCategoriesStatus) {
@@ -298,18 +284,18 @@ class _BodyWidgetState extends State<_BodyWidget> {
   Widget _buildCategoriesSkeltonLoading() {
     return SizedBox(
       key: UniqueKey(),
-      height: 75,
+      height: 45,
       child: ListView(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsetsDirectional.only(end: 15),
         children: List.generate(
           6,
-          (_) => const SkeltonLoading(
+          (index) => SkeltonLoading(
             height: 50,
             width: 110,
-            padding: 12,
-            margin: EdgeInsetsDirectional.only(start: 15),
+            // padding: 12,
+            margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
           ),
         ),
       ),
@@ -318,7 +304,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
 
   Widget _buildCategoriesListView(BuildContext context, RecipeState state) {
     return SizedBox(
-      height: 75,
+      height: 45,
       child: ValueListenableBuilder<int>(
         valueListenable: _selectedCat,
         builder: (context, value, child) {
@@ -327,7 +313,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
               context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(
                     categoryId: value != 0 ? state.categories[value].id : null,
                   ));
-              context.read<RecipeCubit>().indexRecipesBuyFollowings(IndexRecipesParams(
+              context.read<RecipeCubit>().indexRecipesByFollowings(IndexRecipesParams(
                     categoryId: value != 0 ? state.categories[value].id : null,
                   ));
               context.read<RecipeCubit>().indexRecipesMostRated(IndexRecipesParams(
@@ -339,17 +325,25 @@ class _BodyWidgetState extends State<_BodyWidget> {
             },
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsetsDirectional.only(end: 15),
               itemCount: context.read<RecipeCubit>().state.categories.length,
               itemBuilder: (context, index) {
                 return CategoryChoiceChip(
                   title: context.read<RecipeCubit>().state.categories[index].name!,
+                  margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
                   isActive: index == value,
                   onTap: () {
                     _selectedCat.value = index;
-
                     context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(
-                          categoryId: index != 0 ? state.categories[index].id : null,
+                          categoryId: value != 0 ? state.categories[value].id : null,
+                        ));
+                    context.read<RecipeCubit>().indexRecipesByFollowings(IndexRecipesParams(
+                          categoryId: value != 0 ? state.categories[value].id : null,
+                        ));
+                    context.read<RecipeCubit>().indexRecipesMostRated(IndexRecipesParams(
+                          categoryId: value != 0 ? state.categories[value].id : null,
+                        ));
+                    context.read<RecipeCubit>().indexRecipesTrending(IndexRecipesParams(
+                          categoryId: value != 0 ? state.categories[value].id : null,
                         ));
                   },
                 );
@@ -357,7 +351,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
             ),
           );
         },
-      ).paddingVertical(10),
+      ),
     );
   }
 }
@@ -372,99 +366,99 @@ class _Section extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 25),
+        const SizedBox(height: 15),
         SectionHeader(title: title),
         const SizedBox(height: 15),
         SizedBox(
           height: context.height * .25,
           child: BlocBuilder<RecipeCubit, RecipeState>(
             builder: (context, state) {
-              if (state.indexRecipeStatus == CubitStatus.loading) {
-                return ListView.builder(
-                  itemCount: 6,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade200,
-                    child: Container(
-                      margin: const EdgeInsetsDirectional.only(start: 15),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                      width: context.width * .4,
-                      height: context.height * .25,
-                      child: const Icon(Icons.abc),
-                    ),
-                  ),
-                );
-              } else {
-                switch (indexType) {
-                  case IndexType.newest:
-                    if (state.indexRecipeStatus == CubitStatus.success) {
-                      return ListView.builder(
-                        itemCount: state.recipes.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(
-                          recipe: state.recipes[index],
-                          padding: const EdgeInsetsDirectional.only(start: 15),
-                        ),
-                      );
-                    } else {
-                      return MainErrorWidget(onTap: () {
-                        context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams());
-                      });
-                    }
-                  case IndexType.followings:
-                    if (state.indexByFollowingRecipeStatus == CubitStatus.success) {
-                      return ListView.builder(
-                        itemCount: state.followingsRecipes.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(
-                          recipe: state.followingsRecipes[index],
-                          padding: const EdgeInsetsDirectional.only(start: 15),
-                        ),
-                      );
-                    } else {
-                      return MainErrorWidget(onTap: () {
-                        context.read<RecipeCubit>().indexRecipesBuyFollowings(const IndexRecipesParams());
-                      });
-                    }
-                  case IndexType.trending:
-                    if (state.indexTrendingRecipeStatus == CubitStatus.success) {
-                      return ListView.builder(
-                        itemCount: state.trendingRecipes.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(
-                          recipe: state.trendingRecipes[index],
-                          padding: const EdgeInsetsDirectional.only(start: 15),
-                        ),
-                      );
-                    } else {
-                      return MainErrorWidget(onTap: () {
-                        context.read<RecipeCubit>().indexRecipesTrending(const IndexRecipesParams());
-                      });
-                    }
-                  case IndexType.mostRated:
-                    if (state.indexMostRatedRecipeStatus == CubitStatus.success) {
-                      return ListView.builder(
-                        itemCount: state.mostOrderedRecipes.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => RecipeCard(
-                          recipe: state.mostOrderedRecipes[index],
-                          padding: const EdgeInsetsDirectional.only(start: 15),
-                        ),
-                      );
-                    } else {
-                      return MainErrorWidget(onTap: () {
-                        context.read<RecipeCubit>().indexRecipesMostRated(const IndexRecipesParams());
-                      });
-                    }
-                  default:
-                    return const SizedBox.shrink();
-                }
+              switch (indexType) {
+                case IndexType.newest:
+                  if (state.indexRecipeStatus == CubitStatus.success) {
+                    return _buildRecipeListView(state.recipes, context);
+                  } else if (state.indexRecipeStatus == CubitStatus.loading) {
+                    return _buildLoadingListView();
+                  } else {
+                    return _handleErrorTap(context);
+                  }
+                case IndexType.followings:
+                  if (state.indexByFollowingRecipeStatus == CubitStatus.success) {
+                    return _buildRecipeListView(state.followingsRecipes, context);
+                  } else if (state.indexByFollowingRecipeStatus == CubitStatus.loading) {
+                    return _buildLoadingListView();
+                  } else {
+                    return _handleErrorTap(context);
+                  }
+                case IndexType.trending:
+                  if (state.indexTrendingRecipeStatus == CubitStatus.success) {
+                    return _buildRecipeListView(state.trendingRecipes, context);
+                  } else if (state.indexTrendingRecipeStatus == CubitStatus.loading) {
+                    return _buildLoadingListView();
+                  } else {
+                    return _handleErrorTap(context);
+                  }
+                case IndexType.mostRated:
+                  if (state.indexMostRatedRecipeStatus == CubitStatus.success) {
+                    return _buildRecipeListView(state.mostRatedRecipes, context);
+                  } else if (state.indexMostRatedRecipeStatus == CubitStatus.loading) {
+                    return _buildLoadingListView();
+                  } else {
+                    return _handleErrorTap(context);
+                  }
+                default:
+                  return const SizedBox.shrink();
               }
             },
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildLoadingListView() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: 6,
+      itemBuilder: (context, index) => SkeltonLoading(
+        width: context.width * .43,
+        height: context.height * .25,
+        margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+        borderRadius: BorderRadius.circular(15),
+      ),
+    );
+  }
+
+  Widget _buildRecipeListView(List<RecipeModel> recipes, BuildContext context) {
+    return ListView.builder(
+      itemCount: recipes.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) => RecipeCard(
+        recipe: recipes[index],
+        padding: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+      ),
+    );
+  }
+
+  Widget _handleErrorTap(BuildContext context) {
+    if (indexType == IndexType.newest) {
+      return MainErrorWidget(onTap: () {
+        context.read<RecipeCubit>().indexRecipes(const IndexRecipesParams());
+      });
+    } else if (indexType == IndexType.followings) {
+      return MainErrorWidget(onTap: () {
+        context.read<RecipeCubit>().indexRecipesByFollowings(const IndexRecipesParams());
+      });
+    } else if (indexType == IndexType.trending) {
+      return MainErrorWidget(onTap: () {
+        context.read<RecipeCubit>().indexRecipesTrending(const IndexRecipesParams());
+      });
+    } else if (indexType == IndexType.mostRated) {
+      return MainErrorWidget(onTap: () {
+        context.read<RecipeCubit>().indexRecipesTrending(const IndexRecipesParams());
+      });
+    } else {
+      throw UnimplementedError('IndexType $indexType not implemented');
+    }
   }
 }

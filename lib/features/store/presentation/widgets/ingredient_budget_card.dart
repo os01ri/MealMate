@@ -19,7 +19,8 @@ class _IngredientBudgetCard extends StatelessWidget {
         _DetailCardRow(
           children: [
             Card(
-              shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+              shape:
+                  RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
               color: AppColors.mainColor,
               child: const Icon(
                 Icons.workspaces_outline,
@@ -48,7 +49,8 @@ class _IngredientBudgetCard extends StatelessWidget {
         _DetailCardRow(
           children: [
             Card(
-              shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+              shape:
+                  RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
               color: AppColors.mainColor,
               child: const Icon(
                 Icons.payments_rounded,
@@ -59,7 +61,7 @@ class _IngredientBudgetCard extends StatelessWidget {
               valueListenable: quantity,
               builder: (_, value, child) {
                 return Text(
-                  '${(price * quantity.value / priceByUnit).toStringAsFixed(0)} SYP',
+                  '${(price * quantity.value / priceByUnit).toStringAsFixed(0)} ${serviceLocator<LocalizationClass>().appLocalizations!.syp}',
                   style: const TextStyle().bold.normalFontSize,
                   textAlign: TextAlign.center,
                 ).expand();

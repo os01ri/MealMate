@@ -134,7 +134,7 @@ class CartPageState extends State<CartPage> {
                                     AppTextStyles.styleWeight600(fontSize: 18),
                               ),
                               Text(
-                                "5,000 ل.س",
+                                "5,000 ${serviceLocator<LocalizationClass>().appLocalizations!.syp}",
                                 style:
                                     AppTextStyles.styleWeight400(fontSize: 18),
                               ),
@@ -151,7 +151,7 @@ class CartPageState extends State<CartPage> {
                                     AppTextStyles.styleWeight600(fontSize: 18),
                               ),
                               Text(
-                                '${state.getTotalPrice()} ل.س',
+                                '${state.getTotalPrice()} ${serviceLocator<LocalizationClass>().appLocalizations!.syp}',
                                 style:
                                     AppTextStyles.styleWeight400(fontSize: 18),
                               )
@@ -264,7 +264,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             children: [
               Text(widget.item.model!.name ?? "Ingredients"),
               Text(
-                  '${(widget.item.quantity * widget.item.model!.price!).numberFormat()} ل.س'),
+                  '${(widget.item.quantity * widget.item.model!.price!).numberFormat()} ${serviceLocator<LocalizationClass>().appLocalizations!.syp}'),
               Text(
                   "total ${widget.item.model!.priceBy! * widget.item.quantity} ${widget.item.model!.unit!.code}"),
             ],

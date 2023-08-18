@@ -70,11 +70,15 @@ class _RecipeCreatePageState extends State<RecipeCreatePage> {
                 size: 35,
               ),
               title: (_) => Text(
-                'Your Recipe Published Successfully!',
+                serviceLocator<LocalizationClass>()
+                    .appLocalizations!
+                    .yourRecipePublishedSuccessfully,
                 style: const TextStyle(color: Colors.white).bold,
               ),
               subtitle: (_) => Text(
-                'Please wait for admin to accept',
+                serviceLocator<LocalizationClass>()
+                    .appLocalizations!
+                    .pleaseWaitForAdminToAccept,
                 style: const TextStyle(color: Colors.white).regular,
               ),
               backgroundColor: Colors.green,

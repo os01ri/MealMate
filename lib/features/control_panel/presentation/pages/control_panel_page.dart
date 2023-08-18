@@ -4,8 +4,10 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
+import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/main_button.dart';
+import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
@@ -74,12 +76,14 @@ class _ControlPanelPageState extends State<ControlPanelPage>
           ).center(),
           _verticalSeparator,
           const Text('Osama Rida'),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('115 followers'),
+              Text(
+                  '115${serviceLocator<LocalizationClass>().appLocalizations!.followers}'),
               _horizontalSeparator,
-              Text('20 following'),
+              Text(
+                  '20 ${serviceLocator<LocalizationClass>().appLocalizations!.following}'),
             ],
           ),
           _verticalSeparator,
@@ -94,13 +98,17 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                         valueIndex: index,
                         tabController: tabController,
                         tabIndex: 0,
-                        title: 'recipes',
+                        title: serviceLocator<LocalizationClass>()
+                            .appLocalizations!
+                            .recipes,
                       ),
                       _Tab(
                         valueIndex: index,
                         tabController: tabController,
                         tabIndex: 1,
-                        title: 'preferences',
+                        title: serviceLocator<LocalizationClass>()
+                            .appLocalizations!
+                            .preferences,
                       ),
                     ],
                   ).paddingAll(20),
@@ -109,9 +117,15 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                     height: context.height * .3,
                     child: TabBarView(
                       controller: tabController,
-                      children: const [
-                        Center(child: Text('لم تقم بتحديد تفضيلاتك بعد')),
-                        Center(child: Text('لم تقم بنشر وصفات بعد')),
+                      children: [
+                        Center(
+                            child: Text(serviceLocator<LocalizationClass>()
+                                .appLocalizations!
+                                .youDidntMakePreferencesYet)),
+                        Center(
+                            child: Text(serviceLocator<LocalizationClass>()
+                                .appLocalizations!
+                                .youDidntPostRecipeYet)),
                       ],
                     ),
                   ),

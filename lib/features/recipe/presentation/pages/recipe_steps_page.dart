@@ -243,7 +243,9 @@ class _StepsSection extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'الرجاء تقييم الوصفة',
+                  serviceLocator<LocalizationClass>()
+                      .appLocalizations!
+                      .pleaseRateRecipe,
                   style: const TextStyle().bold.normalFontSize,
                 ),
                 Row(

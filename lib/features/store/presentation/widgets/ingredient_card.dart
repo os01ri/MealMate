@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../dependency_injection.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
 import '../../data/models/index_ingredients_response_model.dart';
 
@@ -56,9 +58,11 @@ class IngredientCard extends StatelessWidget {
                   width: context.width * .3,
                   child: Text(
                     // '1 Kg => ${state.ingredients[index].price}\$',
-                    '${ingredient.price} ل.س \nلـ ${ingredient.priceBy} كجم ',
+                    '${ingredient.price} ${serviceLocator<LocalizationClass>().appLocalizations!.syp} \nلـ ${ingredient.priceBy} كجم ',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: AppColors.lightTextColor).normalFontSize.bold,
+                    style: const TextStyle(color: AppColors.lightTextColor)
+                        .normalFontSize
+                        .bold,
                   ),
                 ).center(),
                 const SizedBox(height: 5),

@@ -1,7 +1,6 @@
-import 'dart:ui';
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mealmate/core/cubit/follow_cubit.dart';
+import 'package:mealmate/core/cubit/language_cubit.dart';
 
 import 'core/localization/localization_class.dart';
 import 'features/auth/presentation/cubit/auth_cubit/auth_cubit.dart';
@@ -13,14 +12,14 @@ final serviceLocator = GetIt.instance;
 Future<void> init() async => _appDependencies();
 
 Future<void> _appDependencies() async {
-  serviceLocator.registerLazySingleton<LocalizationClass>(() => LocalizationClass());
+  serviceLocator
+      .registerLazySingleton<LocalizationClass>(() => LocalizationClass());
 
-  serviceLocator<LocalizationClass>().setAppLocalizations(
-    await AppLocalizations.delegate.load(const Locale('ar')),
-  );
   serviceLocator.registerLazySingleton(() => CartCubit());
-  
+
   serviceLocator.registerLazySingleton(() => AuthCubit());
 
   serviceLocator.registerLazySingleton(() => UserCubit());
+  serviceLocator.registerLazySingleton(() => FollowCubit());
+  serviceLocator.registerLazySingleton(() => LanguageCubit()..initLanguage());
 }

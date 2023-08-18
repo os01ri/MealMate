@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../dependency_injection.dart';
+import '../../localization/localization_class.dart';
 import '../theme/text_styles.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -14,9 +16,10 @@ class EmptyWidget extends StatelessWidget {
         // SvgPicture.asset(SvgPath.noData),
         const SizedBox(height: 16),
         Text(
-          'noData',
+          serviceLocator<LocalizationClass>().appLocalizations!.thereIsNoData,
           style: AppTextStyles.styleWeight500(
-              fontSize: MediaQuery.of(context).size.width * .04, color: Colors.grey.shade500),
+              fontSize: MediaQuery.of(context).size.width * .04,
+              color: Colors.grey.shade500),
         )
       ],
     );

@@ -21,7 +21,8 @@ class _RecipeBudget extends StatelessWidget {
             _DetailCardRow(
               children: [
                 Card(
-                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppConfig.borderRadius),
                   color: AppColors.mainColor,
                   child: const Icon(
                     Icons.timer_outlined,
@@ -38,7 +39,8 @@ class _RecipeBudget extends StatelessWidget {
             _DetailCardRow(
               children: [
                 Card(
-                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppConfig.borderRadius),
                   color: AppColors.mainColor,
                   child: const Icon(
                     Icons.payments_rounded,
@@ -46,7 +48,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '$price SYP',
+                  '$price ${serviceLocator<LocalizationClass>().appLocalizations!.syp}',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),
@@ -60,7 +62,8 @@ class _RecipeBudget extends StatelessWidget {
             _DetailCardRow(
               children: [
                 Card(
-                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppConfig.borderRadius),
                   color: AppColors.mainColor,
                   child: const Icon(
                     Icons.people_alt_outlined,
@@ -80,7 +83,8 @@ class _RecipeBudget extends StatelessWidget {
             _DetailCardRow(
               children: [
                 Card(
-                  shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppConfig.borderRadius),
                   color: AppColors.mainColor,
                   child: const Icon(
                     Icons.account_tree_rounded,
@@ -88,7 +92,7 @@ class _RecipeBudget extends StatelessWidget {
                   ).paddingAll(10),
                 ),
                 Text(
-                  '$stepsCount Steps',
+                  '$stepsCount ${serviceLocator<LocalizationClass>().appLocalizations!.steps}',
                   style: const TextStyle().bold,
                   textAlign: TextAlign.center,
                 ).expand(),

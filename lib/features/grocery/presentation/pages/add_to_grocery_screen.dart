@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart' as ext;
 import '../../../../core/helper/app_config.dart';
 import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
+import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
 import '../../../../core/ui/widgets/error_widget.dart';
 import '../../../../core/ui/widgets/main_text_field.dart';
@@ -17,8 +19,6 @@ import '../../../store/domain/usecases/index_ingredients_usecase.dart';
 import '../../../store/presentation/cubit/cart_cubit/cart_cubit.dart';
 import '../../../store/presentation/cubit/store_cubit/store_cubit.dart';
 import '../../../store/presentation/widgets/ingredient_card.dart';
-
-import '../../../../core/ui/theme/colors.dart';
 
 class GroceryPage extends StatefulWidget {
   const GroceryPage({super.key});
@@ -233,7 +233,10 @@ class _GroceryPageState extends State<GroceryPage> {
 
   Widget _buildIngredientsGridView(StoreState state) {
     return (state.ingredients.isEmpty)
-        ? const Text('لايوجد عناصر').center()
+        ? Text(serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .noIngredients)
+            .center()
         : GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

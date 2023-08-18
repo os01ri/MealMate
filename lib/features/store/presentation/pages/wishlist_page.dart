@@ -31,7 +31,8 @@ class WishlistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => StoreCubit()..getWishlist(const IndexWishlistParams()),
+      create: (context) =>
+          StoreCubit()..getWishlist(const IndexWishlistParams()),
       child: Scaffold(
         appBar: RecipeAppBar(
           context: context,
@@ -45,11 +46,14 @@ class WishlistPage extends StatelessWidget {
               return AnimatedSwitcher(
                 duration: AppConfig.animationDuration,
                 child: switch (state.indexWishlistStatus) {
-                  CubitStatus.loading => _buildIngredientsSkeltonLoading(context),
+                  CubitStatus.loading =>
+                    _buildIngredientsSkeltonLoading(context),
                   CubitStatus.success => _buildItems(context, state),
                   _ => MainErrorWidget(
                       onTap: () {
-                        context.read<StoreCubit>().getWishlist(const IndexWishlistParams());
+                        context
+                            .read<StoreCubit>()
+                            .getWishlist(const IndexWishlistParams());
                       },
                     ).center(),
                 },
@@ -66,7 +70,8 @@ class WishlistPage extends StatelessWidget {
       Toaster.showLoading();
     } else if (state.removeFromWishlistStatus == CubitStatus.failure) {
       Toaster.closeLoading();
-      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.showToast(
+          serviceLocator<LocalizationClass>().appLocalizations!.error);
     } else if (state.removeFromWishlistStatus == CubitStatus.success) {
       Toaster.closeLoading();
       context.myPop();
@@ -96,7 +101,10 @@ class WishlistPage extends StatelessWidget {
 
   Widget _buildItems(BuildContext context, StoreState state) {
     return (state.wishItems.isEmpty)
-        ? const Text('لايوجد عناصر').center()
+        ? Text(serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .noItemsInWishlist)
+            .center()
         : GridView(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -121,18 +129,26 @@ class WishlistPage extends StatelessWidget {
                         return SimpleDialog(
                           backgroundColor: Colors.white,
                           contentPadding: const EdgeInsets.all(30),
-                          title: Text(state.wishItems[index].ingredient!.name!).center(),
-                          shape: RoundedRectangleBorder(borderRadius: AppConfig.borderRadius),
+                          title: Text(state.wishItems[index].ingredient!.name!)
+                              .center(),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: AppConfig.borderRadius),
                           children: [
                             MainButton(
-                              text: 'إضافة إلى السلة',
+                              text: serviceLocator<LocalizationClass>()
+                                  .appLocalizations!
+                                  .addToCart,
                               color: AppColors.mainColor,
                               onPressed: () {
                                 onAddToCart(widgetKeys[index]);
-                                serviceLocator<CartCubit>()
-                                    .addOrUpdateProduct(ingredient: state.wishItems[index].ingredient!, quantity: 1);
+                                serviceLocator<CartCubit>().addOrUpdateProduct(
+                                    ingredient:
+                                        state.wishItems[index].ingredient!,
+                                    quantity: 1);
                                 Toaster.showToast(
-                                  serviceLocator<LocalizationClass>().appLocalizations!.addedToCart,
+                                  serviceLocator<LocalizationClass>()
+                                      .appLocalizations!
+                                      .addedToCart,
                                 );
                                 context.myPop();
                               },
@@ -145,7 +161,8 @@ class WishlistPage extends StatelessWidget {
                               onPressed: () {
                                 context.read<StoreCubit>().removeFromWishlist(
                                       RemoveFromWishlistParams(
-                                        ingredientId: state.wishItems[index].id!,
+                                        ingredientId:
+                                            state.wishItems[index].id!,
                                       ),
                                     );
                               },

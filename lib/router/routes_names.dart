@@ -14,6 +14,8 @@ class RoutesNames {
   static const recipesSearch = 'search';
   static const recipesViewAll = 'all_recipes';
   static const recipeIntro = 'intro';
+
+  static const userProfile = 'user_profile';
   static const recipeDetails = 'details';
   static const recipeSteps = 'steps';
   static const recipeCreate = 'create';

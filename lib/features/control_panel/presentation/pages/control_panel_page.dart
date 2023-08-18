@@ -17,7 +17,8 @@ class ControlPanelPage extends StatefulWidget {
   State<ControlPanelPage> createState() => _ControlPanelPageState();
 }
 
-class _ControlPanelPageState extends State<ControlPanelPage> with SingleTickerProviderStateMixin {
+class _ControlPanelPageState extends State<ControlPanelPage>
+    with SingleTickerProviderStateMixin {
   static const _verticalSeparator = SizedBox(height: 20);
   static const _horizontalSeparator = SizedBox(width: 20);
 
@@ -143,8 +144,12 @@ class _Tab extends StatelessWidget {
       fontSize: 14,
       text: title,
       elevation: 0,
-      textColor: valueIndex.value == tabIndex ? AppColors.scaffoldBackgroundColor : Colors.black,
-      color: valueIndex.value == tabIndex ? AppColors.mainColor : AppColors.scaffoldBackgroundColor,
+      textColor: valueIndex.value == tabIndex
+          ? AppColors.scaffoldBackgroundColor
+          : Colors.black,
+      color: valueIndex.value == tabIndex
+          ? AppColors.mainColor
+          : AppColors.scaffoldBackgroundColor,
       onPressed: () {
         tabController.animateTo(valueIndex.value);
         valueIndex.value = tabIndex;

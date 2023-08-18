@@ -5,15 +5,16 @@ import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/ui/font/typography.dart';
 
 class RecipeAppBar extends AppBar {
-  RecipeAppBar({
-    super.key,
-    required BuildContext context,
-    String? title,
-    bool? centerText,
-    Widget? leadingWidget,
-    List<Widget>? actions,
-  }) : super(
-          backgroundColor: Colors.white,
+  RecipeAppBar(
+      {super.key,
+      required BuildContext context,
+      String? title,
+      bool? centerText,
+      Widget? leadingWidget,
+      List<Widget>? actions,
+      Color? color})
+      : super(
+          backgroundColor: color ?? Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
           centerTitle: centerText ?? true,
@@ -34,7 +35,8 @@ class RecipeAppBar extends AppBar {
                 shape: const CircleBorder(),
                 child: leadingWidget ??
                     IconButton(
-                      style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
+                      style:
+                          ButtonStyle(elevation: MaterialStateProperty.all(0)),
                       onPressed: () {
                         context.myPop();
                       },

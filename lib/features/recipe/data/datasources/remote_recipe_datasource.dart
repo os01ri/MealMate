@@ -11,7 +11,8 @@ import '../models/show_recipe_response_model.dart';
 class RemoteRecipeDatasource {
   const RemoteRecipeDatasource._();
 
-  static Future<IndexRecipesResponseModel> indexRecipes({ParamsMap params}) async {
+  static Future<IndexRecipesResponseModel> indexRecipes(
+      {ParamsMap params}) async {
     GetApi api = GetApi(
       uri: ApiVariables.indexRecipes(params: params),
       fromJson: indexRecipesResponseModelFromJson,
@@ -20,7 +21,8 @@ class RemoteRecipeDatasource {
     return result;
   }
 
-  static Future<IndexRecipesResponseModel> indexRecipesForUser({ParamsMap params}) async {
+  static Future<IndexRecipesResponseModel> indexRecipesForUser(
+      {ParamsMap params}) async {
     GetApi api = GetApi(
       uri: ApiVariables.indexRecipesForUser(params: params),
       fromJson: indexRecipesResponseModelFromJson,
@@ -29,7 +31,8 @@ class RemoteRecipeDatasource {
     return result;
   }
 
-  static Future<IndexRecipesResponseModel> indexRecipesByFollowings({ParamsMap params}) async {
+  static Future<IndexRecipesResponseModel> indexRecipesByFollowings(
+      {ParamsMap params}) async {
     GetApi api = GetApi(
       uri: ApiVariables.indexRecipesByFollowings(params: params),
       fromJson: indexRecipesResponseModelFromJson,
@@ -38,7 +41,8 @@ class RemoteRecipeDatasource {
     return result;
   }
 
-  static Future<IndexRecipesResponseModel> indexRecipesMostOrdered({ParamsMap params}) async {
+  static Future<IndexRecipesResponseModel> indexRecipesMostOrdered(
+      {ParamsMap params}) async {
     GetApi api = GetApi(
       uri: ApiVariables.indexRecipesMostRated(params: params),
       fromJson: indexRecipesResponseModelFromJson,
@@ -47,7 +51,8 @@ class RemoteRecipeDatasource {
     return result;
   }
 
-  static Future<IndexRecipesResponseModel> indexRecipesTrending({ParamsMap params}) async {
+  static Future<IndexRecipesResponseModel> indexRecipesTrending(
+      {ParamsMap params}) async {
     GetApi api = GetApi(
       uri: ApiVariables.indexRecipesTrending(params: params),
       fromJson: indexRecipesResponseModelFromJson,
@@ -95,6 +100,26 @@ class RemoteRecipeDatasource {
     return result;
   }
 
+  static Future<NoResponse> followUser(BodyMap body) async {
+    PostApi api = PostApi(
+      uri: ApiVariables.follow(),
+      fromJson: noResponseFromJson,
+      body: body,
+    );
+    final result = await api.callRequest();
+    return result;
+  }
+
+  static Future<NoResponse> unFollowUser(BodyMap body) async {
+    PostApi api = PostApi(
+      uri: ApiVariables.unfollow(),
+      fromJson: noResponseFromJson,
+      body: body,
+    );
+    final result = await api.callRequest();
+    return result;
+  }
+
   static Future<RecipeCategoryResponseModel> indexRecipeCategories() async {
     GetApi getApi = GetApi(
       uri: ApiVariables.indexCategories(),
@@ -104,7 +129,9 @@ class RemoteRecipeDatasource {
   }
 
   static Future<RecipeCategoryResponseModel> indexRecipeTypes() async {
-    GetApi getApi = GetApi(uri: ApiVariables.indexTypes(), fromJson: recipeCategoryResponseModelFromJson);
+    GetApi getApi = GetApi(
+        uri: ApiVariables.indexTypes(),
+        fromJson: recipeCategoryResponseModelFromJson);
     return await getApi.callRequest();
   }
 }

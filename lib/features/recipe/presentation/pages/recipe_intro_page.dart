@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/cubit/follow_cubit.dart';
+import 'package:mealmate/core/helper/cubit_status.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -21,7 +24,10 @@ class RecipeIntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(context: context, actions: const [], title: 'كيف تصنع ${recipe.name} !'),
+      appBar: RecipeAppBar(
+          context: context,
+          actions: const [],
+          title: 'كيف تصنع ${recipe.name} !'),
       body: Column(
         children: [
           CachedNetworkImage(
@@ -47,44 +53,70 @@ class RecipeIntroPage extends StatelessWidget {
                   ).paddingHorizontal(5),
                   Text(
                     '(300 ${serviceLocator<LocalizationClass>().appLocalizations!.reviews})',
-                    style: const TextStyle(color: Colors.black54).normalFontSize.regular,
+                    style: const TextStyle(color: Colors.black54)
+                        .normalFontSize
+                        .regular,
                   ),
                 ],
               ),
               const SizedBox(height: 15),
-              Row(
-                children: [
-                  Image.asset(PngPath.user),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'روبيرتا آني',
-                        style: const TextStyle().normalFontSize.semiBold,
-                      ).paddingHorizontal(5),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on_rounded,
-                            color: AppColors.mainColor,
-                          ),
-                          Text(
-                            'بالي، إندونيسيا',
-                            style: const TextStyle(color: Colors.black54).normalFontSize.regular,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  MainButton(
-                    text: 'Follow',
-                    width: context.width * .18,
-                    color: AppColors.mainColor,
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+              if (recipe.userId != null)
+                Row(
+                  children: [
+                    Image.asset(PngPath.user),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'روبيرتا آني',
+                          style: const TextStyle().normalFontSize.semiBold,
+                        ).paddingHorizontal(5),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_rounded,
+                              color: AppColors.mainColor,
+                            ),
+                            Text(
+                              'بالي، إندونيسيا',
+                              style: const TextStyle(color: Colors.black54)
+                                  .normalFontSize
+                                  .regular,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    BlocBuilder<FollowCubit, FollowState>(
+                      bloc: serviceLocator<FollowCubit>(),
+                      builder: (context, state) {
+                        return state.followStatus == CubitStatus.loading
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.mainColor,
+                                    borderRadius: BorderRadius.circular(15)),
+                                width: context.width * .18,
+                                height: context.width * .11,
+                                child: const Center(
+                                    child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                )),
+                              )
+                            : MainButton(
+                                text: 'Follow',
+                                width: context.width * .18,
+                                color: AppColors.mainColor,
+                                onPressed: () {
+                                  serviceLocator<FollowCubit>()
+                                      .followUser(recipe.userId);
+                                },
+                              );
+                      },
+                    ),
+                  ],
+                ).onTap(
+                    () => context.myGoNamed(RoutesNames.userProfile, extra: 1)),
               Text(
                 recipe.description!,
                 style: const TextStyle().normalFontSize.regular,

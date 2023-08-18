@@ -75,12 +75,16 @@ class RecipeState {
     List<RecipeCategoryModel>? types,
   }) {
     return RecipeState(
-      indexCategoriesStatus: indexCategoriesStatus ?? this.indexCategoriesStatus,
+      indexCategoriesStatus:
+          indexCategoriesStatus ?? this.indexCategoriesStatus,
       indexTypesStatus: indexTypesStatus ?? this.indexTypesStatus,
       indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
-      indexTrendingRecipeStatus: indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
-      indexMostRatedRecipeStatus: indexMostRatedRecipeStatus ?? this.indexMostRatedRecipeStatus,
-      indexByFollowingRecipeStatus: indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
+      indexTrendingRecipeStatus:
+          indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
+      indexMostRatedRecipeStatus:
+          indexMostRatedRecipeStatus ?? this.indexMostRatedRecipeStatus,
+      indexByFollowingRecipeStatus:
+          indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
       showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
       addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,
       cookRecipeStatus: cookRecipeStatus ?? this.cookRecipeStatus,

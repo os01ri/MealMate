@@ -254,6 +254,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
         children: [
           const SizedBox(height: 15),
           SectionHeader(
+            recipes: const [],
             title: serviceLocator<LocalizationClass>().appLocalizations!.categories,
             showTrailing: false,
           ),
@@ -367,7 +368,23 @@ class _Section extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 15),
-        SectionHeader(title: title),
+        BlocBuilder<RecipeCubit, RecipeState>(
+          builder: (context, state) {
+            return SectionHeader(
+              title: title,
+              allowTap: (indexType == IndexType.newest && state.indexRecipeStatus == CubitStatus.success) ||
+                  (indexType == IndexType.followings && state.indexByFollowingRecipeStatus == CubitStatus.success) ||
+                  (indexType == IndexType.mostRated && state.indexMostRatedRecipeStatus == CubitStatus.success) ||
+                  (indexType == IndexType.trending && state.indexTrendingRecipeStatus == CubitStatus.success),
+              recipes: switch (indexType) {
+                IndexType.newest => state.recipes,
+                IndexType.mostRated => state.mostRatedRecipes,
+                IndexType.followings => state.followingsRecipes,
+                IndexType.trending => state.trendingRecipes,
+              },
+            );
+          },
+        ),
         const SizedBox(height: 15),
         SizedBox(
           height: context.height * .25,

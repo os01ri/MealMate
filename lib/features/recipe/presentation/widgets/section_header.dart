@@ -7,16 +7,21 @@ import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../data/models/recipe_model.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
     required this.title,
+    required this.recipes,
     this.showTrailing = true,
+    this.allowTap = true,
   });
 
   final String title;
   final bool showTrailing;
+  final List<RecipeModel> recipes;
+  final bool allowTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,7 @@ class SectionHeader extends StatelessWidget {
               ),
               const Icon(Icons.arrow_forward, color: AppColors.mainColor),
             ],
-          ).onTap(() => context.myPushNamed(RoutesNames.recipesViewAll))
+          ).onTap(!allowTap ? null : () => context.myPushNamed(RoutesNames.recipesViewAll, extra: recipes))
         else
           const SizedBox.shrink(),
       ],

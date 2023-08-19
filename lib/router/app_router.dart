@@ -178,8 +178,8 @@ class AppRouter {
       path: RoutesNames.recipesViewAll,
       name: RoutesNames.recipesViewAll,
       parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: RecipeViewAllPage(),
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: RecipeViewAllPage(recipes: state.extra as List<RecipeModel>),
       ),
     ),
     GoRoute(

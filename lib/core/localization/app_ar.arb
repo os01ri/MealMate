@@ -29,7 +29,9 @@
   "error": "حدث خطأ ما",
   "finishCooking": "إنهاء التحضير",
   "firstName": "الاسم الأول",
+  "follow": "متابعة",
   "followers": "متابع",
+  "followersNumber": "يتابعه",
   "following": "تتابع",
   "forgotPassword": "نسيت كلمة المرور؟",
   "getStarted": "ابدأ",
@@ -43,6 +45,7 @@
   "logOut": "تسجيل الخروج",
   "min": "د",
   "mostRated": "الأعلى تقييما",
+  "myProfile": "ملفي",
   "newRecipes": "أحدث الوصفات",
   "next": "التالي",
   "no": "لا",
@@ -59,6 +62,7 @@
   "orLogin": "أو تسجيل الدخول",
   "password": "كلمة المرور",
   "passwordNotMatch": "كلمتا السر غير متطابقتان",
+  "people": "من اﻷشخاص",
   "placeOrder": "إرسال الطلب",
   "pleaseAddAValidStepDescription": "الرجاء اضافة شرح مناسب لهذه الخطوة",
   "pleaseAddAValidTime": "الرجاء اضافة وقت مناسب",
@@ -115,6 +119,5 @@
   "youDidntPostRecipeYet": "لم تقم بنشر وصفات بعد",
   "yourInterests": "اهتماماتك",
   "yourOrderIsPlacedSuccessfully": "تم انشاء طلبك بنجاح",
-  "yourRecipePublishedSuccessfully": "لقد تم نشر وصفتك بنجاح",
-  "youDidntPostRecipeYet":"لم تقم بنشر وصفات بعد"
+  "yourRecipePublishedSuccessfully": "لقد تم نشر وصفتك بنجاح"
 }

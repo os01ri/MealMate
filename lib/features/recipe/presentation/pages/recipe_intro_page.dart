@@ -45,11 +45,11 @@ class RecipeIntroPage extends StatelessWidget {
                     color: AppColors.yellow,
                   ),
                   Text(
-                    '4.5',
+                    recipe.rateAvg.toString(),
                     style: const TextStyle().normalFontSize.semiBold,
                   ).paddingHorizontal(5),
                   Text(
-                    '(300 ${serviceLocator<LocalizationClass>().appLocalizations!.reviews})',
+                    '(${recipe.rateCount} ${serviceLocator<LocalizationClass>().appLocalizations!.reviews})',
                     style: const TextStyle(color: Colors.black54).normalFontSize.regular,
                   ),
                 ],
@@ -63,7 +63,8 @@ class RecipeIntroPage extends StatelessWidget {
                           url: recipe.user?.logo ?? SvgPath.defaultImage,
                           width: context.width * .1,
                           shape: BoxShape.circle,
-                          height: context.width * .1)
+                          height: context.width * .1,
+                        )
                       : Image.asset(
                           PngPath.accountCreation,
                           width: context.width * .1,

@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Text(
               serviceLocator<LocalizationClass>().appLocalizations!.logOut,
               style: const TextStyle(color: Colors.red).largeFontSize.semiBold,
-            ).expand().onTap(() => showLogOutDialog(context)),
+            ).onTap(() => showLogOutDialog(context)),
           ],
         ).paddingAll(20),
       ),

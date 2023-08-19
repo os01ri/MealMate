@@ -13,11 +13,15 @@ class AuthTextField extends StatefulWidget {
     this.controller,
     required this.hint,
     this.validator,
+    this.onSubmitted,
     required this.label,
-      this.isPassword = false,
-      this.icon
+    this.isPassword = false,
+    this.icon,
+    this.textInputAction,
   });
 
+  final void Function(String)? onSubmitted;
+  final TextInputAction? textInputAction;
   final TextEditingController? controller;
   final String hint;
   final String label;
@@ -84,6 +88,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
               controller: widget.controller ?? TextEditingController(),
               hint: widget.hint,
               validator: widget.validator,
+              textInputAction: widget.textInputAction ?? TextInputAction.next,
+              onSubmitted: widget.onSubmitted,
             );
           },
         ),

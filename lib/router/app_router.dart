@@ -26,6 +26,7 @@ import '../features/recipe/presentation/pages/recipes_home_page.dart';
 import '../features/recipe/presentation/pages/view_all_page.dart';
 import '../features/store/presentation/pages/cart_page.dart';
 import '../features/store/presentation/pages/ingredient_page.dart';
+import '../features/store/presentation/pages/map_pick_location_page.dart';
 import '../features/store/presentation/pages/order_placed_screen.dart';
 import '../features/store/presentation/pages/store_page.dart';
 import '../features/store/presentation/pages/wishlist_page.dart';
@@ -56,15 +57,13 @@ class AppRouter {
         path: RoutesNames.splash,
         name: RoutesNames.splash,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: SplashScreen()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
       ),
       GoRoute(
         path: RoutesNames.onboarding,
         name: RoutesNames.onboarding,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            NoTransitionPage(child: OnboardingPage()),
+        pageBuilder: (context, state) => NoTransitionPage(child: OnboardingPage()),
       ),
     ],
   );
@@ -77,29 +76,25 @@ class AppRouter {
         path: RoutesNames.signup,
         name: RoutesNames.signup,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: SignUpPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: SignUpPage()),
       ),
       GoRoute(
         path: RoutesNames.login,
         name: RoutesNames.login,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: LoginPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: LoginPage()),
       ),
       GoRoute(
         path: RoutesNames.forgotPassword,
         name: RoutesNames.forgotPassword,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: ResetPasswordPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: ResetPasswordPage()),
       ),
       GoRoute(
         path: RoutesNames.changePassword,
         name: RoutesNames.changePassword,
         parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: ChangePasswordPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: ChangePasswordPage()),
       ),
       GoRoute(
         path: RoutesNames.otp,
@@ -135,31 +130,27 @@ class AppRouter {
         path: '/${RoutesNames.recipesHome}',
         name: RoutesNames.recipesHome,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: RecipesHomePage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: RecipesHomePage()),
         routes: _recipeRoutes,
       ),
       GoRoute(
         path: '/${RoutesNames.storePage}',
         name: RoutesNames.storePage,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: StorePage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: StorePage()),
         routes: _storeRoutes,
       ),
       GoRoute(
         path: '/${RoutesNames.notification}',
         name: RoutesNames.notification,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: NotificationPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: NotificationPage()),
       ),
       GoRoute(
         path: '/${RoutesNames.controlPanel}',
         name: RoutesNames.controlPanel,
         parentNavigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: ControlPanelPage()),
+        pageBuilder: (context, state) => const NoTransitionPage(child: ControlPanelPage()),
         routes: _controlPanelRoutes,
       ),
     ],
@@ -191,6 +182,17 @@ class AppRouter {
         state: state,
         child: RecipeIntroPage(recipe: state.extra as RecipeModel),
       ),
+    ),
+    GoRoute(
+      path: RoutesNames.userProfile,
+      name: RoutesNames.userProfile,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return NoTransitionPage(
+            child: UserProfilePage(
+          userId: state.extra as int,
+        ));
+      },
     ),
     GoRoute(
       path: RoutesNames.recipeDetails,
@@ -230,8 +232,7 @@ class AppRouter {
       name: RoutesNames.ingredient,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        final record =
-            state.extra as (void Function(GlobalKey), void Function(GlobalKey));
+        final record = state.extra as (void Function(GlobalKey), void Function(GlobalKey));
         return slideTransition(
           context: context,
           state: state,
@@ -261,24 +262,13 @@ class AppRouter {
       },
     ),
     GoRoute(
-      path: RoutesNames.userProfile,
-      name: RoutesNames.userProfile,
-      parentNavigatorKey: _rootNavigatorKey,
+      path: RoutesNames.pickLocation,
+      name: RoutesNames.pickLocation,
+      parentNavigatorKey: _shellNavigatorKey,
       pageBuilder: (context, state) {
-        return NoTransitionPage(
-            child: UserProfilePage(
-          userId: state.extra as int,
-        ));
+        return const NoTransitionPage(child: MapPickLocationPage());
       },
     ),
-    // GoRoute(
-    //   path: RoutesNames.pickLocation,
-    //   name: RoutesNames.pickLocation,
-    //   parentNavigatorKey: _shellNavigatorKey,
-    //   pageBuilder: (context, state) {
-    //     return const NoTransitionPage(child: MapPickLocationPage());
-    //   },
-    // ),
     GoRoute(
       path: RoutesNames.orderPlacedPage,
       name: RoutesNames.orderPlacedPage,
@@ -295,8 +285,7 @@ class AppRouter {
       name: RoutesNames.favorite,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        return slideTransition(
-            context: context, state: state, child: const FavoritePage());
+        return slideTransition(context: context, state: state, child: const FavoritePage());
       },
     ),
     GoRoute(
@@ -304,8 +293,7 @@ class AppRouter {
       name: RoutesNames.grocery,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        return slideTransition(
-            context: context, state: state, child: const GroceryPage());
+        return slideTransition(context: context, state: state, child: const GroceryPage());
       },
     ),
     GoRoute(
@@ -313,8 +301,7 @@ class AppRouter {
       name: RoutesNames.settings,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
-        return slideTransition(
-            context: context, state: state, child: const SettingsPage());
+        return slideTransition(context: context, state: state, child: const SettingsPage());
       },
     ),
   ];

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/helper/cubit_status.dart';
-import 'package:mealmate/core/ui/widgets/error_widget.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
 import '../../../../core/helper/assets_paths.dart';
+import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../core/ui/widgets/error_widget.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../auth/data/models/user_model.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
+import '../../../recipe/presentation/pages/recipes_home_page.dart';
 import '../../../recipe/presentation/widgets/app_bar.dart';
 import '../cubit/control_panel_cubit/control_panel_cubit.dart';
 
@@ -25,8 +26,7 @@ class ControlPanelPage extends StatefulWidget {
   State<ControlPanelPage> createState() => _ControlPanelPageState();
 }
 
-class _ControlPanelPageState extends State<ControlPanelPage>
-    with SingleTickerProviderStateMixin {
+class _ControlPanelPageState extends State<ControlPanelPage> with SingleTickerProviderStateMixin {
   static const _verticalSeparator = SizedBox(height: 20);
   static const _horizontalSeparator = SizedBox(width: 20);
 
@@ -54,7 +54,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
           icon: const Icon(Icons.storefront_outlined, color: AppColors.orange),
           onPressed: () => context.myPushNamed(RoutesNames.grocery),
         ),
-        title: 'Control',
+        title: serviceLocator<LocalizationClass>().appLocalizations!.myProfile,
         actions: [
           IconButton(
             icon: const Icon(Icons.star_rounded, color: AppColors.orange),
@@ -77,16 +77,20 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                   ? _UserDetailsWidget(
                       user: state.user!,
                       verticalSeparator: _verticalSeparator,
-                      horizontalSeparator: _horizontalSeparator)
+                      horizontalSeparator: _horizontalSeparator,
+                    )
                   : SizedBox(
                       height: context.height * .3,
                       child: Center(
                         child: state.getUserInfoStatus == CubitStatus.failure
-                            ? MainErrorWidget(onTap: () {
-                                controlPanelCubit.getUserInfo();
-                              })
+                            ? MainErrorWidget(
+                                onTap: () {
+                                  controlPanelCubit.getUserInfo();
+                                },
+                              )
                             : const CircularProgressIndicator.adaptive(),
-                      )),
+                      ),
+                    ),
               ValueListenableBuilder(
                 valueListenable: index,
                 builder: (BuildContext context, dynamic value, Widget? child) {
@@ -101,17 +105,13 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                               controlPanelCubit.indexMyRecipes();
                             },
                             tabIndex: 0,
-                            title: serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .recipes,
+                            title: serviceLocator<LocalizationClass>().appLocalizations!.recipes,
                           ),
                           _Tab(
                             valueIndex: index,
                             tabController: tabController,
                             tabIndex: 1,
-                            title: serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .preferences,
+                            title: serviceLocator<LocalizationClass>().appLocalizations!.preferences,
                           ),
                         ],
                       ).paddingAll(20),
@@ -128,62 +128,20 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                   children: [
                     state.recipesStatus == CubitStatus.success
                         ? state.recipes.isEmpty
-                            ? Center(
-                                child: Text(serviceLocator<LocalizationClass>()
-                                    .appLocalizations!
-                                    .youDidntPostRecipeYet))
+                            ? Text(
+                                serviceLocator<LocalizationClass>().appLocalizations!.youDidntPostRecipeYet,
+                              ).center()
                             : SizedBox(
                                 height: context.height * .3,
                                 child: GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3),
-                                  itemCount: state.recipes.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: AppColors.mainColor
-                                              .withOpacity(.5),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(8.0))),
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            flex: 4,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: CachedNetworkImage(
-                                                url: state.recipes[index].url ??
-                                                    SvgPath.defaultImage,
-                                                hash:
-                                                    state.recipes[index].hash ??
-                                                        SvgPath.defaultHash,
-                                                width: context.width * .3,
-                                                height: context.width * .3,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Text(
-                                                state.recipes[index].name!,
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.0),
-                                                maxLines: 1,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: .8,
                                   ),
+                                  itemCount: state.recipes.length,
+                                  itemBuilder: (context, index) => RecipeCard(recipe: state.recipes[index]),
                                 ),
                               )
                         : Center(
@@ -193,9 +151,7 @@ class _ControlPanelPageState extends State<ControlPanelPage>
                                   })
                                 : const CircularProgressIndicator.adaptive()),
                     Center(
-                        child: Text(serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .youDidntMakePreferencesYet)),
+                        child: Text(serviceLocator<LocalizationClass>().appLocalizations!.youDidntMakePreferencesYet)),
                   ],
                 ),
               ),
@@ -234,11 +190,9 @@ class _UserDetailsWidget extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-              '${user.followers ?? 115} ${serviceLocator<LocalizationClass>().appLocalizations!.followers}'),
+          Text('${user.followers ?? 115} ${serviceLocator<LocalizationClass>().appLocalizations!.followers}'),
           _horizontalSeparator,
-          Text(
-              '${user.following ?? 25} ${serviceLocator<LocalizationClass>().appLocalizations!.following}'),
+          Text('${user.following ?? 25} ${serviceLocator<LocalizationClass>().appLocalizations!.following}'),
         ],
       ),
       _verticalSeparator,
@@ -248,11 +202,7 @@ class _UserDetailsWidget extends StatelessWidget {
 
 class _Tab extends StatelessWidget {
   const _Tab(
-      {required this.title,
-      required this.tabController,
-      required this.valueIndex,
-      this.onTap,
-      required this.tabIndex});
+      {required this.title, required this.tabController, required this.valueIndex, this.onTap, required this.tabIndex});
 
   final String title;
   final TabController tabController;
@@ -265,12 +215,8 @@ class _Tab extends StatelessWidget {
       fontSize: 14,
       text: title,
       elevation: 0,
-      textColor: valueIndex.value == tabIndex
-          ? AppColors.scaffoldBackgroundColor
-          : Colors.black,
-      color: valueIndex.value == tabIndex
-          ? AppColors.mainColor
-          : AppColors.scaffoldBackgroundColor,
+      textColor: valueIndex.value == tabIndex ? AppColors.scaffoldBackgroundColor : Colors.black,
+      color: valueIndex.value == tabIndex ? AppColors.mainColor : AppColors.scaffoldBackgroundColor,
       onPressed: () {
         onTap?.call();
         valueIndex.value = tabIndex;

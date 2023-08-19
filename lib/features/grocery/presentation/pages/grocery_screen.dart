@@ -32,8 +32,7 @@ class GroceryPageState extends State<GroceryPage> {
       appBar: RecipeAppBar(
         context: context,
         centerText: true,
-        actions: const [],
-        title: "Your Grocery",
+        title: "مطبخك",
       ),
       body: BlocProvider(
         create: (context) => GroceryCubit()..getGroceryItems(),
@@ -51,25 +50,22 @@ class GroceryPageState extends State<GroceryPage> {
           },
           builder: (context, state) {
             return state.status == GroceryStatus.success
-                ? Container(
-                    color: AppColors.mainColor.withOpacity(.1),
-                    child: ListView.builder(
-                      itemCount: state.cartItems.length,
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: GroceryItemWidget(
-                            item: state.cartItems[index],
-                            onAdd: () {},
-                            onRemove: () {},
-                            onDelete: () {
-                              context.read<GroceryCubit>().deleteGroceryItem(state.cartItems[index].id!);
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                ? ListView.builder(
+                    itemCount: state.cartItems.length,
+                    padding: const EdgeInsets.all(8),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: GroceryItemWidget(
+                          item: state.cartItems[index],
+                          onAdd: () {},
+                          onRemove: () {},
+                          onDelete: () {
+                            context.read<GroceryCubit>().deleteGroceryItem(state.cartItems[index].id!);
+                          },
+                        ),
+                      );
+                    },
                   )
                 : state.status == GroceryStatus.failed
                     ? const SizedBox.shrink()

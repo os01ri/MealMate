@@ -14,8 +14,7 @@ class MapPickLocationPage extends StatefulWidget {
   State<MapPickLocationPage> createState() => _MapPickLocationPageState();
 }
 
-class _MapPickLocationPageState extends State<MapPickLocationPage>
-    with WidgetsBindingObserver {
+class _MapPickLocationPageState extends State<MapPickLocationPage> with WidgetsBindingObserver {
   late CameraPosition _initialCameraPosition;
   late Completer<GoogleMapController> _controller;
   LatLng? currentLocation;
@@ -40,7 +39,10 @@ class _MapPickLocationPageState extends State<MapPickLocationPage>
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('اختر موقعك'),
+        ),
         body: FutureBuilder<LocationData?>(
           future: LocationService.getUserLocation(),
           builder: (context, AsyncSnapshot<LocationData?> snapshot) {
@@ -63,8 +65,7 @@ class _MapPickLocationPageState extends State<MapPickLocationPage>
                 GoogleMap(
                   myLocationButtonEnabled: false,
                   onMapCreated: (controller) async {
-                    String mapStyle = await DefaultAssetBundle.of(context)
-                        .loadString("assets/map_style.json");
+                    String mapStyle = await DefaultAssetBundle.of(context).loadString("assets/map_style.json");
                     controller.setMapStyle(mapStyle);
                     _controller.complete(controller);
                   },
@@ -86,8 +87,7 @@ class _MapPickLocationPageState extends State<MapPickLocationPage>
                     children: [
                       InkWell(
                         onTap: () async {
-                          var myLocation =
-                              await LocationService.getUserLocation();
+                          var myLocation = await LocationService.getUserLocation();
                           if (myLocation == null) return;
                           var googleMapController = await _controller.future;
                           googleMapController.animateCamera(

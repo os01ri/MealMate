@@ -50,7 +50,7 @@ class _FavoritePageState extends State<FavoritePage> {
           appBar: RecipeAppBar(
             context: context,
             centerText: true,
-            title: 'Favorite',
+            title: 'المفضلة',
           ),
           body: BlocBuilder<FavoriteRecipesCubit, FavoriteRecipesState>(
             builder: (context, state) {

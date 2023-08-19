@@ -2,18 +2,20 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/cubit/follow_cubit.dart';
-import 'package:mealmate/core/extensions/context_extensions.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/helper/assets_paths.dart';
-import 'package:mealmate/core/helper/cubit_status.dart';
-import 'package:mealmate/core/ui/font/typography.dart';
-import 'package:mealmate/core/ui/widgets/error_widget.dart';
-import 'package:mealmate/core/ui/widgets/main_button.dart';
-import 'package:mealmate/dependency_injection.dart';
+import 'package:mealmate/features/recipe/presentation/widgets/app_bar.dart';
 
+import '../../../../core/cubit/follow_cubit.dart';
+import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/extensions/widget_extensions.dart';
+import '../../../../core/helper/assets_paths.dart';
+import '../../../../core/helper/cubit_status.dart';
+import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
+import '../../../../core/ui/widgets/error_widget.dart';
+import '../../../../core/ui/widgets/main_button.dart';
+import '../../../../dependency_injection.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
+import '../../../recipe/presentation/pages/recipes_home_page.dart';
 import '../../data/model/show_user_model.dart';
 import '../cubit/profile_cubit.dart';
 
@@ -37,50 +39,39 @@ class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.mainColor,
-        appBar: AppBar(
-          iconTheme: const IconThemeData(color: AppColors.lightGrey),
-          backgroundColor: AppColors.mainColor,
-          actions: [
-            InkWell(
-                onTap: () {},
-                child: Container(
-                    width: context.width * .013,
-                    height: context.width * .013,
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Image.asset(SvgPath.introSvg))),
-          ],
-          elevation: 0,
+      backgroundColor: AppColors.mainColor,
+      appBar: RecipeAppBar(
+        context: context,
+        title: 'الملف الشخصي',
+        centerText: true,
+      ),
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          body: BlocConsumer<ProfileCubit, ProfileState>(
+            bloc: profileCubit,
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state.showUserStatus == CubitStatus.success) {
+                return UserProfileLayout(user: state.user!);
+              }
+              if (state.showUserStatus == CubitStatus.failure) {
+                return Center(
+                  child: MainErrorWidget(onTap: () {
+                    profileCubit.showUser(widget.userId);
+                  }),
+                );
+              }
+              if (state.showUserStatus == CubitStatus.loading) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
         ),
-        body: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-                backgroundColor: AppColors.mainColor,
-                body: BlocConsumer<ProfileCubit, ProfileState>(
-                  bloc: profileCubit,
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    if (state.showUserStatus == CubitStatus.success) {
-                      return UserProfileLayout(user: state.user!);
-                    }
-                    if (state.showUserStatus == CubitStatus.failure) {
-                      return Center(
-                        child: MainErrorWidget(onTap: () {
-                          profileCubit.showUser(widget.userId);
-                        }),
-                      );
-                    }
-                    if (state.showUserStatus == CubitStatus.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ))));
+      ),
+    );
   }
 }
 
@@ -100,7 +91,7 @@ class UserProfileLayout extends StatelessWidget {
             Column(
               children: [
                 const Text(
-                  ' Profile',
+                  'Profile',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -122,7 +113,7 @@ class UserProfileLayout extends StatelessWidget {
                       vertical: 20,
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
                           height: 40,
@@ -131,9 +122,8 @@ class UserProfileLayout extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "${user.username}",
-                              style: const TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+                              "${user.name}",
+                              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                             ),
                             BlocBuilder<FollowCubit, FollowState>(
                               bloc: serviceLocator<FollowCubit>(),
@@ -144,104 +134,52 @@ class UserProfileLayout extends StatelessWidget {
                                       )
                                     : MainButton(
                                         width: context.width * .18,
-                                        text: 'Follow',
+                                        text: serviceLocator<LocalizationClass>().appLocalizations!.follow,
                                         color: AppColors.mainColor,
-                                        onPressed: () {
-                                          serviceLocator<FollowCubit>()
-                                              .followUser(user.id!);
-                                        });
+                                        onPressed: () => serviceLocator<FollowCubit>().followUser(user.id!),
+                                      );
                               },
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 4.0,
-                        ).paddingAll(5),
+                        const SizedBox(height: 4.0).paddingAll(5),
                         Text(
                           "${user.city}",
-                          style: const TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                         ).paddingAll(5),
                         Text(
-                          "Following by  ${user.followby?.length ?? Random().nextInt(250)}",
-                          style: const TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                          "${serviceLocator<LocalizationClass>().appLocalizations!.followersNumber}  ${user.followby?.length ?? Random().nextInt(250)}  ${serviceLocator<LocalizationClass>().appLocalizations!.people}",
+                          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                         ).paddingAll(5),
-                        Container(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Text(
-                            'Recipes',
-                            style: const TextStyle().largeFontSize.bold,
+                        // Container(
+                        //   alignment: AlignmentDirectional.centerStart,
+                        //   child: Text(
+                        //     serviceLocator<LocalizationClass>().appLocalizations!.recipes,
+                        //     style: const TextStyle().largeFontSize.bold,
+                        //   ).paddingVertical(25),
+                        // ),
+                        SizedBox(
+                          width: context.width * .4,
+                          child: MainButton(
+                            text: serviceLocator<LocalizationClass>().appLocalizations!.recipes,
+                            color: AppColors.mainColor,
+                            onPressed: () {},
                           ).paddingVertical(25),
                         ),
                         SizedBox(
                           height: context.height * .45,
                           child: GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: .8,
+                            ),
                             itemCount: user.recipes!.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  //Show Recipe
-                                  print(user.logo);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color:
-                                            AppColors.mainColor.withOpacity(.5),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(8.0))),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          flex: 4,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: CachedNetworkImage(
-                                              url: user.recipes?[index].url ??
-                                                  SvgPath.defaultImage,
-                                              hash: user.recipes?[index].hash ??
-                                                  SvgPath.defaultHash,
-                                              width: context.width * .3,
-                                              height: context.width * .3,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              user.recipes![index].name!,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16.0),
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                            itemBuilder: (context, index) => RecipeCard(recipe: user.recipes![index]),
                           ),
                         ),
-                        const SizedBox(
-                          height: 2.0,
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
@@ -256,8 +194,7 @@ class UserProfileLayout extends StatelessWidget {
                   width: context.width * .2,
                   decoration: BoxDecoration(
                       color: AppColors.mainColor,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(6.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(6.0)),
                       border: Border.all(width: 1, color: AppColors.mainColor)),
                   child: CachedNetworkImage(
                       hash: user.hash ?? SvgPath.defaultHash,

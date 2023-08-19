@@ -95,6 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                         return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                       }
                     },
+                    onSubmitted: (_) => _submit(context),
+                    textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -119,15 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     text: serviceLocator<LocalizationClass>().appLocalizations!.login,
                     color: AppColors.mainColor,
                     width: context.width,
-                    onPressed: () {
-                      SharedPreferencesService.setNotFirstTimeOpeningApp();
-                      if (_formKey.currentState!.validate()) {
-                        context.read<AuthCubit>().login(LoginUserParams(
-                              email: _userNameController.text,
-                              password: _passwordController.text,
-                            ));
-                      }
-                    },
+                    onPressed: () => _submit(context),
                   ),
                   TextButton(
                     style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
@@ -185,6 +179,16 @@ class _LoginPageState extends State<LoginPage> {
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
       Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
+    }
+  }
+
+  void _submit(BuildContext context) {
+    SharedPreferencesService.setNotFirstTimeOpeningApp();
+    if (_formKey.currentState!.validate()) {
+      context.read<AuthCubit>().login(LoginUserParams(
+            email: _userNameController.text,
+            password: _passwordController.text,
+          ));
     }
   }
 }

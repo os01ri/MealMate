@@ -15,7 +15,7 @@ class DeleteApi<T> with HandlingExceptionRequest {
     required this.uri,
     required this.fromJson,
   });
-  Future<T> callRequest() async {
+  Future<T> call() async {
     String? token = await Helper.getToken();
     // String fcmToken = await Helper.getFCMToken();
     bool isAuth = await Helper.isAuth();

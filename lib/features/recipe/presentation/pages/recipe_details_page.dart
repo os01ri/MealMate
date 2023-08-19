@@ -4,6 +4,9 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/ui/toaster.dart';
+import 'package:mealmate/features/control_panel/domain/usecases/add_favorite_recipe_usecase.dart';
+import 'package:mealmate/features/control_panel/presentation/cubit/favorite_recipes_cubit/favorite_recipes_cubit.dart';
 import 'package:mealmate/features/media_service/data/model/media_model.dart';
 import 'package:mealmate/features/recipe/presentation/pages/recipe_steps_page.dart';
 
@@ -50,15 +53,31 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
           return Scaffold(
             appBar: RecipeAppBar(
               context: context,
-              title: state.showRecipeStatus == CubitStatus.success
-                  ? state.recipe!.name!
-                  : 'loading...',
+              title: state.showRecipeStatus == CubitStatus.success ? state.recipe!.name! : 'loading...',
               actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    PngPath.saveInactive,
-                    color: Colors.black,
+                BlocListener<FavoriteRecipesCubit, FavoriteRecipesState>(
+                  bloc: serviceLocator<FavoriteRecipesCubit>(),
+                  listener: (context, state) {
+                    if (state.addStatus == CubitStatus.loading) {
+                      Toaster.showLoading();
+                    } else if (state.addStatus == CubitStatus.failure) {
+                      Toaster.closeLoading();
+                      Toaster.showToast('حدث خطأ، أعد المحاولة');
+                    } else if (state.addStatus == CubitStatus.success) {
+                      Toaster.closeLoading();
+                      Toaster.showToast('تم إضافة الوصفة للمفضلة');
+                    }
+                  },
+                  child: IconButton(
+                    onPressed: () {
+                      serviceLocator<FavoriteRecipesCubit>().addFavoriteRecipe(AddFavoriteRecipeParams(
+                        id: state.recipe!.id!,
+                      ));
+                    },
+                    icon: Image.asset(
+                      PngPath.saveInactive,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ],
@@ -76,10 +95,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                             price: state.recipe!.ingredients!
                                 .map((e) => e.price)
                                 .toList()
-                                .fold(
-                                    0,
-                                    (previousValue, element) =>
-                                        previousValue + element!),
+                                .fold(0, (previousValue, element) => previousValue + element!),
                             stepsCount: state.recipe!.steps!.length,
                           ).paddingVertical(8),
                           const _TabBar(),
@@ -89,8 +105,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                     ],
                   ).padding(AppConfig.pagePadding)
                 : const Center(child: CircularProgressIndicator.adaptive()),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniCenterDocked,
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
             floatingActionButton: MainButton(
               color: AppColors.mainColor,
               onPressed: () {
@@ -109,9 +124,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                 }
               },
               width: context.width,
-              text: serviceLocator<LocalizationClass>()
-                  .appLocalizations!
-                  .startCooking,
+              text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,
             ).hero('button').padding(AppConfig.pagePadding),
           );
         },

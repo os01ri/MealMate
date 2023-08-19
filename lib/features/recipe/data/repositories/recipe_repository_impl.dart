@@ -10,72 +10,59 @@ import '../datasources/remote_recipe_datasource.dart';
 import '../models/index_recipes_response_model.dart';
 import '../models/show_recipe_response_model.dart';
 
-class RecipeRepositoryImpl
-    with HandlingExceptionManager
-    implements RecipeRepository {
+class RecipeRepositoryImpl with HandlingExceptionManager implements RecipeRepository {
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipes(
-      {ParamsMap params}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipes({ParamsMap params}) {
     return wrapHandling(
       tryCall: () async {
-        final result =
-            await RemoteRecipeDatasource.indexRecipes(params: params);
+        final result = await RemoteRecipeDatasource.indexRecipes(params: params);
         return Right(result);
       },
     );
   }
 
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesForUser(
-      {ParamsMap params}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesForUser({ParamsMap params}) {
     return wrapHandling(
       tryCall: () async {
-        final result =
-            await RemoteRecipeDatasource.indexRecipesForUser(params: params);
+        final result = await RemoteRecipeDatasource.indexRecipesForUser(params: params);
         return Right(result);
       },
     );
   }
 
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesTrending(
-      {ParamsMap params}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesTrending({ParamsMap params}) {
     return wrapHandling(
       tryCall: () async {
-        final result =
-            await RemoteRecipeDatasource.indexRecipesTrending(params: params);
+        final result = await RemoteRecipeDatasource.indexRecipesTrending(params: params);
         return Right(result);
       },
     );
   }
 
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesMostOrdered(
-      {ParamsMap params}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesMostOrdered({ParamsMap params}) {
     return wrapHandling(
       tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesMostOrdered(
-            params: params);
+        final result = await RemoteRecipeDatasource.indexRecipesMostOrdered(params: params);
         return Right(result);
       },
     );
   }
 
   @override
-  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesByFollowings(
-      {ParamsMap params}) {
+  Future<Either<Failure, IndexRecipesResponseModel>> indexRecipesByFollowings({ParamsMap params}) {
     return wrapHandling(
       tryCall: () async {
-        final result = await RemoteRecipeDatasource.indexRecipesByFollowings(
-            params: params);
+        final result = await RemoteRecipeDatasource.indexRecipesByFollowings(params: params);
         return Right(result);
       },
     );
   }
 
   @override
-  Future<Either<Failure, ShowRecipeResponseModel>> showRecipe(
-      {required int id}) {
+  Future<Either<Failure, ShowRecipeResponseModel>> showRecipe({required int id}) {
     return wrapHandling(tryCall: () async {
       final result = await RemoteRecipeDatasource.showRecipe(id);
       return Right(result);
@@ -107,8 +94,7 @@ class RecipeRepositoryImpl
   }
 
   @override
-  Future<Either<Failure, RecipeCategoryResponseModel>> indexRecipeCategories(
-      {ParamsMap? params}) {
+  Future<Either<Failure, RecipeCategoryResponseModel>> indexRecipeCategories({ParamsMap? params}) {
     return wrapHandling(
       tryCall: () async {
         final result = await RemoteRecipeDatasource.indexRecipeCategories();
@@ -118,8 +104,7 @@ class RecipeRepositoryImpl
   }
 
   @override
-  Future<Either<Failure, RecipeCategoryResponseModel>> indexRecipeTypes(
-      {ParamsMap? params}) {
+  Future<Either<Failure, RecipeCategoryResponseModel>> indexRecipeTypes({ParamsMap? params}) {
     return wrapHandling(
       tryCall: () async {
         final result = await RemoteRecipeDatasource.indexRecipeTypes();

@@ -15,14 +15,14 @@ class FollowCubit extends Cubit<FollowState> {
 
   followUser(int userId) async {
     emit(state.copyWith(followStatus: CubitStatus.loading));
-    final result = await _follow.call(userId);
+    final result = await _follow(userId);
     result.fold((l) => emit(state.copyWith(followStatus: CubitStatus.failure)),
         (r) => emit(state.copyWith(followStatus: CubitStatus.success)));
   }
 
   unFollowUser(int userId) async {
     emit(state.copyWith(followStatus: CubitStatus.loading));
-    final result = await _unFollow.call(userId);
+    final result = await _unFollow(userId);
     result.fold((l) => emit(state.copyWith(followStatus: CubitStatus.failure)),
         (r) => emit(state.copyWith(followStatus: CubitStatus.success)));
   }

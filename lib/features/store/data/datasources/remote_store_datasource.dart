@@ -16,11 +16,11 @@ class RemoteStoreDatasource {
   ///ingredient category///
   /////////////////////////
   static Future<IndexIngredientCategoriesResponseModel> indexIngredientsCategories({ParamsMap params}) async {
-    GetApi getApi = GetApi(
+    GetApi api = GetApi(
       uri: ApiVariables.indexIngredientsCategories(params: params),
       fromJson: indexIngredientCategoriesResponseModelFromJson,
     );
-    final result = await getApi.callRequest();
+    final result = await api();
     return result;
   }
 
@@ -29,26 +29,26 @@ class RemoteStoreDatasource {
   ////////////////
 
   static Future<IndexIngredientsResponseModel> indexIngredients({ParamsMap params}) async {
-    GetApi getApi = GetApi(
+    GetApi api = GetApi(
       uri: ApiVariables.indexIngredients(params: params),
       fromJson: indexIngredientsResponseModelFromJson,
     );
-    final result = await getApi.callRequest();
+    final result = await api();
     return result;
   }
 
   static Future<ShowIngredientResponseModel> showIngredient({required int id, ParamsMap params}) async {
-    GetApi getApi = GetApi(
+    GetApi api = GetApi(
       uri: ApiVariables.showIngredients(id: id),
       fromJson: showIngredientResponseModelFromJson,
     );
-    final result = await getApi.callRequest();
+    final result = await api();
     return result;
   }
 
   static Future placeOrder({required BodyMap body}) async {
-    PostApi postApi = PostApi(uri: ApiVariables.placeOrder(), body: body, fromJson: noResponseFromJson);
-    final result = await postApi.callRequest();
+    PostApi api = PostApi(uri: ApiVariables.placeOrder(), body: body, fromJson: noResponseFromJson);
+    final result = await api();
     return result;
   }
 
@@ -57,30 +57,30 @@ class RemoteStoreDatasource {
   //////////////
 
   static Future<IndexWishlistItemsResponseModel> indexWishlist({ParamsMap params}) async {
-    GetApi getApi = GetApi(
+    GetApi api = GetApi(
       uri: ApiVariables.indexWishlist(params: params),
       fromJson: indexWishlistItemsResponseModelFromJson,
     );
-    final result = await getApi.callRequest();
+    final result = await api();
     return result;
   }
 
   static Future<NoResponse> addToWishlist({required BodyMap body, ParamsMap params}) async {
-    PostApi postApi = PostApi(
+    PostApi api = PostApi(
       uri: ApiVariables.addToWishlist(params: params),
       fromJson: noResponseFromJson,
       body: body,
     );
-    final result = await postApi.callRequest();
+    final result = await api();
     return result;
   }
 
   static Future<NoResponse> removeFromWishlist({required int id}) async {
-    DeleteApi deleteApi = DeleteApi(
+    DeleteApi api = DeleteApi(
       uri: ApiVariables.removeFromWishlist(id: id),
       fromJson: noResponseFromJson,
     );
-    final result = await deleteApi.callRequest();
+    final result = await api();
     return result;
   }
 }

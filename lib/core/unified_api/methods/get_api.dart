@@ -21,7 +21,7 @@ class GetApi<T> with HandlingExceptionRequest {
     this.body = const {},
     this.getFCMToken = false,
   });
-  Future<T> callRequest() async {
+  Future<T> call() async {
     String? token = await Helper.getToken();
     log(token.toString().logWhite, name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);

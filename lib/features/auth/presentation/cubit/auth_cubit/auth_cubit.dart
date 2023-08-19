@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(const AuthState());
 
   refreshToken() async {
-    final result = await _refreshTokenUseCase.call(NoParams());
+    final result = await _refreshTokenUseCase(NoParams());
     result.fold((l) => emit(state.copyWith(status: AuthStatus.unAuthenticated)), (r) {
       emit(state.copyWith(
         status: AuthStatus.success,
@@ -34,7 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
   login(LoginUserParams params) async {
     emit(state.copyWith(status: AuthStatus.loading));
 
-    final result = await _login.call(params);
+    final result = await _login(params);
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
@@ -47,7 +47,7 @@ class AuthCubit extends Cubit<AuthState> {
       status: AuthStatus.loading,
     ));
 
-    final result = await _register.call(params);
+    final result = await _register(params);
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
@@ -60,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
       status: AuthStatus.loading,
     ));
 
-    final result = await _sendOtpCode.call(SendOtpParams(email: email));
+    final result = await _sendOtpCode(SendOtpParams(email: email));
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),
@@ -71,7 +71,7 @@ class AuthCubit extends Cubit<AuthState> {
   checkOtpCode(String code, bool isRegister) async {
     emit(state.copyWith(status: AuthStatus.loading));
 
-    final result = await _checkOtpCode.call(CheckOtpParams(code: code, isRegister: isRegister));
+    final result = await _checkOtpCode(CheckOtpParams(code: code, isRegister: isRegister));
 
     result.fold(
       (l) => emit(state.copyWith(status: AuthStatus.failed)),

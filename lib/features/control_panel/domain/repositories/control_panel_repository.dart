@@ -4,5 +4,5 @@ import 'package:mealmate/features/recipe/data/models/index_recipes_response_mode
 import '../../../../core/error/failures.dart';
 
 abstract class ControlPanelRepository {
-  Future<Either<Failure, IndexRecipesResponseModel>> indexMyRecipes();
+  Future<Either<Failure, IndexRecipesResponseModel>> indexUserRecipes();
 }

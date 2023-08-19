@@ -16,8 +16,9 @@ class RecipeModel {
   final RecipeCategoryModel? category;
   final List<IngredientModel>? ingredients;
   final List<RecipeStepModel>? steps;
+  final _LikedRecipeModel? likedRecipe;
 
-  RecipeModel({
+  const RecipeModel({
     this.id,
     this.name,
     this.description,
@@ -31,6 +32,7 @@ class RecipeModel {
     this.category,
     this.ingredients,
     this.steps,
+    this.likedRecipe,
   });
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
@@ -51,6 +53,7 @@ class RecipeModel {
         steps: json["steps"] == null
             ? []
             : List<RecipeStepModel>.from(json["steps"]!.map((x) => RecipeStepModel.fromJson(x))),
+        likedRecipe: json["likerecipe"] == null ? null : _LikedRecipeModel.fromJson(json["likerecipe"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -66,5 +69,41 @@ class RecipeModel {
         "category": category?.toJson(),
         "ingredients": ingredients == null ? [] : List<dynamic>.from(ingredients!.map((x) => x.toJson())),
         "steps": steps == null ? [] : List<dynamic>.from(steps!.map((x) => x.toJson())),
+        "likerecipe": likedRecipe?.toJson(),
+      };
+}
+
+class _LikedRecipeModel {
+  final int? id;
+  final int? userId;
+  final int? recipeId;
+
+  _LikedRecipeModel({
+    this.id,
+    this.userId,
+    this.recipeId,
+  });
+
+  _LikedRecipeModel copyWith({
+    int? id,
+    int? userId,
+    int? recipeId,
+  }) =>
+      _LikedRecipeModel(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        recipeId: recipeId ?? this.recipeId,
+      );
+
+  factory _LikedRecipeModel.fromJson(Map<String, dynamic> json) => _LikedRecipeModel(
+        id: json["id"],
+        userId: json["user_id"],
+        recipeId: json["recipe_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "user_id": userId,
+        "recipe_id": recipeId,
       };
 }

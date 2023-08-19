@@ -20,7 +20,7 @@ class MultiPostApi with HandlingExceptionRequest {
     this.timeout = const Duration(seconds: 20),
   });
 
-  Future<dynamic> callRequest() async {
+  Future<dynamic> call() async {
     try {
       var headers = {
         'Content-Type': 'application/json',

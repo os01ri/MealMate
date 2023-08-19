@@ -4,12 +4,14 @@ class RecipeCard extends StatelessWidget {
   const RecipeCard({
     super.key,
     required this.recipe,
+    this.onTap,
     this.padding,
     this.width,
     this.height,
   });
 
   final RecipeModel recipe;
+  final VoidCallback? onTap;
   final EdgeInsetsGeometry? padding;
   final double? width;
   final double? height;
@@ -17,7 +19,7 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.myPushNamed(RoutesNames.recipeIntro, extra: recipe),
+      onTap: onTap ?? () => context.myPushNamed(RoutesNames.recipeIntro, extra: recipe),
       child: Container(
         height: 250,
         margin: padding,

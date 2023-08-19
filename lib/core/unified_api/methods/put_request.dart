@@ -24,7 +24,7 @@ class PutApi<T> with HandlingExceptionRequest {
     this.timeout = const Duration(seconds: 20),
   });
 
-  Future<T> callRequest() async {
+  Future<T> call() async {
     String? token = await Helper.getToken();
     // String fcmToken = await HelperFunctions.getFCMToken();
     bool isAuth = await Helper.isAuth();

@@ -4,11 +4,14 @@ part of '../pages/recipe_details_page.dart';
 class _RecipeBudget extends StatelessWidget {
   final int price, stepsCount, persons;
   final String duration;
+  final VoidCallback onAdd, onMinus;
   const _RecipeBudget({
     Key? key,
     required this.persons,
     required this.duration,
     required this.price,
+    required this.onAdd,
+    required this.onMinus,
     required this.stepsCount,
   }) : super(key: key);
   @override
@@ -73,9 +76,9 @@ class _RecipeBudget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.remove),
+                    const Icon(Icons.remove).onTap(() => onMinus.call()),
                     Text('$persons').paddingHorizontal(12),
-                    const Icon(Icons.add),
+                    const Icon(Icons.add).onTap(() => onAdd.call()),
                   ],
                 ).expand(),
               ],

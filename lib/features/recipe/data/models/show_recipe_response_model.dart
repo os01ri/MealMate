@@ -275,6 +275,14 @@ class RecipeIngredient {
   Map<String, dynamic> toJson() => {
         "quantity": quantity,
       };
+
+  RecipeIngredient copyWith({
+    int? quantity,
+  }) {
+    return RecipeIngredient(
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }
 
 class Unit {

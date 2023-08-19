@@ -127,6 +127,56 @@ class RecipeModel {
             : List<dynamic>.from(steps!.map((x) => x.toJson())),
         "likerecipe": likedRecipe?.toJson(),
       };
+
+  RecipeModel copyWith({
+    int? id,
+    String? name,
+    int? numberCooked,
+    String? description,
+    int? rateCount,
+    int? rateAvg,
+    String? time,
+    String? url,
+    int? feeds,
+    String? hash,
+    bool? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? typeId,
+    int? userId,
+    int? categoryId,
+    Category? type,
+    UserModel? user,
+    Category? category,
+    List<IngredientModel>? ingredients,
+    List<RecipeStepModel>? steps,
+    _LikedRecipeModel? likedRecipe,
+  }) {
+    return RecipeModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      numberCooked: numberCooked ?? this.numberCooked,
+      description: description ?? this.description,
+      rateCount: rateCount ?? this.rateCount,
+      rateAvg: rateAvg ?? this.rateAvg,
+      time: time ?? this.time,
+      url: url ?? this.url,
+      feeds: feeds ?? this.feeds,
+      hash: hash ?? this.hash,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      typeId: typeId ?? this.typeId,
+      userId: userId ?? this.userId,
+      categoryId: categoryId ?? this.categoryId,
+      type: type ?? this.type,
+      user: user ?? this.user,
+      category: category ?? this.category,
+      ingredients: ingredients ?? this.ingredients,
+      steps: steps ?? this.steps,
+      likedRecipe: likedRecipe ?? this.likedRecipe,
+    );
+  }
 }
 
 class _LikedRecipeModel {

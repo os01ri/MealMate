@@ -41,8 +41,10 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   static double _bodyUpPosition(BuildContext context) => context.height * .15;
   static double _bodyDownPosition(BuildContext context) => context.height * .38;
 
-  static double _searchButtonUpPosition(BuildContext context) => 60; //context.height * .06;
-  static double _searchButtonDownPosition(BuildContext context) => context.height * .29;
+  static double _searchButtonUpPosition(BuildContext context) =>
+      60; //context.height * .06;
+  static double _searchButtonDownPosition(BuildContext context) =>
+      context.height * .29;
 
   @override
   void initState() {
@@ -62,7 +64,8 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
     return Container(
       height: context.height * .6,
       width: context.width,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: context.height * .07),
+      padding:
+          EdgeInsets.symmetric(horizontal: 20, vertical: context.height * .07),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: AlignmentDirectional.topStart,
@@ -87,7 +90,9 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
               color: _allowScroll.value ? Colors.transparent : Colors.white,
               fontFamily: 'Almarai',
             ).bold.xxLargeFontSize,
-            child: Text(serviceLocator<LocalizationClass>().appLocalizations!.whatToCook),
+            child: Text(serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .whatToCook),
           ),
           SizedBox(height: context.height * .22),
         ],
@@ -96,7 +101,8 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   }
 
   _buildSearchButton(BuildContext context) {
-    final isDown = (_searchButtonPosition.value == _searchButtonDownPosition(context));
+    final isDown =
+        (_searchButtonPosition.value == _searchButtonDownPosition(context));
     return AnimatedPositionedDirectional(
       top: _searchButtonPosition.value,
       end: 20,
@@ -122,7 +128,9 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                     fontFamily: 'Almarai',
                   ),
                   child: Text(
-                    serviceLocator<LocalizationClass>().appLocalizations!.searchRecipes,
+                    serviceLocator<LocalizationClass>()
+                        .appLocalizations!
+                        .searchRecipes,
                   ).paddingHorizontal(10),
                 ),
               ),
@@ -205,7 +213,8 @@ class _BodyWidgetState extends State<_BodyWidget> {
     _scrollController = ScrollController();
     _selectedCat = ValueNotifier(0);
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.minScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.minScrollExtent) {
         widget.onDrag(
           DragUpdateDetails(
             globalPosition: const Offset(0, 0),
@@ -243,7 +252,9 @@ class _BodyWidgetState extends State<_BodyWidget> {
             ),
             child: SingleChildScrollView(
               controller: _scrollController,
-              physics: allow ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+              physics: allow
+                  ? const AlwaysScrollableScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
               child: child,
             ),
           ),
@@ -255,36 +266,49 @@ class _BodyWidgetState extends State<_BodyWidget> {
           const SizedBox(height: 15),
           SectionHeader(
             recipes: const [],
-            title: serviceLocator<LocalizationClass>().appLocalizations!.categories,
+            title: serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .categories,
             showTrailing: false,
           ),
           const SizedBox(height: 10),
           BlocBuilder<RecipeCubit, RecipeState>(
             builder: (context, state) {
-              return switch (context.read<RecipeCubit>().state.indexCategoriesStatus) {
+              return switch (
+                  context.read<RecipeCubit>().state.indexCategoriesStatus) {
                 CubitStatus.loading => _buildCategoriesSkeltonLoading(),
                 CubitStatus.success => _buildCategoriesListView(context, state),
-                _ => MainErrorWidget(onTap: () => context.read<RecipeCubit>().indexCategories()).center(),
+                _ => MainErrorWidget(
+                    onTap: () =>
+                        context.read<RecipeCubit>().indexCategories()).center(),
               };
             },
           ),
           _Section(
-            title: serviceLocator<LocalizationClass>().appLocalizations!.newRecipes,
+            title: serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .newRecipes,
             indexType: IndexType.newest,
           ),
           _Section(
-            title: serviceLocator<LocalizationClass>().appLocalizations!.recommended,
+            title: serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .recommended,
             indexType: IndexType.newest, //TODO recommended
           ),
           _Section(
-              title: serviceLocator<LocalizationClass>().appLocalizations!.yourInterests,
+              title: serviceLocator<LocalizationClass>()
+                  .appLocalizations!
+                  .yourInterests,
               indexType: IndexType.followings),
           _Section(
-            title: serviceLocator<LocalizationClass>().appLocalizations!.trending,
+            title:
+                serviceLocator<LocalizationClass>().appLocalizations!.trending,
             indexType: IndexType.trending,
           ),
           _Section(
-            title: serviceLocator<LocalizationClass>().appLocalizations!.mostRated,
+            title:
+                serviceLocator<LocalizationClass>().appLocalizations!.mostRated,
             indexType: IndexType.mostRated,
           ),
           const SizedBox(height: 30),
@@ -307,7 +331,8 @@ class _BodyWidgetState extends State<_BodyWidget> {
             height: 50,
             width: 110,
             // padding: 12,
-            margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+            margin:
+                EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
           ),
         ),
       ),
@@ -325,13 +350,19 @@ class _BodyWidgetState extends State<_BodyWidget> {
               context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(
                     categoryId: value != 0 ? state.categories[value].id : null,
                   ));
-              context.read<RecipeCubit>().indexRecipesByFollowings(IndexRecipesParams(
+              context
+                  .read<RecipeCubit>()
+                  .indexRecipesByFollowings(IndexRecipesParams(
                     categoryId: value != 0 ? state.categories[value].id : null,
                   ));
-              context.read<RecipeCubit>().indexRecipesMostRated(IndexRecipesParams(
+              context
+                  .read<RecipeCubit>()
+                  .indexRecipesMostRated(IndexRecipesParams(
                     categoryId: value != 0 ? state.categories[value].id : null,
                   ));
-              context.read<RecipeCubit>().indexRecipesTrending(IndexRecipesParams(
+              context
+                  .read<RecipeCubit>()
+                  .indexRecipesTrending(IndexRecipesParams(
                     categoryId: value != 0 ? state.categories[value].id : null,
                   ));
             },
@@ -340,22 +371,34 @@ class _BodyWidgetState extends State<_BodyWidget> {
               itemCount: context.read<RecipeCubit>().state.categories.length,
               itemBuilder: (context, index) {
                 return CategoryChoiceChip(
-                  title: context.read<RecipeCubit>().state.categories[index].name!,
-                  margin: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+                  title:
+                      context.read<RecipeCubit>().state.categories[index].name!,
+                  margin: EdgeInsetsDirectional.only(
+                      start: index == 0 ? 30 : 0, end: 15),
                   isActive: index == value,
                   onTap: () {
                     _selectedCat.value = index;
                     context.read<RecipeCubit>().indexRecipes(IndexRecipesParams(
-                          categoryId: value != 0 ? state.categories[value].id : null,
+                          categoryId:
+                              value != 0 ? state.categories[value].id : null,
                         ));
-                    context.read<RecipeCubit>().indexRecipesByFollowings(IndexRecipesParams(
-                          categoryId: value != 0 ? state.categories[value].id : null,
+                    context
+                        .read<RecipeCubit>()
+                        .indexRecipesByFollowings(IndexRecipesParams(
+                          categoryId:
+                              value != 0 ? state.categories[value].id : null,
                         ));
-                    context.read<RecipeCubit>().indexRecipesMostRated(IndexRecipesParams(
-                          categoryId: value != 0 ? state.categories[value].id : null,
+                    context
+                        .read<RecipeCubit>()
+                        .indexRecipesMostRated(IndexRecipesParams(
+                          categoryId:
+                              value != 0 ? state.categories[value].id : null,
                         ));
-                    context.read<RecipeCubit>().indexRecipesTrending(IndexRecipesParams(
-                          categoryId: value != 0 ? state.categories[value].id : null,
+                    context
+                        .read<RecipeCubit>()
+                        .indexRecipesTrending(IndexRecipesParams(
+                          categoryId:
+                              value != 0 ? state.categories[value].id : null,
                         ));
                   },
                 );
@@ -383,10 +426,16 @@ class _Section extends StatelessWidget {
           builder: (context, state) {
             return SectionHeader(
               title: title,
-              allowTap: (indexType == IndexType.newest && state.indexRecipeStatus == CubitStatus.success) ||
-                  (indexType == IndexType.followings && state.indexByFollowingRecipeStatus == CubitStatus.success) ||
-                  (indexType == IndexType.mostRated && state.indexMostRatedRecipeStatus == CubitStatus.success) ||
-                  (indexType == IndexType.trending && state.indexTrendingRecipeStatus == CubitStatus.success),
+              allowTap: (indexType == IndexType.newest &&
+                      state.indexRecipeStatus == CubitStatus.success) ||
+                  (indexType == IndexType.followings &&
+                      state.indexByFollowingRecipeStatus ==
+                          CubitStatus.success) ||
+                  (indexType == IndexType.mostRated &&
+                      state.indexMostRatedRecipeStatus ==
+                          CubitStatus.success) ||
+                  (indexType == IndexType.trending &&
+                      state.indexTrendingRecipeStatus == CubitStatus.success),
               recipes: switch (indexType) {
                 IndexType.newest => state.recipes,
                 IndexType.mostRated => state.mostRatedRecipes,
@@ -411,9 +460,12 @@ class _Section extends StatelessWidget {
                     return _handleErrorTap(context);
                   }
                 case IndexType.followings:
-                  if (state.indexByFollowingRecipeStatus == CubitStatus.success) {
-                    return _buildRecipeListView(state.followingsRecipes, context);
-                  } else if (state.indexByFollowingRecipeStatus == CubitStatus.loading) {
+                  if (state.indexByFollowingRecipeStatus ==
+                      CubitStatus.success) {
+                    return _buildRecipeListView(
+                        state.followingsRecipes, context);
+                  } else if (state.indexByFollowingRecipeStatus ==
+                      CubitStatus.loading) {
                     return _buildLoadingListView();
                   } else {
                     return _handleErrorTap(context);
@@ -421,15 +473,18 @@ class _Section extends StatelessWidget {
                 case IndexType.trending:
                   if (state.indexTrendingRecipeStatus == CubitStatus.success) {
                     return _buildRecipeListView(state.trendingRecipes, context);
-                  } else if (state.indexTrendingRecipeStatus == CubitStatus.loading) {
+                  } else if (state.indexTrendingRecipeStatus ==
+                      CubitStatus.loading) {
                     return _buildLoadingListView();
                   } else {
                     return _handleErrorTap(context);
                   }
                 case IndexType.mostRated:
                   if (state.indexMostRatedRecipeStatus == CubitStatus.success) {
-                    return _buildRecipeListView(state.mostRatedRecipes, context);
-                  } else if (state.indexMostRatedRecipeStatus == CubitStatus.loading) {
+                    return _buildRecipeListView(
+                        state.mostRatedRecipes, context);
+                  } else if (state.indexMostRatedRecipeStatus ==
+                      CubitStatus.loading) {
                     return _buildLoadingListView();
                   } else {
                     return _handleErrorTap(context);
@@ -463,7 +518,8 @@ class _Section extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) => RecipeCard(
         recipe: recipes[index],
-        padding: EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
+        padding:
+            EdgeInsetsDirectional.only(start: index == 0 ? 30 : 0, end: 15),
       ),
     );
   }
@@ -475,15 +531,21 @@ class _Section extends StatelessWidget {
       });
     } else if (indexType == IndexType.followings) {
       return MainErrorWidget(onTap: () {
-        context.read<RecipeCubit>().indexRecipesByFollowings(const IndexRecipesParams());
+        context
+            .read<RecipeCubit>()
+            .indexRecipesByFollowings(const IndexRecipesParams());
       });
     } else if (indexType == IndexType.trending) {
       return MainErrorWidget(onTap: () {
-        context.read<RecipeCubit>().indexRecipesTrending(const IndexRecipesParams());
+        context
+            .read<RecipeCubit>()
+            .indexRecipesTrending(const IndexRecipesParams());
       });
     } else if (indexType == IndexType.mostRated) {
       return MainErrorWidget(onTap: () {
-        context.read<RecipeCubit>().indexRecipesTrending(const IndexRecipesParams());
+        context
+            .read<RecipeCubit>()
+            .indexRecipesTrending(const IndexRecipesParams());
       });
     } else {
       throw UnimplementedError('IndexType $indexType not implemented');

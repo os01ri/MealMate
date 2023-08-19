@@ -24,16 +24,22 @@ import '../../domain/usecases/show_recipe_usecase.dart';
 part 'recipe_state.dart';
 
 class RecipeCubit extends Cubit<RecipeState> {
-  final _indexIngredients = IndexIngredientsUseCase(repository: StoreRepositoryImpl());
+  final _indexIngredients =
+      IndexIngredientsUseCase(repository: StoreRepositoryImpl());
 
   final _index = IndexRecipesUseCase(repository: RecipeRepositoryImpl());
-  final _indexByFollowings = IndexRecipesByFollowingsUseCase(repository: RecipeRepositoryImpl());
-  final _indexMostRated = IndexRecipesMostOrderedUseCase(repository: RecipeRepositoryImpl());
-  final _indexTrending = IndexRecipesTrendingUseCase(repository: RecipeRepositoryImpl());
+  final _indexByFollowings =
+      IndexRecipesByFollowingsUseCase(repository: RecipeRepositoryImpl());
+  final _indexMostRated =
+      IndexRecipesMostOrderedUseCase(repository: RecipeRepositoryImpl());
+  final _indexTrending =
+      IndexRecipesTrendingUseCase(repository: RecipeRepositoryImpl());
 
-  final _indexRecipeCategoriesUseCase = IndexRecipeCategoriesUseCase(repository: RecipeRepositoryImpl());
+  final _indexRecipeCategoriesUseCase =
+      IndexRecipeCategoriesUseCase(repository: RecipeRepositoryImpl());
 
-  final _indexRecipeTypesUseCase = IndexRecipeTypesUseCase(repository: RecipeRepositoryImpl());
+  final _indexRecipeTypesUseCase =
+      IndexRecipeTypesUseCase(repository: RecipeRepositoryImpl());
 
   final _show = ShowRecipeUseCase(repository: RecipeRepositoryImpl());
   final _add = AddRecipeUseCase(repository: RecipeRepositoryImpl());
@@ -43,8 +49,10 @@ class RecipeCubit extends Cubit<RecipeState> {
   RecipeCubit() : super(const RecipeState());
 
   indexIngredients() async {
-    final result = await _indexIngredients(const IndexIngredientsParams(page: 1, perPage: 100));
-    result.fold((l) => indexIngredients(), (r) => emit(state.copyWith(ingredients: r.data!)));
+    final result = await _indexIngredients(
+        const IndexIngredientsParams(page: 1, perPage: 100));
+    result.fold((l) => indexIngredients(),
+        (r) => emit(state.copyWith(ingredients: r.data!)));
   }
 
   indexTypes() async {
@@ -56,7 +64,8 @@ class RecipeCubit extends Cubit<RecipeState> {
       (l) => emit(state.copyWith(indexTypesStatus: CubitStatus.failure)),
       (r) => emit(state.copyWith(
         indexTypesStatus: CubitStatus.success,
-        types: r.data!..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
+        types: r.data!
+          ..insert(0, const RecipeCategoryModel(id: 0, name: 'الكل')),
       )),
     );
   }
@@ -94,21 +103,29 @@ class RecipeCubit extends Cubit<RecipeState> {
   }
 
   addOrUpdateIngredientToRecipe(CartItemModel ingredient) {
-    if (state.recipeIngredients.map((e) => e.model!.id).toList().contains(ingredient.model!.id)) {
+    if (state.recipeIngredients
+        .map((e) => e.model!.id)
+        .toList()
+        .contains(ingredient.model!.id)) {
       final items = state.recipeIngredients;
       for (int i = 0; i < state.recipeIngredients.length; i++) {
         if (items[i].model!.id == ingredient.model!.id) {
-          items[i].quantity = ingredient.quantity == items[i].quantity ? ingredient.quantity++ : ingredient.quantity;
+          items[i].quantity = ingredient.quantity == items[i].quantity
+              ? ingredient.quantity++
+              : ingredient.quantity;
         }
       }
     } else {
-      emit(state.copyWith(recipeIngredients: List.of(state.recipeIngredients)..add(ingredient)));
+      emit(state.copyWith(
+          recipeIngredients: List.of(state.recipeIngredients)
+            ..add(ingredient)));
     }
   }
 
   deleteIngredientFromRecipe(int id) {
     emit(state.copyWith(
-        recipeIngredients: List.of(state.recipeIngredients)..removeWhere((element) => element.model!.id == id)));
+        recipeIngredients: List.of(state.recipeIngredients)
+          ..removeWhere((element) => element.model!.id == id)));
   }
 
   indexRecipes(IndexRecipesParams params) async {
@@ -118,40 +135,54 @@ class RecipeCubit extends Cubit<RecipeState> {
 
     result.fold(
       (l) => emit(state.copyWith(indexRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexRecipeStatus: CubitStatus.success, recipes: r.data)),
+      (r) => emit(state.copyWith(
+          indexRecipeStatus: CubitStatus.success, recipes: r.data)),
     );
   }
 
   indexRecipesByFollowings(IndexRecipesParams params) async {
-    emit(state.copyWith(indexByFollowingRecipeStatus: CubitStatus.loading, followingsRecipes: []));
+    emit(state.copyWith(
+        indexByFollowingRecipeStatus: CubitStatus.loading,
+        followingsRecipes: []));
 
     final result = await _indexByFollowings(params);
 
     result.fold(
-      (l) => emit(state.copyWith(indexByFollowingRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexByFollowingRecipeStatus: CubitStatus.success, followingsRecipes: r.data)),
+      (l) => emit(
+          state.copyWith(indexByFollowingRecipeStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(
+          indexByFollowingRecipeStatus: CubitStatus.success,
+          followingsRecipes: r.data)),
     );
   }
 
   indexRecipesTrending(IndexRecipesParams params) async {
-    emit(state.copyWith(indexTrendingRecipeStatus: CubitStatus.loading, trendingRecipes: []));
+    emit(state.copyWith(
+        indexTrendingRecipeStatus: CubitStatus.loading, trendingRecipes: []));
 
     final result = await _indexTrending(params);
 
     result.fold(
-      (l) => emit(state.copyWith(indexTrendingRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexTrendingRecipeStatus: CubitStatus.success, trendingRecipes: r.data)),
+      (l) =>
+          emit(state.copyWith(indexTrendingRecipeStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(
+          indexTrendingRecipeStatus: CubitStatus.success,
+          trendingRecipes: r.data)),
     );
   }
 
   indexRecipesMostRated(IndexRecipesParams params) async {
-    emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.loading, mostRatedRecipes: []));
+    emit(state.copyWith(
+        indexMostRatedRecipeStatus: CubitStatus.loading, mostRatedRecipes: []));
 
     final result = await _indexMostRated(params);
 
     result.fold(
-      (l) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.success, mostRatedRecipes: r.data)),
+      (l) =>
+          emit(state.copyWith(indexMostRatedRecipeStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(
+          indexMostRatedRecipeStatus: CubitStatus.success,
+          mostRatedRecipes: r.data)),
     );
   }
 
@@ -162,7 +193,8 @@ class RecipeCubit extends Cubit<RecipeState> {
 
     result.fold(
       (l) => emit(state.copyWith(showRecipeStatus: CubitStatus.failure)),
-      (r) => emit(state.copyWith(recipe: r.data!.recipes!, showRecipeStatus: CubitStatus.success)),
+      (r) => emit(state.copyWith(
+          recipe: r.data!.recipes!, showRecipeStatus: CubitStatus.success)),
     );
   }
 
@@ -197,5 +229,33 @@ class RecipeCubit extends Cubit<RecipeState> {
       (l) => emit(state.copyWith(rateRecipeStatus: CubitStatus.failure)),
       (r) => emit(state.copyWith(rateRecipeStatus: CubitStatus.success)),
     );
+  }
+
+  addOrMinusPersons(bool minus) async {
+    if (minus) {
+      if (state.recipe!.feeds! > 1) {
+        emit(state.copyWith(
+            recipe: state.recipe!.copyWith(
+                feeds: state.recipe!.feeds! - 1,
+                ingredients: state.recipe!.ingredients!
+                    .map((e) => e.copyWith(
+                        recipeIngredient: e.recipeIngredient!.copyWith(
+                            quantity: (e.recipeIngredient!.quantity! /
+                                    (state.recipe!.feeds!))
+                                .floor())))
+                    .toList())));
+      }
+    } else {
+      emit(state.copyWith(
+          recipe: state.recipe!.copyWith(
+              feeds: state.recipe!.feeds! + 1,
+              ingredients: state.recipe!.ingredients!
+                  .map((e) => e.copyWith(
+                      recipeIngredient: e.recipeIngredient!.copyWith(
+                          quantity: (e.recipeIngredient!.quantity! *
+                                  (state.recipe!.feeds! + 1))
+                              .floor())))
+                  .toList())));
+    }
   }
 }

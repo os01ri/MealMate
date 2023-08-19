@@ -40,94 +40,110 @@ class RecipeDetailsPage extends StatefulWidget {
 }
 
 class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
+  var recipeCubit = RecipeCubit();
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => RecipeCubit()..showRecipe(widget.id),
-      child: BlocConsumer<RecipeCubit, RecipeState>(
-        listener: (context, state) {
-          log(state.showRecipeStatus.toString());
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: RecipeAppBar(
-              context: context,
-              title: state.showRecipeStatus == CubitStatus.success ? state.recipe!.name! : 'loading...',
-              actions: [
-                BlocListener<FavoriteRecipesCubit, FavoriteRecipesState>(
-                  bloc: serviceLocator<FavoriteRecipesCubit>(),
-                  listener: (context, state) {
-                    if (state.addStatus == CubitStatus.loading) {
-                      Toaster.showLoading();
-                    } else if (state.addStatus == CubitStatus.failure) {
-                      Toaster.closeLoading();
-                      Toaster.showToast('حدث خطأ، أعد المحاولة');
-                    } else if (state.addStatus == CubitStatus.success) {
-                      Toaster.closeLoading();
-                      Toaster.showToast('تم إضافة الوصفة للمفضلة');
-                    }
+    return BlocConsumer<RecipeCubit, RecipeState>(
+      bloc: recipeCubit..showRecipe(widget.id),
+      listener: (context, state) {
+        log(state.showRecipeStatus.toString());
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: RecipeAppBar(
+            context: context,
+            title: state.showRecipeStatus == CubitStatus.success
+                ? state.recipe!.name!
+                : 'loading...',
+            actions: [
+              BlocListener<FavoriteRecipesCubit, FavoriteRecipesState>(
+                bloc: serviceLocator<FavoriteRecipesCubit>(),
+                listener: (context, state) {
+                  if (state.addStatus == CubitStatus.loading) {
+                    Toaster.showLoading();
+                  } else if (state.addStatus == CubitStatus.failure) {
+                    Toaster.closeLoading();
+                    Toaster.showToast('حدث خطأ، أعد المحاولة');
+                  } else if (state.addStatus == CubitStatus.success) {
+                    Toaster.closeLoading();
+                    Toaster.showToast('تم إضافة الوصفة للمفضلة');
+                  }
+                },
+                child: IconButton(
+                  onPressed: () {
+                    serviceLocator<FavoriteRecipesCubit>()
+                        .addFavoriteRecipe(AddFavoriteRecipeParams(
+                      id: state.recipe!.id!,
+                    ));
                   },
-                  child: IconButton(
-                    onPressed: () {
-                      serviceLocator<FavoriteRecipesCubit>().addFavoriteRecipe(AddFavoriteRecipeParams(
-                        id: state.recipe!.id!,
-                      ));
-                    },
-                    icon: Image.asset(
-                      PngPath.saveInactive,
-                      color: Colors.black,
-                    ),
+                  icon: Image.asset(
+                    PngPath.saveInactive,
+                    color: Colors.black,
                   ),
                 ),
-              ],
-            ),
-            body: state.showRecipeStatus == CubitStatus.success
-                ? CustomScrollView(
-                    dragStartBehavior: DragStartBehavior.down,
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildListDelegate([
-                          _HeaderImage(state.recipe!.url!).paddingHorizontal(5),
-                          _RecipeBudget(
-                            duration: state.recipe!.time!,
-                            persons: state.recipe!.feeds!,
-                            price: state.recipe!.ingredients!
-                                .map((e) => e.price)
-                                .toList()
-                                .fold(0, (previousValue, element) => previousValue + element!),
-                            stepsCount: state.recipe!.steps!.length,
-                          ).paddingVertical(8),
-                          const _TabBar(),
-                        ]),
-                      ),
-                      _IngredientList(ingredients: state.recipe!.ingredients!),
-                    ],
-                  ).padding(AppConfig.pagePadding)
-                : const Center(child: CircularProgressIndicator.adaptive()),
-            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-            floatingActionButton: MainButton(
-              color: AppColors.mainColor,
-              onPressed: () {
-                if (state.showRecipeStatus == CubitStatus.success) {
-                  context.myPushNamed(
-                    RoutesNames.recipeSteps,
-                    extra: StepsScreenParams(
-                      recipeId: state.recipe!.id!,
-                      image: MediaModel(
-                        mediaUrl: state.recipe!.url!,
-                        hash: state.recipe!.hash!,
-                      ),
-                      steps: state.recipe!.steps!,
+              ),
+            ],
+          ),
+          body: state.showRecipeStatus == CubitStatus.success
+              ? CustomScrollView(
+                  dragStartBehavior: DragStartBehavior.down,
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildListDelegate([
+                        _HeaderImage(state.recipe!.url!).paddingHorizontal(5),
+                        _RecipeBudget(
+                          onAdd: () {
+                            recipeCubit.addOrMinusPersons(false);
+                          },
+                          onMinus: () {
+                            recipeCubit.addOrMinusPersons(true);
+                          },
+                          duration: state.recipe!.time!,
+                          persons: state.recipe!.feeds!,
+                          price: state.recipe!.ingredients!
+                              .map((e) =>
+                                  e.price! *
+                                  (e.recipeIngredient!.quantity! / e.priceBy!))
+                              .toList()
+                              .fold(
+                                  0,
+                                  (previousValue, element) =>
+                                      previousValue + element.floor()),
+                          stepsCount: state.recipe!.steps!.length,
+                        ).paddingVertical(8),
+                        const _TabBar(),
+                      ]),
                     ),
-                  );
-                }
-              },
-              width: context.width,
-              text: serviceLocator<LocalizationClass>().appLocalizations!.startCooking,
-            ).hero('button').padding(AppConfig.pagePadding),
-          );
-        },
-      ),
+                    _IngredientList(ingredients: state.recipe!.ingredients!),
+                  ],
+                ).padding(AppConfig.pagePadding)
+              : const Center(child: CircularProgressIndicator.adaptive()),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniCenterDocked,
+          floatingActionButton: MainButton(
+            color: AppColors.mainColor,
+            onPressed: () {
+              if (state.showRecipeStatus == CubitStatus.success) {
+                context.myPushNamed(
+                  RoutesNames.recipeSteps,
+                  extra: StepsScreenParams(
+                    recipeId: state.recipe!.id!,
+                    image: MediaModel(
+                      mediaUrl: state.recipe!.url!,
+                      hash: state.recipe!.hash!,
+                    ),
+                    steps: state.recipe!.steps!,
+                  ),
+                );
+              }
+            },
+            width: context.width,
+            text: serviceLocator<LocalizationClass>()
+                .appLocalizations!
+                .startCooking,
+          ).hero('button').padding(AppConfig.pagePadding),
+        );
+      },
     );
   }
 }

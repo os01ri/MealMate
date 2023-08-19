@@ -3,10 +3,13 @@ import 'dart:convert';
 import '../../../recipe/data/models/show_recipe_response_model.dart';
 import 'index_ingredients_categories_response_model.dart';
 
-IndexIngredientsResponseModel indexIngredientsResponseModelFromJson(String str) =>
+IndexIngredientsResponseModel indexIngredientsResponseModelFromJson(
+        String str) =>
     IndexIngredientsResponseModel.fromJson(json.decode(str));
 
-String indexIngredientsResponseModelToJson(IndexIngredientsResponseModel data) => json.encode(data.toJson());
+String indexIngredientsResponseModelToJson(
+        IndexIngredientsResponseModel data) =>
+    json.encode(data.toJson());
 
 class IndexIngredientsResponseModel {
   final String? message;
@@ -30,17 +33,21 @@ class IndexIngredientsResponseModel {
         success: success ?? this.success,
       );
 
-  factory IndexIngredientsResponseModel.fromJson(Map<String, dynamic> json) => IndexIngredientsResponseModel(
+  factory IndexIngredientsResponseModel.fromJson(Map<String, dynamic> json) =>
+      IndexIngredientsResponseModel(
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<IngredientModel>.from(json["data"]!.map((x) => IngredientModel.fromJson(x))),
+            : List<IngredientModel>.from(
+                json["data"]!.map((x) => IngredientModel.fromJson(x))),
         success: json["success"],
       );
 
   Map<String, dynamic> toJson() => {
         "message": message,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "success": success,
       };
 }
@@ -78,36 +85,44 @@ class IngredientModel {
     String? url,
     String? hash,
     int? priceBy,
+    RecipeIngredient? recipeIngredient,
     List<Nutritional>? nutritionals,
     UnitModel? unit,
     IngredientCategoryModel? category,
-  }) =>
-      IngredientModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        price: price ?? this.price,
-        url: url ?? this.url,
-        hash: hash ?? this.hash,
-        priceBy: priceBy ?? this.priceBy,
-        nutritionals: nutritionals ?? this.nutritionals,
-        unit: unit ?? this.unit,
-        category: category ?? this.category,
-      );
+  }) {
+    return IngredientModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      url: url ?? this.url,
+      hash: hash ?? this.hash,
+      priceBy: priceBy ?? this.priceBy,
+      recipeIngredient: recipeIngredient ?? this.recipeIngredient,
+      nutritionals: nutritionals ?? this.nutritionals,
+      unit: unit ?? this.unit,
+      category: category ?? this.category,
+    );
+  }
 
-  factory IngredientModel.fromJson(Map<String, dynamic> json) => IngredientModel(
+  factory IngredientModel.fromJson(Map<String, dynamic> json) =>
+      IngredientModel(
         id: json["id"],
         name: json["name"],
         price: json["price"],
         url: json["url"],
         hash: json["hash"],
-        recipeIngredient:
-            json["recipe_ingredient"] == null ? null : RecipeIngredient.fromJson(json["recipe_ingredient"]),
+        recipeIngredient: json["recipe_ingredient"] == null
+            ? null
+            : RecipeIngredient.fromJson(json["recipe_ingredient"]),
         priceBy: json["price_by"],
         nutritionals: json["nutritionals"] == null
             ? []
-            : List<Nutritional>.from(json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
+            : List<Nutritional>.from(
+                json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
         unit: json["unit"] == null ? null : UnitModel.fromJson(json["unit"]),
-        category: json["category1"] == null ? null : IngredientCategoryModel.fromJson(json["category1"]),
+        category: json["category1"] == null
+            ? null
+            : IngredientCategoryModel.fromJson(json["category1"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -117,7 +132,9 @@ class IngredientModel {
         "url": url,
         "hash": hash,
         "price_by": priceBy,
-        "nutritionals": nutritionals == null ? [] : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
+        "nutritionals": nutritionals == null
+            ? []
+            : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
         "unit": unit?.toJson(),
         "category1": category?.toJson(),
       };
@@ -142,7 +159,8 @@ class Nutritional {
       Nutritional(
         id: id ?? this.id,
         name: name ?? this.name,
-        ingredientNutritionals: ingredientNutritionals ?? this.ingredientNutritionals,
+        ingredientNutritionals:
+            ingredientNutritionals ?? this.ingredientNutritionals,
       );
 
   factory Nutritional.fromJson(Map<String, dynamic> json) => Nutritional(
@@ -177,7 +195,8 @@ class IngredientNutritionals {
         value: value ?? this.value,
       );
 
-  factory IngredientNutritionals.fromJson(Map<String, dynamic> json) => IngredientNutritionals(
+  factory IngredientNutritionals.fromJson(Map<String, dynamic> json) =>
+      IngredientNutritionals(
         value: json["value"],
         percent: json["precent"],
       );

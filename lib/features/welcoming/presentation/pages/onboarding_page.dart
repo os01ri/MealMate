@@ -5,13 +5,13 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/helper/app_config.dart';
 import '../../../../core/helper/assets_paths.dart';
-import '../../../../core/helper/helper.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../../services/shared_prefrences_service.dart';
 import '../widgets/custom_intro_paint.dart';
 import '../widgets/intro_indicator.dart';
 import '../widgets/slide.dart';
@@ -39,28 +39,16 @@ class OnboardingPage extends StatelessWidget {
 
   final List<Map<String, String>> _texts = [
     {
-      _titleKey: serviceLocator<LocalizationClass>()
-          .appLocalizations!
-          .onboardingTitle1,
-      _descriptionKey: serviceLocator<LocalizationClass>()
-          .appLocalizations!
-          .onboardingDescription1,
+      _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle1,
+      _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription1,
     },
     {
-      _titleKey: serviceLocator<LocalizationClass>()
-          .appLocalizations!
-          .onboardingTitle2,
-      _descriptionKey: serviceLocator<LocalizationClass>()
-          .appLocalizations!
-          .onboardingDescription2,
+      _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle2,
+      _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription2,
     },
     {
-      _titleKey: serviceLocator<LocalizationClass>()
-          .appLocalizations!
-          .onboardingTitle3,
-      _descriptionKey: serviceLocator<LocalizationClass>()
-          .appLocalizations!
-          .onboardingDescription3,
+      _titleKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingTitle3,
+      _descriptionKey: serviceLocator<LocalizationClass>().appLocalizations!.onboardingDescription3,
     }
   ];
 
@@ -140,13 +128,10 @@ class _IntroState extends State<Intro> {
                                 foregroundColor: MaterialStatePropertyAll(
                                   AppColors.deepOrange,
                                 ),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Color(0xc0ffffff)),
+                                backgroundColor: MaterialStatePropertyAll(Color(0xc0ffffff)),
                                 splashFactory: InkRipple.splashFactory,
                               ),
-                              child: Text(serviceLocator<LocalizationClass>()
-                                  .appLocalizations!
-                                  .skip),
+                              child: Text(serviceLocator<LocalizationClass>().appLocalizations!.skip),
                             ).paddingHorizontal(10)
                           : const SizedBox.shrink(),
                     ),
@@ -176,12 +161,8 @@ class _IntroState extends State<Intro> {
                     child: IntroBottomContainer(
                       title: widget.texts[value][_titleKey],
                       buttonText: value != widget.pages.length - 1
-                          ? serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .next
-                          : serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .getStarted,
+                          ? serviceLocator<LocalizationClass>().appLocalizations!.next
+                          : serviceLocator<LocalizationClass>().appLocalizations!.getStarted,
                       description: widget.texts[value][_descriptionKey],
                       onPressed: () async {
                         _controllerPageView.animateToPage(
@@ -189,9 +170,8 @@ class _IntroState extends State<Intro> {
                           duration: AppConfig.pageViewAnimationDuration,
                           curve: Curves.ease,
                         );
-                        await Helper.isFirstTimeOpeningApp();
-                        if (_controllerPageView.page!.ceil() ==
-                            widget.pages.length - 1) {
+                        await SharedPreferencesService.isFirstTimeOpeningApp();
+                        if (_controllerPageView.page!.ceil() == widget.pages.length - 1) {
                           if (context.mounted) {
                             context.myGoNamed(RoutesNames.login);
                           }

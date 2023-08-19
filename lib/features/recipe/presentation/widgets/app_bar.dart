@@ -35,8 +35,7 @@ class RecipeAppBar extends AppBar {
                 shape: const CircleBorder(),
                 child: leadingWidget ??
                     IconButton(
-                      style:
-                          ButtonStyle(elevation: MaterialStateProperty.all(0)),
+                      style: ButtonStyle(elevation: MaterialStateProperty.all(0)),
                       onPressed: () {
                         context.myPop();
                       },
@@ -62,16 +61,16 @@ class RecipeAppBar extends AppBar {
                   )
                   .toList() ??
               [
-                Card(
-                  elevation: 5,
-                  shape: const CircleBorder(),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.more_horiz_rounded,
-                    ).hero('more_horiz_rounded'),
-                  ),
-                ).paddingHorizontal(15),
+                // Card(
+                //   elevation: 5,
+                //   shape: const CircleBorder(),
+                //   child: IconButton(
+                //     onPressed: () {},
+                //     icon: const Icon(
+                //       Icons.more_horiz_rounded,
+                //     ).hero('more_horiz_rounded'),
+                //   ),
+                // ).paddingHorizontal(15),
               ],
         );
 }

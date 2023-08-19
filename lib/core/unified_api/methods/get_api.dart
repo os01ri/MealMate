@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../../services/shared_prefrences_service.dart';
 import '../../extensions/colorful_logging_extension.dart';
-import '../../helper/helper.dart';
 import '../../helper/type_defs.dart';
 import '../handling_exception_request.dart';
 
@@ -22,10 +22,10 @@ class GetApi<T> with HandlingExceptionRequest {
     this.getFCMToken = false,
   });
   Future<T> call() async {
-    String? token = await Helper.getToken();
+    String? token = await SharedPreferencesService.getToken();
     log(token.toString().logWhite, name: 'user token');
     // String fcmToken = await HelperFunctions.getFCMToken(getFCMToken: getFCMToken);
-    bool isAuth = await Helper.isAuth();
+    bool isAuth = await SharedPreferencesService.isAuth();
     String? deviceId = "";
     if (getFCMToken) {
       // deviceId = await HelperFunctions.getDeviceId(); TODO: uncomment

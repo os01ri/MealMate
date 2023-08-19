@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../../services/shared_prefrences_service.dart';
 import '../../extensions/colorful_logging_extension.dart';
-import '../../helper/helper.dart';
 import '../../helper/type_defs.dart';
 import '../handling_exception_request.dart';
 
@@ -16,9 +16,9 @@ class DeleteApi<T> with HandlingExceptionRequest {
     required this.fromJson,
   });
   Future<T> call() async {
-    String? token = await Helper.getToken();
+    String? token = await SharedPreferencesService.getToken();
     // String fcmToken = await Helper.getFCMToken();
-    bool isAuth = await Helper.isAuth();
+    bool isAuth = await SharedPreferencesService.isAuth();
     try {
       Map<String, String> headers = {
         'Content-Type': 'application/json',

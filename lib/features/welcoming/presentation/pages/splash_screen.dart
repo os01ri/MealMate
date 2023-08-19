@@ -6,10 +6,10 @@ import 'package:mealmate/core/ui/font/typography.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/helper/cubit_status.dart';
-import '../../../../core/helper/helper.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../../services/shared_prefrences_service.dart';
 import '../../../auth/presentation/cubit/auth_cubit/auth_cubit.dart';
 import '../cubit/user_cubit.dart';
 import '../widgets/custom_intro_paint.dart';
@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   Future<void> checkIfNeedUserInfo() async {
-    if (await Helper.isAuth() && await Helper.getWillSaveToken()) {
+    if (await SharedPreferencesService.isAuth() && await SharedPreferencesService.getWillSaveToken()) {
       serviceLocator<UserCubit>().getUserInfo();
     } else {
       serviceLocator<UserCubit>().dontGetUserInfo();
@@ -38,7 +38,7 @@ class SplashScreen extends StatelessWidget {
       child: BlocListener<UserCubit, UserState>(
         bloc: serviceLocator<UserCubit>(),
         listener: (context, state) async {
-          if (await Helper.isAuth() && await Helper.getWillSaveToken()) {
+          if (await SharedPreferencesService.isAuth() && await SharedPreferencesService.getWillSaveToken()) {
             if (state.userInfoStatus == CubitStatus.initial) {
               serviceLocator<UserCubit>().getUserInfo();
             } else if (state.userInfoStatus == CubitStatus.loading) {
@@ -49,7 +49,8 @@ class SplashScreen extends StatelessWidget {
               if (context.mounted) context.myGoNamed(RoutesNames.login);
             }
           } else {
-            if (await Helper.isFirstTimeOpeningApp()) {
+            await Future.delayed(const Duration(seconds: 2));
+            if (await SharedPreferencesService.isFirstTimeOpeningApp()) {
               if (context.mounted) context.myGoNamed(RoutesNames.onboarding);
             } else {
               if (context.mounted) context.myGoNamed(RoutesNames.login);

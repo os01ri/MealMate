@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
-import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/toaster.dart';
 import '../../../../core/ui/widgets/loading_widget.dart';
@@ -130,49 +129,13 @@ class _GroceryItemWidgetState extends State<GroceryItemWidget> {
             ],
           ),
           const Spacer(),
-          FittedBox(
-            fit: BoxFit.fitHeight,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              height: context.height * .08,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.delete_outline,
-                    color: AppColors.mainColor,
-                    size: context.height * .03,
-                  ).onTap(() => widget.onDelete()),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     const Icon(
-                  //       Icons.add,
-                  //       color: AppColors.mainColor,
-                  //     ).onTap(() => widget.onAdd()),
-                  //     Container(
-                  //       width: context.width * .2,
-                  //       height: context.height * .03,
-                  //       color: AppColors.mainColor,
-                  //       padding: const EdgeInsets.all(4),
-                  //       child: FittedBox(
-                  //         fit: BoxFit.contain,
-                  //         child: Text(
-                  //           "${widget.item.ingredient!.id}",
-                  //           style: AppTextStyles.styleWeight600(
-                  //               fontSize: 22, color: Colors.white),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     const Icon(Icons.remove).onTap(() => widget.onRemove()),
-                  //   ],
-                  // ),
-                ],
-              ),
+          IconButton(
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              color: AppColors.mainColor,
+              size: 30,
             ),
+            onPressed: () => widget.onDelete(),
           ),
         ],
       ),

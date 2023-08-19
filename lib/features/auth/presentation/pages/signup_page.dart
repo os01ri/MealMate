@@ -8,7 +8,6 @@ import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/validation_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/helper.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/theme/text_styles.dart';
@@ -17,6 +16,7 @@ import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../../services/shared_prefrences_service.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
 import '../widgets/auth_text_field.dart';
@@ -58,8 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: MainAppBar(
         size: context.deviceSize,
         leadingWidget: const SizedBox(),
-        titleText:
-            serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
+        titleText: serviceLocator<LocalizationClass>().appLocalizations!.createAccount,
       ),
       body: BlocProvider(
         create: (_) => AuthCubit(),
@@ -74,17 +73,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   AuthTextField(
                     icon: Icons.person,
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .username,
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .username,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.username,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     validator: (text) {
                       if ((text != null && text.length < 3)) {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .addValidUsername;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.addValidUsername;
                       }
                       return null;
                     },
@@ -94,23 +87,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       AuthTextField(
                         icon: Icons.offline_bolt_rounded,
-                        hint: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .firstName,
-                        label: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .username,
+                        hint: serviceLocator<LocalizationClass>().appLocalizations!.firstName,
+                        label: serviceLocator<LocalizationClass>().appLocalizations!.username,
                         controller: _firstNameController,
                       ).expand(),
                       SizedBox(width: context.width * .05),
                       AuthTextField(
                         icon: Icons.offline_bolt_rounded,
-                        hint: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .lastName,
-                        label: serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .lastName,
+                        hint: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
+                        label: serviceLocator<LocalizationClass>().appLocalizations!.lastName,
                         controller: _lastNameController,
                       ).expand(),
                     ],
@@ -128,9 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: _cityController,
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .email,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.email,
                     hint: 'you@example.com',
                     icon: Icons.email,
                     controller: _emailController,
@@ -138,15 +121,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (text != null && text.isValidEmail()) {
                         return null;
                       }
-                      return serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .enterValidEmail;
+                      return serviceLocator<LocalizationClass>().appLocalizations!.enterValidEmail;
                     },
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .password,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                     hint: '********',
                     isPassword: true,
                     icon: Icons.lock,
@@ -155,43 +134,34 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       }
-                      return serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .enterValidPassword;
+                      return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                     },
                   ),
                   AuthTextField(
                     icon: Icons.lock,
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .confirmPassword,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.confirmPassword,
                     controller: _confirmPasswordController,
                     isPassword: true,
                     validator: (text) {
                       if (text != null && text == _passwordController.text) {
                         return null;
                       } else {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .passwordNotMatch;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.passwordNotMatch;
                       }
                     },
                     hint: '********',
                   ),
                   const SizedBox(height: 20),
                   MainButton(
-                    text: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .signUp,
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.signUp,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
-                      Helper.setNotFirstTimeOpeningApp();
+                      SharedPreferencesService.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().register(
                               RegisterUserParams(
-                                name:
-                                    "${_firstNameController.text} ${_lastNameController.text}",
+                                name: "${_firstNameController.text} ${_lastNameController.text}",
                                 email: _emailController.text,
                                 userName: _userNameController.text,
                                 password: _passwordController.text,
@@ -204,9 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     height: 40,
                     child: TextButton(
-                      child: Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .orLogin),
+                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.orLogin),
                       onPressed: () {
                         context.myGoNamed(RoutesNames.login);
                       },
@@ -214,28 +182,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   RichText(
                     text: TextSpan(
-                      text: serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .byContinuingYouAgreeToThe,
+                      text: serviceLocator<LocalizationClass>().appLocalizations!.byContinuingYouAgreeToThe,
                       style: AppTextStyles.styleWeight400(color: Colors.grey),
                       children: [
                         TextSpan(
-                          text: serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .termsOfService,
-                          style: AppTextStyles.styleWeight600(
-                              color: AppColors.mainColor),
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.termsOfService,
+                          style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         ),
+                        TextSpan(text: serviceLocator<LocalizationClass>().appLocalizations!.and),
                         TextSpan(
-                            text: serviceLocator<LocalizationClass>()
-                                .appLocalizations!
-                                .and),
-                        TextSpan(
-                          text: serviceLocator<LocalizationClass>()
-                              .appLocalizations!
-                              .privacyPolicy,
-                          style: AppTextStyles.styleWeight600(
-                              color: AppColors.mainColor),
+                          text: serviceLocator<LocalizationClass>().appLocalizations!.privacyPolicy,
+                          style: AppTextStyles.styleWeight600(color: AppColors.mainColor),
                         )
                       ],
                     ),
@@ -255,14 +212,11 @@ class _SignUpPageState extends State<SignUpPage> {
     } else if (state.status == AuthStatus.success) {
       Toaster.closeLoading();
       log(state.user!.tokenInfo!.token!);
-      Helper.setToken(state.user!.tokenInfo!.token!);
-      context.myGoNamed(RoutesNames.otp,
-          extra: OtpPageParams(
-              email: _emailController.text, authCubit: AuthCubit()));
+      SharedPreferencesService.setToken(state.user!.tokenInfo!.token!);
+      context.myGoNamed(RoutesNames.otp, extra: OtpPageParams(email: _emailController.text, authCubit: AuthCubit()));
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
-      Toaster.showToast(
-          serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

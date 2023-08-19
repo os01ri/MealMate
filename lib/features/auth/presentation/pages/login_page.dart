@@ -10,7 +10,6 @@ import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/validation_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/helper.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/toaster.dart';
@@ -18,6 +17,7 @@ import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../../services/shared_prefrences_service.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
 import '../widgets/auth_text_field.dart';
@@ -39,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _userNameController = TextEditingController(text: 'omar1234kaialy');
-    _passwordController = TextEditingController(text: '12345678');
+    _userNameController = TextEditingController();
+    _passwordController = TextEditingController();
     _rememberMe = ValueNotifier(false);
   }
 
@@ -74,22 +74,16 @@ class _LoginPageState extends State<LoginPage> {
                     ).center(),
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .username,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.username,
                     icon: Icons.person,
-                    hint: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .pleaseEnterUsername,
+                    hint: serviceLocator<LocalizationClass>().appLocalizations!.pleaseEnterUsername,
                     controller: _userNameController,
                     validator: (text) {
                       return null;
                     },
                   ),
                   AuthTextField(
-                    label: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .password,
+                    label: serviceLocator<LocalizationClass>().appLocalizations!.password,
                     hint: '********',
                     icon: Icons.lock,
                     isPassword: true,
@@ -98,9 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (text != null && text.isValidPassword()) {
                         return null;
                       } else {
-                        return serviceLocator<LocalizationClass>()
-                            .appLocalizations!
-                            .enterValidPassword;
+                        return serviceLocator<LocalizationClass>().appLocalizations!.enterValidPassword;
                       }
                     },
                   ),
@@ -119,20 +111,16 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         },
                       ),
-                      Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .stayLoggedIn),
+                      Text(serviceLocator<LocalizationClass>().appLocalizations!.stayLoggedIn),
                     ],
                   ),
                   const SizedBox(height: 20),
                   MainButton(
-                    text: serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .login,
+                    text: serviceLocator<LocalizationClass>().appLocalizations!.login,
                     color: AppColors.mainColor,
                     width: context.width,
                     onPressed: () {
-                      Helper.setNotFirstTimeOpeningApp();
+                      SharedPreferencesService.setNotFirstTimeOpeningApp();
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().login(LoginUserParams(
                               email: _userNameController.text,
@@ -142,14 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(AppColors.mainColor)),
-                    onPressed: () =>
-                        context.myPushNamed(RoutesNames.forgotPassword),
-                    child: Text(serviceLocator<LocalizationClass>()
-                        .appLocalizations!
-                        .forgotPassword),
+                    style: ButtonStyle(foregroundColor: MaterialStateProperty.all(AppColors.mainColor)),
+                    onPressed: () => context.myPushNamed(RoutesNames.forgotPassword),
+                    child: Text(serviceLocator<LocalizationClass>().appLocalizations!.forgotPassword),
                   ),
                   /*const SizedBox(height: 20),
                   Column(
@@ -176,9 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 40,
                     child: TextButton(
-                      child: Text(serviceLocator<LocalizationClass>()
-                          .appLocalizations!
-                          .dontHaveAccount),
+                      child: Text(serviceLocator<LocalizationClass>().appLocalizations!.dontHaveAccount),
                       onPressed: () => context.myGoNamed(RoutesNames.signup),
                     ),
                   ),
@@ -196,15 +177,14 @@ class _LoginPageState extends State<LoginPage> {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
       serviceLocator<UserCubit>().setUser(state.user!);
-      Helper.setWillSaveToken(_rememberMe.value);
-      Helper.setToken(state.user!.tokenInfo!.token!);
+      SharedPreferencesService.setWillSaveToken(_rememberMe.value);
+      SharedPreferencesService.setToken(state.user!.tokenInfo!.token!);
       Toaster.closeLoading();
       context.myGoNamed((RoutesNames.accountCreationLoading));
       log('logged in successfully...');
     } else if (state.status == AuthStatus.failed) {
       Toaster.closeLoading();
-      Toaster.showToast(
-          serviceLocator<LocalizationClass>().appLocalizations!.error);
+      Toaster.showToast(serviceLocator<LocalizationClass>().appLocalizations!.error);
     }
   }
 }

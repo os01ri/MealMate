@@ -313,7 +313,6 @@ class _StepsSection extends StatelessWidget {
                       );
                     },
                   ).paddingAll(10),
-                  const SizedBox(height: 0),
                   MainButton(
                     text: 'إرسال',
                     color: AppColors.mainColor,

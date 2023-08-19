@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import '../../core/extensions/context_extensions.dart';
 import '../../core/extensions/widget_extensions.dart';
 import '../../core/helper/app_config.dart';
-import '../../core/helper/helper.dart';
 import '../../core/ui/theme/colors.dart';
 import '../../core/ui/theme/text_styles.dart';
 import '../../core/ui/widgets/main_button.dart';
+import '../../services/shared_prefrences_service.dart';
 import '../recipe/presentation/widgets/app_bar.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -41,7 +41,7 @@ class _NotificationPageState extends State<NotificationPage> with TickerProvider
           IconButton(
             icon: const Icon(Icons.filter_list_alt),
             onPressed: () async {
-              final token = await Helper.getToken();
+              final token = await SharedPreferencesService.getToken();
               log(token ?? "omar");
             },
           )

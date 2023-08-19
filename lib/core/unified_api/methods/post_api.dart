@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../../services/shared_prefrences_service.dart';
 import '../../extensions/colorful_logging_extension.dart';
-import '../../helper/helper.dart';
 import '../../helper/type_defs.dart';
 import '../handling_exception_request.dart';
 
@@ -25,9 +25,9 @@ class PostApi<T> with HandlingExceptionRequest {
   });
 
   Future<T> call() async {
-    String? token = await Helper.getToken();
+    String? token = await SharedPreferencesService.getToken();
     // String fcmToken = await HelperFunctions.getFCMToken();
-    bool isAuth = await Helper.isAuth();
+    bool isAuth = await SharedPreferencesService.isAuth();
 
     log('the token in the request header is $token', name: 'request manager ==> post function ');
     try {

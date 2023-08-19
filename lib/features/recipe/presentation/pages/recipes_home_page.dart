@@ -268,14 +268,25 @@ class _BodyWidgetState extends State<_BodyWidget> {
               };
             },
           ),
-          const _Section(title: 'أحدث الوصفات', indexType: IndexType.newest),
+          _Section(
+            title: serviceLocator<LocalizationClass>().appLocalizations!.newRecipes,
+            indexType: IndexType.newest,
+          ),
           _Section(
             title: serviceLocator<LocalizationClass>().appLocalizations!.recommended,
             indexType: IndexType.newest, //TODO recommended
           ),
-          const _Section(title: 'اهتماماتك', indexType: IndexType.followings),
-          const _Section(title: 'الأكثر طلبَا', indexType: IndexType.trending),
-          const _Section(title: 'الأعلى تقييما', indexType: IndexType.mostRated),
+          _Section(
+              title: serviceLocator<LocalizationClass>().appLocalizations!.yourInterests,
+              indexType: IndexType.followings),
+          _Section(
+            title: serviceLocator<LocalizationClass>().appLocalizations!.trending,
+            indexType: IndexType.trending,
+          ),
+          _Section(
+            title: serviceLocator<LocalizationClass>().appLocalizations!.mostRated,
+            indexType: IndexType.mostRated,
+          ),
           const SizedBox(height: 30),
         ],
       ),

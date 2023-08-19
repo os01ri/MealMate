@@ -6,7 +6,6 @@ import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/validation_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/helper.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/toaster.dart';
@@ -14,6 +13,7 @@ import '../../../../core/ui/widgets/main_app_bar.dart';
 import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../../services/shared_prefrences_service.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
 import '../widgets/auth_text_field.dart';
 import 'otp_page.dart';
@@ -45,7 +45,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           if (state.status == AuthStatus.loading) {
             Toaster.showLoading();
           } else if (state.status == AuthStatus.resend) {
-            Helper.setToken(state.token!);
+            SharedPreferencesService.setToken(state.token!);
             Toaster.closeLoading();
             context.myPushNamed(
               RoutesNames.otp,

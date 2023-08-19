@@ -31,6 +31,7 @@ class ApiVariables {
 
   ///user
   static Uri getUserInfo() => _mobileUri(path: 'showuserinfo');
+  static Uri updateUserInfo() => _mobileUri(path: 'updateprofile');
   static Uri showProfileInfo(int id) => _mobileUri(path: '$id/showuser');
 
   ///Auth

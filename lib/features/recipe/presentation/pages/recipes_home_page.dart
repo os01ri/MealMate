@@ -13,8 +13,8 @@ import '../../../../core/ui/widgets/error_widget.dart';
 import '../../../../core/ui/widgets/skelton_loading.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
+import '../../../control_panel/presentation/cubit/control_panel_cubit/control_panel_cubit.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
-import '../../../welcoming/presentation/cubit/user_cubit.dart';
 import '../../data/models/recipe_model.dart';
 import '../../domain/usecases/index_recipes_usecase.dart';
 import '../cubit/recipe_cubit.dart';
@@ -78,7 +78,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${serviceLocator<LocalizationClass>().appLocalizations!.hello} ${serviceLocator<UserCubit>().state.user!.name!.split(' ').first}!',
+            '${serviceLocator<LocalizationClass>().appLocalizations!.hello} ${serviceLocator<ControlPanelCubit>().state.user!.name!.split(' ').first}!',
             style: const TextStyle(color: Colors.white).semiBold.xLargeFontSize,
           ),
           AnimatedDefaultTextStyle(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/cubit/follow_cubit.dart';
-import 'package:mealmate/core/helper/assets_paths.dart';
-import 'package:mealmate/core/helper/cubit_status.dart';
 
+import '../../../../core/cubit/follow_cubit.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
+import '../../../../core/helper/assets_paths.dart';
+import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
@@ -24,10 +24,7 @@ class RecipeIntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RecipeAppBar(
-          context: context,
-          actions: const [],
-          title: 'كيف تصنع ${recipe.name} !'),
+      appBar: RecipeAppBar(context: context, actions: const [], title: 'كيف تصنع ${recipe.name} !'),
       body: Column(
         children: [
           CachedNetworkImage(
@@ -53,9 +50,7 @@ class RecipeIntroPage extends StatelessWidget {
                   ).paddingHorizontal(5),
                   Text(
                     '(300 ${serviceLocator<LocalizationClass>().appLocalizations!.reviews})',
-                    style: const TextStyle(color: Colors.black54)
-                        .normalFontSize
-                        .regular,
+                    style: const TextStyle(color: Colors.black54).normalFontSize.regular,
                   ),
                 ],
               ),
@@ -89,9 +84,7 @@ class RecipeIntroPage extends StatelessWidget {
                           ),
                           Text(
                             recipe.user?.city ?? '',
-                            style: const TextStyle(color: Colors.black54)
-                                .normalFontSize
-                                .regular,
+                            style: const TextStyle(color: Colors.black54).normalFontSize.regular,
                           ),
                         ],
                       ),
@@ -105,9 +98,7 @@ class RecipeIntroPage extends StatelessWidget {
                             return state.followStatus == CubitStatus.loading
                                 ? Container(
                                     decoration: BoxDecoration(
-                                        color: AppColors.mainColor,
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
+                                        color: AppColors.mainColor, borderRadius: BorderRadius.circular(15)),
                                     width: context.width * .18,
                                     height: context.width * .11,
                                     child: const Center(
@@ -120,8 +111,7 @@ class RecipeIntroPage extends StatelessWidget {
                                     width: context.width * .18,
                                     color: AppColors.mainColor,
                                     onPressed: () {
-                                      serviceLocator<FollowCubit>()
-                                          .followUser(recipe.userId!);
+                                      serviceLocator<FollowCubit>().followUser(recipe.userId!);
                                     },
                                   );
                           },
@@ -130,8 +120,7 @@ class RecipeIntroPage extends StatelessWidget {
                 ],
               ).onTap(() {
                 if (recipe.user != null) {
-                  context.myGoNamed(RoutesNames.userProfile,
-                      extra: recipe.user!.id);
+                  context.myGoNamed(RoutesNames.userProfile, extra: recipe.user!.id);
                 }
               }),
               Text(

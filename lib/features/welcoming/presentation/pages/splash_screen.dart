@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealmate/core/extensions/widget_extensions.dart';
-import 'package:mealmate/core/ui/font/typography.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
+import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/cubit_status.dart';
+import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../../services/shared_prefrences_service.dart';
 import '../../../auth/presentation/cubit/auth_cubit/auth_cubit.dart';
-import '../cubit/user_cubit.dart';
+import '../../../control_panel/presentation/cubit/control_panel_cubit/control_panel_cubit.dart';
 import '../widgets/custom_intro_paint.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -19,9 +19,9 @@ class SplashScreen extends StatelessWidget {
 
   Future<void> checkIfNeedUserInfo() async {
     if (await SharedPreferencesService.isAuth() && await SharedPreferencesService.getWillSaveToken()) {
-      serviceLocator<UserCubit>().getUserInfo();
+      serviceLocator<ControlPanelCubit>().getUserInfo();
     } else {
-      serviceLocator<UserCubit>().dontGetUserInfo();
+      serviceLocator<ControlPanelCubit>().dontGetUserInfo();
     }
   }
 
@@ -35,17 +35,17 @@ class SplashScreen extends StatelessWidget {
           context.myGo(RoutesNames.login);
         }
       },
-      child: BlocListener<UserCubit, UserState>(
-        bloc: serviceLocator<UserCubit>(),
+      child: BlocListener<ControlPanelCubit, ControlPanelState>(
+        bloc: serviceLocator<ControlPanelCubit>(),
         listener: (context, state) async {
           if (await SharedPreferencesService.isAuth() && await SharedPreferencesService.getWillSaveToken()) {
-            if (state.userInfoStatus == CubitStatus.initial) {
-              serviceLocator<UserCubit>().getUserInfo();
-            } else if (state.userInfoStatus == CubitStatus.loading) {
+            if (state.getUserInfoStatus == CubitStatus.initial) {
+              serviceLocator<ControlPanelCubit>().getUserInfo();
+            } else if (state.getUserInfoStatus == CubitStatus.loading) {
               //do nothing
-            } else if (state.userInfoStatus == CubitStatus.success) {
+            } else if (state.getUserInfoStatus == CubitStatus.success) {
               if (context.mounted) context.myGoNamed(RoutesNames.recipesHome);
-            } else if (state.userInfoStatus == CubitStatus.failure) {
+            } else if (state.getUserInfoStatus == CubitStatus.failure) {
               if (context.mounted) context.myGoNamed(RoutesNames.login);
             }
           } else {

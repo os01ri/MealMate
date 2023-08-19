@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
-import 'package:mealmate/features/welcoming/presentation/cubit/user_cubit.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -18,6 +17,7 @@ import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../../services/shared_prefrences_service.dart';
+import '../../../control_panel/presentation/cubit/control_panel_cubit/control_panel_cubit.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../cubit/auth_cubit/auth_cubit.dart';
 import '../widgets/auth_text_field.dart';
@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
     if (state.status == AuthStatus.loading) {
       Toaster.showLoading();
     } else if (state.status == AuthStatus.success) {
-      serviceLocator<UserCubit>().setUser(state.user!);
+      serviceLocator<ControlPanelCubit>().setUser(state.user!);
       SharedPreferencesService.setWillSaveToken(_rememberMe.value);
       SharedPreferencesService.setToken(state.user!.tokenInfo!.token!);
       Toaster.closeLoading();

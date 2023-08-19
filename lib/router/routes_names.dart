@@ -29,7 +29,8 @@ class RoutesNames {
   static const notification = "notification";
   ////control panel////
   static const controlPanel = "control_panel";
-  static const settings = "settings";
-  static const favorite = "favorite";
   static const grocery = "grocery";
+  static const favorite = "favorite";
+  static const settings = "settings";
+  static const editProfile = "edit_profile";
 }

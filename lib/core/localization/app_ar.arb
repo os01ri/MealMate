@@ -19,6 +19,7 @@
   "createRecipe": "إنشاء وصفة",
   "description": "الوصف",
   "dontHaveAccount": "ليس لديك حساب؟ إنشاء حساب",
+  "edit": "تعديل",
   "email": "الإيميل",
   "enterEmail": " أدخل الإيميل",
   "enterEmailToResetPassword": "قم بإدخال عنوان بريدك الإلكتروني، سنرسل لك رابطاً لإعادة ضبط كلمة المرور",

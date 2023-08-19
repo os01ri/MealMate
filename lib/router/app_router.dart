@@ -10,6 +10,7 @@ import '../features/auth/presentation/pages/otp_page.dart';
 import '../features/auth/presentation/pages/reset_password_page.dart';
 import '../features/auth/presentation/pages/signup_page.dart';
 import '../features/control_panel/presentation/pages/control_panel_page.dart';
+import '../features/control_panel/presentation/pages/edit_profile_page.dart';
 import '../features/control_panel/presentation/pages/favorite_page.dart';
 import '../features/control_panel/presentation/pages/settings_page.dart';
 import '../features/grocery/presentation/pages/grocery_screen.dart';
@@ -302,6 +303,14 @@ class AppRouter {
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (context, state) {
         return slideTransition(context: context, state: state, child: const SettingsPage());
+      },
+    ),
+    GoRoute(
+      path: RoutesNames.editProfile,
+      name: RoutesNames.editProfile,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return slideTransition(context: context, state: state, child: const EditProfilePage());
       },
     ),
   ];

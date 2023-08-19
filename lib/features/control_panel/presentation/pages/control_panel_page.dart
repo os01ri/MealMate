@@ -174,6 +174,7 @@ class _UserDetailsWidget extends StatelessWidget {
   final SizedBox _verticalSeparator;
   final SizedBox _horizontalSeparator;
   final UserModel user;
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -195,20 +196,32 @@ class _UserDetailsWidget extends StatelessWidget {
           Text('${user.following ?? 25} ${serviceLocator<LocalizationClass>().appLocalizations!.following}'),
         ],
       ),
+      Row(
+        children: [
+          const Icon(Icons.edit),
+          Text(serviceLocator<LocalizationClass>().appLocalizations!.edit),
+        ],
+      ).onTap(() => context.myPushNamed(RoutesNames.editProfile)),
       _verticalSeparator,
     ]);
   }
 }
 
 class _Tab extends StatelessWidget {
-  const _Tab(
-      {required this.title, required this.tabController, required this.valueIndex, this.onTap, required this.tabIndex});
+  const _Tab({
+    required this.title,
+    required this.tabController,
+    required this.valueIndex,
+    this.onTap,
+    required this.tabIndex,
+  });
 
   final String title;
   final TabController tabController;
   final ValueNotifier<int> valueIndex;
   final int tabIndex;
   final Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return MainButton(

@@ -19,6 +19,7 @@
   "createRecipe": "Create recipe",
   "description": "Description",
   "dontHaveAccount": "Don't Have an account? Sign Up",
+  "edit": "Edit",
   "email": "E-mail Address",
   "enterEmail": "Enter E-mail Address",
   "enterEmailToResetPassword": "Enter Your E-mail Address And We Will Send You A Link To Reset Your Password",

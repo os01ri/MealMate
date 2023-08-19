@@ -1,10 +1,20 @@
 part of 'profile_cubit.dart';
 
-abstract class ProfileState extends Equatable {
-  const ProfileState();
+class ProfileState {
+  final CubitStatus showUserStatus;
+  final ProfileModel? user;
+  const ProfileState({
+    this.showUserStatus = CubitStatus.initial,
+    this.user,
+  });
 
-  @override
-  List<Object> get props => [];
+  ProfileState copyWith({
+    CubitStatus? showUserStatus,
+    ProfileModel? user,
+  }) {
+    return ProfileState(
+      showUserStatus: showUserStatus ?? this.showUserStatus,
+      user: user ?? this.user,
+    );
+  }
 }
-
-class ProfileInitial extends ProfileState {}

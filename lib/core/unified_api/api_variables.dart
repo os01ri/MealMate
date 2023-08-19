@@ -26,10 +26,12 @@ class ApiVariables {
     return uri;
   }
 
-  static Uri _mobileUri({required String path, ParamsMap params}) => _mainUri(path: 'user/$path', params: params);
+  static Uri _mobileUri({required String path, ParamsMap params}) =>
+      _mainUri(path: 'user/$path', params: params);
 
   ///user
   static Uri getUserInfo() => _mobileUri(path: 'showuserinfo');
+  static Uri showProfileInfo(int id) => _mobileUri(path: '$id/showuser');
 
   ///Auth
   static Uri _auth({required String path}) => _mobileUri(path: 'auth/$path');
@@ -53,7 +55,8 @@ class ApiVariables {
 
   static Uri groceryStore() => _mobileUri(path: 'grocery/store');
 
-  static Uri groceryUpdate(ParamsMap params) => _mobileUri(path: 'grocery/update', params: params);
+  static Uri groceryUpdate(ParamsMap params) =>
+      _mobileUri(path: 'grocery/update', params: params);
 
   static Uri groceryDelete(int id) => _mobileUri(path: 'grocery/$id/destroy');
 
@@ -70,38 +73,52 @@ class ApiVariables {
   //////////////////////
   ////////Recipe////////
   //////////////////////
-  static Uri indexRecipesForUser({ParamsMap params}) => _mobileUri(path: 'recipe/getUserRecipe', params: params);
-  static Uri indexRecipesByFollowings({ParamsMap params}) => _mobileUri(path: 'recipe/indexbyfollow', params: params);
-  static Uri indexRecipesTrending({ParamsMap params}) => _mobileUri(path: 'recipe/indextrending', params: params);
-  static Uri indexRecipesMostRated({ParamsMap params}) => _mobileUri(path: 'recipe/indexmostrated', params: params);
-  static Uri indexRecipes({ParamsMap params}) => _mobileUri(path: 'recipe/index', params: params);
-  static Uri indexUserRecipe({ParamsMap? params}) => _mobileUri(path: 'recipe/getUserRecipe', params: params);
+  static Uri indexRecipesForUser({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/getUserRecipe', params: params);
+  static Uri indexRecipesByFollowings({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/indexbyfollow', params: params);
+  static Uri indexRecipesTrending({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/indextrending', params: params);
+  static Uri indexRecipesMostRated({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/indexmostrated', params: params);
+  static Uri indexRecipes({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/index', params: params);
+  static Uri indexUserRecipe({ParamsMap? params}) =>
+      _mobileUri(path: 'recipe/getUserRecipe', params: params);
   static Uri showRecipe(int id) => _mobileUri(path: 'recipe/$id/show');
 
   static Uri addRecipe() => _mobileUri(path: 'recipe/store');
   static Uri indexTypes() => _mobileUri(path: 'type/index');
   static Uri indexCategories() => _mobileUri(path: 'category/index');
 
-  static Uri cookRecipe({ParamsMap params}) => _mobileUri(path: 'recipe/cook', params: params);
+  static Uri cookRecipe({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/cook', params: params);
 
-  static Uri rateRecipe({ParamsMap params}) => _mobileUri(path: 'recipe/storerate', params: params);
+  static Uri rateRecipe({ParamsMap params}) =>
+      _mobileUri(path: 'recipe/storerate', params: params);
 
   /////ingredient////
   static Uri indexIngredientsCategories({ParamsMap params}) =>
       _mobileUri(path: 'categoryingredient/index', params: params);
 
-  static Uri indexIngredients({ParamsMap params}) => _mobileUri(path: 'ingredient/index', params: params);
+  static Uri indexIngredients({ParamsMap params}) =>
+      _mobileUri(path: 'ingredient/index', params: params);
 
-  static Uri showIngredients({required int id, ParamsMap queryParameters}) => _mobileUri(path: 'ingredient/$id/show');
+  static Uri showIngredients({required int id, ParamsMap queryParameters}) =>
+      _mobileUri(path: 'ingredient/$id/show');
 
-  static Uri indexWishlist({ParamsMap params}) => _mobileUri(path: 'wishlist/index');
+  static Uri indexWishlist({ParamsMap params}) =>
+      _mobileUri(path: 'wishlist/index');
 
-  static Uri addToWishlist({ParamsMap params}) => _mobileUri(path: 'wishlist/store');
+  static Uri addToWishlist({ParamsMap params}) =>
+      _mobileUri(path: 'wishlist/store');
 
-  static Uri removeFromWishlist({required int id, ParamsMap params}) => _mobileUri(path: 'wishlist/$id/destroy');
+  static Uri removeFromWishlist({required int id, ParamsMap params}) =>
+      _mobileUri(path: 'wishlist/$id/destroy');
 
   /////favorite recipes////
   static Uri indexFavoriteRecipes() => _mobileUri(path: 'likerecipe/index');
   static Uri addFavoriteRecipe() => _mobileUri(path: 'likerecipe/store');
-  static Uri removeFavoriteRecipe({required int id}) => _mobileUri(path: 'likerecipe/$id/destroy');
+  static Uri removeFavoriteRecipe({required int id}) =>
+      _mobileUri(path: 'likerecipe/$id/destroy');
 }

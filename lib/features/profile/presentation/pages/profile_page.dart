@@ -1,19 +1,39 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/cubit/follow_cubit.dart';
 import 'package:mealmate/core/extensions/context_extensions.dart';
 import 'package:mealmate/core/extensions/widget_extensions.dart';
 import 'package:mealmate/core/helper/assets_paths.dart';
+import 'package:mealmate/core/helper/cubit_status.dart';
 import 'package:mealmate/core/ui/font/typography.dart';
 import 'package:mealmate/core/ui/widgets/error_widget.dart';
 import 'package:mealmate/core/ui/widgets/main_button.dart';
+import 'package:mealmate/dependency_injection.dart';
 
 import '../../../../core/ui/theme/colors.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
+import '../../data/model/show_user_model.dart';
 import '../cubit/profile_cubit.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key, required this.userId});
   final int userId;
+
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  late ProfileCubit profileCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    profileCubit = ProfileCubit()..showUser(widget.userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,24 +57,27 @@ class UserProfilePage extends StatelessWidget {
             child: Scaffold(
                 backgroundColor: AppColors.mainColor,
                 body: BlocConsumer<ProfileCubit, ProfileState>(
-                  bloc: ProfileCubit(),
+                  bloc: profileCubit,
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state != false) {
-                      //TODO send profileModel
-                      return const UserProfileLayout();
+                    if (state.showUserStatus == CubitStatus.success) {
+                      return UserProfileLayout(user: state.user!);
                     }
-                    if (state == false) {
-                      return MainErrorWidget(onTap: () {});
-                    }
-                    if (state == false) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      return SizedBox(
-                        width: 100,
-                        height: 100.0,
-                        child: Center(child: Text("state is $state")),
+                    if (state.showUserStatus == CubitStatus.failure) {
+                      return Center(
+                        child: MainErrorWidget(onTap: () {
+                          profileCubit.showUser(widget.userId);
+                        }),
                       );
+                    }
+                    if (state.showUserStatus == CubitStatus.loading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
                     }
                   },
                 ))));
@@ -62,10 +85,8 @@ class UserProfilePage extends StatelessWidget {
 }
 
 class UserProfileLayout extends StatelessWidget {
-  const UserProfileLayout({
-    super.key,
-  });
-
+  const UserProfileLayout({super.key, required this.user});
+  final ProfileModel user;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -79,7 +100,7 @@ class UserProfileLayout extends StatelessWidget {
             Column(
               children: [
                 const Text(
-                  'User \$X Profile',
+                  ' Profile',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -109,29 +130,41 @@ class UserProfileLayout extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "\$username",
-                              style: TextStyle(
+                            Text(
+                              "${user.username}",
+                              style: const TextStyle(
                                   fontSize: 18.0, fontWeight: FontWeight.bold),
                             ),
-                            MainButton(
-                                width: context.width * .18,
-                                text: 'Follow',
-                                color: AppColors.mainColor,
-                                onPressed: () {}),
+                            BlocBuilder<FollowCubit, FollowState>(
+                              bloc: serviceLocator<FollowCubit>(),
+                              builder: (context, state) {
+                                return state.followStatus == CubitStatus.loading
+                                    ? const Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : MainButton(
+                                        width: context.width * .18,
+                                        text: 'Follow',
+                                        color: AppColors.mainColor,
+                                        onPressed: () {
+                                          serviceLocator<FollowCubit>()
+                                              .followUser(user.id!);
+                                        });
+                              },
+                            ),
                           ],
                         ),
                         const SizedBox(
                           height: 4.0,
                         ).paddingAll(5),
-                        const Text(
-                          "Country",
-                          style: TextStyle(
+                        Text(
+                          "${user.city}",
+                          style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ).paddingAll(5),
-                        const Text(
-                          "Following by \$ 100",
-                          style: TextStyle(
+                        Text(
+                          "Following by  ${user.followby?.length ?? Random().nextInt(250)}",
+                          style: const TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ).paddingAll(5),
                         Container(
@@ -147,12 +180,13 @@ class UserProfileLayout extends StatelessWidget {
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3),
-                            itemCount: 25,
+                            itemCount: user.recipes!.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
                                   //Show Recipe
+                                  print(user.logo);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
@@ -169,10 +203,10 @@ class UserProfileLayout extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(5),
                                             child: CachedNetworkImage(
-                                              url:
-                                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSZeAxmjEiBWqDFmnAq7cvlXRWq_WaaEBVyDolxUAZ0l-B9w4rAAotFfqIVWi1B9l6UBc&usqp=CAU',
-                                              hash:
-                                                  'LPODnIj[~qof-;fQM{fQoffQM{ay',
+                                              url: user.recipes?[index].url ??
+                                                  SvgPath.defaultImage,
+                                              hash: user.recipes?[index].hash ??
+                                                  SvgPath.defaultHash,
                                               width: context.width * .3,
                                               height: context.width * .3,
                                               borderRadius:
@@ -181,13 +215,13 @@ class UserProfileLayout extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        const Expanded(
+                                        Expanded(
                                           flex: 1,
                                           child: FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              '\$recipe Name',
-                                              style: TextStyle(
+                                              user.recipes![index].name!,
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16.0),
                                               maxLines: 1,
@@ -225,14 +259,12 @@ class UserProfileLayout extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(6.0)),
                       border: Border.all(width: 1, color: AppColors.mainColor)),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSZeAxmjEiBWqDFmnAq7cvlXRWq_WaaEBVyDolxUAZ0l-B9w4rAAotFfqIVWi1B9l6UBc&usqp=CAU'),
-                      fit: BoxFit.cover,
-                    )),
-                  )),
+                  child: CachedNetworkImage(
+                      hash: user.hash ?? SvgPath.defaultHash,
+                      borderRadius: BorderRadius.circular(6),
+                      url: user.logo ?? SvgPath.defaultImage,
+                      width: context.width * .2,
+                      height: context.width * .2)),
             ),
           ],
         ),

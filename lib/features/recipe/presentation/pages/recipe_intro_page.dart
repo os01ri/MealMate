@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealmate/core/cubit/follow_cubit.dart';
+import 'package:mealmate/core/helper/assets_paths.dart';
 import 'package:mealmate/core/helper/cubit_status.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
 import '../../../../core/extensions/widget_extensions.dart';
 import '../../../../core/helper/app_config.dart';
-import '../../../../core/helper/assets_paths.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/font/typography.dart';
 import '../../../../core/ui/theme/colors.dart';
@@ -15,7 +15,6 @@ import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../media_service/presentation/widgets/cache_network_image.dart';
-import '../../../welcoming/presentation/cubit/user_cubit.dart';
 import '../../data/models/recipe_model.dart';
 import '../widgets/app_bar.dart';
 
@@ -61,64 +60,80 @@ class RecipeIntroPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 15),
-              if (recipe.userId != null &&
-                  recipe.userId != serviceLocator<UserCubit>().state.user!.id)
-                Row(
-                  children: [
-                    Image.asset(PngPath.user),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'روبيرتا آني',
-                          style: const TextStyle().normalFontSize.semiBold,
-                        ).paddingHorizontal(5),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.location_on_rounded,
-                              color: AppColors.mainColor,
-                            ),
-                            Text(
-                              'بالي، إندونيسيا',
-                              style: const TextStyle(color: Colors.black54)
-                                  .normalFontSize
-                                  .regular,
-                            ),
-                          ],
+              Row(
+                children: [
+                  recipe.user?.logo != null
+                      ? CachedNetworkImage(
+                          hash: recipe.user?.hash ?? SvgPath.defaultHash,
+                          url: recipe.user?.logo ?? SvgPath.defaultImage,
+                          width: context.width * .1,
+                          shape: BoxShape.circle,
+                          height: context.width * .1)
+                      : Image.asset(
+                          PngPath.accountCreation,
+                          width: context.width * .1,
+                          height: context.width * .1,
                         ),
-                      ],
-                    ),
-                    const Spacer(),
-                    BlocBuilder<FollowCubit, FollowState>(
-                      bloc: serviceLocator<FollowCubit>(),
-                      builder: (context, state) {
-                        return state.followStatus == CubitStatus.loading
-                            ? Container(
-                                decoration: BoxDecoration(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        recipe.user?.name ?? 'MealMate Admin',
+                        style: const TextStyle().normalFontSize.semiBold,
+                      ).paddingHorizontal(5),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on_rounded,
+                            color: AppColors.mainColor,
+                          ),
+                          Text(
+                            recipe.user?.city ?? '',
+                            style: const TextStyle(color: Colors.black54)
+                                .normalFontSize
+                                .regular,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  recipe.user != null
+                      ? BlocBuilder<FollowCubit, FollowState>(
+                          bloc: serviceLocator<FollowCubit>(),
+                          builder: (context, state) {
+                            return state.followStatus == CubitStatus.loading
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        color: AppColors.mainColor,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    width: context.width * .18,
+                                    height: context.width * .11,
+                                    child: const Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )),
+                                  )
+                                : MainButton(
+                                    text: 'Follow',
+                                    width: context.width * .18,
                                     color: AppColors.mainColor,
-                                    borderRadius: BorderRadius.circular(15)),
-                                width: context.width * .18,
-                                height: context.width * .11,
-                                child: const Center(
-                                    child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                )),
-                              )
-                            : MainButton(
-                                text: 'Follow',
-                                width: context.width * .18,
-                                color: AppColors.mainColor,
-                                onPressed: () {
-                                  serviceLocator<FollowCubit>()
-                                      .followUser(recipe.userId);
-                                },
-                              );
-                      },
-                    ),
-                  ],
-                ).onTap(
-                    () => context.myGoNamed(RoutesNames.userProfile, extra: 1)),
+                                    onPressed: () {
+                                      serviceLocator<FollowCubit>()
+                                          .followUser(recipe.userId!);
+                                    },
+                                  );
+                          },
+                        )
+                      : const SizedBox(),
+                ],
+              ).onTap(() {
+                if (recipe.user != null) {
+                  context.myGoNamed(RoutesNames.userProfile,
+                      extra: recipe.user!.id);
+                }
+              }),
               Text(
                 recipe.description!,
                 style: const TextStyle().normalFontSize.regular,

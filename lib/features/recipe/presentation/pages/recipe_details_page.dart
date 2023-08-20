@@ -39,9 +39,12 @@ class RecipeDetailsPage extends StatefulWidget {
   State<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
 }
 
-class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
+class _RecipeDetailsPageState extends State<RecipeDetailsPage>
+    with TickerProviderStateMixin {
   var recipeCubit = RecipeCubit();
   late ValueNotifier<int> feeds;
+  ValueNotifier<int> selectedIndex = ValueNotifier(0);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RecipeCubit, RecipeState>(
@@ -51,6 +54,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
         feeds = ValueNotifier(state.recipe!.feeds!);
       },
       builder: (context, state) {
+        var tabController = TabController(length: 2, vsync: this);
         return Scaffold(
           appBar: RecipeAppBar(
             context: context,
@@ -114,23 +118,40 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                 stepsCount: state.recipe!.steps!.length,
                               ).paddingVertical(8);
                             }),
-                        const _TabBar(),
+                        _TabBar(
+                            controller: tabController,
+                            selectedIndex: selectedIndex),
                       ]),
                     ),
                     ValueListenableBuilder(
                         valueListenable: feeds,
                         builder: (context, value, __) {
-                          return _IngredientList(
-                              ingredients: state.recipe!.ingredients!
-                                  .map((e) => e.copyWith(
-                                      recipeIngredient: e.recipeIngredient!
-                                          .copyWith(
-                                              quantity: (e.recipeIngredient!
-                                                          .quantity! *
-                                                      value /
-                                                      state.recipe!.feeds!)
-                                                  .ceil())))
-                                  .toList());
+                          return ValueListenableBuilder(
+                              valueListenable: selectedIndex,
+                              builder: (context, index, _) {
+                                return index == 0
+                                    ? _IngredientList(
+                                        ingredients: state.recipe!.ingredients!
+                                            .map((e) => e.copyWith(
+                                                recipeIngredient: e
+                                                    .recipeIngredient!
+                                                    .copyWith(
+                                                        quantity:
+                                                            (e.recipeIngredient!
+                                                                        .quantity! *
+                                                                    value /
+                                                                    state
+                                                                        .recipe!
+                                                                        .feeds!)
+                                                                .ceil())))
+                                            .toList())
+                                    : _NutritionalList(
+                                        nutritionalInfo: state
+                                            .recipe!.ingredients!
+                                            .map((e) => e.nutritionals!)
+                                            .toList(),
+                                      );
+                              });
                         }),
                   ],
                 ).padding(AppConfig.pagePadding)
@@ -199,6 +220,50 @@ class _IngredientList extends StatelessWidget {
                 ).paddingHorizontal(5),
               ],
             ).paddingAll(8);
+          }
+          return null;
+        },
+      ),
+    );
+  }
+}
+
+class _NutritionalList extends StatelessWidget {
+  final List<List<Nutritional>> nutritionalInfo;
+
+  const _NutritionalList({required this.nutritionalInfo});
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: nutritionalInfo.length,
+        (context, i) {
+          for (var l in nutritionalInfo) {
+            for (var e in l) {
+              return Row(
+                children: [
+                  Text(
+                    e.name!,
+                    style: const TextStyle().normalFontSize.semiBold,
+                  ),
+                  const Spacer(),
+                  Text(
+                    ' ${e.ingredientNutritionals!.value} ',
+                    style: const TextStyle(),
+                  ),
+                  Icon(
+                    switch (i) {
+                      <= 3 => Icons.check_circle_outline_rounded,
+                      _ => Icons.warning_amber_rounded,
+                    },
+                    color: switch (i) {
+                      <= 3 => Colors.green,
+                      _ => Colors.red,
+                    },
+                  ).paddingHorizontal(5),
+                ],
+              ).paddingAll(8);
+            }
           }
           return null;
         },

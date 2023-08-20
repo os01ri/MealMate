@@ -161,7 +161,7 @@ class _InfoList extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              '${nutritional[index].ingredientNutritionals!.value! / 10}%',
+              '${nutritional[index].ingredientNutritionals!.value!}%',
               textDirection: TextDirection.ltr,
               style: const TextStyle().normalFontSize.semiBold,
             ),

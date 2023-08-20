@@ -19,11 +19,13 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? () => context.myPushNamed(RoutesNames.recipeIntro, extra: recipe),
+      onTap: onTap ??
+          () => context.myPushNamed(RoutesNames.recipeIntro, extra: recipe),
       child: Container(
         height: 250,
         margin: padding,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
             CachedNetworkImage(
@@ -31,7 +33,7 @@ class RecipeCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               url: recipe.url!,
               width: width ?? context.width * .43,
-              height: height ?? 170,
+              height: height ?? context.height * .18,
             ),
             SizedBox(
               width: width ?? context.width * .43,
@@ -48,7 +50,9 @@ class RecipeCard extends StatelessWidget {
                   Text(
                     'أدريانا كرول',
                     maxLines: 1,
-                    style: const TextStyle(color: AppColors.lightTextColor).middleFontSize.semiBold,
+                    style: const TextStyle(color: AppColors.lightTextColor)
+                        .middleFontSize
+                        .semiBold,
                   ),
                   const SizedBox(height: 5),
                 ],

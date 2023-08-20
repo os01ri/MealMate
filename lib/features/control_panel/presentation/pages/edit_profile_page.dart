@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/extensions/widget_extensions.dart';
+import 'package:mealmate/core/helper/app_config.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -51,9 +53,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
         body: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 10),
               AuthTextField(
                 icon: Icons.person,
                 label: serviceLocator<LocalizationClass>().appLocalizations!.username,
@@ -84,7 +87,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 },
                 controller: _cityController,
               ),
-              const SizedBox(height: 20),
+              const Spacer(),
               MainButton(
                 text: serviceLocator<LocalizationClass>().appLocalizations!.edit,
                 color: AppColors.mainColor,
@@ -102,7 +105,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 },
               ),
             ],
-          ),
+          ).padding(AppConfig.pagePadding),
         ),
       ),
     );
@@ -118,6 +121,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       context.myPop();
       Toaster.closeLoading();
       Toaster.showToast('تم تعديل المعلومات بنجاح');
+      serviceLocator<ControlPanelCubit>().getUserInfo();
     }
   }
 }

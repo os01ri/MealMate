@@ -8,6 +8,7 @@ import '../../../recipe/data/models/index_recipes_response_model.dart';
 import '../../domain/repositories/control_panel_repository.dart';
 import '../datasources/control_panel_datasource.dart';
 import '../models/follows_response_model.dart';
+import '../models/restrictions_response_model.dart';
 import '../models/user_info_response_model.dart';
 
 class ControlPanelRepositoryImpl with HandlingExceptionManager implements ControlPanelRepository {
@@ -47,6 +48,30 @@ class ControlPanelRepositoryImpl with HandlingExceptionManager implements Contro
   Future<Either<Failure, FollowsResponseModel>> indexFollowings() {
     return wrapHandling(tryCall: () async {
       final result = await RemoteControlPanelDataSource.indexFollowings();
+      return Right(result);
+    });
+  }
+
+  @override
+  Future<Either<Failure, NoResponse>> addRestriction({required BodyMap body}) {
+    return wrapHandling(tryCall: () async {
+      final result = await RemoteControlPanelDataSource.addRestrictions(body);
+      return Right(result);
+    });
+  }
+
+  @override
+  Future<Either<Failure, NoResponse>> deleteRestriction({required int id}) {
+    return wrapHandling(tryCall: () async {
+      final result = await RemoteControlPanelDataSource.deleteRestrictions(id: id);
+      return Right(result);
+    });
+  }
+
+  @override
+  Future<Either<Failure, RestrictionsResponseModel>> indexRestrictions() {
+    return wrapHandling(tryCall: () async {
+      final result = await RemoteControlPanelDataSource.indexRestrictions();
       return Right(result);
     });
   }

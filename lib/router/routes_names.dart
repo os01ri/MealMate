@@ -34,4 +34,5 @@ class RoutesNames {
   static const settings = "settings";
   static const editProfile = "edit_profile";
   static const restrictions = "restrictions";
+  static const addRestriction = "add_restriction";
 }

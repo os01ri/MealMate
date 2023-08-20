@@ -53,6 +53,12 @@ class ApiVariables {
   static Uri refreshToken() => _auth(path: 'refreshtoken');
   static Uri placeOrder() => _mobileUri(path: "order/store");
 
+  /////
+  static Uri indexRestrictions() => _mobileUri(path: 'unlikeingredient/index');
+  static Uri showRestrictions({required int id}) => _mobileUri(path: 'unlikeingredient/$id/show');
+  static Uri addRestriction() => _mobileUri(path: 'unlikeingredient/store');
+  static Uri deleteRestriction({required int id}) => _mobileUri(path: 'unlikeingredient/$id/destroy');
+
   ///grocery
   static Uri groceryIndex() => _mobileUri(path: 'grocery/index');
 

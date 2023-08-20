@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mealmate/features/profile/presentation/pages/profile_page.dart';
 
 import '../features/auth/presentation/pages/change_password_page.dart';
 import '../features/auth/presentation/pages/create_account_loading_page.dart';
@@ -12,11 +11,14 @@ import '../features/auth/presentation/pages/signup_page.dart';
 import '../features/control_panel/presentation/pages/control_panel_page.dart';
 import '../features/control_panel/presentation/pages/edit_profile_page.dart';
 import '../features/control_panel/presentation/pages/favorite_page.dart';
+import '../features/control_panel/presentation/pages/restriction_add_page.dart';
+import '../features/control_panel/presentation/pages/restrictions_page.dart';
 import '../features/control_panel/presentation/pages/settings_page.dart';
 import '../features/grocery/presentation/pages/grocery_screen.dart';
 import '../features/main/cubit/navigation_cubit.dart';
 import '../features/main/pages/shell_page.dart';
 import '../features/notifications/presentation/pages/notification_page.dart';
+import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/recipe/data/models/recipe_model.dart';
 import '../features/recipe/presentation/pages/recipe_create_page.dart';
 import '../features/recipe/presentation/pages/recipe_details_page.dart';
@@ -312,6 +314,24 @@ class AppRouter {
       pageBuilder: (context, state) {
         return slideTransition(context: context, state: state, child: const EditProfilePage());
       },
+    ),
+    GoRoute(
+      path: RoutesNames.restrictions,
+      name: RoutesNames.restrictions,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) {
+        return slideTransition(context: context, state: state, child: const RestrictionsPage());
+      },
+      routes: [
+        GoRoute(
+          path: RoutesNames.addRestriction,
+          name: RoutesNames.addRestriction,
+          parentNavigatorKey: _rootNavigatorKey,
+          pageBuilder: (context, state) {
+            return slideTransition(context: context, state: state, child: const AddRestrictionPage());
+          },
+        ),
+      ],
     ),
   ];
 }

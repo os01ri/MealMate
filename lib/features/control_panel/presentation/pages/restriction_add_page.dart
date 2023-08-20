@@ -24,7 +24,7 @@ class AddRestrictionPage extends StatelessWidget {
         title: 'إضافة استثناء',
       ),
       body: BlocConsumer<ControlPanelCubit, ControlPanelState>(
-          bloc: cubit..indexRestrictions(),
+          bloc: cubit..indexIngredients(),
           builder: (context, state) {
             return SizedBox(
                 height: context.height,

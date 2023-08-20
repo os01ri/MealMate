@@ -147,6 +147,9 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     final result = await _addRestriction.call(AddRestrictionParams(id: id));
     result.fold((l) => Toaster.closeLoading(), (r) {
       Toaster.closeLoading();
+      emit(state.copyWith(
+          restrictions: List.of(state.restrictions)
+            ..removeWhere((element) => element.id == id)));
     });
   }
 

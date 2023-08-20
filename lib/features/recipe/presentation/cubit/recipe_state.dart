@@ -24,10 +24,11 @@ class RecipeState {
   final List<RecipeStepModel> steps;
   final List<RecipeCategoryModel> categories;
   final List<RecipeCategoryModel> types;
-
+  final List<Nutritional> nutritionalInfo;
   const RecipeState({
     this.categories = const [],
     this.types = const [],
+    this.nutritionalInfo = const [],
     //
     this.ingredients = const [],
     this.recipeIngredients = const [],
@@ -55,6 +56,7 @@ class RecipeState {
   RecipeState copyWith({
     CubitStatus? indexCategoriesStatus,
     CubitStatus? indexTypesStatus,
+    List<Nutritional>? nutritionalInfo,
     CubitStatus? indexRecipeStatus,
     CubitStatus? indexTrendingRecipeStatus,
     CubitStatus? indexMostRatedRecipeStatus,
@@ -75,30 +77,30 @@ class RecipeState {
     List<RecipeCategoryModel>? types,
   }) {
     return RecipeState(
-      indexCategoriesStatus:
-          indexCategoriesStatus ?? this.indexCategoriesStatus,
-      indexTypesStatus: indexTypesStatus ?? this.indexTypesStatus,
-      indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
-      indexTrendingRecipeStatus:
-          indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
-      indexMostRatedRecipeStatus:
-          indexMostRatedRecipeStatus ?? this.indexMostRatedRecipeStatus,
-      indexByFollowingRecipeStatus:
-          indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
-      showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
-      addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,
-      cookRecipeStatus: cookRecipeStatus ?? this.cookRecipeStatus,
-      rateRecipeStatus: rateRecipeStatus ?? this.rateRecipeStatus,
-      recipes: recipes ?? this.recipes,
-      trendingRecipes: trendingRecipes ?? this.trendingRecipes,
-      mostRatedRecipes: mostRatedRecipes ?? this.mostRatedRecipes,
-      followingsRecipes: followingsRecipes ?? this.followingsRecipes,
-      ingredients: ingredients ?? this.ingredients,
-      recipeIngredients: recipeIngredients ?? this.recipeIngredients,
-      recipe: recipe ?? this.recipe,
-      steps: steps ?? this.steps,
-      categories: categories ?? this.categories,
-      types: types ?? this.types,
-    );
+        indexCategoriesStatus:
+            indexCategoriesStatus ?? this.indexCategoriesStatus,
+        indexTypesStatus: indexTypesStatus ?? this.indexTypesStatus,
+        indexRecipeStatus: indexRecipeStatus ?? this.indexRecipeStatus,
+        indexTrendingRecipeStatus:
+            indexTrendingRecipeStatus ?? this.indexTrendingRecipeStatus,
+        indexMostRatedRecipeStatus:
+            indexMostRatedRecipeStatus ?? this.indexMostRatedRecipeStatus,
+        indexByFollowingRecipeStatus:
+            indexByFollowingRecipeStatus ?? this.indexByFollowingRecipeStatus,
+        showRecipeStatus: showRecipeStatus ?? this.showRecipeStatus,
+        addRecipeStatus: addRecipeStatus ?? this.addRecipeStatus,
+        cookRecipeStatus: cookRecipeStatus ?? this.cookRecipeStatus,
+        rateRecipeStatus: rateRecipeStatus ?? this.rateRecipeStatus,
+        recipes: recipes ?? this.recipes,
+        trendingRecipes: trendingRecipes ?? this.trendingRecipes,
+        mostRatedRecipes: mostRatedRecipes ?? this.mostRatedRecipes,
+        followingsRecipes: followingsRecipes ?? this.followingsRecipes,
+        ingredients: ingredients ?? this.ingredients,
+        recipeIngredients: recipeIngredients ?? this.recipeIngredients,
+        recipe: recipe ?? this.recipe,
+        steps: steps ?? this.steps,
+        categories: categories ?? this.categories,
+        types: types ?? this.types,
+        nutritionalInfo: nutritionalInfo ?? this.nutritionalInfo);
   }
 }

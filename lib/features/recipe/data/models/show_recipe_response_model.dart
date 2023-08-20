@@ -1,10 +1,8 @@
-// To parse this JSON data, do
-//
-//     final showRecipeResponseModel = showRecipeResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'recipe_model.dart';
+import 'package:mealmate/features/recipe/data/models/recipe_model.dart';
+
+import '../../../store/data/models/index_ingredients_response_model.dart';
 
 ShowRecipeResponseModel showRecipeResponseModelFromJson(String str) =>
     ShowRecipeResponseModel.fromJson(json.decode(str));
@@ -56,7 +54,7 @@ class Data {
             ? []
             : List<Nutritional>.from(
                 json["nutritionals"]!.map((x) => Nutritional.fromJson(x))),
-        // sum: json["sum"],
+        sum: json["sum"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,49 +63,6 @@ class Data {
             ? []
             : List<dynamic>.from(nutritionals!.map((x) => x.toJson())),
         "sum": sum,
-      };
-}
-
-class Nutritional {
-  final int? id;
-  final String? name;
-  final IngredientNutritionals? ingredientNutritionals;
-
-  Nutritional({
-    this.id,
-    this.name,
-    this.ingredientNutritionals,
-  });
-
-  factory Nutritional.fromJson(Map<String, dynamic> json) => Nutritional(
-        id: json["id"],
-        name: json["name"],
-        ingredientNutritionals: json["ingredient_nutritionals"] == null
-            ? null
-            : IngredientNutritionals.fromJson(json["ingredient_nutritionals"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "ingredient_nutritionals": ingredientNutritionals?.toJson(),
-      };
-}
-
-class IngredientNutritionals {
-  final int? value;
-
-  IngredientNutritionals({
-    this.value,
-  });
-
-  factory IngredientNutritionals.fromJson(Map<String, dynamic> json) =>
-      IngredientNutritionals(
-        value: json["value"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "value": value,
       };
 }
 

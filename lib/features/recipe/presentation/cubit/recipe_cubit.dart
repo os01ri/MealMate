@@ -193,7 +193,9 @@ class RecipeCubit extends Cubit<RecipeState> {
     result.fold(
       (l) => emit(state.copyWith(showRecipeStatus: CubitStatus.failure)),
       (r) => emit(state.copyWith(
-          recipe: r.data!.recipes!, showRecipeStatus: CubitStatus.success)),
+          nutritionalInfo: r.data!.nutritionals!,
+          recipe: r.data!.recipes!,
+          showRecipeStatus: CubitStatus.success)),
     );
   }
 

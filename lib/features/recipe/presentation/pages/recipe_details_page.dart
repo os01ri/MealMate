@@ -126,6 +126,9 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                     ValueListenableBuilder(
                         valueListenable: feeds,
                         builder: (context, value, __) {
+                          print(state.recipe!.ingredients!
+                              .map((e) => e.nutritionals));
+
                           return ValueListenableBuilder(
                               valueListenable: selectedIndex,
                               builder: (context, index, _) {
@@ -146,10 +149,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                                                                 .ceil())))
                                             .toList())
                                     : _NutritionalList(
-                                        nutritionalInfo: state
-                                            .recipe!.ingredients!
-                                            .map((e) => e.nutritionals!)
-                                            .toList(),
+                                        nutritionalInfo: state.nutritionalInfo,
                                       );
                               });
                         }),
@@ -229,7 +229,7 @@ class _IngredientList extends StatelessWidget {
 }
 
 class _NutritionalList extends StatelessWidget {
-  final List<List<Nutritional>> nutritionalInfo;
+  final List<Nutritional> nutritionalInfo;
 
   const _NutritionalList({required this.nutritionalInfo});
   @override
@@ -238,8 +238,10 @@ class _NutritionalList extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         childCount: nutritionalInfo.length,
         (context, i) {
-          for (var l in nutritionalInfo) {
-            for (var e in l) {
+          {
+            for (var e in nutritionalInfo) {
+              print(e.name);
+
               return Row(
                 children: [
                   Text(

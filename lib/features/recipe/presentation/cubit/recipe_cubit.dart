@@ -45,7 +45,6 @@ class RecipeCubit extends Cubit<RecipeState> {
   final _add = AddRecipeUseCase(repository: RecipeRepositoryImpl());
   final _cook = CookRecipeUseCase(repository: RecipeRepositoryImpl());
   final _rate = RateRecipeUseCase(repository: RecipeRepositoryImpl());
-
   RecipeCubit() : super(const RecipeState());
 
   indexIngredients() async {
@@ -229,33 +228,5 @@ class RecipeCubit extends Cubit<RecipeState> {
       (l) => emit(state.copyWith(rateRecipeStatus: CubitStatus.failure)),
       (r) => emit(state.copyWith(rateRecipeStatus: CubitStatus.success)),
     );
-  }
-
-  addOrMinusPersons(bool minus) async {
-    if (minus) {
-      if (state.recipe!.feeds! > 1) {
-        emit(state.copyWith(
-            recipe: state.recipe!.copyWith(
-                feeds: state.recipe!.feeds! - 1,
-                ingredients: state.recipe!.ingredients!
-                    .map((e) => e.copyWith(
-                        recipeIngredient: e.recipeIngredient!.copyWith(
-                            quantity: (e.recipeIngredient!.quantity! /
-                                    (state.recipe!.feeds!))
-                                .floor())))
-                    .toList())));
-      }
-    } else {
-      emit(state.copyWith(
-          recipe: state.recipe!.copyWith(
-              feeds: state.recipe!.feeds! + 1,
-              ingredients: state.recipe!.ingredients!
-                  .map((e) => e.copyWith(
-                      recipeIngredient: e.recipeIngredient!.copyWith(
-                          quantity: (e.recipeIngredient!.quantity! *
-                                  (state.recipe!.feeds! + 1))
-                              .floor())))
-                  .toList())));
-    }
   }
 }

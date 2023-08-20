@@ -41,12 +41,14 @@ class RecipeDetailsPage extends StatefulWidget {
 
 class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   var recipeCubit = RecipeCubit();
+  late ValueNotifier<int> feeds;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RecipeCubit, RecipeState>(
       bloc: recipeCubit..showRecipe(widget.id),
       listener: (context, state) {
         log(state.showRecipeStatus.toString());
+        feeds = ValueNotifier(state.recipe!.feeds!);
       },
       builder: (context, state) {
         return Scaffold(
@@ -91,30 +93,45 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                     SliverList(
                       delegate: SliverChildListDelegate([
                         _HeaderImage(state.recipe!.url!).paddingHorizontal(5),
-                        _RecipeBudget(
-                          onAdd: () {
-                            recipeCubit.addOrMinusPersons(false);
-                          },
-                          onMinus: () {
-                            recipeCubit.addOrMinusPersons(true);
-                          },
-                          duration: state.recipe!.time!,
-                          persons: state.recipe!.feeds!,
-                          price: state.recipe!.ingredients!
-                              .map((e) =>
-                                  e.price! *
-                                  (e.recipeIngredient!.quantity! / e.priceBy!))
-                              .toList()
-                              .fold(
-                                  0,
-                                  (previousValue, element) =>
-                                      previousValue + element.floor()),
-                          stepsCount: state.recipe!.steps!.length,
-                        ).paddingVertical(8),
+                        ValueListenableBuilder(
+                            valueListenable: feeds,
+                            builder: (context, value, __) {
+                              return _RecipeBudget(
+                                duration: state.recipe!.time!,
+                                persons: feeds,
+                                price: state.recipe!.ingredients!
+                                    .map((e) =>
+                                        e.price! *
+                                        ((e.recipeIngredient!.quantity! *
+                                                value /
+                                                state.recipe!.feeds!) /
+                                            e.priceBy!))
+                                    .toList()
+                                    .fold(
+                                        0,
+                                        (previousValue, element) =>
+                                            previousValue + element.floor()),
+                                stepsCount: state.recipe!.steps!.length,
+                              ).paddingVertical(8);
+                            }),
                         const _TabBar(),
                       ]),
                     ),
-                    _IngredientList(ingredients: state.recipe!.ingredients!),
+                    ValueListenableBuilder(
+                        valueListenable: feeds,
+                        builder: (context, value, __) {
+                          return _IngredientList(
+                              ingredients: state.recipe!.ingredients!
+                                  .map((e) => e.copyWith(
+                                      recipeIngredient: e.recipeIngredient!
+                                          .copyWith(
+                                              quantity: (e.recipeIngredient!
+                                                          .quantity! *
+                                                      value /
+                                                      state.recipe!.feeds!)
+                                                  .ceil())))
+                                  .toList());
+                        }),
                   ],
                 ).padding(AppConfig.pagePadding)
               : const Center(child: CircularProgressIndicator.adaptive()),

@@ -29,6 +29,7 @@ import '../features/recipe/presentation/pages/recipes_home_page.dart';
 import '../features/recipe/presentation/pages/view_all_page.dart';
 import '../features/store/presentation/pages/cart_page.dart';
 import '../features/store/presentation/pages/ingredient_page.dart';
+import '../features/store/presentation/pages/map_pick_location_page.dart';
 import '../features/store/presentation/pages/order_placed_screen.dart';
 import '../features/store/presentation/pages/store_page.dart';
 import '../features/store/presentation/pages/wishlist_page.dart';

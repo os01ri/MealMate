@@ -6,6 +6,8 @@ import '../../../../auth/data/models/user_model.dart';
 import '../../../../recipe/data/models/recipe_model.dart';
 import '../../../data/repositories/control_panel_repository_impl.dart';
 import '../../../domain/usecases/get_user_info_usecase.dart';
+import '../../../domain/usecases/index_followers_usecase.dart';
+import '../../../domain/usecases/index_followings_usecase.dart';
 import '../../../domain/usecases/index_user_recipes_usecase.dart';
 import '../../../domain/usecases/update_user_info_usecase.dart';
 
@@ -15,6 +17,8 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
   final _indexUserRecipesUseCase = IndexUserRecipesUsecase(repository: ControlPanelRepositoryImpl());
   final _getUserInfo = GetUserInfoUseCase(repository: ControlPanelRepositoryImpl());
   final _updateUserInfo = UpdateUserInfoUseCase(repository: ControlPanelRepositoryImpl());
+  final _indexFollowers = IndexFollowersUsecase(repository: ControlPanelRepositoryImpl());
+  final _indexFollowings = IndexFollowingsUsecase(repository: ControlPanelRepositoryImpl());
 
   ControlPanelCubit() : super(const ControlPanelState());
 
@@ -26,6 +30,29 @@ class ControlPanelCubit extends Cubit<ControlPanelState> {
     result.fold(
       (l) => emit(state.copyWith(recipesStatus: CubitStatus.failure)),
       (r) => emit(state.copyWith(recipesStatus: CubitStatus.success, recipes: r.data!)),
+    );
+  }
+
+  indexFollowers() async {
+    emit(state.copyWith(followersStatus: CubitStatus.loading));
+
+    final result = await _indexFollowers(NoParams());
+
+    result.fold(
+      (l) => indexFollowers,
+      (r) {
+        emit(state.copyWith(followers: r.data!));
+        __indexFollowings();
+      },
+    );
+  }
+
+  __indexFollowings() async {
+    final result = await _indexFollowings(NoParams());
+
+    result.fold(
+      (l) => emit(state.copyWith(followersStatus: CubitStatus.failure)),
+      (r) => emit(state.copyWith(followersStatus: CubitStatus.success, followings: r.data!)),
     );
   }
 

@@ -30,7 +30,7 @@ class ApiVariables {
 
   //notification
   static Uri indexNotifications() => _mainUri(path: '/notification/get');
-  
+
   ///user
   static Uri getUserInfo() => _mobileUri(path: 'showuserinfo');
   static Uri updateUserInfo() => _mobileUri(path: 'updateprofile');
@@ -69,8 +69,10 @@ class ApiVariables {
 ////////Follower////////
 //////////////////////
 
+  static Uri indexFollowers() => _mobileUri(path: 'follow/indexfollowby');
+  static Uri indexFollowings() => _mobileUri(path: 'follow/indexfollower');
   static Uri follow() => _mobileUri(path: 'follow/store');
-  static Uri unfollow() => _mobileUri(path: 'follow/unfollow');
+  static Uri unFollow() => _mobileUri(path: 'follow/unfollow');
 
   //////////////////////
   ////////Recipe////////

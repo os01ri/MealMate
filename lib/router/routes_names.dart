@@ -33,4 +33,5 @@ class RoutesNames {
   static const favorite = "favorite";
   static const settings = "settings";
   static const editProfile = "edit_profile";
+  static const restrictions = "restrictions";
 }

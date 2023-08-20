@@ -1,3 +1,5 @@
+import 'package:mealmate/features/control_panel/data/models/follows_response_model.dart';
+
 import '../../../../core/helper/type_defs.dart';
 import '../../../../core/models/no_response_model.dart';
 import '../../../../core/unified_api/api_variables.dart';
@@ -33,5 +35,24 @@ class RemoteControlPanelDataSource {
       fromJson: noResponseFromJson,
     );
     return await api();
+  }
+
+
+  static Future<FollowsResponseModel> indexFollowers() async {
+    GetApi api = GetApi(
+      uri: ApiVariables.indexFollowers(),
+      fromJson: followsResponseModelFromJson,
+    );
+    final result = await api();
+    return result;
+  }
+
+  static Future<FollowsResponseModel> indexFollowings() async {
+    GetApi api = GetApi(
+      uri: ApiVariables.indexFollowings(),
+      fromJson: followsResponseModelFromJson,
+    );
+    final result = await api();
+    return result;
   }
 }

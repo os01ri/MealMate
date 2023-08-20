@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealmate/core/ui/font/typography.dart';
+import 'package:mealmate/core/ui/widgets/skelton_loading.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/extensions/routing_extensions.dart';
@@ -10,7 +12,6 @@ import '../../../../core/helper/cubit_status.dart';
 import '../../../../core/localization/localization_class.dart';
 import '../../../../core/ui/theme/colors.dart';
 import '../../../../core/ui/widgets/error_widget.dart';
-import '../../../../core/ui/widgets/main_button.dart';
 import '../../../../dependency_injection.dart';
 import '../../../../router/routes_names.dart';
 import '../../../auth/data/models/user_model.dart';
@@ -31,17 +32,15 @@ class _ControlPanelPageState extends State<ControlPanelPage> with SingleTickerPr
   static const _horizontalSeparator = SizedBox(width: 20);
 
   late final TabController tabController;
-  late final ValueNotifier<int> index;
   late ControlPanelCubit controlPanelCubit;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, initialIndex: 0, vsync: this);
-    index = ValueNotifier(0);
     controlPanelCubit = serviceLocator<ControlPanelCubit>()
-      ..getUserInfo()
-      ..indexMyRecipes();
+      ..indexMyRecipes()
+      ..indexFollowers();
   }
 
   @override
@@ -91,37 +90,8 @@ class _ControlPanelPageState extends State<ControlPanelPage> with SingleTickerPr
                             : const CircularProgressIndicator.adaptive(),
                       ),
                     ),
-              ValueListenableBuilder(
-                valueListenable: index,
-                builder: (BuildContext context, dynamic value, Widget? child) {
-                  return Column(
-                    children: [
-                      Row(
-                        children: [
-                          _Tab(
-                            valueIndex: index,
-                            tabController: tabController,
-                            onTap: () {
-                              controlPanelCubit.indexMyRecipes();
-                            },
-                            tabIndex: 0,
-                            title: serviceLocator<LocalizationClass>().appLocalizations!.recipes,
-                          ),
-                          _Tab(
-                            valueIndex: index,
-                            tabController: tabController,
-                            tabIndex: 1,
-                            title: serviceLocator<LocalizationClass>().appLocalizations!.preferences,
-                          ),
-                        ],
-                      ).paddingAll(20),
-                      _verticalSeparator,
-                    ],
-                  );
-                },
-              ),
               SizedBox(
-                height: context.height * .35,
+                height: context.height * .4,
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: tabController,
@@ -180,61 +150,51 @@ class _UserDetailsWidget extends StatelessWidget {
     return Column(children: [
       _verticalSeparator,
       CachedNetworkImage(
-        height: context.width * .3,
-        width: context.width * .3,
+        height: context.width * .35,
+        width: context.width * .35,
         url: user.logo ?? SvgPath.defaultImage,
         hash: user.hash ?? SvgPath.defaultHash, //TODO
         shape: BoxShape.circle,
       ).center(),
       _verticalSeparator,
-      Text(user.username ?? 'Osama Rida'),
+      Text(user.name ?? 'أسامة رضا', style: const TextStyle().bold.largeFontSize),
+      BlocBuilder<ControlPanelCubit, ControlPanelState>(
+        bloc: serviceLocator<ControlPanelCubit>(),
+        builder: (context, state) {
+          if (state.followersStatus == CubitStatus.loading) {
+            return SkeltonLoading(height: 20, width: context.width * .4).center();
+          }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${state.followers.length} ${serviceLocator<LocalizationClass>().appLocalizations!.followers}',
+                style: const TextStyle().semiBold.normalFontSize,
+              ),
+              _horizontalSeparator,
+              Text(
+                '${state.followings.length} ${serviceLocator<LocalizationClass>().appLocalizations!.following}',
+                style: const TextStyle().semiBold.normalFontSize,
+              ),
+            ],
+          );
+        },
+      ).paddingVertical(5),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('${user.followers ?? 115} ${serviceLocator<LocalizationClass>().appLocalizations!.followers}'),
-          _horizontalSeparator,
-          Text('${user.following ?? 25} ${serviceLocator<LocalizationClass>().appLocalizations!.following}'),
-        ],
-      ),
-      Row(
         children: [
           const Icon(Icons.edit),
           Text(serviceLocator<LocalizationClass>().appLocalizations!.edit),
         ],
-      ).onTap(() => context.myPushNamed(RoutesNames.editProfile)),
-      _verticalSeparator,
+      ).onTap(() => context.myPushNamed(RoutesNames.editProfile)).center(),
+      const SizedBox(height: 5),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.edit),
+          Text(serviceLocator<LocalizationClass>().appLocalizations!.myRestrictions),
+        ],
+      ).onTap(() => context.myPushNamed(RoutesNames.restrictions)).center(),
     ]);
-  }
-}
-
-class _Tab extends StatelessWidget {
-  const _Tab({
-    required this.title,
-    required this.tabController,
-    required this.valueIndex,
-    this.onTap,
-    required this.tabIndex,
-  });
-
-  final String title;
-  final TabController tabController;
-  final ValueNotifier<int> valueIndex;
-  final int tabIndex;
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return MainButton(
-      fontSize: 14,
-      text: title,
-      elevation: 0,
-      textColor: valueIndex.value == tabIndex ? AppColors.scaffoldBackgroundColor : Colors.black,
-      color: valueIndex.value == tabIndex ? AppColors.mainColor : AppColors.scaffoldBackgroundColor,
-      onPressed: () {
-        onTap?.call();
-        valueIndex.value = tabIndex;
-        tabController.animateTo(valueIndex.value);
-      },
-    ).expand();
   }
 }

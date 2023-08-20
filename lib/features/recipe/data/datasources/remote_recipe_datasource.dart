@@ -107,7 +107,7 @@ class RemoteRecipeDatasource {
 
   static Future<NoResponse> unFollowUser(BodyMap body) async {
     PostApi api = PostApi(
-      uri: ApiVariables.unfollow(),
+      uri: ApiVariables.unFollow(),
       fromJson: noResponseFromJson,
       body: body,
     );
